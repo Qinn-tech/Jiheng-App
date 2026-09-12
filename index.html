@@ -61,127 +61,122 @@ section{display:flex;flex-direction:column;gap:10px;}
 .c-muted{color:var(--muted)!important;}
 .c-amber{color:var(--amber)!important;}
 
-/* ==================== Product Notice — compact 3-lang strip ==================== */
+/* ---------- Product Notice — V1.06 prominent, not tiny ---------- */
 .product-notice{
-  background:linear-gradient(135deg,#fff 0%,#fafbff 100%);
-  border:2px solid var(--brand);
-  border-radius:16px;
-  padding:10px 12px;
-  box-shadow:0 3px 12px rgba(79,70,229,.10);
+  background:linear-gradient(135deg,#fff 0%,#f5f6ff 100%);
+  border:2.5px solid var(--brand);
+  border-radius:18px;
+  padding:14px 14px 12px;
+  box-shadow:0 4px 16px rgba(79,70,229,.14);
 }
 .product-notice .pn-head{
-  display:flex;align-items:center;gap:7px;margin-bottom:6px;
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
 }
 .product-notice .pn-icon{
-  width:22px;height:22px;border-radius:7px;background:var(--brand);color:#fff;
-  display:grid;place-items:center;font-size:12px;font-weight:800;flex:0 0 auto;
+  width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:800;flex:0 0 auto;
 }
 .product-notice .pn-title{
-  font-size:11.5px;font-weight:800;color:var(--brand);letter-spacing:.3px;text-transform:uppercase;
+  font-size:12px;font-weight:800;color:var(--brand);letter-spacing:.4px;text-transform:uppercase;
 }
 .product-notice .pn-row{
-  display:flex;align-items:flex-start;gap:8px;padding:4px 0;
+  display:flex;align-items:flex-start;gap:8px;padding:6px 0;
 }
-.product-notice .pn-row+.pn-row{border-top:1px dashed var(--line);}
+.product-notice .pn-row+.pn-row{border-top:1px dashed #d9ddf0;}
 .product-notice .pn-flag{
-  font-size:9.5px;font-weight:800;color:#fff;background:var(--brand);
-  padding:2px 6px;border-radius:5px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:32px;text-align:center;
+  font-size:10.5px;font-weight:800;color:#fff;background:var(--brand);
+  padding:3px 7px;border-radius:6px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:34px;text-align:center;
 }
 .product-notice .pn-text{
-  font-size:11.5px;line-height:1.5;color:var(--text);font-weight:500;flex:1;
+  font-size:12.5px;line-height:1.55;color:var(--text);font-weight:500;flex:1;
 }
 .product-notice .pn-text b{color:var(--brand);font-weight:800;}
-.product-notice.expanded .pn-text{font-size:12.5px;line-height:1.6;}
-.product-notice.expanded{padding:14px 16px;}
 
-/* ---------- Lock screen (FIXED layout, no jump) ---------- */
+/* ---------- Lock screen (V1.06: fixed-viewport, no scroll) ---------- */
 .lock-screen{
   position:fixed;inset:0;z-index:500;
   background:linear-gradient(160deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);
   display:flex;flex-direction:column;
-  padding:calc(12px + var(--safe-t)) 16px calc(12px + var(--safe-b));
-  color:#fff;overflow:hidden;
+  padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));
+  color:#fff;overflow:hidden;height:100vh;height:100dvh;
 }
 .lock-screen::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07);top:-110px;right:-90px;pointer-events:none;}
 .lock-screen::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-70px;left:-50px;pointer-events:none;}
 
 .lock-header{
-  position:relative;z-index:2;text-align:center;flex:0 0 auto;padding:6px 0 10px;
+  position:relative;z-index:2;text-align:center;flex:0 0 auto;padding:2px 0 6px;
 }
-.lock-logo{font-size:22px;font-weight:800;letter-spacing:-.6px;margin-bottom:2px;}
-.lock-sub{font-size:11px;opacity:.85;line-height:1.4;}
+.lock-logo{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:1px;}
+.lock-sub{font-size:10.5px;opacity:.9;line-height:1.35;}
 
+/* V1.06: prominent 3-language notice on lock screen — but not scroll-forcing */
 .lock-notice-strip{
   position:relative;z-index:2;flex:0 0 auto;
-  background:rgba(0,0,0,.22);border-radius:12px;padding:8px 10px;margin-bottom:14px;
-  border:1px solid rgba(255,255,255,.20);
+  background:rgba(0,0,0,.24);border-radius:12px;padding:8px 10px;margin-bottom:8px;
+  border:1.5px solid rgba(255,255,255,.28);
 }
 .lock-notice-strip .ln-row{
-  display:flex;align-items:flex-start;gap:6px;font-size:10.5px;line-height:1.45;
+  display:flex;align-items:flex-start;gap:7px;font-size:11px;line-height:1.45;
 }
-.lock-notice-strip .ln-row+.ln-row{margin-top:5px;padding-top:5px;border-top:1px dashed rgba(255,255,255,.18);}
+.lock-notice-strip .ln-row+.ln-row{margin-top:5px;padding-top:5px;border-top:1px dashed rgba(255,255,255,.22);}
 .lock-notice-strip .ln-flag{
-  font-size:9px;font-weight:800;color:#fff;background:rgba(255,255,255,.20);
-  padding:1px 5px;border-radius:4px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:26px;text-align:center;
+  font-size:9.5px;font-weight:800;color:#fff;background:rgba(255,255,255,.22);
+  padding:2px 6px;border-radius:5px;letter-spacing:.4px;flex:0 0 auto;margin-top:1px;min-width:28px;text-align:center;
 }
-.lock-notice-strip .ln-text{flex:1;opacity:.96;}
+.lock-notice-strip .ln-text{flex:1;opacity:.97;font-weight:500;}
 
-/* The critical section: pin input area is vertically centered in remaining space */
-.lock-body{
+/* Middle area: everything between notice and footer. Flex layout, no scrolling needed */
+.lock-mid{
   position:relative;z-index:2;flex:1 1 auto;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:0;overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  overscroll-behavior:contain;
-  padding:4px 0;
+  min-height:0;padding:4px 0;
 }
-.lock-body-inner{width:100%;max-width:320px;display:flex;flex-direction:column;align-items:center;}
 
-.lock-title{font-size:15px;font-weight:700;margin-bottom:14px;text-align:center;}
-.lock-info{font-size:11.5px;opacity:.9;text-align:center;max-width:320px;margin:0 auto 12px;line-height:1.5;}
+.lock-title{font-size:15px;font-weight:700;margin-bottom:10px;text-align:center;}
+.lock-info{font-size:11px;opacity:.9;text-align:center;max-width:320px;margin:0 auto 10px;line-height:1.5;}
 .pin-dots{display:flex;gap:14px;justify-content:center;margin-bottom:6px;}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.5);transition:background .15s,border-color .15s,transform .15s;}
-.pin-dot.filled{background:#fff;border-color:#fff;transform:scale(1.08);}
+.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid rgba(255,255,255,.55);transition:background .15s,border-color .15s,transform .15s;}
+.pin-dot.filled{background:#fff;border-color:#fff;transform:scale(1.1);}
 .pin-dot.error{border-color:#ff8a8a;background:#ff8a8a;}
-.lock-msg{height:18px;font-size:12px;margin-bottom:12px;color:#ffd6d6;font-weight:600;text-align:center;}
+.lock-msg{height:18px;font-size:12px;margin-bottom:10px;color:#ffd6d6;font-weight:600;text-align:center;}
 .keypad{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:9px;width:100%;max-width:280px;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:270px;
 }
 .key{
-  height:54px;border-radius:16px;border:none;background:rgba(255,255,255,.15);
-  color:#fff;font-size:21px;font-weight:600;cursor:pointer;transition:background .1s,transform .1s;
+  height:48px;border-radius:15px;border:none;background:rgba(255,255,255,.16);
+  color:#fff;font-size:20px;font-weight:600;cursor:pointer;transition:background .1s,transform .1s;
   -webkit-user-select:none;user-select:none;touch-action:manipulation;
 }
-.key:active{transform:scale(.94);background:rgba(255,255,255,.28);}
-.key.fn{font-size:13px;font-weight:700;background:transparent;}
-.key.fn:active{background:rgba(255,255,255,.12);}
-.key.enter{background:rgba(255,255,255,.95);color:var(--brand);font-size:14px;font-weight:800;}
+.key:active{transform:scale(.94);background:rgba(255,255,255,.30);}
+.key.fn{font-size:12.5px;font-weight:700;background:transparent;}
+.key.fn:active{background:rgba(255,255,255,.14);}
+.key.enter{background:rgba(255,255,255,.95);color:var(--brand);font-size:13.5px;font-weight:800;}
 .key.enter:active{background:#fff;}
 
-.lock-input-wrap{width:100%;max-width:280px;margin:0 auto;}
+.lock-input-wrap{width:100%;max-width:270px;margin:0 auto;}
 .lock-input{
-  width:100%;padding:13px 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.35);
-  background:rgba(255,255,255,.12);color:#fff;font-size:16px;outline:none;text-align:center;
+  width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.4);
+  background:rgba(255,255,255,.14);color:#fff;font-size:16px;outline:none;text-align:center;
   font-weight:600;letter-spacing:.5px;
 }
 .lock-input::placeholder{color:rgba(255,255,255,.55);letter-spacing:0;}
-.lock-input:focus{border-color:#fff;background:rgba(255,255,255,.18);}
+.lock-input:focus{border-color:#fff;background:rgba(255,255,255,.20);}
 .lock-ok-btn{
-  width:100%;max-width:280px;margin-top:12px;background:rgba(255,255,255,.95);color:var(--brand);
-  border:none;padding:13px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;
+  width:100%;max-width:270px;margin-top:10px;background:rgba(255,255,255,.95);color:var(--brand);
+  border:none;padding:12px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;
 }
 .lock-ok-btn:active{background:#fff;}
 
 .lock-footer{
-  position:relative;z-index:2;flex:0 0 auto;margin-top:10px;
-  display:flex;flex-direction:column;gap:8px;width:100%;max-width:280px;align-self:center;
+  position:relative;z-index:2;flex:0 0 auto;margin-top:8px;
+  display:flex;flex-direction:column;gap:6px;width:100%;max-width:270px;align-self:center;
 }
 .lock-footer button{
-  background:rgba(255,255,255,.14);border:none;color:#fff;font-size:13px;font-weight:600;
-  padding:11px;border-radius:13px;cursor:pointer;transition:background .14s;
+  background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12.5px;font-weight:600;
+  padding:10px;border-radius:12px;cursor:pointer;transition:background .14s;
   -webkit-user-select:none;user-select:none;touch-action:manipulation;
 }
-.lock-footer button:active{background:rgba(255,255,255,.26);}
+.lock-footer button:active{background:rgba(255,255,255,.28);}
 
 /* ---------- Hero ---------- */
 .hero{
@@ -257,7 +252,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
 .day-head i{font-style:normal;font-weight:700;}
 
-/* ---------- Goal / Asset cards ---------- */
+/* ---------- Summary / cards ---------- */
 .summary-strip{
   background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);
   display:flex;gap:16px;
@@ -419,6 +414,21 @@ section{display:flex;flex-direction:column;gap:10px;}
 .chip:active{transform:scale(.95);}
 .chip.on{background:var(--brand);color:#fff;}
 
+/* Grouped option list for select (datalist style) */
+.opt-group{
+  display:flex;flex-direction:column;gap:2px;
+}
+.opt-item{
+  border:none;background:#f7f8fc;color:var(--text);font-size:13.5px;font-weight:500;
+  padding:10px 12px;border-radius:10px;text-align:left;cursor:pointer;transition:background .12s;
+}
+.opt-item:active{background:#eef0f7;}
+.opt-item.on{background:var(--brand);color:#fff;font-weight:600;}
+.opt-label{
+  font-size:11px;font-weight:800;color:var(--brand);
+  text-transform:uppercase;letter-spacing:.4px;padding:10px 2px 4px;
+}
+
 /* ---------- Toast ---------- */
 #toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;}
 .toast{
@@ -448,18 +458,18 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   SaveWise v1.05
+   SaveWise v1.06
    Personal Financial Record & Management Software
    -----------------------------------------------------------------------
    - Records real-world money. Does NOT hold or handle money.
    - Single source of truth. No fabricated amounts.
    - App Version and Data Version are separate.
    - Updates preserve user data. Migration is safe.
-   - v1.05: Fixed lock screen layout, compact notices, debt records,
-            money-given records, meaningful achievements.
+   - v1.06: Fixed notice sizing, lock screen no-scroll, translated changelog,
+            detailed categories, custom category persistence.
    ========================================================================= */
 
-const APP_VERSION_FALLBACK  = '1.05';
+const APP_VERSION_FALLBACK  = '1.06';
 const DATA_VERSION_FALLBACK = 1;
 
 const STORAGE_KEY       = 'savewise_state_v1';
@@ -500,6 +510,55 @@ function renderProductNotice(){
     `).join('')}
   </div>`;
 }
+
+/* ============================ Categories (V1.06: ID-based) ============================ */
+/* Internal data uses stable IDs. Display strings are in i18n and can change without
+   affecting saved data. Custom user text is stored raw and never translated. */
+
+const INCOME_GROUPS = [
+  { group:'work', items:['salary','part_time','freelance','temp_work','bonus','allowance'] },
+  { group:'personal', items:['pocket_money','family_give','angpao','gift_income','living_allowance','other_family_income'] },
+  { group:'study', items:['scholarship','study_award','competition_prize','school_reward'] },
+  { group:'finance', items:['interest','cashback','refund','sale_proceeds','other_income'] }
+];
+
+const EXPENSE_GROUPS = [
+  { group:'food', items:['breakfast','lunch','dinner','supper','drinks','snacks','restaurant','takeaway'] },
+  { group:'transport', items:['public_transport','bus','train','taxi','parking','fuel','other_transport'] },
+  { group:'shopping', items:['clothing','shoes','accessories','electronics','phone','computer','games','game_topup','daily_necessities','household','other_shopping'] },
+  { group:'entertainment', items:['movie','streaming','games_ent','entertainment_act','subscription','other_ent'] },
+  { group:'study_exp', items:['tuition','tuition_class','course','books','stationery','school_supplies','school_activity','education_items','other_edu'] },
+  { group:'living', items:['phone_bill','internet','bills','service_fee','handling_fee','repairs','other_living'] },
+  { group:'family', items:['family_expenses','gifts','social','gathering','shared_expense','donation_exp','other_social'] },
+  { group:'health', items:['medical','sports','pets','travel','accommodation','donations','other_exp'] }
+];
+
+const DEBT_PURPOSE_GROUPS = [
+  { group:'daily', items:['food_debt','breakfast_debt','lunch_debt','dinner_debt','drinks_debt','snacks_debt','daily_necessities_debt','household_debt','transport_debt','public_transport_debt','taxi_debt','parking_debt','phone_debt','internet_debt','bills_debt'] },
+  { group:'shopping_debt', items:['clothing_debt','shoes_debt','accessories_debt','electronics_debt','phone_device_debt','computer_debt','games_debt','game_topup_debt','entertainment_debt','books_debt','stationery_debt','other_shopping_debt'] },
+  { group:'study_debt', items:['tuition_debt','tuition_class_debt','course_debt','books_study_debt','stationery_study_debt','school_supplies_debt','school_activity_debt','education_items_debt','other_edu_debt'] },
+  { group:'family_debt', items:['family_expenses_debt','family_borrow','friend_borrow','gift_debt','gift_give_debt','gathering_debt','shared_expense_debt','pay_for_other','help_pay_debt','other_social_debt'] },
+  { group:'travel_debt', items:['travel_debt','accommodation_debt','transport_travel_debt','tickets_debt','activity_debt','other_travel_debt'] },
+  { group:'other_debt', items:['medical_debt','repairs_debt','pets_debt','service_fee_debt','handling_fee_debt','temp_borrow','emergency_debt','other_debt'] }
+];
+
+const MG_PURPOSE_GROUPS = [
+  { group:'gift', items:['birthday_gift','festival_gift','angpao_gift','family_gift','friend_gift','charity','other_gift'] },
+  { group:'family_mg', items:['to_parents','to_siblings','family_living','family_shopping','family_bills','family_shared','other_family'] },
+  { group:'friend_mg', items:['to_friend','meal_split','shared_consumption','help_friend_pay','pay_for_other_mg','other_friend'] },
+  { group:'repay_mg', items:['repay_loan','repay_friend','repay_family','repay_other'] },
+  { group:'goods', items:['secondhand_purchase','goods_fee','service_fee_mg','other_trade'] },
+  { group:'other_mg', items:['living_support','emergency_support','other_mg'] }
+];
+
+/* Transfer method groups — the "how the money was given" */
+const MG_METHOD_GROUPS = [
+  { group:'cash_method', items:['cash','cash_handover','other_cash'] },
+  { group:'ewallet_method', items:['tng','grabpay','boost','mae','shopeepay','other_ewallet'] },
+  { group:'bank_method', items:['bank_transfer','duitnow','duitnow_transfer','duitnow_qr','atm_transfer','online_banking','bank_counter','other_bank'] },
+  { group:'card_method', items:['debit_card','credit_card','other_card'] },
+  { group:'other_method', items:['cheque','other_method'] }
+];
 
 /* ============================ i18n ============================ */
 const I18N = {
@@ -542,7 +601,6 @@ const I18N = {
     lockBioTitle:'生物识别（Face ID / 指纹）',
     lockBioSub:'V2.0 将支持，当前设备暂不可用',
     lockHashNote:'密码经过哈希后保存，不会以明文形式存储。忘记密码将无法恢复，请务必牢记。',
-    lockExistingPin:'请使用你原来设置的 PIN / 密码解锁',
     lockDataPreserved:'检测到现有的 SaveWise 数据，已保留原账户、余额、交易、目标、资产与设置。',
     // common
     cancel:'取消', confirm:'确认', save:'保存', delete:'删除', edit:'编辑', add:'添加',
@@ -567,7 +625,6 @@ const I18N = {
     noTx:'还没有记录，开始添加第一笔收入吧',
     welcomeTitle:'欢迎使用 SaveWise',
     welcomeSub:'新增一个资金账户，记录你的第一笔收入',
-    // accounts - v1.05 renamed
     createAccount:'新增资金账户',
     accountName:'资金账户名称', accountType:'账户类型', initialBalance:'初始余额（可选）',
     accountNamePlaceholder:'例如：现金钱包',
@@ -678,85 +735,57 @@ const I18N = {
     // debts
     debtTitle:'欠款记录',
     debtSub:'记录我欠别人 / 别人欠我，只记录不执行转账',
-    debtIOwe:'我欠别人',
-    debtOweMe:'别人欠我',
-    debtAll:'全部',
-    debtNew:'新增欠款记录',
-    debtEdit:'编辑欠款记录',
-    debtPerson:'对方名称',
-    debtPersonPlaceholder:'例如：小明',
-    debtAmount:'欠款金额',
-    debtDate:'开始日期',
-    debtTime:'开始时间',
+    debtIOwe:'我欠别人', debtOweMe:'别人欠我', debtAll:'全部',
+    debtNew:'新增欠款记录', debtEdit:'编辑欠款记录',
+    debtPerson:'对方名称', debtPersonPlaceholder:'例如：小明',
+    debtAmount:'欠款金额', debtDate:'开始日期', debtTime:'开始时间',
     debtDueDate:'到期日期（可选）',
-    debtReason:'欠款原因 / 备注（可选）',
-    debtReasonPlaceholder:'例如：借用买书',
+    debtReason:'欠款原因 / 备注（可选）', debtReasonPlaceholder:'例如：借用买书',
+    debtPurpose:'欠款用途',
+    debtPurposeCustom:'自定义用途',
     debtDirection:'方向',
     debtDirIOwe:'我欠对方（我需还钱）',
     debtDirOweMe:'对方欠我（对方需还钱）',
-    debtPaid:'已偿还',
-    debtRemain:'剩余',
-    debtDuration:'欠款持续',
-    debtDays:'天',
+    debtPaid:'已偿还', debtRemain:'剩余', debtDuration:'欠款持续', debtDays:'天',
     debtStatus:'状态',
-    debtStatusUnpaid:'未偿还',
-    debtStatusPartial:'部分偿还',
-    debtStatusPaid:'已还清',
-    debtStatusCancelled:'已取消',
-    debtRepay:'记录还款',
-    debtRepayTitle:'记录还款',
-    debtRepayAmount:'还款金额',
-    debtRepayNote:'还款备注（可选）',
-    debtRepayBtn:'确认还款',
-    debtRepayRecorded:'还款已记录',
-    debtNoRecords:'还没有欠款记录',
-    debtNoRecordsSub:'记录你与亲友之间的借贷往来',
-    debtCreated:'欠款记录已创建',
-    debtUpdated:'欠款记录已更新',
-    debtDeleted:'欠款记录已删除',
-    debtDeleteConfirm:'确定删除该欠款记录？',
-    debtCancel:'标记为已取消',
-    debtCancelConfirm:'确定标记为已取消？此记录将不再计入欠款总额。',
+    debtStatusUnpaid:'未偿还', debtStatusPartial:'部分偿还',
+    debtStatusPaid:'已还清', debtStatusCancelled:'已取消',
+    debtRepay:'记录还款', debtRepayTitle:'记录还款',
+    debtRepayAmount:'还款金额', debtRepayNote:'还款备注（可选）',
+    debtRepayBtn:'确认还款', debtRepayRecorded:'还款已记录',
+    debtNoRecords:'还没有欠款记录', debtNoRecordsSub:'记录你与亲友之间的借贷往来',
+    debtCreated:'欠款记录已创建', debtUpdated:'欠款记录已更新',
+    debtDeleted:'欠款记录已删除', debtDeleteConfirm:'确定删除该欠款记录？',
+    debtCancel:'标记为已取消', debtCancelConfirm:'确定标记为已取消？此记录将不再计入欠款总额。',
     debtCancelled:'已标记为取消',
-    debtSettle:'标记为已还清',
-    debtSettleConfirm:'确定标记为已还清？',
-    debtSettled:'已标记为还清',
-    debtTotalIOwe:'我共欠出',
-    debtTotalOweMe:'别人共欠我',
-    debtNet:'净欠款',
+    debtSettle:'标记为已还清', debtSettleConfirm:'确定标记为已还清？', debtSettled:'已标记为还清',
+    debtTotalIOwe:'我共欠出', debtTotalOweMe:'别人共欠我', debtNet:'净欠款',
     debtImportantNote:'欠款记录只记录现实中已发生的借贷，SaveWise 不会实际收付款项，也不会自动改变账户余额。',
     debtRepayHint:'如实际收款/付款已发生，请另外使用「收入」「支出」或「转给他人」记录资金变化。',
-    debtOverdue:'已到期',
-    debtDueToday:'今天到期',
-    debtDueIn:'还剩 {n} 天',
+    debtOverdue:'已到期', debtDueToday:'今天到期', debtDueIn:'还剩 {n} 天',
+    debtExceed:'超出剩余欠款金额',
     // money given
     mgTitle:'转给他人 / 赠与记录',
     mgSub:'记录现实中已发生的资金转出，例如赠与、给家人、给朋友、归还',
-    mgNew:'记录转给他人',
-    mgEdit:'编辑记录',
-    mgPerson:'收款人名称',
-    mgPersonPlaceholder:'例如：妈妈',
-    mgAmount:'金额',
-    mgDate:'日期',
-    mgTime:'时间',
-    mgFromAccount:'从账户转出',
-    mgType:'类型',
-    mgTypeGift:'赠与',
-    mgTypeFamily:'给家人',
-    mgTypeFriend:'给朋友',
-    mgTypeRepay:'归还',
-    mgTypeOther:'其他',
+    mgNew:'记录转给他人', mgEdit:'编辑记录',
+    mgPerson:'收款人名称', mgPersonPlaceholder:'例如：妈妈',
+    mgAmount:'金额', mgDate:'日期', mgTime:'时间',
+    mgFromAccount:'资金来源账户',
+    mgFromAccountHint:'这笔钱原本记录在哪一个 SaveWise 账户？',
+    mgPurpose:'用途 / 类型',
+    mgPurposeCustom:'自定义用途',
+    mgMethod:'转账方式',
+    mgMethodCustom:'自定义方式',
+    mgMethodHint:'现实中你用什么方式把钱给出去？',
+    mgType:'类型（旧字段，保留兼容）',
+    mgTypeGift:'赠与', mgTypeFamily:'给家人', mgTypeFriend:'给朋友', mgTypeRepay:'归还', mgTypeOther:'其他',
     mgNote:'备注（可选）',
-    mgSave:'确认记录',
-    mgCreated:'已记录转给他人',
-    mgUpdated:'已更新',
-    mgDeleted:'已删除',
+    mgSave:'确认记录', mgCreated:'已记录转给他人',
+    mgUpdated:'已更新', mgDeleted:'已删除',
     mgDeleteConfirm:'确定删除该记录？对应账户余额会自动还原。',
-    mgNoRecords:'还没有转给他人的记录',
-    mgNoRecordsSub:'记录你现实中转给别人的钱',
+    mgNoRecords:'还没有转给他人的记录', mgNoRecordsSub:'记录你现实中转给别人的钱',
     mgTotal:'累计转出',
     mgImportantNote:'SaveWise 只记录这次现实资金变化，不实际执行转账。',
-    mgFromAccountHint:'如果这是现实中已发生的资金转出，对应账户余额会减少。',
     // stats
     statsMonth:'本月', statsAll:'全部时间',
     statsWeek:'本周', statsYear:'本年', statsToday:'今日',
@@ -772,8 +801,7 @@ const I18N = {
     statsTransferNote:'账户转移、储蓄操作、欠款记录与转给他人记录不计入收入或支出统计。',
     // achievements
     achTitle:'我的成就',
-    achUnlocked:'已解锁',
-    achLocked:'未解锁',
+    achUnlocked:'已解锁', achLocked:'未解锁',
     achList:[
       { id:'first_income',   name:'第一笔收入', desc:'记录第一笔收入',       icon:'💵' },
       { id:'first_expense',  name:'开始记账',   desc:'记录第一笔支出',       icon:'🧾' },
@@ -819,11 +847,20 @@ const I18N = {
     catIncome:'收入分类', catExpense:'支出分类', catAdd:'＋ 新增',
     catCustomIncome:'自定义收入分类', catCustomExpense:'自定义支出分类',
     catAddIncome:'新增收入分类', catAddExpense:'新增支出分类',
-    catName:'分类名称', catNamePlaceholder:'例如：投资收入',
+    catName:'分类名称', catNamePlaceholder:'例如：摄影器材',
     catAdded:'分类已添加', catDeleted:'分类已删除',
     catExists:'该分类已存在',
     catHint:'自定义分类会出现在记录收入 / 支出时的分类选择中。',
     catEnterName:'请输入分类名称',
+    catPickPreset:'选择预设分类', catOrCustom:'或输入自定义分类',
+    catCustomPlaceholder:'输入自定义分类名称',
+    catOtherLabel:'其他 / 自定义…',
+    catDebtCustomIncome:'自定义收入分类（会被保存）',
+    catDebtCustomExpense:'自定义支出分类（会被保存）',
+    // transfer method / purpose pickers
+    pickTitle:'选择', pickCustom:'自定义',
+    pickPurpose:'选择用途', pickMethod:'选择方式',
+    pickOther:'其他…',
     // export/import
     exportDone:'JSON 已导出', exportCsvDone:'CSV 已导出', exportFail:'导出失败',
     importTitle:'导入 / 恢复数据', importBtn:'选择文件并导入',
@@ -851,8 +888,105 @@ const I18N = {
     sysInfoTitle:'系统信息',
     storageLocal:'本地存储',
     lastUpdated:'最后更新',
-    incomeCatsDisplay:['工资 / 薪金','零用钱 / 津贴','红包 / 礼金','奖学金','兼职收入','自由职业 / 接案','奖金','利息收入','Cashback / 现金回赠','退款','出售物品所得','礼物','家庭收入','其他收入'],
-    expenseCatsDisplay:['餐饮','早餐','午餐','晚餐','宵夜','饮料','零食','交通','公共交通','打车 / 网约车','购物','衣服 / 配饰','电子产品','游戏','娱乐','电影 / 影音','订阅服务','学习 / 教育','书籍 / 文具','学校用品','运动 / 健身','医疗 / 健康','通讯 / 电话费','网络费','生活用品','礼物','人情','旅行','住宿','账单','服务费','手续费','维修','宠物','家庭支出','捐款','其他支出'],
+    // category display names
+    incomeCatNames:{
+      salary:'工资 / 薪金', part_time:'兼职收入', freelance:'自由职业 / 接案',
+      temp_work:'临时工作', bonus:'奖金', allowance:'津贴',
+      pocket_money:'零用钱', family_give:'家庭给予', angpao:'红包 / 礼金',
+      gift_income:'礼物', living_allowance:'生活费', other_family_income:'其他家庭收入',
+      scholarship:'奖学金', study_award:'学业奖励', competition_prize:'比赛奖金',
+      school_reward:'学校奖励',
+      interest:'利息收入', cashback:'Cashback / 现金回赠', refund:'退款',
+      sale_proceeds:'出售物品所得', other_income:'其他收入'
+    },
+    incomeGroupNames:{
+      work:'工作与劳动', personal:'家庭与个人', study:'学习', finance:'金融与其他'
+    },
+    expenseCatNames:{
+      breakfast:'早餐', lunch:'午餐', dinner:'晚餐', supper:'宵夜',
+      drinks:'饮料', snacks:'零食', restaurant:'餐厅', takeaway:'外卖',
+      public_transport:'公共交通', bus:'巴士', train:'火车', taxi:'打车 / 网约车',
+      parking:'停车', fuel:'油费', other_transport:'其他交通',
+      clothing:'衣服', shoes:'鞋子', accessories:'配饰', electronics:'电子产品',
+      phone:'手机', computer:'电脑', games:'游戏', game_topup:'游戏充值',
+      daily_necessities:'日用品', household:'生活用品', other_shopping:'其他购物',
+      movie:'电影', streaming:'影音', games_ent:'游戏', entertainment_act:'娱乐活动',
+      subscription:'订阅服务', other_ent:'其他娱乐',
+      tuition:'学费', tuition_class:'补习', course:'课程', books:'书籍',
+      stationery:'文具', school_supplies:'学校用品', school_activity:'学校活动',
+      education_items:'教育用品', other_edu:'其他教育支出',
+      phone_bill:'电话费', internet:'网络费', bills:'账单', service_fee:'服务费',
+      handling_fee:'手续费', repairs:'维修', other_living:'其他生活支出',
+      family_expenses:'家庭支出', gifts:'礼物', social:'人情', gathering:'聚会',
+      shared_expense:'共同消费', donation_exp:'赠与', other_social:'其他人际支出',
+      medical:'医疗 / 健康', sports:'运动 / 健身', pets:'宠物', travel:'旅行',
+      accommodation:'住宿', donations:'捐款', other_exp:'其他'
+    },
+    expenseGroupNames:{
+      food:'餐饮', transport:'交通', shopping:'购物', entertainment:'娱乐',
+      study_exp:'学习 / 学校', living:'生活与服务', family:'家庭 / 人际', health:'健康与其他'
+    },
+    debtPurposeNames:{
+      food_debt:'餐饮', breakfast_debt:'早餐', lunch_debt:'午餐', dinner_debt:'晚餐',
+      drinks_debt:'饮料', snacks_debt:'零食', daily_necessities_debt:'日用品',
+      household_debt:'生活用品', transport_debt:'交通', public_transport_debt:'公共交通',
+      taxi_debt:'打车 / 网约车', parking_debt:'停车', phone_debt:'电话费',
+      internet_debt:'网络费', bills_debt:'账单',
+      clothing_debt:'衣服', shoes_debt:'鞋子', accessories_debt:'配饰',
+      electronics_debt:'电子产品', phone_device_debt:'手机', computer_debt:'电脑',
+      games_debt:'游戏', game_topup_debt:'游戏充值', entertainment_debt:'娱乐',
+      books_debt:'书籍', stationery_debt:'文具', other_shopping_debt:'其他购物',
+      tuition_debt:'学费', tuition_class_debt:'补习', course_debt:'课程',
+      books_study_debt:'书籍', stationery_study_debt:'文具',
+      school_supplies_debt:'学校用品', school_activity_debt:'学校活动',
+      education_items_debt:'教育用品', other_edu_debt:'其他教育支出',
+      family_expenses_debt:'家庭支出', family_borrow:'家人借款',
+      friend_borrow:'朋友借款', gift_debt:'礼物', gift_give_debt:'赠与',
+      gathering_debt:'聚会', shared_expense_debt:'共同消费',
+      pay_for_other:'代付款', help_pay_debt:'帮别人支付', other_social_debt:'其他人际支出',
+      travel_debt:'旅行', accommodation_debt:'住宿', transport_travel_debt:'交通',
+      tickets_debt:'门票', activity_debt:'活动', other_travel_debt:'其他旅行支出',
+      medical_debt:'医疗 / 健康', repairs_debt:'维修', pets_debt:'宠物',
+      service_fee_debt:'服务费用', handling_fee_debt:'手续费',
+      temp_borrow:'临时借款', emergency_debt:'紧急支出', other_debt:'其他'
+    },
+    debtPurposeGroupNames:{
+      daily:'日常生活', shopping_debt:'购物', study_debt:'学习 / 学校',
+      family_debt:'家庭 / 人际', travel_debt:'旅行 / 活动', other_debt:'其他'
+    },
+    mgPurposeNames:{
+      birthday_gift:'生日礼物', festival_gift:'节日礼物', angpao_gift:'红包 / 礼金',
+      family_gift:'家庭赠与', friend_gift:'朋友赠与', charity:'慈善 / 捐款',
+      other_gift:'其他赠与',
+      to_parents:'给父母', to_siblings:'给兄弟姐妹', family_living:'家庭生活费',
+      family_shopping:'家庭购物', family_bills:'家庭账单', family_shared:'家庭共同支出',
+      other_family:'其他家庭支出',
+      to_friend:'给朋友', meal_split:'聚餐分摊', shared_consumption:'共同消费',
+      help_friend_pay:'帮朋友付款', pay_for_other_mg:'代付款', other_friend:'其他',
+      repay_loan:'归还借款', repay_friend:'归还朋友', repay_family:'归还家人',
+      repay_other:'偿还其他欠款',
+      secondhand_purchase:'购买二手物品', goods_fee:'商品费用',
+      service_fee_mg:'服务费用', other_trade:'其他交易',
+      living_support:'生活支援', emergency_support:'紧急支援', other_mg:'其他'
+    },
+    mgPurposeGroupNames:{
+      gift:'赠与', family_mg:'家庭', friend_mg:'朋友 / 他人',
+      repay_mg:'偿还', goods:'商品 / 服务', other_mg:'其他'
+    },
+    mgMethodNames:{
+      cash:'现金', cash_handover:'现金交付', other_cash:'其他现金方式',
+      tng:'Touch \'n Go eWallet (TNG)', grabpay:'GrabPay', boost:'Boost',
+      mae:'MAE / MAE Wallet', shopeepay:'ShopeePay', other_ewallet:'其他电子钱包',
+      bank_transfer:'银行转账', duitnow:'DuitNow', duitnow_transfer:'DuitNow Transfer',
+      duitnow_qr:'DuitNow QR', atm_transfer:'ATM 转账', online_banking:'网上银行转账',
+      bank_counter:'银行柜台', other_bank:'其他银行转账',
+      debit_card:'Debit Card', credit_card:'Credit Card', other_card:'其他银行卡方式',
+      cheque:'支票', other_method:'其他方式'
+    },
+    mgMethodGroupNames:{
+      cash_method:'现金', ewallet_method:'电子钱包', bank_method:'银行 / 银行转账',
+      card_method:'卡片', other_method:'其他'
+    },
     mealSubs:['早餐','午餐','晚餐','宵夜','快餐','咖啡']
   },
   en: {
@@ -891,7 +1025,6 @@ const I18N = {
     lockBioTitle:'Biometrics (Face ID / Fingerprint)',
     lockBioSub:'Coming in V2.0, not available yet',
     lockHashNote:'Password is hashed, never stored as plain text. If forgotten, it cannot be recovered.',
-    lockExistingPin:'Please use your existing PIN / Password',
     lockDataPreserved:'Existing SaveWise data detected. Accounts, balances, transactions, goals, assets and settings preserved.',
     cancel:'Cancel', confirm:'Confirm', save:'Save', delete:'Delete', edit:'Edit', add:'Add',
     back:'Back', close:'Close', search:'Search', all:'All', none:'None', ok:'OK',
@@ -1020,84 +1153,56 @@ const I18N = {
     assetValidPeriod:'Expected period must be greater than 0',
     debtTitle:'Debt Records',
     debtSub:'Record what I owe and what others owe me',
-    debtIOwe:'I Owe',
-    debtOweMe:'Owed to Me',
-    debtAll:'All',
-    debtNew:'New Debt Record',
-    debtEdit:'Edit Debt Record',
-    debtPerson:'Person',
-    debtPersonPlaceholder:'e.g. Alex',
-    debtAmount:'Amount',
-    debtDate:'Start Date',
-    debtTime:'Start Time',
+    debtIOwe:'I Owe', debtOweMe:'Owed to Me', debtAll:'All',
+    debtNew:'New Debt Record', debtEdit:'Edit Debt Record',
+    debtPerson:'Person', debtPersonPlaceholder:'e.g. Alex',
+    debtAmount:'Amount', debtDate:'Start Date', debtTime:'Start Time',
     debtDueDate:'Due Date (optional)',
-    debtReason:'Reason / Note (optional)',
-    debtReasonPlaceholder:'e.g. Borrowed for a book',
+    debtReason:'Reason / Note (optional)', debtReasonPlaceholder:'e.g. Borrowed for a book',
+    debtPurpose:'Purpose',
+    debtPurposeCustom:'Custom purpose',
     debtDirection:'Direction',
     debtDirIOwe:'I owe them (I need to pay)',
     debtDirOweMe:'They owe me (they need to pay)',
-    debtPaid:'Repaid',
-    debtRemain:'Remaining',
-    debtDuration:'Duration',
-    debtDays:'days',
+    debtPaid:'Repaid', debtRemain:'Remaining', debtDuration:'Duration', debtDays:'days',
     debtStatus:'Status',
-    debtStatusUnpaid:'Unpaid',
-    debtStatusPartial:'Partial',
-    debtStatusPaid:'Paid',
-    debtStatusCancelled:'Cancelled',
-    debtRepay:'Record Repayment',
-    debtRepayTitle:'Record Repayment',
-    debtRepayAmount:'Repayment Amount',
-    debtRepayNote:'Repayment Note (optional)',
-    debtRepayBtn:'Confirm Repayment',
-    debtRepayRecorded:'Repayment recorded',
-    debtNoRecords:'No debt records yet',
-    debtNoRecordsSub:'Record lending between you and friends/family',
-    debtCreated:'Debt record created',
-    debtUpdated:'Debt record updated',
-    debtDeleted:'Debt record deleted',
-    debtDeleteConfirm:'Delete this debt record?',
-    debtCancel:'Mark as Cancelled',
-    debtCancelConfirm:'Mark as cancelled? This record will not count in debt totals.',
+    debtStatusUnpaid:'Unpaid', debtStatusPartial:'Partial',
+    debtStatusPaid:'Paid', debtStatusCancelled:'Cancelled',
+    debtRepay:'Record Repayment', debtRepayTitle:'Record Repayment',
+    debtRepayAmount:'Repayment Amount', debtRepayNote:'Repayment Note (optional)',
+    debtRepayBtn:'Confirm Repayment', debtRepayRecorded:'Repayment recorded',
+    debtNoRecords:'No debt records yet', debtNoRecordsSub:'Record lending between you and friends/family',
+    debtCreated:'Debt record created', debtUpdated:'Debt record updated',
+    debtDeleted:'Debt record deleted', debtDeleteConfirm:'Delete this debt record?',
+    debtCancel:'Mark as Cancelled', debtCancelConfirm:'Mark as cancelled? This record will not count in debt totals.',
     debtCancelled:'Marked as cancelled',
-    debtSettle:'Mark as Paid',
-    debtSettleConfirm:'Mark as fully paid?',
-    debtSettled:'Marked as paid',
-    debtTotalIOwe:'Total I Owe',
-    debtTotalOweMe:'Total Owed to Me',
-    debtNet:'Net Debt',
+    debtSettle:'Mark as Paid', debtSettleConfirm:'Mark as fully paid?', debtSettled:'Marked as paid',
+    debtTotalIOwe:'Total I Owe', debtTotalOweMe:'Total Owed to Me', debtNet:'Net Debt',
     debtImportantNote:'Debt records only record real-world lending. SaveWise does not perform any payments and does not change account balances automatically.',
     debtRepayHint:'If a real-world payment has already occurred, use Income, Expense or Money Given to record the fund movement separately.',
-    debtOverdue:'Overdue',
-    debtDueToday:'Due today',
-    debtDueIn:'{n} days left',
+    debtOverdue:'Overdue', debtDueToday:'Due today', debtDueIn:'{n} days left',
+    debtExceed:'Exceeds remaining debt amount',
     mgTitle:'Record Money Given',
     mgSub:'Record real-world money given: gifts, family, friends, repayment',
-    mgNew:'Record Money Given',
-    mgEdit:'Edit Record',
-    mgPerson:'Recipient Name',
-    mgPersonPlaceholder:'e.g. Mom',
-    mgAmount:'Amount',
-    mgDate:'Date',
-    mgTime:'Time',
-    mgFromAccount:'From Account',
-    mgType:'Type',
-    mgTypeGift:'Gift',
-    mgTypeFamily:'Family',
-    mgTypeFriend:'Friend',
-    mgTypeRepay:'Repayment',
-    mgTypeOther:'Other',
+    mgNew:'Record Money Given', mgEdit:'Edit Record',
+    mgPerson:'Recipient Name', mgPersonPlaceholder:'e.g. Mom',
+    mgAmount:'Amount', mgDate:'Date', mgTime:'Time',
+    mgFromAccount:'Source Account',
+    mgFromAccountHint:'Which SaveWise account was this money originally recorded in?',
+    mgPurpose:'Purpose / Type',
+    mgPurposeCustom:'Custom purpose',
+    mgMethod:'Transfer Method',
+    mgMethodCustom:'Custom method',
+    mgMethodHint:'How did you give the money in the real world?',
+    mgType:'Type (legacy, kept for compatibility)',
+    mgTypeGift:'Gift', mgTypeFamily:'Family', mgTypeFriend:'Friend', mgTypeRepay:'Repayment', mgTypeOther:'Other',
     mgNote:'Note (optional)',
-    mgSave:'Confirm Record',
-    mgCreated:'Recorded money given',
-    mgUpdated:'Updated',
-    mgDeleted:'Deleted',
+    mgSave:'Confirm Record', mgCreated:'Recorded money given',
+    mgUpdated:'Updated', mgDeleted:'Deleted',
     mgDeleteConfirm:'Delete this record? Corresponding account balance will be restored.',
-    mgNoRecords:'No money-given records yet',
-    mgNoRecordsSub:'Record money you have given in real life',
+    mgNoRecords:'No money-given records yet', mgNoRecordsSub:'Record money you have given in real life',
     mgTotal:'Total Given',
     mgImportantNote:'SaveWise only records this real-world fund change. It does not execute any transfer.',
-    mgFromAccountHint:'If this is a real-world money transfer, the selected account balance will be reduced.',
     statsMonth:'This Month', statsAll:'All Time',
     statsWeek:'This Week', statsYear:'This Year', statsToday:'Today',
     statsIncome:'Income', statsExpense:'Expense', statsNet:'Net Savings', statsLocked:'Goal Allocations',
@@ -1111,8 +1216,7 @@ const I18N = {
     statsAvailable:'Available',
     statsTransferNote:'Account transfers, savings operations, debt records and money-given records are not counted as income or expense.',
     achTitle:'My Achievements',
-    achUnlocked:'Unlocked',
-    achLocked:'Locked',
+    achUnlocked:'Unlocked', achLocked:'Locked',
     achList:[
       { id:'first_income',   name:'First Income', desc:'Record first income',        icon:'💵' },
       { id:'first_expense',  name:'Start Tracking', desc:'Record first expense',   icon:'🧾' },
@@ -1156,11 +1260,19 @@ const I18N = {
     catIncome:'Income Categories', catExpense:'Expense Categories', catAdd:'＋ Add',
     catCustomIncome:'Custom Income Categories', catCustomExpense:'Custom Expense Categories',
     catAddIncome:'Add Income Category', catAddExpense:'Add Expense Category',
-    catName:'Category Name', catNamePlaceholder:'e.g. Investment Income',
+    catName:'Category Name', catNamePlaceholder:'e.g. Photo Gear',
     catAdded:'Category added', catDeleted:'Category deleted',
     catExists:'Category already exists',
     catHint:'Custom categories appear in income/expense forms.',
     catEnterName:'Please enter a category name',
+    catPickPreset:'Pick a preset', catOrCustom:'Or enter a custom category',
+    catCustomPlaceholder:'Enter custom category name',
+    catOtherLabel:'Other / Custom…',
+    catDebtCustomIncome:'Custom income categories (saved)',
+    catDebtCustomExpense:'Custom expense categories (saved)',
+    pickTitle:'Pick', pickCustom:'Custom',
+    pickPurpose:'Pick purpose', pickMethod:'Pick method',
+    pickOther:'Other…',
     exportDone:'JSON exported', exportCsvDone:'CSV exported', exportFail:'Export failed',
     importTitle:'Import / Restore', importBtn:'Choose file and import',
     importHint:'Import will overwrite current data. Export a backup first.',
@@ -1187,8 +1299,104 @@ const I18N = {
     sysInfoTitle:'System Information',
     storageLocal:'Local storage',
     lastUpdated:'Last updated',
-    incomeCatsDisplay:['Salary / Wages','Allowance / Pocket Money','Angpao / Gift Money','Scholarship','Part-time Income','Freelance / Gig','Bonus','Interest Income','Cashback','Refund','Proceeds from Sale','Gift','Family Income','Other Income'],
-    expenseCatsDisplay:['Food','Breakfast','Lunch','Dinner','Supper','Drinks','Snacks','Transport','Public Transport','Taxi / Ride-hailing','Shopping','Clothing / Accessories','Electronics','Games','Entertainment','Movies / Streaming','Subscriptions','Education / Learning','Books / Stationery','School Supplies','Sports / Fitness','Medical / Health','Phone / Telecom','Internet','Daily Necessities','Gifts','Social / Favors','Travel','Accommodation','Bills','Service Fees','Handling Fees','Repairs','Pets','Family Expenses','Donations','Other Expenses'],
+    incomeCatNames:{
+      salary:'Salary / Wages', part_time:'Part-time Income', freelance:'Freelance / Gig',
+      temp_work:'Temp Work', bonus:'Bonus', allowance:'Allowance',
+      pocket_money:'Pocket Money', family_give:'Family Given', angpao:'Angpao / Gift Money',
+      gift_income:'Gift', living_allowance:'Living Allowance', other_family_income:'Other Family Income',
+      scholarship:'Scholarship', study_award:'Study Award', competition_prize:'Competition Prize',
+      school_reward:'School Reward',
+      interest:'Interest Income', cashback:'Cashback', refund:'Refund',
+      sale_proceeds:'Proceeds from Sale', other_income:'Other Income'
+    },
+    incomeGroupNames:{
+      work:'Work & Labor', personal:'Family & Personal', study:'Study', finance:'Finance & Other'
+    },
+    expenseCatNames:{
+      breakfast:'Breakfast', lunch:'Lunch', dinner:'Dinner', supper:'Supper',
+      drinks:'Drinks', snacks:'Snacks', restaurant:'Restaurant', takeaway:'Takeaway',
+      public_transport:'Public Transport', bus:'Bus', train:'Train', taxi:'Taxi / Ride-hailing',
+      parking:'Parking', fuel:'Fuel', other_transport:'Other Transport',
+      clothing:'Clothing', shoes:'Shoes', accessories:'Accessories', electronics:'Electronics',
+      phone:'Phone', computer:'Computer', games:'Games', game_topup:'Game Top-up',
+      daily_necessities:'Daily Necessities', household:'Household', other_shopping:'Other Shopping',
+      movie:'Movie', streaming:'Streaming', games_ent:'Games', entertainment_act:'Entertainment',
+      subscription:'Subscription', other_ent:'Other Entertainment',
+      tuition:'Tuition', tuition_class:'Tuition Class', course:'Course', books:'Books',
+      stationery:'Stationery', school_supplies:'School Supplies', school_activity:'School Activity',
+      education_items:'Education Items', other_edu:'Other Education',
+      phone_bill:'Phone Bill', internet:'Internet', bills:'Bills', service_fee:'Service Fee',
+      handling_fee:'Handling Fee', repairs:'Repairs', other_living:'Other Living',
+      family_expenses:'Family Expenses', gifts:'Gifts', social:'Social', gathering:'Gathering',
+      shared_expense:'Shared Expense', donation_exp:'Donation', other_social:'Other Social',
+      medical:'Medical / Health', sports:'Sports / Fitness', pets:'Pets', travel:'Travel',
+      accommodation:'Accommodation', donations:'Donations', other_exp:'Other'
+    },
+    expenseGroupNames:{
+      food:'Food', transport:'Transport', shopping:'Shopping', entertainment:'Entertainment',
+      study_exp:'Study / School', living:'Living & Services', family:'Family / Social', health:'Health & Other'
+    },
+    debtPurposeNames:{
+      food_debt:'Food', breakfast_debt:'Breakfast', lunch_debt:'Lunch', dinner_debt:'Dinner',
+      drinks_debt:'Drinks', snacks_debt:'Snacks', daily_necessities_debt:'Daily Necessities',
+      household_debt:'Household', transport_debt:'Transport', public_transport_debt:'Public Transport',
+      taxi_debt:'Taxi / Ride-hailing', parking_debt:'Parking', phone_debt:'Phone Bill',
+      internet_debt:'Internet', bills_debt:'Bills',
+      clothing_debt:'Clothing', shoes_debt:'Shoes', accessories_debt:'Accessories',
+      electronics_debt:'Electronics', phone_device_debt:'Phone', computer_debt:'Computer',
+      games_debt:'Games', game_topup_debt:'Game Top-up', entertainment_debt:'Entertainment',
+      books_debt:'Books', stationery_debt:'Stationery', other_shopping_debt:'Other Shopping',
+      tuition_debt:'Tuition', tuition_class_debt:'Tuition Class', course_debt:'Course',
+      books_study_debt:'Books', stationery_study_debt:'Stationery',
+      school_supplies_debt:'School Supplies', school_activity_debt:'School Activity',
+      education_items_debt:'Education Items', other_edu_debt:'Other Education',
+      family_expenses_debt:'Family Expenses', family_borrow:'Family Borrowing',
+      friend_borrow:'Friend Borrowing', gift_debt:'Gift', gift_give_debt:'Gift Given',
+      gathering_debt:'Gathering', shared_expense_debt:'Shared Expense',
+      pay_for_other:'Paid for Other', help_pay_debt:'Help Pay', other_social_debt:'Other Social',
+      travel_debt:'Travel', accommodation_debt:'Accommodation', transport_travel_debt:'Transport',
+      tickets_debt:'Tickets', activity_debt:'Activity', other_travel_debt:'Other Travel',
+      medical_debt:'Medical / Health', repairs_debt:'Repairs', pets_debt:'Pets',
+      service_fee_debt:'Service Fee', handling_fee_debt:'Handling Fee',
+      temp_borrow:'Temporary Borrowing', emergency_debt:'Emergency', other_debt:'Other'
+    },
+    debtPurposeGroupNames:{
+      daily:'Daily Life', shopping_debt:'Shopping', study_debt:'Study / School',
+      family_debt:'Family / Social', travel_debt:'Travel / Activity', other_debt:'Other'
+    },
+    mgPurposeNames:{
+      birthday_gift:'Birthday Gift', festival_gift:'Festival Gift', angpao_gift:'Angpao / Gift Money',
+      family_gift:'Family Gift', friend_gift:'Friend Gift', charity:'Charity',
+      other_gift:'Other Gift',
+      to_parents:'To Parents', to_siblings:'To Siblings', family_living:'Family Living',
+      family_shopping:'Family Shopping', family_bills:'Family Bills', family_shared:'Family Shared',
+      other_family:'Other Family',
+      to_friend:'To Friend', meal_split:'Meal Split', shared_consumption:'Shared Consumption',
+      help_friend_pay:'Help Friend Pay', pay_for_other_mg:'Paid for Other', other_friend:'Other',
+      repay_loan:'Repay Loan', repay_friend:'Repay Friend', repay_family:'Repay Family',
+      repay_other:'Repay Other',
+      secondhand_purchase:'Second-hand Purchase', goods_fee:'Goods Fee',
+      service_fee_mg:'Service Fee', other_trade:'Other Trade',
+      living_support:'Living Support', emergency_support:'Emergency Support', other_mg:'Other'
+    },
+    mgPurposeGroupNames:{
+      gift:'Gifts', family_mg:'Family', friend_mg:'Friends / Others',
+      repay_mg:'Repayment', goods:'Goods / Services', other_mg:'Other'
+    },
+    mgMethodNames:{
+      cash:'Cash', cash_handover:'Cash Handover', other_cash:'Other Cash',
+      tng:'Touch \'n Go eWallet (TNG)', grabpay:'GrabPay', boost:'Boost',
+      mae:'MAE / MAE Wallet', shopeepay:'ShopeePay', other_ewallet:'Other E-wallet',
+      bank_transfer:'Bank Transfer', duitnow:'DuitNow', duitnow_transfer:'DuitNow Transfer',
+      duitnow_qr:'DuitNow QR', atm_transfer:'ATM Transfer', online_banking:'Online Banking',
+      bank_counter:'Bank Counter', other_bank:'Other Bank Transfer',
+      debit_card:'Debit Card', credit_card:'Credit Card', other_card:'Other Card',
+      cheque:'Cheque', other_method:'Other Method'
+    },
+    mgMethodGroupNames:{
+      cash_method:'Cash', ewallet_method:'E-wallet', bank_method:'Bank / Bank Transfer',
+      card_method:'Card', other_method:'Other'
+    },
     mealSubs:['Breakfast','Lunch','Dinner','Supper','Fast Food','Coffee']
   },
   ms: {
@@ -1227,7 +1435,6 @@ const I18N = {
     lockBioTitle:'Biometrik (Face ID / Cap jari)',
     lockBioSub:'Akan datang dalam V2.0',
     lockHashNote:'Kata laluan di-hash, tidak disimpan sebagai teks biasa. Jika terlupa, tidak boleh dipulihkan.',
-    lockExistingPin:'Sila gunakan PIN / Kata Laluan sedia ada anda',
     lockDataPreserved:'Data SaveWise sedia ada dikesan. Akaun, baki, transaksi, sasaran, aset dan tetapan dikekalkan.',
     cancel:'Batal', confirm:'Sahkan', save:'Simpan', delete:'Padam', edit:'Edit', add:'Tambah',
     back:'Kembali', close:'Tutup', search:'Cari', all:'Semua', none:'Tiada', ok:'OK',
@@ -1356,84 +1563,56 @@ const I18N = {
     assetValidPeriod:'Tempoh jangkaan mesti lebih daripada 0',
     debtTitle:'Rekod Hutang',
     debtSub:'Rekod hutang saya dan hutang orang kepada saya',
-    debtIOwe:'Saya Berhutang',
-    debtOweMe:'Orang Berhutang',
-    debtAll:'Semua',
-    debtNew:'Rekod Hutang Baharu',
-    debtEdit:'Edit Rekod Hutang',
-    debtPerson:'Nama Orang',
-    debtPersonPlaceholder:'cth. Ali',
-    debtAmount:'Jumlah',
-    debtDate:'Tarikh Mula',
-    debtTime:'Masa Mula',
+    debtIOwe:'Saya Berhutang', debtOweMe:'Orang Berhutang', debtAll:'Semua',
+    debtNew:'Rekod Hutang Baharu', debtEdit:'Edit Rekod Hutang',
+    debtPerson:'Nama Orang', debtPersonPlaceholder:'cth. Ali',
+    debtAmount:'Jumlah', debtDate:'Tarikh Mula', debtTime:'Masa Mula',
     debtDueDate:'Tarikh Akhir (pilihan)',
-    debtReason:'Sebab / Nota (pilihan)',
-    debtReasonPlaceholder:'cth. Pinjam beli buku',
+    debtReason:'Sebab / Nota (pilihan)', debtReasonPlaceholder:'cth. Pinjam beli buku',
+    debtPurpose:'Tujuan',
+    debtPurposeCustom:'Tujuan tersuai',
     debtDirection:'Arah',
     debtDirIOwe:'Saya berhutang (saya perlu bayar)',
     debtDirOweMe:'Dia berhutang (dia perlu bayar)',
-    debtPaid:'Telah Dibayar',
-    debtRemain:'Baki',
-    debtDuration:'Tempoh',
-    debtDays:'hari',
+    debtPaid:'Telah Dibayar', debtRemain:'Baki', debtDuration:'Tempoh', debtDays:'hari',
     debtStatus:'Status',
-    debtStatusUnpaid:'Belum Bayar',
-    debtStatusPartial:'Sebahagian',
-    debtStatusPaid:'Selesai',
-    debtStatusCancelled:'Dibatalkan',
-    debtRepay:'Rekod Pembayaran',
-    debtRepayTitle:'Rekod Pembayaran',
-    debtRepayAmount:'Jumlah Bayaran',
-    debtRepayNote:'Nota Bayaran (pilihan)',
-    debtRepayBtn:'Sahkan Bayaran',
-    debtRepayRecorded:'Bayaran direkod',
-    debtNoRecords:'Belum ada rekod hutang',
-    debtNoRecordsSub:'Rekod pinjaman antara anda dan rakan/keluarga',
-    debtCreated:'Rekod hutang dicipta',
-    debtUpdated:'Rekod hutang dikemas kini',
-    debtDeleted:'Rekod hutang dipadam',
-    debtDeleteConfirm:'Padam rekod hutang ini?',
-    debtCancel:'Tanda Dibatalkan',
-    debtCancelConfirm:'Tanda sebagai dibatalkan? Rekod ini tidak dikira dalam jumlah hutang.',
+    debtStatusUnpaid:'Belum Bayar', debtStatusPartial:'Sebahagian',
+    debtStatusPaid:'Selesai', debtStatusCancelled:'Dibatalkan',
+    debtRepay:'Rekod Pembayaran', debtRepayTitle:'Rekod Pembayaran',
+    debtRepayAmount:'Jumlah Bayaran', debtRepayNote:'Nota Bayaran (pilihan)',
+    debtRepayBtn:'Sahkan Bayaran', debtRepayRecorded:'Bayaran direkod',
+    debtNoRecords:'Belum ada rekod hutang', debtNoRecordsSub:'Rekod pinjaman antara anda dan rakan/keluarga',
+    debtCreated:'Rekod hutang dicipta', debtUpdated:'Rekod hutang dikemas kini',
+    debtDeleted:'Rekod hutang dipadam', debtDeleteConfirm:'Padam rekod hutang ini?',
+    debtCancel:'Tanda Dibatalkan', debtCancelConfirm:'Tanda sebagai dibatalkan? Rekod ini tidak dikira dalam jumlah hutang.',
     debtCancelled:'Ditanda dibatalkan',
-    debtSettle:'Tanda Selesai',
-    debtSettleConfirm:'Tanda sebagai selesai dibayar?',
-    debtSettled:'Ditanda selesai',
-    debtTotalIOwe:'Jumlah Saya Berhutang',
-    debtTotalOweMe:'Jumlah Orang Berhutang',
-    debtNet:'Hutang Bersih',
+    debtSettle:'Tanda Selesai', debtSettleConfirm:'Tanda sebagai selesai dibayar?', debtSettled:'Ditanda selesai',
+    debtTotalIOwe:'Jumlah Saya Berhutang', debtTotalOweMe:'Jumlah Orang Berhutang', debtNet:'Hutang Bersih',
     debtImportantNote:'Rekod hutang hanya merekod pinjaman sebenar. SaveWise tidak melakukan pembayaran dan tidak mengubah baki akaun secara automatik.',
     debtRepayHint:'Jika pembayaran sebenar telah berlaku, gunakan Pendapatan, Perbelanjaan atau Wang Diberi untuk merekod pergerakan dana.',
-    debtOverdue:'Lewat',
-    debtDueToday:'Tamat hari ini',
-    debtDueIn:'{n} hari lagi',
+    debtOverdue:'Lewat', debtDueToday:'Tamat hari ini', debtDueIn:'{n} hari lagi',
+    debtExceed:'Melebihi baki hutang',
     mgTitle:'Rekod Wang Diberi',
     mgSub:'Rekod wang sebenar yang diberi: hadiah, keluarga, rakan, bayaran balik',
-    mgNew:'Rekod Wang Diberi',
-    mgEdit:'Edit Rekod',
-    mgPerson:'Nama Penerima',
-    mgPersonPlaceholder:'cth. Emak',
-    mgAmount:'Jumlah',
-    mgDate:'Tarikh',
-    mgTime:'Masa',
-    mgFromAccount:'Dari Akaun',
-    mgType:'Jenis',
-    mgTypeGift:'Hadiah',
-    mgTypeFamily:'Keluarga',
-    mgTypeFriend:'Rakan',
-    mgTypeRepay:'Bayaran Balik',
-    mgTypeOther:'Lain-lain',
+    mgNew:'Rekod Wang Diberi', mgEdit:'Edit Rekod',
+    mgPerson:'Nama Penerima', mgPersonPlaceholder:'cth. Emak',
+    mgAmount:'Jumlah', mgDate:'Tarikh', mgTime:'Masa',
+    mgFromAccount:'Akaun Sumber',
+    mgFromAccountHint:'Wang ini asalnya direkod dalam akaun SaveWise yang mana?',
+    mgPurpose:'Tujuan / Jenis',
+    mgPurposeCustom:'Tujuan tersuai',
+    mgMethod:'Cara Pemindahan',
+    mgMethodCustom:'Cara tersuai',
+    mgMethodHint:'Bagaimana anda memberi wang ini dalam dunia sebenar?',
+    mgType:'Jenis (lama, untuk keserasian)',
+    mgTypeGift:'Hadiah', mgTypeFamily:'Keluarga', mgTypeFriend:'Rakan', mgTypeRepay:'Bayaran Balik', mgTypeOther:'Lain-lain',
     mgNote:'Nota (pilihan)',
-    mgSave:'Sahkan Rekod',
-    mgCreated:'Wang diberi direkod',
-    mgUpdated:'Dikemas kini',
-    mgDeleted:'Dipadam',
+    mgSave:'Sahkan Rekod', mgCreated:'Wang diberi direkod',
+    mgUpdated:'Dikemas kini', mgDeleted:'Dipadam',
     mgDeleteConfirm:'Padam rekod ini? Baki akaun berkenaan akan dipulihkan.',
-    mgNoRecords:'Belum ada rekod wang diberi',
-    mgNoRecordsSub:'Rekod wang yang anda beri dalam kehidupan sebenar',
+    mgNoRecords:'Belum ada rekod wang diberi', mgNoRecordsSub:'Rekod wang yang anda beri dalam kehidupan sebenar',
     mgTotal:'Jumlah Diberi',
     mgImportantNote:'SaveWise hanya merekod perubahan dana sebenar ini. Ia tidak melaksanakan sebarang pemindahan.',
-    mgFromAccountHint:'Jika ini pemindahan wang sebenar, baki akaun dipilih akan berkurang.',
     statsMonth:'Bulan Ini', statsAll:'Semua Masa',
     statsWeek:'Minggu Ini', statsYear:'Tahun Ini', statsToday:'Hari Ini',
     statsIncome:'Pendapatan', statsExpense:'Perbelanjaan', statsNet:'Simpanan Bersih', statsLocked:'Peruntukan',
@@ -1447,8 +1626,7 @@ const I18N = {
     statsAvailable:'Boleh Guna',
     statsTransferNote:'Pindahan akaun, operasi simpanan, rekod hutang dan rekod wang diberi tidak dikira sebagai pendapatan atau perbelanjaan.',
     achTitle:'Pencapaian Saya',
-    achUnlocked:'Dibuka',
-    achLocked:'Belum Dibuka',
+    achUnlocked:'Dibuka', achLocked:'Belum Dibuka',
     achList:[
       { id:'first_income',   name:'Pendapatan Pertama', desc:'Rekod pendapatan pertama', icon:'💵' },
       { id:'first_expense',  name:'Mula Rekod', desc:'Rekod perbelanjaan pertama',       icon:'🧾' },
@@ -1492,11 +1670,19 @@ const I18N = {
     catIncome:'Kategori Pendapatan', catExpense:'Kategori Perbelanjaan', catAdd:'＋ Tambah',
     catCustomIncome:'Kategori Pendapatan Tersuai', catCustomExpense:'Kategori Perbelanjaan Tersuai',
     catAddIncome:'Tambah Kategori Pendapatan', catAddExpense:'Tambah Kategori Perbelanjaan',
-    catName:'Nama Kategori', catNamePlaceholder:'cth. Pendapatan Pelaburan',
+    catName:'Nama Kategori', catNamePlaceholder:'cth. Peralatan Fotografi',
     catAdded:'Kategori ditambah', catDeleted:'Kategori dipadam',
     catExists:'Kategori sudah wujud',
     catHint:'Kategori tersuai muncul dalam borang pendapatan/perbelanjaan.',
     catEnterName:'Sila masukkan nama kategori',
+    catPickPreset:'Pilih pratetap', catOrCustom:'Atau masukkan kategori tersuai',
+    catCustomPlaceholder:'Masukkan nama kategori tersuai',
+    catOtherLabel:'Lain-lain / Tersuai…',
+    catDebtCustomIncome:'Kategori pendapatan tersuai (disimpan)',
+    catDebtCustomExpense:'Kategori perbelanjaan tersuai (disimpan)',
+    pickTitle:'Pilih', pickCustom:'Tersuai',
+    pickPurpose:'Pilih tujuan', pickMethod:'Pilih cara',
+    pickOther:'Lain-lain…',
     exportDone:'JSON dieksport', exportCsvDone:'CSV dieksport', exportFail:'Eksport gagal',
     importTitle:'Import / Pulih', importBtn:'Pilih fail dan import',
     importHint:'Import akan menimpa data semasa. Eksport sandaran dahulu.',
@@ -1523,8 +1709,104 @@ const I18N = {
     sysInfoTitle:'Maklumat Sistem',
     storageLocal:'Storan tempatan',
     lastUpdated:'Kemas kini terakhir',
-    incomeCatsDisplay:['Gaji / Upah','Elaun / Duit Poket','Angpao / Duit Hadiah','Biasiswa','Pendapatan Sambilan','Bebas / Gig','Bonus','Pendapatan Faedah','Cashback','Bayaran Balik','Hasil Jualan','Hadiah','Pendapatan Keluarga','Pendapatan Lain'],
-    expenseCatsDisplay:['Makanan','Sarapan','Makan Tengahari','Makan Malam','Makan Lewat','Minuman','Snek','Pengangkutan','Pengangkutan Awam','Teksi / E-hailing','Beli-belah','Pakaian / Aksesori','Elektronik','Permainan','Hiburan','Filem / Strim','Langganan','Pendidikan / Pembelajaran','Buku / Alat Tulis','Alat Sekolah','Sukan / Kecergasan','Perubatan / Kesihatan','Telefon / Telekomunikasi','Internet','Keperluan Harian','Hadiah','Sosial / Ihsan','Perjalanan','Penginapan','Bil','Yuran Perkhidmatan','Yuran Urusniaga','Pembaikan','Haiwan Peliharaan','Perbelanjaan Keluarga','Derma','Perbelanjaan Lain'],
+    incomeCatNames:{
+      salary:'Gaji / Upah', part_time:'Pendapatan Sambilan', freelance:'Bebas / Gig',
+      temp_work:'Kerja Sementara', bonus:'Bonus', allowance:'Elaun',
+      pocket_money:'Duit Poket', family_give:'Keluarga Beri', angpao:'Angpao / Duit Hadiah',
+      gift_income:'Hadiah', living_allowance:'Elaun Sara Hidup', other_family_income:'Pendapatan Keluarga Lain',
+      scholarship:'Biasiswa', study_award:'Anugerah Pelajaran', competition_prize:'Hadiah Pertandingan',
+      school_reward:'Anugerah Sekolah',
+      interest:'Pendapatan Faedah', cashback:'Cashback', refund:'Bayaran Balik',
+      sale_proceeds:'Hasil Jualan', other_income:'Pendapatan Lain'
+    },
+    incomeGroupNames:{
+      work:'Kerja & Buruh', personal:'Keluarga & Peribadi', study:'Pembelajaran', finance:'Kewangan & Lain'
+    },
+    expenseCatNames:{
+      breakfast:'Sarapan', lunch:'Makan Tengahari', dinner:'Makan Malam', supper:'Makan Lewat',
+      drinks:'Minuman', snacks:'Snek', restaurant:'Restoran', takeaway:'Bawa Pulang',
+      public_transport:'Pengangkutan Awam', bus:'Bas', train:'Kereta Api', taxi:'Teksi / E-hailing',
+      parking:'Parkir', fuel:'Minyak', other_transport:'Pengangkutan Lain',
+      clothing:'Pakaian', shoes:'Kasut', accessories:'Aksesori', electronics:'Elektronik',
+      phone:'Telefon', computer:'Komputer', games:'Permainan', game_topup:'Tambah Nilai Permainan',
+      daily_necessities:'Keperluan Harian', household:'Rumah Tangga', other_shopping:'Beli-belah Lain',
+      movie:'Filem', streaming:'Strim', games_ent:'Permainan', entertainment_act:'Hiburan',
+      subscription:'Langganan', other_ent:'Hiburan Lain',
+      tuition:'Yuran Pengajian', tuition_class:'Kelas Tuisyen', course:'Kursus', books:'Buku',
+      stationery:'Alat Tulis', school_supplies:'Alat Sekolah', school_activity:'Aktiviti Sekolah',
+      education_items:'Alat Pendidikan', other_edu:'Pendidikan Lain',
+      phone_bill:'Bil Telefon', internet:'Internet', bills:'Bil', service_fee:'Yuran Perkhidmatan',
+      handling_fee:'Yuran Urusniaga', repairs:'Pembaikan', other_living:'Kehidupan Lain',
+      family_expenses:'Perbelanjaan Keluarga', gifts:'Hadiah', social:'Sosial', gathering:'Perhimpunan',
+      shared_expense:'Kongsi Perbelanjaan', donation_exp:'Derma', other_social:'Sosial Lain',
+      medical:'Perubatan / Kesihatan', sports:'Sukan / Kecergasan', pets:'Haiwan', travel:'Perjalanan',
+      accommodation:'Penginapan', donations:'Derma', other_exp:'Lain-lain'
+    },
+    expenseGroupNames:{
+      food:'Makanan', transport:'Pengangkutan', shopping:'Beli-belah', entertainment:'Hiburan',
+      study_exp:'Pembelajaran / Sekolah', living:'Kehidupan & Perkhidmatan', family:'Keluarga / Sosial', health:'Kesihatan & Lain'
+    },
+    debtPurposeNames:{
+      food_debt:'Makanan', breakfast_debt:'Sarapan', lunch_debt:'Makan Tengahari', dinner_debt:'Makan Malam',
+      drinks_debt:'Minuman', snacks_debt:'Snek', daily_necessities_debt:'Keperluan Harian',
+      household_debt:'Rumah Tangga', transport_debt:'Pengangkutan', public_transport_debt:'Pengangkutan Awam',
+      taxi_debt:'Teksi / E-hailing', parking_debt:'Parkir', phone_debt:'Bil Telefon',
+      internet_debt:'Internet', bills_debt:'Bil',
+      clothing_debt:'Pakaian', shoes_debt:'Kasut', accessories_debt:'Aksesori',
+      electronics_debt:'Elektronik', phone_device_debt:'Telefon', computer_debt:'Komputer',
+      games_debt:'Permainan', game_topup_debt:'Tambah Nilai Permainan', entertainment_debt:'Hiburan',
+      books_debt:'Buku', stationery_debt:'Alat Tulis', other_shopping_debt:'Beli-belah Lain',
+      tuition_debt:'Yuran Pengajian', tuition_class_debt:'Kelas Tuisyen', course_debt:'Kursus',
+      books_study_debt:'Buku', stationery_study_debt:'Alat Tulis',
+      school_supplies_debt:'Alat Sekolah', school_activity_debt:'Aktiviti Sekolah',
+      education_items_debt:'Alat Pendidikan', other_edu_debt:'Pendidikan Lain',
+      family_expenses_debt:'Perbelanjaan Keluarga', family_borrow:'Pinjaman Keluarga',
+      friend_borrow:'Pinjaman Rakan', gift_debt:'Hadiah', gift_give_debt:'Hadiah Diberi',
+      gathering_debt:'Perhimpunan', shared_expense_debt:'Kongsi Perbelanjaan',
+      pay_for_other:'Bayar untuk Orang Lain', help_pay_debt:'Bantu Bayar', other_social_debt:'Sosial Lain',
+      travel_debt:'Perjalanan', accommodation_debt:'Penginapan', transport_travel_debt:'Pengangkutan',
+      tickets_debt:'Tiket', activity_debt:'Aktiviti', other_travel_debt:'Perjalanan Lain',
+      medical_debt:'Perubatan / Kesihatan', repairs_debt:'Pembaikan', pets_debt:'Haiwan',
+      service_fee_debt:'Yuran Perkhidmatan', handling_fee_debt:'Yuran Urusniaga',
+      temp_borrow:'Pinjaman Sementara', emergency_debt:'Kecemasan', other_debt:'Lain-lain'
+    },
+    debtPurposeGroupNames:{
+      daily:'Kehidupan Harian', shopping_debt:'Beli-belah', study_debt:'Pembelajaran / Sekolah',
+      family_debt:'Keluarga / Sosial', travel_debt:'Perjalanan / Aktiviti', other_debt:'Lain-lain'
+    },
+    mgPurposeNames:{
+      birthday_gift:'Hadiah Hari Lahir', festival_gift:'Hadiah Perayaan', angpao_gift:'Angpao / Duit Hadiah',
+      family_gift:'Hadiah Keluarga', friend_gift:'Hadiah Rakan', charity:'Amal / Derma',
+      other_gift:'Hadiah Lain',
+      to_parents:'Untuk Ibu Bapa', to_siblings:'Untuk Adik-beradik', family_living:'Sara Hidup Keluarga',
+      family_shopping:'Beli-belah Keluarga', family_bills:'Bil Keluarga', family_shared:'Kongsi Keluarga',
+      other_family:'Keluarga Lain',
+      to_friend:'Untuk Rakan', meal_split:'Kongsi Makan', shared_consumption:'Penggunaan Bersama',
+      help_friend_pay:'Bantu Rakan Bayar', pay_for_other_mg:'Bayar untuk Orang Lain', other_friend:'Lain-lain',
+      repay_loan:'Bayar Pinjaman', repay_friend:'Bayar Rakan', repay_family:'Bayar Keluarga',
+      repay_other:'Bayar Hutang Lain',
+      secondhand_purchase:'Beli Barang Terpakai', goods_fee:'Yuran Barang',
+      service_fee_mg:'Yuran Perkhidmatan', other_trade:'Urus Niaga Lain',
+      living_support:'Sokongan Hidup', emergency_support:'Sokongan Kecemasan', other_mg:'Lain-lain'
+    },
+    mgPurposeGroupNames:{
+      gift:'Hadiah', family_mg:'Keluarga', friend_mg:'Rakan / Lain',
+      repay_mg:'Bayaran Balik', goods:'Barang / Perkhidmatan', other_mg:'Lain-lain'
+    },
+    mgMethodNames:{
+      cash:'Tunai', cash_handover:'Serahan Tunai', other_cash:'Tunai Lain',
+      tng:'Touch \'n Go eWallet (TNG)', grabpay:'GrabPay', boost:'Boost',
+      mae:'MAE / MAE Wallet', shopeepay:'ShopeePay', other_ewallet:'E-dompet Lain',
+      bank_transfer:'Pindahan Bank', duitnow:'DuitNow', duitnow_transfer:'DuitNow Transfer',
+      duitnow_qr:'DuitNow QR', atm_transfer:'Pindahan ATM', online_banking:'Perbankan Dalam Talian',
+      bank_counter:'Kaunter Bank', other_bank:'Pindahan Bank Lain',
+      debit_card:'Kad Debit', credit_card:'Kad Kredit', other_card:'Kad Lain',
+      cheque:'Cek', other_method:'Cara Lain'
+    },
+    mgMethodGroupNames:{
+      cash_method:'Tunai', ewallet_method:'E-dompet', bank_method:'Bank / Pindahan Bank',
+      card_method:'Kad', other_method:'Lain-lain'
+    },
     mealSubs:['Sarapan','Makan Tengahari','Makan Malam','Makan Lewat','Makanan Segera','Kopi']
   }
 };
@@ -1550,6 +1832,123 @@ function t(k, vars){
   }
   return s;
 }
+/* Category label lookups that fall back gracefully */
+function incomeCatLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.incomeCatNames && p.incomeCatNames[id]) || (I18N.zh.incomeCatNames[id]) || id;
+}
+function expenseCatLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.expenseCatNames && p.expenseCatNames[id]) || (I18N.zh.expenseCatNames[id]) || id;
+}
+function debtPurposeLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.debtPurposeNames && p.debtPurposeNames[id]) || (I18N.zh.debtPurposeNames[id]) || id;
+}
+function mgPurposeLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.mgPurposeNames && p.mgPurposeNames[id]) || (I18N.zh.mgPurposeNames[id]) || id;
+}
+function mgMethodLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.mgMethodNames && p.mgMethodNames[id]) || (I18N.zh.mgMethodNames[id]) || id;
+}
+function incomeGroupLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.incomeGroupNames && p.incomeGroupNames[id]) || (I18N.zh.incomeGroupNames[id]) || id;
+}
+function expenseGroupLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.expenseGroupNames && p.expenseGroupNames[id]) || (I18N.zh.expenseGroupNames[id]) || id;
+}
+function debtPurposeGroupLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.debtPurposeGroupNames && p.debtPurposeGroupNames[id]) || (I18N.zh.debtPurposeGroupNames[id]) || id;
+}
+function mgPurposeGroupLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.mgPurposeGroupNames && p.mgPurposeGroupNames[id]) || (I18N.zh.mgPurposeGroupNames[id]) || id;
+}
+function mgMethodGroupLabel(id){
+  const p = I18N[LANG] || I18N.zh;
+  return (p.mgMethodGroupNames && p.mgMethodGroupNames[id]) || (I18N.zh.mgMethodGroupNames[id]) || id;
+}
+/* Display label for a saved category value: if it's a known ID, translate.
+   If it's a custom string, show as-is (user's own text). */
+function incomeDisplayLabel(v){
+  if(!v) return '';
+  const p = I18N[LANG] || I18N.zh;
+  if(p.incomeCatNames && p.incomeCatNames[v]) return p.incomeCatNames[v];
+  if(I18N.zh.incomeCatNames[v]) return I18N.zh.incomeCatNames[v];
+  return v; // custom
+}
+function expenseDisplayLabel(v){
+  if(!v) return '';
+  const p = I18N[LANG] || I18N.zh;
+  if(p.expenseCatNames && p.expenseCatNames[v]) return p.expenseCatNames[v];
+  if(I18N.zh.expenseCatNames[v]) return I18N.zh.expenseCatNames[v];
+  return v;
+}
+function debtPurposeDisplay(v){
+  if(!v) return '';
+  const p = I18N[LANG] || I18N.zh;
+  if(p.debtPurposeNames && p.debtPurposeNames[v]) return p.debtPurposeNames[v];
+  if(I18N.zh.debtPurposeNames[v]) return I18N.zh.debtPurposeNames[v];
+  return v;
+}
+function mgPurposeDisplay(v){
+  if(!v) return '';
+  const p = I18N[LANG] || I18N.zh;
+  if(p.mgPurposeNames && p.mgPurposeNames[v]) return p.mgPurposeNames[v];
+  if(I18N.zh.mgPurposeNames[v]) return I18N.zh.mgPurposeNames[v];
+  return v;
+}
+function mgMethodDisplay(v){
+  if(!v) return '';
+  const p = I18N[LANG] || I18N.zh;
+  if(p.mgMethodNames && p.mgMethodNames[v]) return p.mgMethodNames[v];
+  if(I18N.zh.mgMethodNames[v]) return I18N.zh.mgMethodNames[v];
+  return v;
+}
+/* Category icons keyed by ID (some legacy Chinese keys still work) */
+const CAT_ICON_BY_ID = {
+  // income
+  salary:'💼', part_time:'⏰', freelance:'🧑‍💻', temp_work:'🕐', bonus:'🏆', allowance:'💼',
+  pocket_money:'💰', family_give:'🏠', angpao:'🧧', gift_income:'🎀', living_allowance:'💰', other_family_income:'🏠',
+  scholarship:'🎓', study_award:'🏅', competition_prize:'🥇', school_reward:'🎖️',
+  interest:'🏦', cashback:'🎁', refund:'↩️', sale_proceeds:'🏷️', other_income:'📌',
+  // expense
+  breakfast:'🌅', lunch:'🍱', dinner:'🍽️', supper:'🌙', drinks:'🥤', snacks:'🍿', restaurant:'🍽️', takeaway:'🥡',
+  public_transport:'🚇', bus:'🚌', train:'🚆', taxi:'🚕', parking:'🅿️', fuel:'⛽', other_transport:'🚌',
+  clothing:'👕', shoes:'👟', accessories:'👒', electronics:'📱', phone:'📱', computer:'💻',
+  games:'🎮', game_topup:'🎮', daily_necessities:'🧴', household:'🏠', other_shopping:'🛍️',
+  movie:'🎬', streaming:'📺', games_ent:'🎮', entertainment_act:'🎉', subscription:'📺', other_ent:'🎉',
+  tuition:'🎓', tuition_class:'📚', course:'📘', books:'📖', stationery:'✏️',
+  school_supplies:'🎒', school_activity:'🎪', education_items:'📚', other_edu:'📚',
+  phone_bill:'📞', internet:'🌐', bills:'🧾', service_fee:'🛎️', handling_fee:'💳', repairs:'🔧', other_living:'🧴',
+  family_expenses:'🏡', gifts:'🎁', social:'🤝', gathering:'🎉', shared_expense:'🤝', donation_exp:'❤️', other_social:'🤝',
+  medical:'💊', sports:'🏃', pets:'🐾', travel:'✈️', accommodation:'🏨', donations:'❤️', other_exp:'📌',
+  // legacy Chinese fallbacks
+  '工资 / 薪金':'💼','零用钱 / 津贴':'💰','红包 / 礼金':'🧧','奖学金':'🎓','兼职收入':'⏰',
+  '自由职业 / 接案':'🧑‍💻','奖金':'🏆','退款':'↩️','利息收入':'🏦','Cashback / 现金回赠':'🎁',
+  '出售物品所得':'🏷️','礼物':'🎀','家庭收入':'🏠','其他收入':'📌',
+  '餐饮':'🍚','早餐':'🌅','午餐':'🍱','晚餐':'🍽️','宵夜':'🌙','饮料':'🥤','零食':'🍿',
+  '交通':'🚌','公共交通':'🚇','打车 / 网约车':'🚕','购物':'🛍️','衣服 / 配饰':'👕',
+  '电子产品':'📱','游戏':'🎮','娱乐':'🎉','电影 / 影音':'🎬','订阅服务':'📺',
+  '学习 / 教育':'📚','书籍 / 文具':'📖','学校用品':'🎒','运动 / 健身':'🏃',
+  '医疗 / 健康':'💊','通讯 / 电话费':'📞','网络费':'🌐','生活用品':'🧴','人情':'🤝',
+  '旅行':'✈️','住宿':'🏨','账单':'🧾','服务费':'🛎️','手续费':'💳','维修':'🔧',
+  '宠物':'🐾','家庭支出':'🏡','捐款':'❤️','其他支出':'📌',
+  // English legacy
+  'Salary / Wages':'💼','Allowance / Pocket Money':'💰','Angpao / Gift Money':'🧧',
+  'Scholarship':'🎓','Part-time Income':'⏰','Freelance / Gig':'🧑‍💻','Bonus':'🏆',
+  'Interest Income':'🏦','Cashback':'🎁','Refund':'↩️','Proceeds from Sale':'🏷️',
+  'Gift':'🎀','Family Income':'🏠','Other Income':'📌','Food':'🍚','Drinks':'🥤','Snacks':'🍿'
+};
+function catIcon(v){
+  return CAT_ICON_BY_ID[v] || '📌';
+}
+
 function setLang(l){
   if(!I18N[l]) return;
   LANG = l;
@@ -1578,52 +1977,43 @@ function loadMeta(){
 function saveMeta(m){ try{ localStorage.setItem(META_KEY, JSON.stringify(m)); }catch(e){} }
 let META = loadMeta();
 
-/* ============================ Changelog (append-only) ============================ */
+/* ============================ Changelog (append-only, i18n) ============================ */
 const CHANGELOG_SEED = [
-  { version:'1.00', date:'2026-09-12', items:[
-    'Initial Release',
-    'Unlimited accounts, all-accounts overview',
-    'Income, expense and account transfer recording',
-    'Savings goals with locked allocations',
-    'Asset recovery / use-value calculation',
-    'Statistics, search, filters, achievements',
-    'App Lock with hashed PIN',
-    'Chinese / English / Bahasa Melayu',
-    'Local persistence, export, import, backup',
-    'App Version / Data Version / Migration system'
-  ]},
-  { version:'1.01', date:'2026-09-12', items:[
-    'Permanent 3-language Product Identity Notice on Home and Lock screen',
-    'Clearer separation between recorded assets and held funds',
-    'Improved App Lock messaging for existing users'
-  ]},
-  { version:'1.02', date:'2026-09-12', items:[
-    'Added System Information section in Settings',
-    'Improved migration backup before data version changes',
-    'Changelog now append-only'
-  ]},
-  { version:'1.03', date:'2026-09-12', items:[
-    'Improved statistics: today / week / month / year / all',
-    'Transfer note added to statistics page',
-    'Improved asset recovery wording and status labels'
-  ]},
-  { version:'1.04', date:'2026-09-12', items:[
-    'Data continuity guarantees on app updates',
-    'Migration failure protection: existing data preserved',
-    'Enhanced product notice visibility on mobile and desktop',
-    'Minor UI polish and accessibility improvements'
-  ]},
-  { version:'1.05', date:'2026-09-12', items:[
-    'Fixed App Lock layout jump when typing PIN — input area always visible, no auto-scroll',
-    'Redesigned permanent Product Identity Notice as compact 3-language strip',
-    'Home now shows core financial info without needing to scroll past notice',
-    'Renamed "Create Account" to "Add Money Account" for clarity',
-    'Fixed achievement display — now shows meaningful "Unlocked / Locked" instead of confusing dates',
-    'System Info and Changelog pages no longer pushed down by notice',
-    'NEW: Debt Records (我欠别人 / 别人欠我) with repayment tracking',
-    'NEW: Record Money Given (转给他人 / 赠与记录) linked to real account balance',
-    'Both new features integrate with unified data, backup, migration and i18n'
-  ]}
+  { version:'1.00', date:'2026-09-12', items:{
+    zh:['初始版本','无限资金账户，全部账户总览','收入、支出与账户转移记录','储蓄目标与锁定分配','资产回本 / 使用价值计算','统计、搜索、筛选、成就','App Lock 与哈希 PIN','简体中文 / English / Bahasa Melayu','本地持久化、导出、导入、备份','App Version / Data Version / Migration 系统'],
+    en:['Initial Release','Unlimited accounts, all-accounts overview','Income, expense and account transfer recording','Savings goals with locked allocations','Asset recovery / use-value calculation','Statistics, search, filters, achievements','App Lock with hashed PIN','Chinese / English / Bahasa Melayu','Local persistence, export, import, backup','App Version / Data Version / Migration system'],
+    ms:['Keluaran Awal','Akaun tanpa had, gambaran semua akaun','Rekod pendapatan, perbelanjaan dan pindahan akaun','Sasaran simpanan dengan peruntukan terkunci','Pengiraan pemulihan / nilai guna aset','Statistik, carian, penapis, pencapaian','App Lock dengan PIN di-hash','Cina / Inggeris / Bahasa Melayu','Persistensi tempatan, eksport, import, sandaran','Sistem App Version / Data Version / Migration']
+  }},
+  { version:'1.01', date:'2026-09-12', items:{
+    zh:['首页和锁屏新增永久三语产品性质声明','更清晰区分「记录中的资产」和「被持有的资金」','改进已有用户的 App Lock 提示'],
+    en:['Permanent 3-language Product Identity Notice on Home and Lock screen','Clearer separation between recorded assets and held funds','Improved App Lock messaging for existing users'],
+    ms:['Notis Identiti Produk 3 bahasa kekal di Utama dan Skrin Kunci','Pemisahan lebih jelas antara aset direkod dan dana dipegang','Mesej App Lock lebih baik untuk pengguna sedia ada']
+  }},
+  { version:'1.02', date:'2026-09-12', items:{
+    zh:['设置页新增系统信息区域','数据版本变更前自动创建迁移备份','更新记录改为只追加不覆盖'],
+    en:['Added System Information section in Settings','Improved migration backup before data version changes','Changelog now append-only'],
+    ms:['Bahagian Maklumat Sistem ditambah dalam Tetapan','Sandaran migrasi sebelum perubahan versi data','Sejarah kemas kini kini hanya tambah sahaja']
+  }},
+  { version:'1.03', date:'2026-09-12', items:{
+    zh:['统计支持今日 / 本周 / 本月 / 本年 / 全部','统计页新增账户转移说明','改进资产回本措辞与状态标签'],
+    en:['Improved statistics: today / week / month / year / all','Transfer note added to statistics page','Improved asset recovery wording and status labels'],
+    ms:['Statistik diperbaiki: hari ini / minggu / bulan / tahun / semua','Nota pindahan ditambah pada halaman statistik','Teks pemulihan aset dan label status diperbaiki']
+  }},
+  { version:'1.04', date:'2026-09-12', items:{
+    zh:['应用更新时保证数据连续性','迁移失败时保护现有数据','增强手机与桌面端产品声明可见性','小幅 UI 优化与无障碍改进'],
+    en:['Data continuity guarantees on app updates','Migration failure protection: existing data preserved','Enhanced product notice visibility on mobile and desktop','Minor UI polish and accessibility improvements'],
+    ms:['Jaminan kesinambungan data semasa kemas kini','Perlindungan kegagalan migrasi: data sedia ada dikekalkan','Keterlihatan notis produk dipertingkat pada mudah alih dan desktop','Penambahbaikan UI kecil dan aksesibiliti']
+  }},
+  { version:'1.05', date:'2026-09-12', items:{
+    zh:['修复 App Lock 输入 PIN 时的页面跳动','产品性质声明改为紧凑三语条','首页无需滚动即可看到核心财务信息','「创建账号」改名为「新增资金账户」','成就显示「已解锁 / 未解锁」，不再显示无意义日期','新增欠款记录（我欠别人 / 别人欠我）与还款追踪','新增转给他人 / 赠与记录，联动真实账户余额'],
+    en:['Fixed App Lock layout jump when typing PIN','Redesigned product identity notice as compact 3-language strip','Home shows core financial info without scrolling past notice','Renamed "Create Account" to "Add Money Account"','Achievements show "Unlocked / Locked" with no meaningless dates','NEW: Debt Records (I Owe / Owed to Me) with repayment tracking','NEW: Record Money Given linked to real account balance'],
+    ms:['Betulkan lompatan susun atur App Lock semasa taip PIN','Notis identiti produk direka semula sebagai jalur 3 bahasa padat','Utama tunjuk maklumat kewangan utama tanpa perlu skrol','"Cipta Akaun" dinamakan semula "Tambah Akaun Wang"','Pencapaian tunjuk "Dibuka / Belum Dibuka" tanpa tarikh tidak bermakna','BAHARU: Rekod Hutang (Saya Berhutang / Orang Berhutang) dengan jejak bayaran','BAHARU: Rekod Wang Diberi berpaut pada baki akaun sebenar']
+  }},
+  { version:'1.06', date:'2026-09-12', items:{
+    zh:['恢复产品性质声明醒目大小，不再缩小','App Lock 重新布局为无需滑动的固定视口，密码输入稳定','首页声明重新排版，核心财务信息自然可见','更新记录完整支持简体中文 / English / Bahasa Melayu','「系统信息」与「更新记录」保持为独立页面','欠款记录新增详细用途（日常生活 / 购物 / 学习 / 家庭 / 旅行 / 其他）','转给他人新增详细用途与「转账方式」','收入与支出分类扩展为大量预设 + 其他 / 自定义','自定义分类真正保存，可重复选择、编辑、删除','所有预设分类支持三语言，内部使用稳定 ID'],
+    en:['Restored prominent product notice size (no longer shrunk)','App Lock re-laid out as fixed-viewport, no-scroll, stable PIN entry','Home notice re-laid out so core financial info remains visible','Changelog fully supports Chinese / English / Bahasa Melayu','System Information and Changelog kept as separate pages','Debt records now include detailed purposes (daily / shopping / study / family / travel / other)','Money Given now includes detailed purposes and Transfer Method','Income and Expense categories expanded to many presets + Other / Custom','Custom categories truly saved, reusable, editable, deletable','All preset categories support 3 languages; internal stable IDs'],
+    ms:['Saiz notis identiti produk dipulihkan (tidak lagi dikecilkan)','App Lock disusun semula sebagai viewport tetap, tanpa skrol, kemasukan PIN stabil','Notis Utama disusun semula supaya maklumat kewangan utama kekal kelihatan','Sejarah kemas kini menyokong penuh Cina / Inggeris / Bahasa Melayu','Maklumat Sistem dan Sejarah Kemas Kini kekal sebagai halaman berasingan','Rekod hutang kini sertakan tujuan terperinci (harian / beli-belah / pembelajaran / keluarga / perjalanan / lain-lain)','Wang Diberi kini sertakan tujuan terperinci dan Cara Pemindahan','Kategori Pendapatan dan Perbelanjaan diperluas kepada banyak pratetap + Lain-lain / Tersuai','Kategori tersuai benar-benar disimpan, boleh guna semula, edit, padam','Semua kategori pratetap menyokong 3 bahasa; ID dalaman stabil']
+  }}
 ];
 
 function loadChangelog(){
@@ -1633,12 +2023,26 @@ function loadChangelog(){
     const arr = JSON.parse(raw);
     if(!Array.isArray(arr)) return CHANGELOG_SEED.slice();
     const seen = new Set(arr.map(x => x.version));
-    CHANGELOG_SEED.forEach(c => { if(!seen.has(c.version)) arr.push(c); });
+    CHANGELOG_SEED.forEach(c => {
+      if(!seen.has(c.version)) arr.push(c);
+      else {
+        // if stored entry has old string-array format but seed has i18n object, upgrade it
+        const i = arr.findIndex(x => x.version === c.version);
+        if(i >= 0 && Array.isArray(arr[i].items) && c.items && typeof c.items === 'object'){
+          arr[i].items = c.items;
+        }
+      }
+    });
     return arr;
   }catch(e){ return CHANGELOG_SEED.slice(); }
 }
 let CHANGELOG = loadChangelog();
 function saveChangelog(){ try{ localStorage.setItem(CHANGELOG_KEY, JSON.stringify(CHANGELOG)); }catch(e){} }
+function changelogItems(entry){
+  if(!entry || !entry.items) return [];
+  if(Array.isArray(entry.items)) return entry.items;
+  return entry.items[LANG] || entry.items.zh || entry.items.en || [];
+}
 
 /* ============================ 数据层 ============================ */
 function defaultState(){
@@ -1656,8 +2060,8 @@ function defaultState(){
     transactions: [],
     goals: [],
     assets: [],
-    debts: [],           // v1.05
-    moneyGiven: [],      // v1.05
+    debts: [],
+    moneyGiven: [],
     customIncomeCats: [],
     customExpenseCats: [],
     achievements: {},
@@ -1670,9 +2074,24 @@ function migrate(p){
   const original = JSON.parse(JSON.stringify(p));
   let v = Number(p.dataVersion) || 1;
 
-  // v1 -> v1.05: ensure new arrays exist, do not touch existing data
+  // v1 → v1.06: ensure new arrays exist, do not touch existing data
   if(!Array.isArray(p.debts)) p.debts = [];
   if(!Array.isArray(p.moneyGiven)) p.moneyGiven = [];
+  if(!Array.isArray(p.customIncomeCats)) p.customIncomeCats = [];
+  if(!Array.isArray(p.customExpenseCats)) p.customExpenseCats = [];
+
+  // Backfill new fields on debt / moneyGiven records without touching old ones
+  p.debts.forEach(d => {
+    if(!Array.isArray(d.payments)) d.payments = [];
+    if(d.purpose === undefined) d.purpose = '';
+    if(d.purposeCustom === undefined) d.purposeCustom = '';
+  });
+  p.moneyGiven.forEach(m => {
+    if(m.purpose === undefined) m.purpose = m.giftType || '';
+    if(m.purposeCustom === undefined) m.purposeCustom = '';
+    if(m.method === undefined) m.method = '';
+    if(m.methodCustom === undefined) m.methodCustom = '';
+  });
 
   p.dataVersion = META.dataVersion || DATA_VERSION_FALLBACK;
 
@@ -1922,61 +2341,20 @@ function matchRange(iso, range){
   return true;
 }
 
-/* ============================ 分类 ============================ */
-function incomeCats(){
-  const base = I18N[LANG].incomeCatsDisplay || I18N.zh.incomeCatsDisplay;
-  return base.concat(state.customIncomeCats);
+/* ============================ 分类 helpers (V1.06) ============================ */
+function allIncomeIds(){
+  const ids = [];
+  INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i)));
+  return ids;
 }
-function expenseCats(){
-  const base = I18N[LANG].expenseCatsDisplay || I18N.zh.expenseCatsDisplay;
-  return base.concat(state.customExpenseCats);
+function allExpenseIds(){
+  const ids = [];
+  EXPENSE_GROUPS.forEach(g => g.items.forEach(i => ids.push(i)));
+  return ids;
 }
+function incomeCats(){ return allIncomeIds(); }
+function expenseCats(){ return allExpenseIds(); }
 function mealSubs(){ return I18N[LANG].mealSubs || I18N.zh.mealSubs; }
-function catIcon(name){
-  const map = {
-    '工资 / 薪金':'💼','零用钱 / 津贴':'💰','红包 / 礼金':'🧧','奖学金':'🎓',
-    '兼职收入':'⏰','自由职业 / 接案':'🧑‍💻','奖金':'🏆','退款':'↩️',
-    '利息收入':'🏦','Cashback / 现金回赠':'🎁','出售物品所得':'🏷️','礼物':'🎀',
-    '家庭收入':'🏠','其他收入':'📌',
-    '餐饮':'🍚','早餐':'🌅','午餐':'🍱','晚餐':'🍽️','宵夜':'🌙','饮料':'🥤','零食':'🍿',
-    '交通':'🚌','公共交通':'🚇','打车 / 网约车':'🚕','购物':'🛍️','衣服 / 配饰':'👕',
-    '电子产品':'📱','游戏':'🎮','娱乐':'🎉','电影 / 影音':'🎬','订阅服务':'📺',
-    '学习 / 教育':'📚','书籍 / 文具':'📖','学校用品':'🎒','运动 / 健身':'🏃',
-    '医疗 / 健康':'💊','通讯 / 电话费':'📞','网络费':'🌐','生活用品':'🧴',
-    '人情':'🤝','旅行':'✈️','住宿':'🏨','账单':'🧾','服务费':'🛎️','手续费':'💳',
-    '维修':'🔧','宠物':'🐾','家庭支出':'🏡','捐款':'❤️','其他支出':'📌',
-    'Salary / Wages':'💼','Allowance / Pocket Money':'💰','Angpao / Gift Money':'🧧',
-    'Scholarship':'🎓','Part-time Income':'⏰','Freelance / Gig':'🧑‍💻','Bonus':'🏆',
-    'Interest Income':'🏦','Cashback':'🎁','Refund':'↩️','Proceeds from Sale':'🏷️',
-    'Gift':'🎀','Family Income':'🏠','Other Income':'📌',
-    'Food':'🍚','Breakfast':'🌅','Lunch':'🍱','Dinner':'🍽️','Supper':'🌙',
-    'Drinks':'🥤','Snacks':'🍿','Transport':'🚌','Public Transport':'🚇',
-    'Taxi / Ride-hailing':'🚕','Shopping':'🛍️','Clothing / Accessories':'👕',
-    'Electronics':'📱','Games':'🎮','Entertainment':'🎉','Movies / Streaming':'🎬',
-    'Subscriptions':'📺','Education / Learning':'📚','Books / Stationery':'📖',
-    'School Supplies':'🎒','Sports / Fitness':'🏃','Medical / Health':'💊',
-    'Phone / Telecom':'📞','Internet':'🌐','Daily Necessities':'🧴','Gifts':'🎁',
-    'Social / Favors':'🤝','Travel':'✈️','Accommodation':'🏨','Bills':'🧾',
-    'Service Fees':'🛎️','Handling Fees':'💳','Repairs':'🔧','Pets':'🐾',
-    'Family Expenses':'🏡','Donations':'❤️','Other Expenses':'📌',
-    'Gaji / Upah':'💼','Elaun / Duit Poket':'💰','Angpao / Duit Hadiah':'🧧',
-    'Biasiswa':'🎓','Pendapatan Sambilan':'⏰','Bebas / Gig':'🧑‍💻','Bonus':'🏆',
-    'Pendapatan Faedah':'🏦','Bayaran Balik':'↩️','Hasil Jualan':'🏷️',
-    'Hadiah':'🎀','Pendapatan Keluarga':'🏠','Pendapatan Lain':'📌',
-    'Makanan':'🍚','Sarapan':'🌅','Makan Tengahari':'🍱','Makan Malam':'🍽️',
-    'Makan Lewat':'🌙','Minuman':'🥤','Snek':'🍿','Pengangkutan':'🚌',
-    'Pengangkutan Awam':'🚇','Teksi / E-hailing':'🚕','Beli-belah':'🛍️',
-    'Pakaian / Aksesori':'👕','Elektronik':'📱','Permainan':'🎮','Hiburan':'🎉',
-    'Filem / Strim':'🎬','Langganan':'📺','Pendidikan / Pembelajaran':'📚',
-    'Buku / Alat Tulis':'📖','Alat Sekolah':'🎒','Sukan / Kecergasan':'🏃',
-    'Perubatan / Kesihatan':'💊','Telefon / Telekomunikasi':'📞','Internet':'🌐',
-    'Keperluan Harian':'🧴','Sosial / Ihsan':'🤝','Perjalanan':'✈️',
-    'Penginapan':'🏨','Bil':'🧾','Yuran Perkhidmatan':'🛎️','Yuran Urusniaga':'💳',
-    'Pembaikan':'🔧','Haiwan Peliharaan':'🐾','Perbelanjaan Keluarga':'🏡',
-    'Derma':'❤️','Perbelanjaan Lain':'📌'
-  };
-  return map[name] || '📌';
-}
 
 /* ============================ 成就 ============================ */
 function currentStreak(){
@@ -2033,7 +2411,7 @@ function afterChange(){
 }
 
 /* =========================================================================
-   锁屏（V1.05 重写 — 布局稳定，不跳动）
+   锁屏（V1.06: 固定视口，不滚动，输入稳定）
    ========================================================================= */
 let lockUI = {
   mode: 'unlock',
@@ -2063,13 +2441,6 @@ function renderLock(){
 
   const pinLen = 6;
 
-  /* V1.05 note:
-     - We use a fixed-height flex layout.
-     - The notice is a compact 3-language strip (small text, high contrast).
-     - The middle section is scrollable if needed but content stays stable.
-     - We do NOT re-render the whole screen on each keypress; we only update
-       the pin dots and message in place to avoid scroll jump.
-  */
   root.innerHTML = `
   <div class="lock-screen" id="lock-screen">
     <div class="lock-header">
@@ -2086,34 +2457,10 @@ function renderLock(){
       `).join('')}
     </div>
 
-    <div class="lock-body" id="lock-body">
-      <div class="lock-body-inner">
-        <div class="lock-title">${esc(title)}</div>
-        ${infoText ? `<div class="lock-info">${esc(infoText)}</div>` : ''}
-
-        <div id="lock-dynamic">
-          ${ lockUI.useTextMode
-            ? `<div class="lock-input-wrap">
-                 <input class="lock-input" id="lock-text" type="password" inputmode="text"
-                        placeholder="${esc(t('lockTextPlaceholder'))}" value="${esc(lockUI.pin)}" maxlength="64">
-               </div>
-               <div class="lock-msg" id="lock-msg-el">${esc(lockUI.msg)}</div>
-               <button type="button" class="lock-ok-btn" id="lock-ok">${esc(t('lockOk'))}</button>`
-            : `<div class="pin-dots" id="pin-dots">
-                 ${Array.from({length: pinLen}).map((_,i) =>
-                   `<div class="pin-dot ${i < lockUI.pin.length ? 'filled':''} ${lockUI.error && i < lockUI.pin.length ? 'error':''}"></div>`
-                 ).join('')}
-               </div>
-               <div class="lock-msg" id="lock-msg-el">${esc(lockUI.msg)}</div>
-               <div class="keypad" id="keypad">
-                 ${[1,2,3,4,5,6,7,8,9].map(n => `<button type="button" class="key" data-k="${n}">${n}</button>`).join('')}
-                 <button type="button" class="key fn" data-k="clear">${esc(t('lockClear'))}</button>
-                 <button type="button" class="key" data-k="0">0</button>
-                 <button type="button" class="key fn" data-k="del">${esc(t('lockDel'))}</button>
-                 <button type="button" class="key enter" data-k="ok" style="grid-column:span 3">${esc(t('lockOk'))}</button>
-               </div>` }
-        </div>
-      </div>
+    <div class="lock-mid">
+      <div class="lock-title">${esc(title)}</div>
+      ${infoText ? `<div class="lock-info">${esc(infoText)}</div>` : ''}
+      <div id="lock-dynamic"></div>
     </div>
 
     <div class="lock-footer">
@@ -2123,47 +2470,16 @@ function renderLock(){
     </div>
   </div>`;
 
-  bindLockEvents();
-}
+  // Render dynamic inner content
+  updateLockDynamic();
 
-/* V1.05: bind events ONCE per render; on keypress only update dynamic area in place */
-function bindLockEvents(){
-  const root = document.getElementById('lock-root');
-  if(!root) return;
-
-  // keypad
-  root.querySelectorAll('#keypad .key').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.preventDefault();
-      handleKey(btn.dataset.k);
-    });
-  });
-
-  // text mode input
-  const txt = $('#lock-text');
-  if(txt){
-    txt.addEventListener('input', e => {
-      lockUI.pin = e.target.value;
-      lockUI.error = false;
-      // do NOT re-render whole screen here; only update message if needed
-    });
-    txt.addEventListener('keydown', e => {
-      if(e.key === 'Enter'){ e.preventDefault(); handleKey('ok'); }
-    });
-  }
-
-  // OK button (text mode)
-  const okBtn = $('#lock-ok');
-  if(okBtn) okBtn.addEventListener('click', e => { e.preventDefault(); handleKey('ok'); });
-
-  // toggles
+  // Bind footer toggle
   const togglePin = $('#lock-toggle-pin');
   const toggleText = $('#lock-toggle-text');
-  if(togglePin)  togglePin.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = false; lockUI.msg=''; lockUI.error=false; renderLock(); });
-  if(toggleText) toggleText.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = true; lockUI.msg=''; lockUI.error=false; renderLock(); });
+  if(togglePin)  togglePin.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = false; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
+  if(toggleText) toggleText.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = true; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
 }
 
-/* V1.05: update only the dynamic inner content to avoid scroll jump */
 function updateLockDynamic(){
   const dyn = document.getElementById('lock-dynamic');
   if(!dyn) return;
@@ -2179,7 +2495,6 @@ function updateLockDynamic(){
     const txt = $('#lock-text');
     if(txt){
       txt.focus();
-      // place cursor at end
       try { txt.setSelectionRange(txt.value.length, txt.value.length); } catch(e){}
       txt.addEventListener('input', e => { lockUI.pin = e.target.value; lockUI.error = false; });
       txt.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); handleKey('ok'); } });
@@ -2441,7 +2756,7 @@ function toggleHide(){
 }
 
 /* =========================================================================
-   首页（V1.05: 声明卡片紧凑，核心信息尽快可见）
+   首页
    ========================================================================= */
 function viewHome(){
   const total  = totalAssets();
@@ -2460,8 +2775,6 @@ function viewHome(){
   const hasAny = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
 
   return `
-  ${renderProductNotice()}
-
   <div class="hero">
     <div class="hero-top">
       <div>
@@ -2477,6 +2790,8 @@ function viewHome(){
       <div class="split-item"><span>${esc(t('lockedSaving'))}</span><b>${money(locked)}</b></div>
     </div>
   </div>
+
+  ${renderProductNotice()}
 
   <div class="mini-row">
     <div class="mini"><span>${esc(t('monthIncome'))}</span><b class="c-green">${money(mIn)}</b></div>
@@ -2582,13 +2897,15 @@ function txRow(tx){
   switch(tx.type){
     case 'income':
       icon = catIcon(tx.category);
-      title = tx.category || t('income');
+      title = incomeDisplayLabel(tx.category) || t('income');
       sub = (acc ? acc.name : '—') + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-green'; sign = '+';
       break;
     case 'expense':
       icon = catIcon(tx.category);
-      title = tx.subCategory ? `${tx.category} · ${tx.subCategory}` : (tx.category || t('expense'));
+      title = tx.subCategory
+        ? `${expenseDisplayLabel(tx.category)} · ${tx.subCategory}`
+        : (expenseDisplayLabel(tx.category) || t('expense'));
       sub = (acc ? acc.name : '—') + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-red'; sign = '-';
       break;
@@ -2725,7 +3042,7 @@ function filterByAccount(id){
 }
 
 /* =========================================================================
-   交易记录（含欠款和赠与快捷入口）
+   交易记录
    ========================================================================= */
 function viewRecords(){
   const f = ui.recordFilter;
@@ -2816,7 +3133,7 @@ function viewRecords(){
         return `<div class="day-group">
           <div class="day-head">
             <span>${fmtDateLabel(d)}</span>
-            <span>${dayIn ? `<i class="c-green">+${money(dayIn)}</i>` : ''}${dayOut ? ` <i class="c-red">-${money(outSum(dayOut))}</i>` : ''}</span>
+            <span>${dayIn ? `<i class="c-green">+${money(dayIn)}</i>` : ''}${dayOut ? ` <i class="c-red">-${money(dayOut)}</i>` : ''}</span>
           </div>
           <div class="list">${items.map(txRow).join('')}</div>
         </div>`;
@@ -2829,7 +3146,6 @@ function viewRecords(){
       </div>` }
   `;
 }
-function outSum(n){ return money(n); }
 function setFilter(v){ ui.recordFilter = v; render(); }
 function setRecordCat(c){ ui.recordCat = c; render(); }
 function setRecordAccount(id){ ui.recordAccount = id; render(); }
@@ -2955,8 +3271,11 @@ function viewAssets(){
     <div><span>${esc(t('assetTotal'))}</span><b>${list.length}</b></div>
     <div><span>${esc(t('assetActive'))}</span><b>${activeCount}</b></div>
   </div>
-  <div class="product-notice" style="border-width:1.5px">
-    <div class="pn-head"><div class="pn-icon">i</div><div class="pn-title">${esc(t('assetRecoveryNote'))}</div></div>
+  <div class="product-notice" style="border-width:1.5px;padding:10px 12px">
+    <div class="pn-head" style="margin-bottom:0">
+      <div class="pn-icon">i</div>
+      <div class="pn-title" style="text-transform:none;font-size:12px;letter-spacing:0">${esc(t('assetRecoveryNote'))}</div>
+    </div>
   </div>
   ${ list.length
     ? list.map(assetCard).join('') +
@@ -3041,7 +3360,7 @@ function viewStats(){
 
   const catMap = {};
   txs.filter(tx => tx.type === 'expense').forEach(tx => {
-    const k = tx.category || 'Other';
+    const k = tx.category || 'other_exp';
     catMap[k] = (catMap[k] || 0) + Number(tx.amount||0);
   });
   const cats = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
@@ -3049,7 +3368,7 @@ function viewStats(){
 
   const incMap = {};
   txs.filter(tx => tx.type === 'income').forEach(tx => {
-    const k = tx.category || 'Other';
+    const k = tx.category || 'other_income';
     incMap[k] = (incMap[k] || 0) + Number(tx.amount||0);
   });
   const incCats = Object.entries(incMap).sort((a,b) => b[1] - a[1]);
@@ -3090,7 +3409,7 @@ function viewStats(){
     ${ cats.length
       ? cats.map(([name, amt]) =>
         `<div class="cat-row">
-          <div class="cat-head"><span>${catIcon(name)} ${esc(name)}</span><span>${money(amt)}</span></div>
+          <div class="cat-head"><span>${catIcon(name)} ${esc(expenseDisplayLabel(name))}</span><span>${money(amt)}</span></div>
           <div class="cat-bar"><i style="width:${maxCat>0?(amt/maxCat*100).toFixed(1):0}%"></i></div>
         </div>`).join('')
       : `<div class="empty"><p>${esc(t('statsNoExpense'))}</p></div>` }
@@ -3103,7 +3422,7 @@ function viewStats(){
     ${ incCats.length
       ? incCats.map(([name, amt]) =>
         `<div class="cat-row">
-          <div class="cat-head"><span>${catIcon(name)} ${esc(name)}</span><span>${money(amt)}</span></div>
+          <div class="cat-head"><span>${catIcon(name)} ${esc(incomeDisplayLabel(name))}</span><span>${money(amt)}</span></div>
           <div class="cat-bar"><i class="inc" style="width:${maxInc>0?(amt/maxInc*100).toFixed(1):0}%"></i></div>
         </div>`).join('')
       : `<div class="empty"><p>${esc(t('statsNoIncome'))}</p></div>` }
@@ -3166,45 +3485,31 @@ function viewAccounts(){
    分类管理
    ========================================================================= */
 function viewCategories(){
-  const incCats = incomeCats();
-  const expCats = expenseCats();
   return `
   <div class="card">
     <div class="section-head" style="margin-bottom:10px">
-      <h3>${esc(t('catIncome'))}</h3>
+      <h3>${esc(t('catCustomIncome'))}</h3>
       <button class="link" onclick="addCustomCat('income')">${esc(t('catAdd'))}</button>
     </div>
-    <div class="chip-row">
-      ${ incCats.map(c =>
-        `<span class="chip" style="background:#e7f8f1;color:#0a7a55">${catIcon(c)} ${esc(c)}</span>`).join('') }
-    </div>
-    ${ state.customIncomeCats.length ? `
-    <div class="section-head" style="margin:10px 0 6px">
-      <h3 style="font-size:13px;color:var(--muted)">${esc(t('catCustomIncome'))}</h3>
-    </div>
-    <div class="chip-row">
-      ${ state.customIncomeCats.map(c =>
-        `<button class="chip on" onclick="removeCustomCat('income','${esc(c)}')">${esc(c)} ✕</button>`).join('') }
-    </div>` : '' }
+    ${ state.customIncomeCats.length
+      ? `<div class="chip-row">
+          ${ state.customIncomeCats.map(c =>
+            `<button class="chip on" onclick="removeCustomCat('income','${esc(c)}')">${esc(c)} ✕</button>`).join('') }
+         </div>`
+      : `<div class="empty" style="padding:12px 0"><p style="font-size:12px">${esc(t('catDebtCustomIncome'))}</p></div>` }
   </div>
 
   <div class="card">
     <div class="section-head" style="margin-bottom:10px">
-      <h3>${esc(t('catExpense'))}</h3>
+      <h3>${esc(t('catCustomExpense'))}</h3>
       <button class="link" onclick="addCustomCat('expense')">${esc(t('catAdd'))}</button>
     </div>
-    <div class="chip-row">
-      ${ expCats.map(c =>
-        `<span class="chip" style="background:#fdecec;color:#b3282c">${catIcon(c)} ${esc(c)}</span>`).join('') }
-    </div>
-    ${ state.customExpenseCats.length ? `
-    <div class="section-head" style="margin:10px 0 6px">
-      <h3 style="font-size:13px;color:var(--muted)">${esc(t('catCustomExpense'))}</h3>
-    </div>
-    <div class="chip-row">
-      ${ state.customExpenseCats.map(c =>
-        `<button class="chip on" onclick="removeCustomCat('expense','${esc(c)}')">${esc(c)} ✕</button>`).join('') }
-    </div>` : '' }
+    ${ state.customExpenseCats.length
+      ? `<div class="chip-row">
+          ${ state.customExpenseCats.map(c =>
+            `<button class="chip on" onclick="removeCustomCat('expense','${esc(c)}')">${esc(c)} ✕</button>`).join('') }
+         </div>`
+      : `<div class="empty" style="padding:12px 0"><p style="font-size:12px">${esc(t('catDebtCustomExpense'))}</p></div>` }
   </div>
 
   <p class="about">${esc(t('catHint'))}</p>
@@ -3220,7 +3525,7 @@ function addCustomCat(kind){
     onSubmit(d){
       const name = (d.name || '').trim();
       if(!name){ toast(t('catEnterName')); return false; }
-      const all = kind === 'income' ? incomeCats() : expenseCats();
+      const all = kind === 'income' ? state.customIncomeCats.concat(allIncomeIds()) : state.customExpenseCats.concat(allExpenseIds());
       if(all.includes(name)){ toast(t('catExists')); return false; }
       if(kind === 'income') state.customIncomeCats.push(name);
       else state.customExpenseCats.push(name);
@@ -3241,7 +3546,7 @@ function removeCustomCat(kind, name){
 }
 
 /* =========================================================================
-   成就（V1.05: 明确的已解锁 / 未解锁）
+   成就
    ========================================================================= */
 function viewAchievements(){
   const list = I18N[LANG].achList || I18N.zh.achList;
@@ -3436,7 +3741,6 @@ function viewLockSettings(){
 function viewSystemInfo(){
   const transferCount = state.transactions.filter(tx => tx.type === 'transfer').length;
   return `
-  ${renderProductNotice()}
   <div class="card">
     <div class="asset-grid">
       <div><span>App Version</span><b>v${esc(META.appVersion)}</b></div>
@@ -3486,7 +3790,7 @@ function viewWhatsNew(){
         <span style="font-size:12px;color:var(--muted)">${esc(c.date)}</span>
       </div>
       <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.9;color:var(--text)">
-        ${ c.items.map(it => `<li>${esc(it)}</li>`).join('') }
+        ${ changelogItems(c).map(it => `<li>${esc(it)}</li>`).join('') }
       </ul>
     </div>
   `).join('') }
@@ -3761,7 +4065,76 @@ function toast(msg){
 }
 
 /* =========================================================================
-   表单：账户（V1.05 重命名）
+   Pickers: grouped option selector (used for purposes / methods / categories)
+   ========================================================================= */
+function openGroupedPicker(opts){
+  /* opts: { title, groups:[{ group, items:[...], labelFor(id), groupLabelFor(id), iconFor(id)? }],
+            value, allowCustom:bool, customValue, customPlaceholder,
+            onPick(id), onCustom(text) } */
+  const root = document.getElementById('sheet-root');
+  const labelFor = opts.labelFor || (id => id);
+  const groupLabelFor = opts.groupLabelFor || (id => id);
+  const iconFor = opts.iconFor || (id => '');
+
+  root.innerHTML = `
+    <div class="mask"></div>
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <h3>${esc(opts.title || t('pickTitle'))}</h3>
+        <button type="button" class="icon-btn" data-close>✕</button>
+      </div>
+      <div class="sheet-body">
+        ${opts.groups.map(g => `
+          <div class="opt-label">${esc(groupLabelFor(g.group))}</div>
+          <div class="opt-group">
+            ${g.items.map(id => `
+              <button type="button" class="opt-item ${opts.value===id?'on':''}" data-id="${esc(id)}">
+                ${iconFor(id) ? iconFor(id)+' ' : ''}${esc(labelFor(id))}
+              </button>
+            `).join('')}
+          </div>
+        `).join('')}
+        ${ opts.allowCustom ? `
+          <div class="opt-label">${esc(t('pickCustom'))}</div>
+          <label class="field" style="margin-top:2px">
+            <input type="text" id="custom-input" maxlength="30"
+              placeholder="${esc(opts.customPlaceholder || t('catCustomPlaceholder'))}"
+              value="${esc(opts.customValue || '')}">
+          </label>
+          <button type="button" class="btn primary block" id="custom-save">${esc(t('pickOther'))}</button>
+        ` : '' }
+        <div style="height:8px"></div>
+      </div>
+    </div>`;
+  root.classList.add('show');
+  document.body.classList.add('no-scroll');
+
+  const close = () => { closeSheet(); };
+  root.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', close));
+  root.querySelector('.mask').addEventListener('click', close);
+
+  root.querySelectorAll('.opt-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.dataset.id;
+      close();
+      setTimeout(() => opts.onPick && opts.onPick(id), 200);
+    });
+  });
+
+  const cs = root.querySelector('#custom-save');
+  if(cs){
+    cs.addEventListener('click', () => {
+      const val = (root.querySelector('#custom-input').value || '').trim();
+      if(!val) return;
+      close();
+      setTimeout(() => opts.onCustom && opts.onCustom(val), 200);
+    });
+  }
+}
+
+/* =========================================================================
+   表单：账户
    ========================================================================= */
 function openAccountForm(){
   openSheet({
@@ -3797,7 +4170,7 @@ function openAccountForm(){
         state.accounts.push(acc);
         state.transactions.push({
           id: uid(), type:'income', amount: amt,
-          date: nowISO(), category: incomeCats()[incomeCats().length-1] || 'Other',
+          date: nowISO(), category:'other_income',
           accountId: acc.id, note: t('initialBalanceNote'), createdAt: Date.now(), updatedAt: Date.now()
         });
       }else{
@@ -3863,9 +4236,61 @@ function accountOptions(selected, excludeId){
     .join('');
 }
 
+/* Category picker button shown inside income/expense forms */
+function renderCatPickerButton(kind, currentId, currentLabel){
+  return `
+  <button type="button" id="cat-picker-btn" class="btn ghost block" style="text-align:left;font-weight:600">
+    ${catIcon(currentId) || '📌'} ${esc(currentLabel || t('catPickPreset'))}
+  </button>
+  <input type="hidden" name="category" id="cat-value" value="${esc(currentId||'')}">`;
+}
+
+function bindCatPicker(kind, root, onPick){
+  const btn = root.querySelector('#cat-picker-btn');
+  if(!btn) return;
+  btn.addEventListener('click', () => {
+    const groups = kind === 'income' ? INCOME_GROUPS : EXPENSE_GROUPS;
+    const labelFor = kind === 'income' ? incomeCatLabel : expenseCatLabel;
+    const groupLabelFor = kind === 'income' ? incomeGroupLabel : expenseGroupLabel;
+    const customList = kind === 'income' ? state.customIncomeCats : state.customExpenseCats;
+    openGroupedPicker({
+      title: kind === 'income' ? t('catIncome') : t('catExpense'),
+      groups: groups.concat(customList.length ? [{ group:'custom', items: customList.slice() }] : []),
+      value: root.querySelector('#cat-value').value,
+      allowCustom: true,
+      customPlaceholder: t('catCustomPlaceholder'),
+      labelFor: (id) => {
+        if(customList.includes(id)) return id;
+        return labelFor(id);
+      },
+      groupLabelFor: (g) => g === 'custom' ? t('catCustomIncome') : groupLabelFor(g),
+      iconFor: (id) => catIcon(id),
+      onPick: (id) => {
+        onPick(id);
+        updateCatPickerButton(root, id, id, kind);
+      },
+      onCustom: (text) => {
+        // persist custom category
+        if(kind === 'income' && !state.customIncomeCats.includes(text)) state.customIncomeCats.push(text);
+        if(kind === 'expense' && !state.customExpenseCats.includes(text)) state.customExpenseCats.push(text);
+        saveState();
+        onPick(text);
+        updateCatPickerButton(root, text, text, kind);
+      }
+    });
+  });
+}
+
+function updateCatPickerButton(root, id, label, kind){
+  const btn = root.querySelector('#cat-picker-btn');
+  const inp = root.querySelector('#cat-value');
+  if(btn) btn.innerHTML = `${catIcon(id)||'📌'} ${esc(label || id)}`;
+  if(inp) inp.value = id;
+}
+
 function openIncomeForm(presetAccountId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
-  const cats = incomeCats();
+  const initialCat = allIncomeIds()[0];
   openSheet({
     title: t('recordIncome'),
     submitText: t('saveIncome'),
@@ -3875,10 +4300,10 @@ function openIncomeForm(presetAccountId){
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
-      <label class="field">
+      <div class="field">
         <span class="field-label">${esc(t('category'))}</span>
-        <select name="category">${cats.map(c => `<option>${esc(c)}</option>`).join('')}</select>
-      </label>
+        ${renderCatPickerButton('income', initialCat, incomeCatLabel(initialCat))}
+      </div>
       <label class="field">
         <span class="field-label">${esc(t('account'))}</span>
         <select name="accountId">${accountOptions(presetAccountId)}</select>
@@ -3914,7 +4339,7 @@ function openIncomeForm(presetAccountId){
       state.transactions.push({
         id: uid(), type: 'income', amount,
         date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
-        category: d.category || 'Other',
+        category: d.category || initialCat,
         accountId: acc.id, note: (d.note || '').trim(),
         recurring: !!d.recurring,
         createdAt: Date.now(), updatedAt: Date.now()
@@ -3922,13 +4347,14 @@ function openIncomeForm(presetAccountId){
       afterChange();
       toast(t('incomeSaved'));
       return true;
-    }
+    },
+    afterRender(root){ bindCatPicker('income', root, id => {}); }
   });
 }
 
 function openExpenseForm(presetAccountId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
-  const cats = expenseCats();
+  const initialCat = allExpenseIds()[0];
   openSheet({
     title: t('recordExpense'),
     submitText: t('saveExpense'),
@@ -3938,17 +4364,10 @@ function openExpenseForm(presetAccountId){
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
-      <label class="field">
+      <div class="field">
         <span class="field-label">${esc(t('category'))}</span>
-        <select name="category" id="exp-cat">${cats.map(c => `<option>${esc(c)}</option>`).join('')}</select>
-      </label>
-      <label class="field" id="sub-cat-wrap" style="display:none">
-        <span class="field-label">Sub</span>
-        <select name="subCategory" id="sub-cat">
-          <option value="">—</option>
-          ${mealSubs().map(s => `<option>${esc(s)}</option>`).join('')}
-        </select>
-      </label>
+        ${renderCatPickerButton('expense', initialCat, expenseCatLabel(initialCat))}
+      </div>
       <label class="field">
         <span class="field-label">${esc(t('account'))}</span>
         <select name="accountId">${accountOptions(presetAccountId)}</select>
@@ -3985,8 +4404,8 @@ function openExpenseForm(presetAccountId){
       state.transactions.push({
         id: uid(), type: 'expense', amount,
         date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
-        category: d.category || 'Other',
-        subCategory: (d.subCategory || '').trim(),
+        category: d.category || initialCat,
+        subCategory: '',
         accountId: acc.id, note: (d.note || '').trim(),
         recurring: !!d.recurring,
         createdAt: Date.now(), updatedAt: Date.now()
@@ -3995,16 +4414,7 @@ function openExpenseForm(presetAccountId){
       toast(t('expenseSaved'));
       return true;
     },
-    afterRender(root){
-      const sel = root.querySelector('#exp-cat');
-      const wrap = root.querySelector('#sub-cat-wrap');
-      if(sel && wrap){
-        const firstFood = expenseCats()[0];
-        const toggle = () => { wrap.style.display = sel.value === firstFood ? '' : 'none'; };
-        sel.addEventListener('change', toggle);
-        toggle();
-      }
-    }
+    afterRender(root){ bindCatPicker('expense', root, id => {}); }
   });
 }
 
@@ -4068,8 +4478,45 @@ function openTransferForm(presetFrom){
 }
 
 /* =========================================================================
-   欠款记录（V1.05 新增）
+   欠款记录
    ========================================================================= */
+function debtPurposePickerButton(currentId, currentCustom){
+  const label = currentCustom ? currentCustom : debtPurposeLabel(currentId);
+  return `
+  <button type="button" id="debt-purpose-btn" class="btn ghost block" style="text-align:left;font-weight:600">
+    ${esc(label || t('pickPurpose'))}
+  </button>
+  <input type="hidden" name="purpose" id="debt-purpose-value" value="${esc(currentId||'')}">
+  <input type="hidden" name="purposeCustom" id="debt-purpose-custom" value="${esc(currentCustom||'')}">`;
+}
+
+function bindDebtPurposePicker(root){
+  const btn = root.querySelector('#debt-purpose-btn');
+  if(!btn) return;
+  btn.addEventListener('click', () => {
+    openGroupedPicker({
+      title: t('pickPurpose'),
+      groups: DEBT_PURPOSE_GROUPS,
+      value: root.querySelector('#debt-purpose-value').value,
+      allowCustom: true,
+      customValue: root.querySelector('#debt-purpose-custom').value,
+      customPlaceholder: t('debtPurposeCustom'),
+      labelFor: debtPurposeLabel,
+      groupLabelFor: debtPurposeGroupLabel,
+      onPick: (id) => {
+        root.querySelector('#debt-purpose-value').value = id;
+        root.querySelector('#debt-purpose-custom').value = '';
+        btn.innerHTML = esc(debtPurposeLabel(id));
+      },
+      onCustom: (text) => {
+        root.querySelector('#debt-purpose-value').value = '';
+        root.querySelector('#debt-purpose-custom').value = text;
+        btn.innerHTML = esc(text);
+      }
+    });
+  });
+}
+
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
   openSheet({
@@ -4092,6 +4539,10 @@ function openDebtForm(presetId){
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?editing.amount:''}"></div>
       </label>
+      <div class="field">
+        <span class="field-label">${esc(t('debtPurpose'))}</span>
+        ${debtPurposePickerButton(editing?editing.purpose:'', editing?editing.purposeCustom:'')}
+      </div>
       <div class="two-col">
         <label class="field">
           <span class="field-label">${esc(t('debtDate'))}</span>
@@ -4122,11 +4573,12 @@ function openDebtForm(presetId){
         editing.direction = d.direction;
         editing.person = person;
         editing.amount = amount;
+        editing.purpose = (d.purpose || '').trim();
+        editing.purposeCustom = (d.purposeCustom || '').trim();
         editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
         editing.dueDate = d.dueDate || '';
         editing.reason = (d.reason || '').trim();
         editing.updatedAt = Date.now();
-        // recompute status if paid is less than amount
         const paid = Number(editing.paid) || 0;
         if(paid >= amount && amount > 0) editing.status = 'paid';
         else if(paid > 0) editing.status = 'partial';
@@ -4139,6 +4591,8 @@ function openDebtForm(presetId){
           direction: d.direction || 'i_owe',
           person,
           amount,
+          purpose: (d.purpose || '').trim(),
+          purposeCustom: (d.purposeCustom || '').trim(),
           date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
           dueDate: d.dueDate || '',
           reason: (d.reason || '').trim(),
@@ -4152,7 +4606,8 @@ function openDebtForm(presetId){
         toast(t('debtCreated'));
       }
       return true;
-    }
+    },
+    afterRender(root){ bindDebtPurposePicker(root); }
   });
 }
 
@@ -4257,12 +4712,10 @@ function debtCard(d){
     : d.status === 'cancelled' ? 'st-end'
     : 'st-active';
 
-  // Duration
   const startMs = dateFromISO(d.date).getTime();
   const days = Math.max(0, Math.round((Date.now() - startMs) / 86400000));
   const durText = `${days} ${t('debtDays')}`;
 
-  // Due
   let dueText = '';
   if(d.dueDate){
     const dd = new Date(d.dueDate);
@@ -4272,6 +4725,7 @@ function debtCard(d){
     else dueText = ' · ' + t('debtOverdue');
   }
 
+  const purposeText = d.purposeCustom ? d.purposeCustom : debtPurposeDisplay(d.purpose);
   return `<div class="debt-card">
     <div class="debt-top">
       <div>
@@ -4280,6 +4734,7 @@ function debtCard(d){
           <span class="badge ${statusCls}">${esc(statusLabel)}</span>
         </div>
         <div class="goal-sub">${esc(localDateStr(d.date))}${dueText} · ${esc(durText)}</div>
+        ${purposeText ? `<div class="goal-sub">${esc(purposeText)}</div>` : ''}
         ${d.reason ? `<div class="goal-sub">${esc(d.reason)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="debtMenu('${d.id}')">⋯</button>
@@ -4299,8 +4754,80 @@ function debtCard(d){
 }
 
 /* =========================================================================
-   转给他人 / 赠与记录（V1.05 新增）
+   转给他人 / 赠与记录
    ========================================================================= */
+function mgPurposePickerButton(currentId, currentCustom){
+  const label = currentCustom ? currentCustom : mgPurposeLabel(currentId);
+  return `
+  <button type="button" id="mg-purpose-btn" class="btn ghost block" style="text-align:left;font-weight:600">
+    ${esc(label || t('pickPurpose'))}
+  </button>
+  <input type="hidden" name="purpose" id="mg-purpose-value" value="${esc(currentId||'')}">
+  <input type="hidden" name="purposeCustom" id="mg-purpose-custom" value="${esc(currentCustom||'')}">`;
+}
+function mgMethodPickerButton(currentId, currentCustom){
+  const label = currentCustom ? currentCustom : mgMethodLabel(currentId);
+  return `
+  <button type="button" id="mg-method-btn" class="btn ghost block" style="text-align:left;font-weight:600">
+    ${esc(label || t('pickMethod'))}
+  </button>
+  <input type="hidden" name="method" id="mg-method-value" value="${esc(currentId||'')}">
+  <input type="hidden" name="methodCustom" id="mg-method-custom" value="${esc(currentCustom||'')}">`;
+}
+
+function bindMGPickers(root){
+  const pBtn = root.querySelector('#mg-purpose-btn');
+  if(pBtn){
+    pBtn.addEventListener('click', () => {
+      openGroupedPicker({
+        title: t('pickPurpose'),
+        groups: MG_PURPOSE_GROUPS,
+        value: root.querySelector('#mg-purpose-value').value,
+        allowCustom: true,
+        customValue: root.querySelector('#mg-purpose-custom').value,
+        customPlaceholder: t('mgPurposeCustom'),
+        labelFor: mgPurposeLabel,
+        groupLabelFor: mgPurposeGroupLabel,
+        onPick: (id) => {
+          root.querySelector('#mg-purpose-value').value = id;
+          root.querySelector('#mg-purpose-custom').value = '';
+          pBtn.innerHTML = esc(mgPurposeLabel(id));
+        },
+        onCustom: (text) => {
+          root.querySelector('#mg-purpose-value').value = '';
+          root.querySelector('#mg-purpose-custom').value = text;
+          pBtn.innerHTML = esc(text);
+        }
+      });
+    });
+  }
+  const mBtn = root.querySelector('#mg-method-btn');
+  if(mBtn){
+    mBtn.addEventListener('click', () => {
+      openGroupedPicker({
+        title: t('pickMethod'),
+        groups: MG_METHOD_GROUPS,
+        value: root.querySelector('#mg-method-value').value,
+        allowCustom: true,
+        customValue: root.querySelector('#mg-method-custom').value,
+        customPlaceholder: t('mgMethodCustom'),
+        labelFor: mgMethodLabel,
+        groupLabelFor: mgMethodGroupLabel,
+        onPick: (id) => {
+          root.querySelector('#mg-method-value').value = id;
+          root.querySelector('#mg-method-custom').value = '';
+          mBtn.innerHTML = esc(mgMethodLabel(id));
+        },
+        onCustom: (text) => {
+          root.querySelector('#mg-method-value').value = '';
+          root.querySelector('#mg-method-custom').value = text;
+          mBtn.innerHTML = esc(text);
+        }
+      });
+    });
+  }
+}
+
 function openMGForm(presetId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const editing = presetId ? getMG(presetId) : null;
@@ -4317,20 +4844,20 @@ function openMGForm(presetId){
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?editing.amount:''}"></div>
       </label>
-      <label class="field">
-        <span class="field-label">${esc(t('mgType'))}</span>
-        <select name="giftType">
-          <option value="gift" ${editing && editing.giftType==='gift'?'selected':''}>${esc(t('mgTypeGift'))}</option>
-          <option value="family" ${editing && editing.giftType==='family'?'selected':''}>${esc(t('mgTypeFamily'))}</option>
-          <option value="friend" ${editing && editing.giftType==='friend'?'selected':''}>${esc(t('mgTypeFriend'))}</option>
-          <option value="repay" ${editing && editing.giftType==='repay'?'selected':''}>${esc(t('mgTypeRepay'))}</option>
-          <option value="other" ${editing && editing.giftType==='other'?'selected':''}>${esc(t('mgTypeOther'))}</option>
-        </select>
-      </label>
-      <label class="field">
+      <div class="field">
         <span class="field-label">${esc(t('mgFromAccount'))}</span>
         <select name="accountId">${accountOptions(editing?editing.accountId:null)}</select>
-      </label>
+        <p class="hint" style="margin-top:6px">${esc(t('mgFromAccountHint'))}</p>
+      </div>
+      <div class="field">
+        <span class="field-label">${esc(t('mgPurpose'))}</span>
+        ${mgPurposePickerButton(editing?editing.purpose:'', editing?editing.purposeCustom:'')}
+      </div>
+      <div class="field">
+        <span class="field-label">${esc(t('mgMethod'))}</span>
+        ${mgMethodPickerButton(editing?editing.method:'', editing?editing.methodCustom:'')}
+        <p class="hint" style="margin-top:6px">${esc(t('mgMethodHint'))}</p>
+      </div>
       <div class="two-col">
         <label class="field">
           <span class="field-label">${esc(t('mgDate'))}</span>
@@ -4345,7 +4872,7 @@ function openMGForm(presetId){
         <span class="field-label">${esc(t('mgNote'))}</span>
         <input name="note" type="text" maxlength="60" value="${editing?esc(editing.note||''):''}">
       </label>
-      <p class="hint">${esc(t('mgFromAccountHint'))}<br>${esc(t('mgImportantNote'))}</p>
+      <p class="hint">${esc(t('mgImportantNote'))}</p>
     `,
     onSubmit(d){
       const person = (d.person || '').trim();
@@ -4356,12 +4883,10 @@ function openMGForm(presetId){
       if(!acc){ toast(t('accountNotExist')); return false; }
 
       if(editing){
-        // restore old balance
         const oldAcc = getAccount(editing.accountId);
         if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(editing.amount));
 
         if(round2(Number(acc.balance)||0) < amount){
-          // revert restore
           if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount));
           toast(t('insufficientBalance'));
           return false;
@@ -4370,8 +4895,12 @@ function openMGForm(presetId){
 
         editing.person = person;
         editing.amount = amount;
-        editing.giftType = d.giftType || 'gift';
         editing.accountId = acc.id;
+        editing.purpose = (d.purpose || '').trim();
+        editing.purposeCustom = (d.purposeCustom || '').trim();
+        editing.method = (d.method || '').trim();
+        editing.methodCustom = (d.methodCustom || '').trim();
+        editing.giftType = d.purpose || editing.giftType || 'gift'; // legacy
         editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
         editing.note = (d.note || '').trim();
         editing.updatedAt = Date.now();
@@ -4384,8 +4913,12 @@ function openMGForm(presetId){
           id: uid(),
           person,
           amount,
-          giftType: d.giftType || 'gift',
           accountId: acc.id,
+          purpose: (d.purpose || '').trim(),
+          purposeCustom: (d.purposeCustom || '').trim(),
+          method: (d.method || '').trim(),
+          methodCustom: (d.methodCustom || '').trim(),
+          giftType: d.purpose || 'gift', // legacy compat
           date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
           note: (d.note || '').trim(),
           createdAt: Date.now(),
@@ -4395,7 +4928,8 @@ function openMGForm(presetId){
         toast(t('mgCreated'));
       }
       return true;
-    }
+    },
+    afterRender(root){ bindMGPickers(root); }
   });
 }
 
@@ -4418,19 +4952,15 @@ function mgMenu(id){
 
 function mgCard(m){
   const acc = getAccount(m.accountId);
-  const typeLabel = {
-    gift: t('mgTypeGift'),
-    family: t('mgTypeFamily'),
-    friend: t('mgTypeFriend'),
-    repay: t('mgTypeRepay'),
-    other: t('mgTypeOther')
-  }[m.giftType] || t('mgTypeOther');
+  const purposeText = m.purposeCustom ? m.purposeCustom : mgPurposeDisplay(m.purpose);
+  const methodText = m.methodCustom ? m.methodCustom : mgMethodDisplay(m.method);
 
   return `<div class="debt-card">
     <div class="debt-top">
       <div>
-        <div class="debt-name">${esc(m.person)} <span class="badge st-bad">${esc(typeLabel)}</span></div>
+        <div class="debt-name">${esc(m.person)} <span class="badge st-bad">${esc(t('moneyGiven'))}</span></div>
         <div class="goal-sub">${esc(localDateStr(m.date))} ${esc(localTimeStr(m.date))} · ${esc(acc ? acc.name : '—')}</div>
+        ${purposeText ? `<div class="goal-sub">📋 ${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">💳 ${esc(methodText)}</div>` : '')}
         ${m.note ? `<div class="goal-sub">${esc(m.note)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="mgMenu('${m.id}')">⋯</button>
@@ -4461,7 +4991,8 @@ function editTransaction(id){
   const tx = state.transactions.find(x => x.id === id);
   if(!tx) return;
   const isIncome = tx.type === 'income';
-  const cats = isIncome ? incomeCats() : expenseCats();
+  const initialCat = tx.category;
+  const initialLabel = isIncome ? incomeDisplayLabel(initialCat) : expenseDisplayLabel(initialCat);
 
   openSheet({
     title: isIncome ? t('recordIncome') : t('recordExpense'),
@@ -4472,11 +5003,10 @@ function editTransaction(id){
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required value="${tx.amount}" inputmode="decimal"></div>
       </label>
-      <label class="field">
+      <div class="field">
         <span class="field-label">${esc(t('category'))}</span>
-        <select name="category">${cats.map(c =>
-          `<option ${c===tx.category?'selected':''}>${esc(c)}</option>`).join('')}</select>
-      </label>
+        ${renderCatPickerButton(isIncome?'income':'expense', initialCat, initialLabel)}
+      </div>
       <label class="field">
         <span class="field-label">${esc(t('account'))}</span>
         <select name="accountId">${state.accounts.map(a =>
@@ -4539,7 +5069,8 @@ function editTransaction(id){
       afterChange();
       toast(t('accountUpdated'));
       return true;
-    }
+    },
+    afterRender(root){ bindCatPicker(isIncome?'income':'expense', root, id => {}); }
   });
 }
 
@@ -5042,9 +5573,15 @@ function openAssetEnd(id){
     d.amount = round2(Number(d.amount)||0);
     d.paid = round2(Number(d.paid)||0);
     if(!Array.isArray(d.payments)) d.payments = [];
+    if(d.purpose === undefined) d.purpose = '';
+    if(d.purposeCustom === undefined) d.purposeCustom = '';
   });
   state.moneyGiven.forEach(m => {
     m.amount = round2(Number(m.amount)||0);
+    if(m.purpose === undefined) m.purpose = m.giftType || '';
+    if(m.purposeCustom === undefined) m.purposeCustom = '';
+    if(m.method === undefined) m.method = '';
+    if(m.methodCustom === undefined) m.methodCustom = '';
   });
 
   if(APP_VERSION_FALLBACK && APP_VERSION_FALLBACK > (META.appVersion || '0')){
