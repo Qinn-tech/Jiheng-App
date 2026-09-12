@@ -3,20 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#4f46e5">
+<meta name="theme-color" content="#5b4b8a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="SaveWise">
+<meta name="apple-mobile-web-app-title" content="积衡 Jiheng">
 <meta name="format-detection" content="telephone=no">
-<title>SaveWise · 个人财务记录</title>
+<title>积衡 Jiheng · 个人财务记录</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
-  --brand:#4f46e5;--brand-dark:#4338ca;--brand-soft:#eef2ff;
-  --bg:#f4f5f9;--card:#fff;--text:#0f172a;--muted:#8a91a3;
-  --line:#eef0f5;--green:#0ea371;--red:#e5484d;--amber:#f59e0b;
+  /* Jiheng brand palette — 积累 · 平衡 */
+  --brand:#5b4b8a;         /* deep plum — stability, balance */
+  --brand-2:#8a7bb8;       /* lighter plum */
+  --brand-3:#c9bfe8;       /* soft lavender */
+  --brand-soft:#f1eef9;    /* soft tint */
+  --accent:#c9a961;        /* warm gold — accumulation */
+  --accent-soft:#f7f1e2;
+  --bg:#f7f6fb;
+  --card:#fff;
+  --text:#1c1830;
+  --muted:#8a86a0;
+  --line:#ecebf4;
+  --green:#0e9b6b;
+  --red:#d9534f;
+  --amber:#c9914b;
   --r-lg:20px;--r-md:14px;--r-sm:10px;
-  --shadow:0 2px 12px rgba(17,24,39,.06);
+  --shadow:0 2px 12px rgba(91,75,138,.06);
+  --shadow-brand:0 10px 26px rgba(91,75,138,.24);
   --safe-b:env(safe-area-inset-bottom,0px);
   --safe-t:env(safe-area-inset-top,0px);
 }
@@ -30,16 +43,48 @@ body.no-scroll{overflow:hidden;}
 button{font-family:inherit;}
 input,select,textarea{font-family:inherit;}
 #app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:calc(92px + var(--safe-b));}
-.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + var(--safe-t)) 16px 12px;background:rgba(244,245,249,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
-.topbar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;}
-.topbar.brand h1{font-size:23px;font-weight:800;letter-spacing:-.5px;color:var(--brand);}
-.icon-btn{width:38px;height:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;display:grid;place-items:center;font-size:16px;color:var(--text);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
+
+/* ---------- Jiheng Wordmark ---------- */
+.jiheng-wordmark{
+  display:inline-flex;align-items:baseline;gap:8px;
+  font-weight:800;letter-spacing:-.5px;line-height:1;
+}
+.jiheng-wordmark .zh{
+  font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  font-size:24px;font-weight:900;letter-spacing:2px;
+  background:linear-gradient(135deg,#5b4b8a 0%,#8a7bb8 60%,#c9a961 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  position:relative;
+}
+.jiheng-wordmark .zh::after{
+  content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;
+  background:linear-gradient(90deg,#5b4b8a 0%,#c9a961 100%);opacity:.35;
+}
+.jiheng-wordmark .en{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+  color:var(--brand);opacity:.75;
+}
+.jiheng-wordmark.light .zh{
+  background:linear-gradient(135deg,#ffffff 0%,#e8e2f5 50%,#e6d3a8 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.jiheng-wordmark.light .zh::after{background:linear-gradient(90deg,#fff 0%,#e6d3a8 100%);opacity:.5;}
+.jiheng-wordmark.light .en{color:#fff;opacity:.85;}
+
+/* ---------- Topbar ---------- */
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + var(--safe-t)) 16px 12px;background:rgba(247,246,251,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
+.topbar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;color:var(--brand);}
+.topbar.brand{padding-top:calc(10px + var(--safe-t));}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;display:grid;place-items:center;font-size:16px;color:var(--brand);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
 .icon-btn:active{transform:scale(.92);}
-.icon-btn.sm{width:30px;height:30px;font-size:14px;border-radius:10px;box-shadow:none;background:#f5f6fa;}
+.icon-btn.sm{width:30px;height:30px;font-size:14px;border-radius:10px;box-shadow:none;background:var(--brand-soft);}
+
+/* ---------- Layout ---------- */
 .view{padding:4px 16px 24px;display:flex;flex-direction:column;gap:14px;}
 section{display:flex;flex-direction:column;gap:10px;}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.section-head h3{font-size:15px;font-weight:700;margin:0;}
+.section-head h3{font-size:15px;font-weight:700;margin:0;color:var(--brand);}
 .link{background:none;border:none;color:var(--brand);font-size:13px;font-weight:600;cursor:pointer;padding:2px 4px;}
 .card{background:var(--card);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);}
 .list{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;}
@@ -48,22 +93,35 @@ section{display:flex;flex-direction:column;gap:10px;}
 .c-red{color:var(--red)!important;}
 .c-muted{color:var(--muted)!important;}
 .c-amber{color:var(--amber)!important;}
-.product-notice{background:linear-gradient(135deg,#fff 0%,#f5f6ff 100%);border:2.5px solid var(--brand);border-radius:18px;padding:14px 14px 12px;box-shadow:0 4px 16px rgba(79,70,229,.14);}
+
+/* ---------- Product Notice ---------- */
+.product-notice{
+  background:linear-gradient(135deg,#fff 0%,var(--brand-soft) 100%);
+  border:1.5px solid var(--brand-3);
+  border-radius:18px;padding:14px 14px 12px;
+  box-shadow:0 4px 16px rgba(91,75,138,.10);
+}
 .product-notice .pn-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .product-notice .pn-icon{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800;flex:0 0 auto;}
 .product-notice .pn-title{font-size:12px;font-weight:800;color:var(--brand);letter-spacing:.4px;text-transform:uppercase;}
 .product-notice .pn-row{display:flex;align-items:flex-start;gap:8px;padding:6px 0;}
-.product-notice .pn-row+.pn-row{border-top:1px dashed #d9ddf0;}
+.product-notice .pn-row+.pn-row{border-top:1px dashed var(--brand-3);}
 .product-notice .pn-flag{font-size:10.5px;font-weight:800;color:#fff;background:var(--brand);padding:3px 7px;border-radius:6px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:34px;text-align:center;}
 .product-notice .pn-text{font-size:12.5px;line-height:1.55;color:var(--text);font-weight:500;flex:1;}
 .product-notice .pn-text b{color:var(--brand);font-weight:800;}
-/* Lock screen */
-.lock-screen{position:fixed;inset:0;z-index:500;background:linear-gradient(160deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);display:flex;flex-direction:column;padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));color:#fff;overflow:hidden;height:100vh;height:100dvh;}
-.lock-screen::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07);top:-110px;right:-90px;pointer-events:none;}
-.lock-screen::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-70px;left:-50px;pointer-events:none;}
-.lock-header{position:relative;z-index:2;text-align:center;flex:0 0 auto;padding:2px 0 6px;}
-.lock-logo{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:1px;}
-.lock-sub{font-size:10.5px;opacity:.9;line-height:1.35;}
+
+/* ---------- Lock screen ---------- */
+.lock-screen{
+  position:fixed;inset:0;z-index:500;
+  background:linear-gradient(160deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);
+  display:flex;flex-direction:column;
+  padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));
+  color:#fff;overflow:hidden;height:100vh;height:100dvh;
+}
+.lock-screen::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(201,169,97,.08);top:-120px;right:-100px;pointer-events:none;}
+.lock-screen::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-80px;left:-60px;pointer-events:none;}
+.lock-header{position:relative;z-index:2;text-align:center;flex:0 0 auto;padding:6px 0 8px;}
+.lock-sub{font-size:10.5px;opacity:.85;line-height:1.4;letter-spacing:.3px;margin-top:6px;}
 .lock-mid{position:relative;z-index:2;flex:1 1 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;padding:8px 0;}
 .lock-title{font-size:15px;font-weight:700;margin-bottom:10px;text-align:center;}
 .lock-info{font-size:11px;opacity:.9;text-align:center;max-width:320px;margin:0 auto 10px;line-height:1.5;}
@@ -77,37 +135,40 @@ section{display:flex;flex-direction:column;gap:10px;}
 .key:active{transform:scale(.94);background:rgba(255,255,255,.30);}
 .key.fn{font-size:12px;font-weight:700;background:transparent;}
 .key.fn:active{background:rgba(255,255,255,.14);}
-.key.enter{background:rgba(255,255,255,.95);color:var(--brand);font-size:13px;font-weight:800;}
-.key.enter:active{background:#fff;}
+.key.enter{background:var(--accent);color:#3d3158;font-size:13px;font-weight:800;}
+.key.enter:active{background:#dbb977;}
 .lock-input-wrap{width:100%;max-width:270px;margin:0 auto;}
 .lock-input{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.14);color:#fff;font-size:16px;outline:none;text-align:center;font-weight:600;letter-spacing:.5px;}
 .lock-input::placeholder{color:rgba(255,255,255,.55);letter-spacing:0;}
 .lock-input:focus{border-color:#fff;background:rgba(255,255,255,.20);}
-.lock-ok-btn{width:100%;max-width:270px;margin-top:10px;background:rgba(255,255,255,.95);color:var(--brand);border:none;padding:11px;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;}
-.lock-ok-btn:active{background:#fff;}
-.lock-notice-scroll{position:relative;z-index:2;flex:0 1 auto;background:rgba(0,0,0,.26);border-radius:14px;border:1.5px solid rgba(255,255,255,.30);max-height:34vh;min-height:120px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;margin-top:8px;padding:10px 12px;}
+.lock-ok-btn{width:100%;max-width:270px;margin-top:10px;background:var(--accent);color:#3d3158;border:none;padding:11px;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;}
+.lock-ok-btn:active{background:#dbb977;}
+.lock-notice-scroll{position:relative;z-index:2;flex:0 1 auto;background:rgba(0,0,0,.24);border-radius:14px;border:1.5px solid rgba(255,255,255,.28);max-height:34vh;min-height:120px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;margin-top:8px;padding:10px 12px;}
 .lock-notice-scroll .ln-title{font-size:11px;font-weight:800;letter-spacing:.5px;opacity:.9;margin-bottom:6px;text-transform:uppercase;}
 .lock-notice-scroll .ln-row{display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.5;}
 .lock-notice-scroll .ln-row+.ln-row{margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.25);}
-.lock-notice-scroll .ln-flag{font-size:10px;font-weight:800;color:#fff;background:rgba(255,255,255,.25);padding:2px 7px;border-radius:5px;letter-spacing:.4px;flex:0 0 auto;margin-top:1px;min-width:30px;text-align:center;}
+.lock-notice-scroll .ln-flag{font-size:10px;font-weight:800;color:#3d3158;background:var(--accent);padding:2px 7px;border-radius:5px;letter-spacing:.4px;flex:0 0 auto;margin-top:1px;min-width:30px;text-align:center;}
 .lock-notice-scroll .ln-text{flex:1;opacity:.98;font-weight:500;}
 .lock-footer{position:relative;z-index:2;flex:0 0 auto;margin-top:8px;display:flex;flex-direction:column;gap:6px;width:100%;max-width:270px;align-self:center;}
 .lock-footer button{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12.5px;font-weight:600;padding:10px;border-radius:12px;cursor:pointer;transition:background .14s;-webkit-user-select:none;user-select:none;touch-action:manipulation;}
 .lock-footer button:active{background:rgba(255,255,255,.28);}
-.hero{position:relative;overflow:hidden;border-radius:24px;padding:20px;background:linear-gradient(135deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);color:#fff;box-shadow:0 10px 26px rgba(79,70,229,.28);}
-.hero::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.09);top:-110px;right:-70px;}
-.hero::before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-90px;left:-40px;}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:22px 20px;background:linear-gradient(135deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);color:#fff;box-shadow:var(--shadow-brand);}
+.hero::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(201,169,97,.10);top:-120px;right:-80px;}
+.hero::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-90px;left:-40px;}
 .hero-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;gap:8px;}
 .hero-label{font-size:13px;opacity:.9;font-weight:500;letter-spacing:.4px;}
-.hero-sub{font-size:10.5px;opacity:.75;margin-top:2px;letter-spacing:.2px;}
+.hero-sub{font-size:10.5px;opacity:.72;margin-top:2px;letter-spacing:.2px;}
 .eye-btn{background:rgba(255,255,255,.18);border:none;color:#fff;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:15px;cursor:pointer;transition:transform .12s;flex:0 0 auto;}
 .eye-btn:active{transform:scale(.9);}
-.hero-amount{font-size:34px;font-weight:800;letter-spacing:-1.2px;margin:6px 0 18px;position:relative;z-index:1;font-variant-numeric:tabular-nums;word-break:break-all;}
-.hero-split{display:flex;position:relative;z-index:1;background:rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;}
+.hero-amount{font-size:34px;font-weight:800;letter-spacing:-1.2px;margin:8px 0 18px;position:relative;z-index:1;font-variant-numeric:tabular-nums;word-break:break-all;}
+.hero-split{display:flex;position:relative;z-index:1;background:rgba(255,255,255,.13);border-radius:16px;padding:12px 14px;}
 .split-item{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
 .split-item span{font-size:11.5px;opacity:.85;}
 .split-item b{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .split-div{width:1px;background:rgba(255,255,255,.22);margin:0 12px;}
+
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .mini span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
@@ -115,7 +176,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .quick button{background:#fff;border:none;border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;color:var(--text);box-shadow:var(--shadow);cursor:pointer;font-weight:600;transition:transform .12s;}
 .quick button:active{transform:scale(.94);}
-.quick .qi{font-size:17px;line-height:1;}
+.quick .qi{font-size:17px;line-height:1;color:var(--brand);}
 .row{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .12s;}
 .row:active{background:#fafbfd;}
 .row-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
@@ -132,15 +193,15 @@ section{display:flex;flex-direction:column;gap:10px;}
 .empty.big span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:16px;}
 .btn{border:none;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;}
 .btn:active{transform:scale(.97);}
-.btn.primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(79,70,229,.28);}
-.btn.ghost{background:#f2f3f7;color:var(--text);}
+.btn.primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(91,75,138,.28);}
+.btn.ghost{background:#f2f1f7;color:var(--text);}
 .btn.danger{background:var(--red);color:#fff;}
 .btn.soft{background:var(--brand-soft);color:var(--brand);font-size:13.5px;padding:10px 14px;flex:1;}
 .btn.sm{padding:9px 16px;font-size:13.5px;}
 .btn.block{width:100%;}
 .seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;}
 .seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;}
-.seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(79,70,229,.25);}
+.seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(91,75,138,.22);}
 .day-group{display:flex;flex-direction:column;gap:8px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
 .day-head i{font-style:normal;font-weight:700;}
@@ -156,14 +217,14 @@ section{display:flex;flex-direction:column;gap:10px;}
 .goal-amt{font-variant-numeric:tabular-nums;}
 .goal-amt b{font-size:20px;font-weight:800;}
 .goal-amt span{font-size:13px;color:var(--muted);}
-.bar-track{height:8px;background:#f0f1f6;border-radius:99px;overflow:hidden;}
-.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .4s cubic-bezier(.3,.8,.4,1);}
-.bar-fill.alt{background:linear-gradient(90deg,#10b981,#34d399);}
-.bar-fill.debt{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
+.bar-track{height:8px;background:#f0eff7;border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width .4s cubic-bezier(.3,.8,.4,1);}
+.bar-fill.alt{background:linear-gradient(90deg,#0e9b6b,#34d399);}
+.bar-fill.debt{background:linear-gradient(90deg,var(--amber),#e0b76d);}
 .goal-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;}
 .goal-acts,.asset-acts,.debt-acts{display:flex;gap:8px;margin-top:2px;flex-wrap:wrap;}
 .badge{font-size:10.5px;padding:3px 8px;border-radius:7px;font-weight:700;white-space:nowrap;}
-.st-active{background:#eef2ff;color:var(--brand);}
+.st-active{background:var(--brand-soft);color:var(--brand);}
 .st-done{background:#e7f8f1;color:var(--green);}
 .st-end{background:#fff5e6;color:var(--amber);}
 .st-bad{background:#fdecec;color:var(--red);}
@@ -186,12 +247,12 @@ section{display:flex;flex-direction:column;gap:10px;}
 .cat-row+.cat-row{border-top:1px solid var(--line);}
 .cat-head{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;gap:8px;}
 .cat-head span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap;}
-.cat-bar{height:6px;background:#f0f1f6;border-radius:99px;overflow:hidden;}
-.cat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6366f1,#a78bfa);}
-.cat-bar i.inc{background:linear-gradient(90deg,#10b981,#34d399);}
+.cat-bar{height:6px;background:#f0eff7;border-radius:99px;overflow:hidden;}
+.cat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));}
+.cat-bar i.inc{background:linear-gradient(90deg,#0e9b6b,#34d399);}
 .trend{display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:8px;}
 .trend-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
-.trend-bar{width:100%;max-width:26px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#818cf8,#6366f1);min-height:3px;transition:height .4s;}
+.trend-bar{width:100%;max-width:26px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,var(--brand-2),var(--brand));min-height:3px;transition:height .4s;}
 .trend-bar.neg{background:linear-gradient(180deg,#fca5a5,#ef4444);}
 .trend-lbl{font-size:11px;color:var(--muted);font-weight:600;}
 .trend-val{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;}
@@ -208,9 +269,11 @@ section{display:flex;flex-direction:column;gap:10px;}
 .switch.on{background:var(--brand);}
 .switch.on i{transform:translateX(20px);}
 .about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;}
+
+/* Achievements */
 .ach-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 .ach{background:#fff;border-radius:var(--r-lg);padding:14px 16px;text-align:left;box-shadow:var(--shadow);opacity:.85;transition:opacity .2s;border:1.5px solid transparent;}
-.ach.got{opacity:1;background:linear-gradient(160deg,#fff,#f7f7ff);border-color:#c7d2fe;}
+.ach.got{opacity:1;background:linear-gradient(160deg,#fff,#f7f5fc);border-color:var(--brand-3);}
 .ach-row{display:flex;align-items:flex-start;gap:12px;}
 .ach-icon{font-size:26px;flex:0 0 auto;line-height:1;margin-top:2px;}
 .ach-body{flex:1;min-width:0;}
@@ -218,28 +281,32 @@ section{display:flex;flex-direction:column;gap:10px;}
 .ach-desc{font-size:12.5px;color:var(--text);line-height:1.5;margin-bottom:4px;}
 .ach-how{font-size:11.5px;color:var(--brand);line-height:1.5;margin-bottom:6px;font-weight:600;}
 .ach-progress-row{display:flex;align-items:center;gap:8px;}
-.ach-progress-bar{flex:1;height:6px;background:#f0f1f6;border-radius:99px;overflow:hidden;}
-.ach-progress-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6366f1,#a78bfa);}
-.ach.got .ach-progress-bar i{background:linear-gradient(90deg,#10b981,#34d399);}
+.ach-progress-bar{flex:1;height:6px;background:#f0eff7;border-radius:99px;overflow:hidden;}
+.ach-progress-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));}
+.ach.got .ach-progress-bar i{background:linear-gradient(90deg,#0e9b6b,#34d399);}
 .ach-progress-text{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;}
 .ach-status{font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;}
 .ach-status.locked{color:var(--muted);font-weight:600;}
-.tabbar{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;padding:8px 4px calc(8px + var(--safe-b));}
+
+/* Tabbar */
+.tabbar{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;padding:8px 4px calc(8px + var(--safe-b));}
 .tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:#9aa0b0;cursor:pointer;padding:4px 0;border-radius:12px;transition:color .16s;position:relative;}
 .tabbar button .ti{font-size:18px;line-height:1;transition:transform .18s;}
 .tabbar button.on{color:var(--brand);}
 .tabbar button.on .ti{transform:translateY(-1px) scale(1.06);}
+
+/* Sheet */
 #sheet-root{position:fixed;inset:0;z-index:100;pointer-events:none;}
 #sheet-root.show{pointer-events:auto;}
-#sheet-root .mask{position:absolute;inset:0;background:rgba(15,23,42,.45);opacity:0;transition:opacity .26s;}
+#sheet-root .mask{position:absolute;inset:0;background:rgba(28,24,48,.45);opacity:0;transition:opacity .26s;}
 #sheet-root.show .mask{opacity:1;}
 #sheet-root .sheet{position:absolute;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:#fff;border-radius:26px 26px 0 0;max-height:92vh;overflow-y:auto;-webkit-overflow-scrolling:touch;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);padding-bottom:calc(16px + var(--safe-b));}
 #sheet-root.show .sheet{transform:translateY(0);}
 #sheet-root .sheet.small{padding-bottom:calc(20px + var(--safe-b));}
 .sheet-handle{width:38px;height:4px;border-radius:99px;background:#e2e4ec;margin:10px auto 4px;}
 .sheet-head{display:flex;align-items:center;justify-content:space-between;padding:8px 18px 12px;position:sticky;top:0;background:#fff;z-index:2;border-radius:26px 26px 0 0;}
-.sheet-head h3{margin:0;font-size:16.5px;font-weight:700;}
-.sheet-head .icon-btn{width:32px;height:32px;font-size:14px;box-shadow:none;background:#f4f5f9;}
+.sheet-head h3{margin:0;font-size:16.5px;font-weight:700;color:var(--brand);}
+.sheet-head .icon-btn{width:32px;height:32px;font-size:14px;box-shadow:none;background:var(--brand-soft);}
 .sheet-body{padding:0 18px;}
 .sheet-foot{display:flex;gap:10px;padding:8px 18px 4px;position:sticky;bottom:0;background:#fff;padding-top:12px;}
 .sheet-foot .btn{flex:1;}
@@ -248,7 +315,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);background:#fafbfc;border-radius:13px;padding:12px 14px;font-size:15px;color:var(--text);font-family:inherit;outline:none;transition:border-color .16s,background .16s;appearance:none;-webkit-appearance:none;}
 .field textarea{resize:vertical;min-height:64px;line-height:1.5;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);background:#fff;}
-.field select{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a91a3' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;}
+.field select{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a86a0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;}
 .input-wrap{position:relative;display:flex;align-items:center;}
 .input-wrap .prefix{position:absolute;left:15px;font-size:15px;font-weight:800;color:var(--muted);pointer-events:none;}
 .input-wrap input{padding-left:48px;font-weight:800;font-size:18px;}
@@ -270,12 +337,33 @@ section{display:flex;flex-direction:column;gap:10px;}
 .opt-item:active{background:#eef0f7;}
 .opt-item.on{background:var(--brand);color:#fff;font-weight:600;}
 .opt-label{font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.4px;padding:10px 2px 4px;}
+
+/* Guide */
+.guide-item{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start;}
+.guide-icon{width:42px;height:42px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:20px;flex:0 0 auto;}
+.guide-body{flex:1;min-width:0;}
+.guide-title{font-size:14.5px;font-weight:700;color:var(--brand);margin-bottom:4px;}
+.guide-desc{font-size:13px;color:var(--text);line-height:1.6;}
+.guide-list{margin:6px 0 0;padding-left:18px;font-size:12.5px;color:var(--muted);line-height:1.7;}
+
+/* Version history */
+.version-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);}
+.version-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
+.version-no{font-size:16px;font-weight:800;color:var(--brand);}
+.version-date{font-size:12px;color:var(--muted);}
+.version-title{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);}
+.version-list{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--text);}
+
+/* Toast */
 #toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;}
-.toast{background:rgba(15,23,42,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:14px;max-width:88%;text-align:center;opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);box-shadow:0 8px 24px rgba(0,0,0,.22);}
+.toast{background:rgba(28,24,48,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:14px;max-width:88%;text-align:center;opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);box-shadow:0 8px 24px rgba(0,0,0,.22);}
 .toast.in{opacity:1;transform:translateY(0);}
+
+/* Search */
 .search-bar{display:flex;gap:8px;}
 .search-input{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;outline:none;transition:border-color .16s;}
 .search-input:focus{border-color:var(--brand);}
+
 ::-webkit-scrollbar{width:0;height:0;}
 </style>
 </head>
@@ -287,36 +375,41 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   SaveWise v1.09
-   Personal Financial Record & Management Software
+   积衡 Jiheng v1.00
+   记录现实中的钱，但不持有或处理你的钱。
    -----------------------------------------------------------------------
-   - Records real-world money. Does NOT hold or handle money.
-   - v1.09: FIXED Custom Password verification bug. Setting and verifying
-            now use identical string handling + hash. Confirm button truly
-            triggers validation. Both PIN and Custom Password work.
+   - 品牌全面升级：积衡 Jiheng
+   - 版本体系从 V1.00 重新开始
+   - 旧 Update History 从界面移除（用户数据完整保留）
+   - 新增 Product Guide（产品功能讲解）
+   - PIN / Custom Password / 所有用户数据 100% 保留
    ========================================================================= */
 
-const APP_VERSION_FALLBACK  = '1.09';
-const DATA_VERSION_FALLBACK = 1;
+const APP_VERSION  = '1.00';
+const DATA_VERSION = 1;
 
-const STORAGE_KEY       = 'savewise_state_v1';
-const LOCK_KEY          = 'savewise_lock_v1';
-const LANG_KEY          = 'savewise_lang_v1';
-const META_KEY          = 'savewise_meta_v1';
-const BACKUP_KEY        = 'savewise_backup_v1';
-const CHANGELOG_KEY     = 'savewise_changelog_v1';
+const STORAGE_KEY       = 'jiheng_state_v1';        // 新品牌 key，但会迁移旧 key
+const LEGACY_KEYS       = ['savewise_state_v1'];
+const LOCK_KEY          = 'jiheng_lock_v1';
+const LEGACY_LOCK_KEYS  = ['savewise_lock_v1'];
+const LANG_KEY          = 'jiheng_lang_v1';
+const LEGACY_LANG_KEYS  = ['savewise_lang_v1'];
+const META_KEY          = 'jiheng_meta_v1';
+const LEGACY_META_KEYS  = ['savewise_meta_v1'];
+const BACKUP_KEY        = 'jiheng_backup_v1';
+const CHANGELOG_KEY     = 'jiheng_changelog_v1';
 
-/* ============================ 永久产品性质声明 ============================ */
+/* ============================ 品牌身份说明（三语） ============================ */
 const PRODUCT_NOTICE_LANGS = [
-  { code:'EN', text:'SAVEWISE RECORDS YOUR REAL-WORLD MONEY. IT DOES NOT HOLD OR HANDLE YOUR MONEY. It is a personal financial recording, organization, calculation and analysis software. It is NOT a bank, e-wallet, payment instrument, remittance service, or financial institution, and does not receive, hold, custody, or actually transfer the user\'s real-world money. Any amount shown is a financial record entered by the user or calculated from records.' },
-  { code:'ZH', text:'SaveWise 记录现实中的钱，但不持有或处理你的钱。它是个人财务记录、整理、计算与分析软件，不是银行、电子钱包、支付工具、汇款服务或金融机构，不接收、不保管、不托管，也不实际转移用户的现实资金。SaveWise 中显示的金额只是用户输入或系统根据记录计算出的财务记录。' },
-  { code:'BM', text:'SaveWise MEREKODKAN WANG SEBENAR ANDA, BUKAN MEMEGANG ATAU MENGENDALIKAN WANG ANDA. Ia ialah perisian merekod, menyusun, mengira dan menganalisis kewangan peribadi. Ia BUKAN bank, e-dompet, instrumen pembayaran, perkhidmatan kiriman wang atau institusi kewangan, dan tidak menerima, menyimpan, menjaga atau memindahkan wang sebenar pengguna. Jumlah yang dipaparkan ialah rekod kewangan yang dimasukkan atau dikira daripada rekod.' }
+  { code:'ZH', text:'积衡 Jiheng 记录现实中的钱，但不持有或处理你的钱。它是个人财务记录、整理、计算与分析软件，不是银行、电子钱包、支付工具、汇款服务或金融机构，不接收、不保管、不托管，也不实际转移用户的现实资金。积衡中显示的金额只是用户输入或系统根据记录计算出的财务记录。' },
+  { code:'EN', text:'Jiheng records your real-world money. It does not hold or handle your money. It is a personal finance recording, organization, calculation and analysis software. It is NOT a bank, e-wallet, payment instrument, remittance service or financial institution, and does not receive, hold, custody, or actually transfer the user\'s real-world money. Any amount shown is a financial record entered by the user or calculated from records.' },
+  { code:'BM', text:'Jiheng merekodkan wang sebenar anda. Ia tidak memegang atau mengendalikan wang anda. Ia ialah perisian merekod, menyusun, mengira dan menganalisis kewangan peribadi. Ia BUKAN bank, e-dompet, instrumen pembayaran, perkhidmatan kiriman wang atau institusi kewangan, dan tidak menerima, menyimpan, menjaga atau memindahkan wang sebenar pengguna. Jumlah yang dipaparkan ialah rekod kewangan yang dimasukkan atau dikira daripada rekod.' }
 ];
 
 function renderProductNotice(){
   return `
   <div class="product-notice">
-    <div class="pn-head"><div class="pn-icon">!</div><div class="pn-title">SaveWise · Product Identity · Identiti Produk</div></div>
+    <div class="pn-head"><div class="pn-icon">!</div><div class="pn-title">积衡 Jiheng · Product Identity · Identiti Produk</div></div>
     ${PRODUCT_NOTICE_LANGS.map(l => `<div class="pn-row"><span class="pn-flag">${l.code}</span><span class="pn-text">${l.text}</span></div>`).join('')}
   </div>`;
 }
@@ -365,45 +458,53 @@ const MONEY_METHOD_GROUPS = [
 /* ============================ i18n ============================ */
 const I18N = {
   zh: {
-    appName:'SaveWise', slogan:'记录现实中的钱 · 不持有、不处理你的钱',
-    lockCreatePin:'创建 6 位数字 PIN', lockConfirmPin:'请再次输入确认', lockEnterPin:'输入 PIN 解锁', lockEnterPassword:'输入自定义密码解锁',
+    brand:'积衡', brandEn:'Jiheng', slogan:'积累，亦有衡。',
+    brandTagline:'记录现实中的钱，但不持有或处理你的钱。',
+
+    lockCreatePin:'创建 6 位数字 PIN', lockConfirmPin:'请再次输入确认',
+    lockEnterPin:'输入 PIN 解锁', lockEnterPassword:'输入自定义密码解锁',
     lockChangeOld:'请输入当前 PIN', lockChangeNew:'设置新的 6 位 PIN', lockChangeConfirm:'再次输入新 PIN',
     lockUseText:'使用自定义密码', lockUsePin:'改用数字 PIN', lockTextPlaceholder:'输入自定义密码',
     lockOk:'确认', lockClear:'清除', lockDel:'⌫',
     lockErrEmpty:'请输入密码', lockErrPin6:'请输入 6 位数字 PIN', lockErrText4:'密码至少 4 位',
     lockErrMismatch:'两次输入不一致，请重新创建', lockErrWrong:'密码错误，请重新输入',
-    lockWelcome:'欢迎使用 SaveWise', lockUpdated:'密码已更新', lockAutoLocked:'已自动锁定',
-    lockLockNow:'立即锁定应用', lockChangePin:'修改 PIN / 密码', lockDisable:'关闭 App Lock',
-    lockDisableConfirm:'关闭 App Lock 后，任何人打开应用都无需密码。确定继续？',
-    lockDisabled:'App Lock 已关闭', lockEnabled:'App Lock 已开启', lockEnable:'启用 App Lock', lockEnableSub:'打开应用时需要输入密码',
-    lockAutoLockLabel:'自动锁定', lockAutoLockSub:'离开应用一段时间后自动锁定', lockNever:'不自动锁定', lockMin:'分钟',
+    lockErrGeneric:'无法验证密码，请重试。',
+    lockWelcome:'欢迎使用积衡', lockUpdated:'密码已更新', lockAutoLocked:'已自动锁定',
+    lockLockNow:'立即锁定', lockChangePin:'修改 PIN / 密码', lockDisable:'关闭应用锁',
+    lockDisableConfirm:'关闭应用锁后，任何人打开应用都无需密码。确定继续？',
+    lockDisabled:'应用锁已关闭', lockEnabled:'应用锁已开启',
+    lockEnable:'启用应用锁', lockEnableSub:'打开应用时需要输入密码',
+    lockAutoLockLabel:'自动锁定', lockAutoLockSub:'离开应用一段时间后自动锁定',
+    lockNever:'不自动锁定', lockMin:'分钟',
     lockBioTitle:'生物识别（Face ID / 指纹）', lockBioSub:'V2.0 将支持，当前设备暂不可用',
     lockHashNote:'密码经过哈希后保存，不会以明文形式存储。忘记密码将无法恢复，请务必牢记。',
-    lockDataPreserved:'检测到现有的 SaveWise 数据，已保留原账户、余额、交易、目标、资产与设置。',
-    lockNoticeTitle:'产品性质声明 · Product Identity · Identiti Produk',
-    lockSettingsTitle:'App Lock', lockModeLabel:'锁定方式',
+    lockDataPreserved:'检测到现有的积衡数据，已保留原账户、余额、交易、目标、资产与设置。',
+    lockNoticeTitle:'产品身份说明 · Product Identity · Identiti Produk',
+    lockSettingsTitle:'应用锁', lockModeLabel:'锁定方式',
     lockModePIN:'数字 PIN（6 位）', lockModePassword:'自定义密码',
     lockModePINSub:'使用 6 位数字解锁', lockModePasswordSub:'使用自定义密码解锁',
     lockSetPIN:'设置 / 更改 PIN', lockSetPassword:'设置 / 更改自定义密码',
     lockCurrentPIN:'当前 PIN', lockNewPIN:'新 6 位 PIN', lockConfirmPIN:'确认新 PIN',
     lockCurrentPassword:'当前密码', lockNewPassword:'新密码', lockConfirmPassword:'确认新密码',
-    lockVerifyFirst:'请先输入当前密码以验证身份',
     lockSetPasswordTitle:'设置自定义密码', lockChangePasswordTitle:'更改自定义密码',
     lockSetPINTitle:'设置 6 位 PIN', lockChangePINTitle:'更改 6 位 PIN',
     lockPasswordSet:'自定义密码已设置', lockPINSet:'PIN 已更新',
-    lockVerifyFailed:'当前密码不正确', lockPasswordLength:'密码至少 4 个字符', lockModeChanged:'锁定方式已切换',
+    lockVerifyFailed:'当前密码不正确', lockPasswordLength:'密码至少 4 个字符',
+
     cancel:'取消', confirm:'确认', save:'保存', delete:'删除', edit:'编辑', add:'添加',
-    back:'返回', close:'关闭', search:'搜索', all:'全部', none:'无', ok:'好的', yes:'是', no:'否', optional:'可选',
+    back:'返回', close:'关闭', search:'搜索', all:'全部', none:'无', ok:'好的', yes:'是', no:'否',
     tabHome:'首页', tabRecords:'交易', tabGoals:'储蓄', tabAssets:'资产', tabStats:'统计', tabSettings:'设置',
-    totalAssets:'记录中的总资产', totalAssetsSub:'用户记录的现实资产总额，不代表 SaveWise 持有',
+
+    totalAssets:'记录总资产', totalAssetsSub:'你在积衡中记录的全部资金与资产总额',
     availableBalance:'可用余额', lockedSaving:'储蓄目标分配',
     monthIncome:'本月收入', monthExpense:'本月支出',
-    myAccounts:'我的资金账户', allAccounts:'全部账户 / All Accounts', manage:'管理',
+    myAccounts:'我的资金账户', allAccounts:'全部账户', manage:'管理',
     recentTx:'最近交易', viewAll:'查看全部',
     quickIncome:'收入', quickExpense:'支出', quickTransfer:'转账', quickGoal:'目标',
     noAccount:'还没有资金账户', addFirstAccount:'新增第一个资金账户',
     noTx:'还没有记录，开始添加第一笔收入吧',
-    welcomeTitle:'欢迎使用 SaveWise', welcomeSub:'新增一个资金账户，记录你的第一笔收入',
+    welcomeTitle:'欢迎使用积衡', welcomeSub:'记录现实中的钱，从创建一个资金账户开始',
+
     createAccount:'新增资金账户', accountName:'资金账户名称', accountType:'账户类型', initialBalance:'初始余额（可选）',
     accountNamePlaceholder:'例如：现金钱包',
     initialHint:'若填写初始余额，会自动生成一笔「初始余额」收入记录。',
@@ -413,6 +514,7 @@ const I18N = {
     accountDeleteUsed:'该账户已有历史记录，删除后记录会保留但账户显示为「—」。确定删除？',
     accountDeleted:'资金账户已删除', accountUpdated:'已更新', totalAvailable:'总可用余额',
     accountDeleteHint:'账户余额会随收入、支出、转账、储蓄和他人资金记录实时更新。删除前需先清空余额。',
+
     income:'收入', expense:'支出', transfer:'账户转移', goalDeposit:'储蓄存入', goalWithdraw:'储蓄取出',
     moneyGiven:'转给他人', debtBorrow:'我欠别人', debtLend:'别人欠我',
     recordIncome:'记录收入', recordExpense:'记录支出', recordTransfer:'记录账户转移',
@@ -424,7 +526,7 @@ const I18N = {
     incomeSaved:'收入已记录', expenseSaved:'支出已记录', transferDone:'账户转移已记录',
     insufficientBalance:'该账户记录余额不足', sameAccount:'转出与转入账户不能相同',
     noAccountWarn:'请先新增一个资金账户', needTwoAccounts:'至少需要两个账户才能记录转移',
-    transferHint:'此操作仅记录现实中已发生的账户转移，SaveWise 不会实际转移资金。',
+    transferHint:'此操作仅记录现实中已发生的账户转移，积衡不会实际转移资金。',
     invalidAmount:'请输入有效金额',
     filterAll:'全部', filterIncome:'收入', filterExpense:'支出', filterSaving:'转移/储蓄',
     filterIncomeTotal:'筛选收入', filterExpenseTotal:'筛选支出',
@@ -432,6 +534,7 @@ const I18N = {
     noRecords:'还没有交易记录', recordFirst:'＋ 记录第一笔', today:'今天', yesterday:'昨天',
     recurringLabel:'周期性收入？', recurringLabelExp:'周期性支出？',
     recurringNo:'否，仅记录这一次', recurringYes:'是，固定 / 周期性（预留）', initialBalanceNote:'初始余额',
+
     goalNew:'新建储蓄目标', goalEdit:'修改目标',
     goalName:'目标名称', goalNamePlaceholder:'例如：买新手机',
     goalTarget:'目标金额', goalDeadline:'期限（可选）', goalIcon:'图标（可选）',
@@ -442,7 +545,7 @@ const I18N = {
     goalDepositTitle:'存入储蓄目标', goalWithdrawTitle:'从储蓄目标取出',
     goalDepositBtn:'确认存入', goalWithdrawBtn:'确认取出',
     goalDeposited:'已存入储蓄目标', goalWithdrew:'已转回可用余额',
-    goalDepositHint:'可用余额：{amt} · 存入后从可用余额转入储蓄分配，记录中的总资产不变。',
+    goalDepositHint:'可用余额：{amt} · 存入后从可用余额转入储蓄分配，记录总资产不变。',
     goalWithdrawHint:'该目标当前分配：{amt}',
     goalExceed:'超出该目标已分配金额', goalNoMoney:'该目标还没有可取出的资金',
     goalCancelTitle:'取消目标', goalCancelBtn:'确认取消',
@@ -454,6 +557,7 @@ const I18N = {
     goalNoGoals:'还没有储蓄目标', goalNoGoalsSub:'设定目标，把可用余额分配起来专门储蓄', goalNewBtn:'新建目标',
     goalReturnAccount:'退回账户', goalDeleteCustomHint:'确定删除自定义分类「{name}」？已存在的交易记录不受影响。',
     goalIconNone:'不选择', goalDeleteConfirm:'确定要删除这个储蓄目标吗？', goalDeleted:'储蓄目标已删除',
+
     assetNew:'添加资产', assetEdit:'编辑资产',
     assetName:'资产名称', assetNamePlaceholder:'例如：笔记本电脑',
     assetPrice:'购买价格', assetPurchaseDate:'购买日期',
@@ -483,6 +587,7 @@ const I18N = {
     assetHint:'理论每日价值 = 购买价格 ÷ 预计使用总天数。此计算不会改变任何账户余额。',
     assetRecoveryNote:'回本 / 使用价值是资产分析功能，不会产生现金，也不会增加任何账户余额。',
     assetValidName:'请输入资产名称', assetValidPrice:'请输入有效购买价格', assetValidPeriod:'预计使用期限必须大于 0',
+
     debtTitle:'欠款记录', debtSub:'记录我欠别人 / 别人欠我，只记录不执行转账',
     debtIOwe:'我欠别人', debtOweMe:'别人欠我', debtAll:'全部',
     debtNew:'新增欠款记录', debtEdit:'编辑欠款记录',
@@ -501,32 +606,31 @@ const I18N = {
     debtCancel:'标记为已取消', debtCancelConfirm:'确定标记为已取消？此记录将不再计入欠款总额。', debtCancelled:'已标记为取消',
     debtSettle:'标记为已还清', debtSettleConfirm:'确定标记为已还清？', debtSettled:'已标记为还清',
     debtTotalIOwe:'我共欠出', debtTotalOweMe:'别人共欠我', debtNet:'净欠款',
-    debtImportantNote:'欠款记录只记录现实中已发生的借贷，SaveWise 不会实际收付款项，也不会自动改变账户余额。',
+    debtImportantNote:'欠款记录只记录现实中已发生的借贷，积衡不会实际收付款项，也不会自动改变账户余额。',
     debtRepayHint:'如实际收款/付款已发生，请另外使用「收入」「支出」或「转给他人」记录资金变化。',
     debtOverdue:'已到期', debtDueToday:'今天到期', debtDueIn:'还剩 {n} 天', debtExceed:'超出剩余欠款金额',
+
     mgTitle:'转给他人 / 赠与记录', mgSub:'记录现实中已发生的资金转出，例如赠与、给家人、给朋友、归还',
     mgNew:'记录转给他人', mgEdit:'编辑记录',
     mgPerson:'收款人名称', mgPersonPlaceholder:'例如：妈妈',
     mgAmount:'金额', mgDate:'日期', mgTime:'时间',
-    mgFromAccount:'资金来源账户', mgFromAccountHint:'这笔钱原本记录在哪一个 SaveWise 账户？',
+    mgFromAccount:'资金来源账户', mgFromAccountHint:'这笔钱原本记录在哪一个积衡账户？',
     mgPurpose:'用途 / 类型', mgPurposeCustom:'自定义用途',
     mgMethod:'转账方式', mgMethodCustom:'自定义方式', mgMethodHint:'现实中你用什么方式把钱给出去？',
-    mgType:'类型（旧字段，保留兼容）',
-    mgTypeGift:'赠与', mgTypeFamily:'给家人', mgTypeFriend:'给朋友', mgTypeRepay:'归还', mgTypeOther:'其他',
     mgNote:'备注（可选）', mgSave:'确认记录', mgCreated:'已记录转给他人',
     mgUpdated:'已更新', mgDeleted:'已删除',
     mgDeleteConfirm:'确定要删除这笔转给他人记录吗？对应账户余额会自动还原。',
     mgNoRecords:'还没有转给他人的记录', mgNoRecordsSub:'记录你现实中转给别人的钱',
-    mgTotal:'累计转出', mgImportantNote:'SaveWise 只记录这次现实资金变化，不实际执行转账。',
+    mgImportantNote:'积衡只记录这次现实资金变化，不实际执行转账。',
+
     statsMonth:'本月', statsAll:'全部时间', statsWeek:'本周', statsYear:'本年', statsToday:'今日',
     statsIncome:'收入', statsExpense:'支出', statsNet:'净储蓄', statsLocked:'储蓄分配',
-    statsCumulative:'累计数据（全部时间）', statsCumIncome:'累计收入', statsCumExpense:'累计支出', statsCumNet:'累计净储蓄',
     statsExpenseCat:'支出分类', statsIncomeCat:'收入分类',
-    statsAccDist:'账户余额分布', statsGoalProgress:'储蓄目标进度',
     statsTrend:'月度趋势', statsTrendSub:'近 6 个月净储蓄',
     statsNoData:'还没有统计数据', statsNoDataSub:'记录收支后这里会自动生成分析',
-    statsNoExpense:'暂无支出数据', statsNoIncome:'暂无收入数据', statsAvailable:'可用',
+    statsNoExpense:'暂无支出数据', statsNoIncome:'暂无收入数据',
     statsTransferNote:'账户转移、储蓄操作、欠款记录与转给他人记录不计入收入或支出统计。',
+
     achTitle:'我的成就', achUnlocked:'已解锁', achLocked:'未解锁',
     achHowTo:'如何达到', achProgress:'进度',
     achList:[
@@ -546,36 +650,39 @@ const I18N = {
       { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎', how:'向储蓄目标累计分配 RM1000 即可解锁。', target:1000, kind:'total_saved' }
     ],
     achUnlockToast:'🏆 解锁成就：{name}',
-    setTitle:'设置', setHideBalance:'金额隐藏模式', setHideBalanceSub:'所有金额显示为 RM****（不影响产品性质声明）',
+
+    setTitle:'设置', setHideBalance:'金额隐藏模式', setHideBalanceSub:'所有金额显示为 ••••••',
     setCurrency:'货币显示', setCurrencySub:'当前货币单位',
-    setLock:'App Lock', setLockSubOn:'已开启', setLockSubOff:'已关闭',
+    setLock:'应用锁', setLockSubOn:'已开启', setLockSubOff:'已关闭',
     setCategories:'分类管理', setCategoriesSub:'自定义收入与支出分类',
     setAccounts:'资金账户管理', setAccountsSub:'{n} 个资金账户',
     setAchievements:'我的成就', setAchievementsSub:'已解锁 {a} / {b}',
     setExportJson:'导出数据 (JSON)', setExportJsonSub:'下载完整备份文件',
     setExportCsv:'导出交易 (CSV)', setExportCsvSub:'适合 Excel / 表格查看',
     setImport:'导入 / 恢复数据', setImportSub:'从 JSON 备份恢复',
-    setDataStorage:'数据存储', setDataStorageSub:'本地 localStorage',
-    setTxCount:'{n} 笔交易', setClearData:'清除所有数据', setClearDataSub:'不可恢复，请谨慎操作',
-    setAbout:'SaveWise v{av} · 数据版本 v{dv}\n数据保存在本机浏览器，建议定期导出备份。',
+    setDataStorage:'数据存储', setDataStorageSub:'本地 localStorage（Local-first）',
+    setClearData:'清除所有数据', setClearDataSub:'不可恢复，请谨慎操作',
+    setAbout:'积衡 Jiheng v{av} · 数据版本 v{dv}\n数据保存在本机浏览器，建议定期导出备份。',
     setLanguage:'语言 / Language', setLanguageSub:'切换应用显示语言',
     setVersion:'App 版本', setDataVersion:'数据版本', setLastUpdate:'最后更新',
     setDataStats:'数据统计', setStatTx:'交易数量', setStatAcc:'资金账户', setStatGoal:'储蓄目标', setStatAsset:'资产数量',
     setStatTransfers:'账户转移', setStatDebt:'欠款记录', setStatGiven:'转给他人',
     setWhatsNew:'更新记录', setWhatsNewSub:'查看版本更新内容',
-    setSystemInfo:'系统信息 / System Information', setSystemInfoSub:'App、数据版本与存储状态',
-    setIdentity:'产品性质声明', setIdentitySub:'三语完整版本',
+    setProductGuide:'产品功能讲解', setProductGuideSub:'了解积衡当前提供的全部功能',
+    setSystemInfo:'系统信息', setSystemInfoSub:'App、数据版本与存储状态',
+    setIdentity:'产品身份说明', setIdentitySub:'三语完整版本',
+
     catIncome:'收入分类', catExpense:'支出分类', catAdd:'＋ 新增',
     catCustomIncome:'自定义收入分类', catCustomExpense:'自定义支出分类',
     catAddIncome:'新增收入分类', catAddExpense:'新增支出分类',
     catName:'分类名称', catNamePlaceholder:'例如：摄影器材',
     catAdded:'分类已添加', catDeleted:'分类已删除', catExists:'该分类已存在',
     catHint:'自定义分类会出现在记录收入 / 支出时的分类选择中。', catEnterName:'请输入分类名称',
-    catPickPreset:'选择预设分类', catOrCustom:'或输入自定义分类',
-    catCustomPlaceholder:'输入自定义分类名称', catOtherLabel:'其他 / 自定义…',
+    catPickPreset:'选择预设分类', catCustomPlaceholder:'输入自定义分类名称',
     catDebtCustomIncome:'自定义收入分类（会被保存）', catDebtCustomExpense:'自定义支出分类（会被保存）',
+
     pickTitle:'选择', pickCustom:'自定义', pickPurpose:'选择用途', pickMethod:'选择方式', pickOther:'其他…',
-    pickCategory:'选择分类',
+
     exportDone:'JSON 已导出', exportCsvDone:'CSV 已导出', exportFail:'导出失败',
     importTitle:'导入 / 恢复数据', importBtn:'选择文件并导入',
     importHint:'导入会覆盖当前所有数据，建议先导出备份。',
@@ -587,12 +694,15 @@ const I18N = {
     saveFail:'保存失败：存储空间不足',
     accountNotExist:'账户不存在', goalNotExist:'目标不存在', assetNotExist:'资产不存在',
     amountPositive:'金额必须大于 0', invalidNumber:'请输入有效的数字',
-    migrationFailed:'SaveWise 无法安全完成此次更新。你的现有数据已被保留。',
+    migrationFailed:'积衡无法安全完成此次更新。你的现有数据已被保留。',
     migrationSuccess:'数据已安全迁移，所有记录完整保留。', backupCreated:'已自动创建更新前备份。',
-    whatsNewTitle:'更新记录', dataVersionNote:'数据版本 v{dv} · App 版本 v{av}',
-    aboutTitle:'关于 SaveWise', sysInfoTitle:'系统信息', storageLocal:'本地存储', lastUpdated:'最后更新',
+    whatsNewTitle:'更新记录', productGuideTitle:'产品功能讲解',
+    dataVersionNote:'数据版本 v{dv} · App 版本 v{av}',
+    aboutTitle:'关于积衡', sysInfoTitle:'系统信息', storageLocal:'本地存储', lastUpdated:'最后更新',
+
     delTxTitle:'确定要删除这笔交易记录吗？', delTransferTitle:'确定要删除这笔账户转移记录吗？',
     delGoalDepositTitle:'确定要删除这笔储蓄存入记录吗？', delGoalWithdrawTitle:'确定要删除这笔储蓄取出记录吗？',
+
     incomeCatNames:{
       salary:'工资 / 薪金', part_time:'兼职收入', freelance:'自由职业 / 接案', temp_work:'临时工作', bonus:'奖金', allowance:'津贴',
       pocket_money:'零用钱', family_give:'家庭给予', angpao:'红包 / 礼金', gift_income:'礼物', living_allowance:'生活费', other_family_income:'其他家庭收入',
@@ -647,48 +757,87 @@ const I18N = {
       cheque:'支票', other_method:'其他方式'
     },
     methodGroupNames:{ cash_method:'现金', ewallet_method:'电子钱包', bank_method:'银行 / 银行转账', card_method:'卡片', other_method:'其他' },
-    mealSubs:['早餐','午餐','晚餐','宵夜','快餐','咖啡']
+
+    /* Product Guide */
+    guideTitle:'产品功能讲解',
+    guideIntro:'以下是积衡当前实际提供的功能。本页面跟随系统真实功能更新。',
+    guideAccountsTitle:'账户管理',
+    guideAccountsDesc:'管理多个现实中的资金记录账户。',
+    guideTxTitle:'交易记录',
+    guideTxDesc:'记录你的收入与支出，包含金额、日期、时间、分类、账户、记录方式与备注。',
+    guideTransferTitle:'转账记录',
+    guideTransferDesc:'记录现实中从账户 A 到账户 B 的资金转移。积衡只记录，不实际移动你的钱。',
+    guideGoalTitle:'储蓄目标',
+    guideGoalDesc:'建立储蓄目标并分配可用余额。分配只是记录上的划分，积衡不会实际锁定资金。',
+    guideAssetTitle:'资产记录',
+    guideAssetDesc:'记录你拥有的现实资产，例如手机、电脑、相机等，并可按预计使用期限计算理论使用价值。',
+    guideDebtTitle:'欠款记录',
+    guideDebtDesc:'记录你欠别人和/或别人欠你的钱，包含还款进度、剩余金额、日期与备注。',
+    guideStatsTitle:'统计',
+    guideStatsDesc:'根据你的真实数据生成收入、支出、净储蓄、分类消费与月度趋势。没有数据时显示空状态。',
+    guideSearchTitle:'搜索与筛选',
+    guideSearchDesc:'按日期、金额、分类、账户或关键词搜索与筛选交易。',
+    guideAchTitle:'成就',
+    guideAchDesc:'根据你真实使用情况解锁成就。每项成就都显示名称、说明、如何达到、进度与状态。',
+    guideLockTitle:'应用锁',
+    guideLockDesc:'使用 6 位 PIN 或自定义密码保护应用。密码经过哈希处理，不以明文保存。生物识别为未来预留。',
+    guideDataTitle:'数据备份与恢复',
+    guideDataDesc:'支持导出 JSON、导出 CSV、导入与恢复。导入前会验证文件格式和数据版本，失败时不会覆盖现有数据。',
+    guideLangTitle:'语言',
+    guideLangDesc:'支持简体中文、English、Bahasa Melayu。系统 UI 会随语言切换，但用户自订的名称与备注不会被翻译。',
+    guidePrivacyTitle:'隐藏金额',
+    guidePrivacyDesc:'开启隐藏金额后，首页、账户、交易、储蓄、资产与统计中的金额会显示为 ••••••。',
+    guideLocalTitle:'本地优先',
+    guideLocalDesc:'当前版本为 Local-first。数据保存在本机浏览器，不需要网络。未来将预留云端同步的扩展空间。'
   },
   en: {
-    appName:'SaveWise', slogan:'Records real-world money · Does not hold or handle it',
-    lockCreatePin:'Create 6-digit PIN', lockConfirmPin:'Enter again to confirm', lockEnterPin:'Enter PIN to unlock', lockEnterPassword:'Enter custom password to unlock',
+    brand:'Jiheng', brandEn:'Jiheng', slogan:'Accumulate, and keep the balance.',
+    brandTagline:'Records your real-world money. Does not hold or handle it.',
+
+    lockCreatePin:'Create 6-digit PIN', lockConfirmPin:'Enter again to confirm',
+    lockEnterPin:'Enter PIN to unlock', lockEnterPassword:'Enter custom password to unlock',
     lockChangeOld:'Enter current PIN', lockChangeNew:'Set new 6-digit PIN', lockChangeConfirm:'Enter new PIN again',
     lockUseText:'Use custom password', lockUsePin:'Use numeric PIN', lockTextPlaceholder:'Enter custom password',
     lockOk:'OK', lockClear:'Clear', lockDel:'⌫',
     lockErrEmpty:'Please enter password', lockErrPin6:'Please enter 6-digit PIN', lockErrText4:'Password must be at least 4 characters',
     lockErrMismatch:'Passwords do not match, please try again', lockErrWrong:'Incorrect password. Please try again.',
-    lockWelcome:'Welcome to SaveWise', lockUpdated:'Password updated', lockAutoLocked:'Auto-locked',
+    lockErrGeneric:'Unable to verify password. Please try again.',
+    lockWelcome:'Welcome to Jiheng', lockUpdated:'Password updated', lockAutoLocked:'Auto-locked',
     lockLockNow:'Lock now', lockChangePin:'Change PIN / Password', lockDisable:'Disable App Lock',
     lockDisableConfirm:'Disabling App Lock means anyone can open the app without a password. Continue?',
-    lockDisabled:'App Lock disabled', lockEnabled:'App Lock enabled', lockEnable:'Enable App Lock', lockEnableSub:'Require password to open the app',
-    lockAutoLockLabel:'Auto-lock', lockAutoLockSub:'Lock after leaving the app', lockNever:'Never', lockMin:'min',
+    lockDisabled:'App Lock disabled', lockEnabled:'App Lock enabled',
+    lockEnable:'Enable App Lock', lockEnableSub:'Require password to open the app',
+    lockAutoLockLabel:'Auto-lock', lockAutoLockSub:'Lock after leaving the app',
+    lockNever:'Never', lockMin:'min',
     lockBioTitle:'Biometrics (Face ID / Fingerprint)', lockBioSub:'Coming in V2.0, not available yet',
     lockHashNote:'Password is hashed, never stored as plain text. If forgotten, it cannot be recovered.',
-    lockDataPreserved:'Existing SaveWise data detected. Accounts, balances, transactions, goals, assets and settings preserved.',
-    lockNoticeTitle:'Product Identity · 产品性质声明 · Identiti Produk',
+    lockDataPreserved:'Existing Jiheng data detected. Accounts, balances, transactions, goals, assets and settings preserved.',
+    lockNoticeTitle:'Product Identity · 产品身份说明 · Identiti Produk',
     lockSettingsTitle:'App Lock', lockModeLabel:'Lock Method',
     lockModePIN:'Numeric PIN (6 digits)', lockModePassword:'Custom Password',
     lockModePINSub:'Unlock with 6-digit PIN', lockModePasswordSub:'Unlock with custom password',
     lockSetPIN:'Set / Change PIN', lockSetPassword:'Set / Change Custom Password',
     lockCurrentPIN:'Current PIN', lockNewPIN:'New 6-digit PIN', lockConfirmPIN:'Confirm New PIN',
     lockCurrentPassword:'Current Password', lockNewPassword:'New Password', lockConfirmPassword:'Confirm New Password',
-    lockVerifyFirst:'Please enter your current password to verify',
     lockSetPasswordTitle:'Set Custom Password', lockChangePasswordTitle:'Change Custom Password',
     lockSetPINTitle:'Set 6-digit PIN', lockChangePINTitle:'Change 6-digit PIN',
     lockPasswordSet:'Custom password set', lockPINSet:'PIN updated',
-    lockVerifyFailed:'Current password is incorrect', lockPasswordLength:'Password must be at least 4 characters', lockModeChanged:'Lock method changed',
+    lockVerifyFailed:'Current password is incorrect', lockPasswordLength:'Password must be at least 4 characters',
+
     cancel:'Cancel', confirm:'Confirm', save:'Save', delete:'Delete', edit:'Edit', add:'Add',
-    back:'Back', close:'Close', search:'Search', all:'All', none:'None', ok:'OK', yes:'Yes', no:'No', optional:'optional',
+    back:'Back', close:'Close', search:'Search', all:'All', none:'None', ok:'OK', yes:'Yes', no:'No',
     tabHome:'Home', tabRecords:'Records', tabGoals:'Goals', tabAssets:'Assets', tabStats:'Stats', tabSettings:'Settings',
-    totalAssets:'Recorded Total Assets', totalAssetsSub:'Total real-world assets recorded by user, not held by SaveWise',
+
+    totalAssets:'Recorded Total Assets', totalAssetsSub:'All funds and assets you have recorded in Jiheng',
     availableBalance:'Available Balance', lockedSaving:'Goal Allocations',
     monthIncome:'Income this month', monthExpense:'Expense this month',
-    myAccounts:'My Money Accounts', allAccounts:'All Accounts / 全部账户', manage:'Manage',
+    myAccounts:'My Money Accounts', allAccounts:'All Accounts', manage:'Manage',
     recentTx:'Recent Transactions', viewAll:'View all',
     quickIncome:'Income', quickExpense:'Expense', quickTransfer:'Transfer', quickGoal:'Goal',
     noAccount:'No money accounts yet', addFirstAccount:'Add your first money account',
-    noTx:'No records yet, add your first income',
-    welcomeTitle:'Welcome to SaveWise', welcomeSub:'Add a money account, then record your first income',
+    noTx:'No records yet, start by adding your first income',
+    welcomeTitle:'Welcome to Jiheng', welcomeSub:'Record real-world money. Start by creating a money account.',
+
     createAccount:'Add Money Account', accountName:'Money Account Name', accountType:'Account Type', initialBalance:'Initial balance (optional)',
     accountNamePlaceholder:'e.g. Cash Wallet',
     initialHint:'If set, an "Initial balance" income record will be created automatically.',
@@ -698,6 +847,7 @@ const I18N = {
     accountDeleteUsed:'This account has history. Records will remain but show "—". Delete?',
     accountDeleted:'Money account deleted', accountUpdated:'Updated', totalAvailable:'Total Available',
     accountDeleteHint:'Balances update with income, expense, transfer, savings and money-given records. Clear balance before deleting.',
+
     income:'Income', expense:'Expense', transfer:'Transfer', goalDeposit:'Goal Deposit', goalWithdraw:'Goal Withdraw',
     moneyGiven:'Money Given', debtBorrow:'I Owe', debtLend:'Owed to Me',
     recordIncome:'Record Income', recordExpense:'Record Expense', recordTransfer:'Record Account Transfer',
@@ -709,7 +859,7 @@ const I18N = {
     incomeSaved:'Income recorded', expenseSaved:'Expense recorded', transferDone:'Account transfer recorded',
     insufficientBalance:'Insufficient recorded balance', sameAccount:'From and To accounts must differ',
     noAccountWarn:'Please add a money account first', needTwoAccounts:'At least two accounts required',
-    transferHint:'This only records a real-world transfer. SaveWise does not execute real-world fund transfers.',
+    transferHint:'This only records a real-world transfer. Jiheng does not execute real-world fund transfers.',
     invalidAmount:'Please enter a valid amount',
     filterAll:'All', filterIncome:'Income', filterExpense:'Expense', filterSaving:'Transfer/Saving',
     filterIncomeTotal:'Filtered Income', filterExpenseTotal:'Filtered Expense',
@@ -717,6 +867,7 @@ const I18N = {
     noRecords:'No records yet', recordFirst:'＋ Record first', today:'Today', yesterday:'Yesterday',
     recurringLabel:'Recurring income?', recurringLabelExp:'Recurring expense?',
     recurringNo:'No, just once', recurringYes:'Yes, recurring (reserved)', initialBalanceNote:'Initial balance',
+
     goalNew:'New Savings Goal', goalEdit:'Edit Goal',
     goalName:'Goal Name', goalNamePlaceholder:'e.g. New Phone',
     goalTarget:'Target Amount', goalDeadline:'Deadline (optional)', goalIcon:'Icon (optional)',
@@ -733,11 +884,13 @@ const I18N = {
     goalCancelTitle:'Cancel Goal', goalCancelBtn:'Confirm Cancel',
     goalCancelHint:'Allocated {amt} will be fully returned to the selected account.',
     goalCancelled:'Goal cancelled, funds returned',
-    goalDeadlineNone:'No deadline', goalDaysLeft:'{n} days left', goalDueToday:'Due today', goalOverdue:'Overdue {n} days', goalDone:'Achieved',
+    goalDeadlineNone:'No deadline', goalDaysLeft:'{n} days left',
+    goalDueToday:'Due today', goalOverdue:'Overdue {n} days', goalDone:'Achieved',
     lockedSavingAmount:'Goal Allocations', goalTotal:'Total Target',
     goalNoGoals:'No savings goals yet', goalNoGoalsSub:'Set a goal and allocate part of your balance', goalNewBtn:'New Goal',
     goalReturnAccount:'Return to Account', goalDeleteCustomHint:'Delete custom category "{name}"? Existing records are not affected.',
     goalIconNone:'None', goalDeleteConfirm:'Are you sure you want to delete this savings goal?', goalDeleted:'Savings goal deleted',
+
     assetNew:'Add Asset', assetEdit:'Edit Asset',
     assetName:'Asset Name', assetNamePlaceholder:'e.g. Laptop',
     assetPrice:'Purchase Price', assetPurchaseDate:'Purchase Date',
@@ -767,6 +920,7 @@ const I18N = {
     assetHint:'Theoretical daily value = Price ÷ Expected days. This does not change any account balance.',
     assetRecoveryNote:'Recovery / use value is an analysis feature. It does not create cash and does not affect any account balance.',
     assetValidName:'Please enter asset name', assetValidPrice:'Please enter a valid price', assetValidPeriod:'Expected period must be greater than 0',
+
     debtTitle:'Debt Records', debtSub:'Record what I owe and what others owe me',
     debtIOwe:'I Owe', debtOweMe:'Owed to Me', debtAll:'All',
     debtNew:'New Debt Record', debtEdit:'Edit Debt Record',
@@ -785,32 +939,31 @@ const I18N = {
     debtCancel:'Mark as Cancelled', debtCancelConfirm:'Mark as cancelled? This record will not count in debt totals.', debtCancelled:'Marked as cancelled',
     debtSettle:'Mark as Paid', debtSettleConfirm:'Mark as fully paid?', debtSettled:'Marked as paid',
     debtTotalIOwe:'Total I Owe', debtTotalOweMe:'Total Owed to Me', debtNet:'Net Debt',
-    debtImportantNote:'Debt records only record real-world lending. SaveWise does not perform any payments and does not change account balances automatically.',
+    debtImportantNote:'Debt records only record real-world lending. Jiheng does not perform any payments and does not change account balances automatically.',
     debtRepayHint:'If a real-world payment has already occurred, use Income, Expense or Money Given to record the fund movement separately.',
     debtOverdue:'Overdue', debtDueToday:'Due today', debtDueIn:'{n} days left', debtExceed:'Exceeds remaining debt amount',
+
     mgTitle:'Record Money Given', mgSub:'Record real-world money given: gifts, family, friends, repayment',
     mgNew:'Record Money Given', mgEdit:'Edit Record',
     mgPerson:'Recipient Name', mgPersonPlaceholder:'e.g. Mom',
     mgAmount:'Amount', mgDate:'Date', mgTime:'Time',
-    mgFromAccount:'Source Account', mgFromAccountHint:'Which SaveWise account was this money originally recorded in?',
+    mgFromAccount:'Source Account', mgFromAccountHint:'Which Jiheng account was this money originally recorded in?',
     mgPurpose:'Purpose / Type', mgPurposeCustom:'Custom purpose',
     mgMethod:'Transfer Method', mgMethodCustom:'Custom method', mgMethodHint:'How did you give the money in the real world?',
-    mgType:'Type (legacy, kept for compatibility)',
-    mgTypeGift:'Gift', mgTypeFamily:'Family', mgTypeFriend:'Friend', mgTypeRepay:'Repayment', mgTypeOther:'Other',
     mgNote:'Note (optional)', mgSave:'Confirm Record', mgCreated:'Recorded money given',
     mgUpdated:'Updated', mgDeleted:'Deleted',
     mgDeleteConfirm:'Are you sure you want to delete this money-given record? Corresponding account balance will be restored.',
     mgNoRecords:'No money-given records yet', mgNoRecordsSub:'Record money you have given in real life',
-    mgTotal:'Total Given', mgImportantNote:'SaveWise only records this real-world fund change. It does not execute any transfer.',
+    mgImportantNote:'Jiheng only records this real-world fund change. It does not execute any transfer.',
+
     statsMonth:'This Month', statsAll:'All Time', statsWeek:'This Week', statsYear:'This Year', statsToday:'Today',
     statsIncome:'Income', statsExpense:'Expense', statsNet:'Net Savings', statsLocked:'Goal Allocations',
-    statsCumulative:'Cumulative (All Time)', statsCumIncome:'Total Income', statsCumExpense:'Total Expense', statsCumNet:'Total Net',
     statsExpenseCat:'Expense Categories', statsIncomeCat:'Income Categories',
-    statsAccDist:'Account Distribution', statsGoalProgress:'Goal Progress',
     statsTrend:'Monthly Trend', statsTrendSub:'Last 6 months net savings',
     statsNoData:'No statistics yet', statsNoDataSub:'Record transactions to generate analysis',
-    statsNoExpense:'No expense data', statsNoIncome:'No income data', statsAvailable:'Available',
+    statsNoExpense:'No expense data', statsNoIncome:'No income data',
     statsTransferNote:'Account transfers, savings operations, debt records and money-given records are not counted as income or expense.',
+
     achTitle:'My Achievements', achUnlocked:'Unlocked', achLocked:'Locked',
     achHowTo:'How to unlock', achProgress:'Progress',
     achList:[
@@ -830,7 +983,8 @@ const I18N = {
       { id:'save_1000',      name:'RM1000 Saved', desc:'Cumulative savings RM1000', icon:'💎', how:'Allocate a cumulative RM1000 into savings goals to unlock.', target:1000, kind:'total_saved' }
     ],
     achUnlockToast:'🏆 Achievement unlocked: {name}',
-    setTitle:'Settings', setHideBalance:'Hide Balance Mode', setHideBalanceSub:'Show all amounts as RM**** (does not hide product notice)',
+
+    setTitle:'Settings', setHideBalance:'Hide Balance Mode', setHideBalanceSub:'Show all amounts as ••••••',
     setCurrency:'Currency', setCurrencySub:'Current currency',
     setLock:'App Lock', setLockSubOn:'Enabled', setLockSubOff:'Disabled',
     setCategories:'Category Management', setCategoriesSub:'Custom income & expense categories',
@@ -839,27 +993,29 @@ const I18N = {
     setExportJson:'Export Data (JSON)', setExportJsonSub:'Download full backup',
     setExportCsv:'Export Transactions (CSV)', setExportCsvSub:'For Excel / spreadsheets',
     setImport:'Import / Restore', setImportSub:'Restore from JSON backup',
-    setDataStorage:'Data Storage', setDataStorageSub:'Local localStorage',
-    setTxCount:'{n} transactions', setClearData:'Clear All Data', setClearDataSub:'Irreversible, be careful',
-    setAbout:'SaveWise v{av} · Data v{dv}\nData is stored in this browser, export backups regularly.',
+    setDataStorage:'Data Storage', setDataStorageSub:'Local localStorage (Local-first)',
+    setClearData:'Clear All Data', setClearDataSub:'Irreversible, be careful',
+    setAbout:'Jiheng v{av} · Data v{dv}\nData is stored in this browser, export backups regularly.',
     setLanguage:'Language / 语言', setLanguageSub:'Switch app display language',
     setVersion:'App Version', setDataVersion:'Data Version', setLastUpdate:'Last Update',
     setDataStats:'Data Statistics', setStatTx:'Transactions', setStatAcc:'Money Accounts', setStatGoal:'Goals', setStatAsset:'Assets',
     setStatTransfers:'Transfers', setStatDebt:'Debt Records', setStatGiven:'Money Given',
-    setWhatsNew:'Changelog', setWhatsNewSub:'View version updates',
-    setSystemInfo:'System Information / 系统信息', setSystemInfoSub:'App, data version and storage status',
+    setWhatsNew:'Update History', setWhatsNewSub:'View version updates',
+    setProductGuide:'Product Guide', setProductGuideSub:'See what Jiheng offers today',
+    setSystemInfo:'System Information', setSystemInfoSub:'App, data version and storage status',
     setIdentity:'Product Identity Notice', setIdentitySub:'Full 3-language version',
+
     catIncome:'Income Categories', catExpense:'Expense Categories', catAdd:'＋ Add',
     catCustomIncome:'Custom Income Categories', catCustomExpense:'Custom Expense Categories',
     catAddIncome:'Add Income Category', catAddExpense:'Add Expense Category',
     catName:'Category Name', catNamePlaceholder:'e.g. Photo Gear',
     catAdded:'Category added', catDeleted:'Category deleted', catExists:'Category already exists',
     catHint:'Custom categories appear in income/expense forms.', catEnterName:'Please enter a category name',
-    catPickPreset:'Pick a preset', catOrCustom:'Or enter a custom category',
-    catCustomPlaceholder:'Enter custom category name', catOtherLabel:'Other / Custom…',
+    catPickPreset:'Pick a preset', catCustomPlaceholder:'Enter custom category name',
     catDebtCustomIncome:'Custom income categories (saved)', catDebtCustomExpense:'Custom expense categories (saved)',
+
     pickTitle:'Pick', pickCustom:'Custom', pickPurpose:'Pick purpose', pickMethod:'Pick method', pickOther:'Other…',
-    pickCategory:'Pick category',
+
     exportDone:'JSON exported', exportCsvDone:'CSV exported', exportFail:'Export failed',
     importTitle:'Import / Restore', importBtn:'Choose file and import',
     importHint:'Import will overwrite current data. Export a backup first.',
@@ -871,12 +1027,15 @@ const I18N = {
     saveFail:'Save failed: storage full',
     accountNotExist:'Account does not exist', goalNotExist:'Goal does not exist', assetNotExist:'Asset does not exist',
     amountPositive:'Amount must be greater than 0', invalidNumber:'Please enter a valid number',
-    migrationFailed:'SaveWise could not safely complete this update. Your existing data has been preserved.',
+    migrationFailed:'Jiheng could not safely complete this update. Your existing data has been preserved.',
     migrationSuccess:'Data safely migrated. All records preserved.', backupCreated:'Pre-update backup created automatically.',
-    whatsNewTitle:'Changelog', dataVersionNote:'Data v{dv} · App v{av}',
-    aboutTitle:'About SaveWise', sysInfoTitle:'System Information', storageLocal:'Local storage', lastUpdated:'Last updated',
+    whatsNewTitle:'Update History', productGuideTitle:'Product Guide',
+    dataVersionNote:'Data v{dv} · App v{av}',
+    aboutTitle:'About Jiheng', sysInfoTitle:'System Information', storageLocal:'Local storage', lastUpdated:'Last updated',
+
     delTxTitle:'Are you sure you want to delete this transaction?', delTransferTitle:'Are you sure you want to delete this account transfer record?',
     delGoalDepositTitle:'Are you sure you want to delete this savings deposit record?', delGoalWithdrawTitle:'Are you sure you want to delete this savings withdrawal record?',
+
     incomeCatNames:{
       salary:'Salary / Wages', part_time:'Part-time Income', freelance:'Freelance / Gig', temp_work:'Temp Work', bonus:'Bonus', allowance:'Allowance',
       pocket_money:'Pocket Money', family_give:'Family Given', angpao:'Angpao / Gift Money', gift_income:'Gift', living_allowance:'Living Allowance', other_family_income:'Other Family Income',
@@ -931,48 +1090,86 @@ const I18N = {
       cheque:'Cheque', other_method:'Other Method'
     },
     methodGroupNames:{ cash_method:'Cash', ewallet_method:'E-wallet', bank_method:'Bank / Bank Transfer', card_method:'Card', other_method:'Other' },
-    mealSubs:['Breakfast','Lunch','Dinner','Supper','Fast Food','Coffee']
+
+    guideTitle:'Product Guide',
+    guideIntro:'Below are the features Jiheng actually provides today. This page stays in sync with the real system.',
+    guideAccountsTitle:'Account Management',
+    guideAccountsDesc:'Manage multiple real-world money record accounts.',
+    guideTxTitle:'Transaction Records',
+    guideTxDesc:'Record your income and expenses: amount, date, time, category, account, method, note.',
+    guideTransferTitle:'Transfer Records',
+    guideTransferDesc:'Record real-world transfers from Account A to Account B. Jiheng only records; it does not move your money.',
+    guideGoalTitle:'Savings Goals',
+    guideGoalDesc:'Create savings goals and allocate available balance. Allocation is a record-level split; Jiheng does not actually lock funds.',
+    guideAssetTitle:'Asset Records',
+    guideAssetDesc:'Record real assets (phone, laptop, camera) and calculate theoretical use value over expected lifetime.',
+    guideDebtTitle:'Debt Records',
+    guideDebtDesc:'Record what you owe and what others owe you, with repayment progress, remaining amount, date and note.',
+    guideStatsTitle:'Statistics',
+    guideStatsDesc:'Income, expense, net savings, category breakdown and monthly trend based on your real records. Empty state when no data.',
+    guideSearchTitle:'Search & Filter',
+    guideSearchDesc:'Search and filter transactions by date, amount, category, account or keyword.',
+    guideAchTitle:'Achievements',
+    guideAchDesc:'Unlock achievements based on real usage. Each shows name, description, how-to-unlock, progress and status.',
+    guideLockTitle:'App Lock',
+    guideLockDesc:'Protect the app with a 6-digit PIN or custom password. Password is hashed, never stored as plain text. Biometrics reserved for future.',
+    guideDataTitle:'Backup & Restore',
+    guideDataDesc:'Export JSON, export CSV, import and restore. Import validates file format and data version; failure does not overwrite existing data.',
+    guideLangTitle:'Language',
+    guideLangDesc:'Supports Simplified Chinese, English, Bahasa Melayu. System UI follows the language, but user-defined names and notes are never translated.',
+    guidePrivacyTitle:'Hide Amounts',
+    guidePrivacyDesc:'When enabled, amounts in Home, Accounts, Records, Goals, Assets and Stats show as ••••••.',
+    guideLocalTitle:'Local-first',
+    guideLocalDesc:'Current version is Local-first. Data is stored in this browser without needing network. Future cloud sync is reserved as an extension.'
   },
   ms: {
-    appName:'SaveWise', slogan:'Merekod wang sebenar · Tidak memegang atau mengendalikannya',
-    lockCreatePin:'Cipta PIN 6 digit', lockConfirmPin:'Masukkan semula untuk sahkan', lockEnterPin:'Masukkan PIN untuk buka', lockEnterPassword:'Masukkan kata laluan tersuai untuk buka',
+    brand:'Jiheng', brandEn:'Jiheng', slogan:'Kumpul, dan kekalkan keseimbangan.',
+    brandTagline:'Merekodkan wang sebenar anda. Tidak memegang atau mengendalikannya.',
+
+    lockCreatePin:'Cipta PIN 6 digit', lockConfirmPin:'Masukkan semula untuk sahkan',
+    lockEnterPin:'Masukkan PIN untuk buka', lockEnterPassword:'Masukkan kata laluan tersuai untuk buka',
     lockChangeOld:'Masukkan PIN semasa', lockChangeNew:'Tetapkan PIN 6 digit baharu', lockChangeConfirm:'Masukkan PIN baharu semula',
     lockUseText:'Guna kata laluan tersuai', lockUsePin:'Guna PIN nombor', lockTextPlaceholder:'Masukkan kata laluan tersuai',
     lockOk:'OK', lockClear:'Padam', lockDel:'⌫',
     lockErrEmpty:'Sila masukkan kata laluan', lockErrPin6:'Sila masukkan PIN 6 digit', lockErrText4:'Kata laluan sekurang-kurangnya 4 aksara',
     lockErrMismatch:'Kata laluan tidak sepadan, cuba lagi', lockErrWrong:'Kata laluan salah. Sila cuba lagi.',
-    lockWelcome:'Selamat datang ke SaveWise', lockUpdated:'Kata laluan dikemas kini', lockAutoLocked:'Dikunci automatik',
+    lockErrGeneric:'Tidak dapat mengesahkan kata laluan. Sila cuba lagi.',
+    lockWelcome:'Selamat datang ke Jiheng', lockUpdated:'Kata laluan dikemas kini', lockAutoLocked:'Dikunci automatik',
     lockLockNow:'Kunci sekarang', lockChangePin:'Tukar PIN / Kata Laluan', lockDisable:'Matikan App Lock',
     lockDisableConfirm:'Selepas dimatikan, sesiapa boleh buka tanpa kata laluan. Teruskan?',
-    lockDisabled:'App Lock dimatikan', lockEnabled:'App Lock dihidupkan', lockEnable:'Hidupkan App Lock', lockEnableSub:'Perlu kata laluan untuk buka aplikasi',
-    lockAutoLockLabel:'Kunci automatik', lockAutoLockSub:'Kunci selepas meninggalkan aplikasi', lockNever:'Tidak pernah', lockMin:'min',
+    lockDisabled:'App Lock dimatikan', lockEnabled:'App Lock dihidupkan',
+    lockEnable:'Hidupkan App Lock', lockEnableSub:'Perlu kata laluan untuk buka aplikasi',
+    lockAutoLockLabel:'Kunci automatik', lockAutoLockSub:'Kunci selepas meninggalkan aplikasi',
+    lockNever:'Tidak pernah', lockMin:'min',
     lockBioTitle:'Biometrik (Face ID / Cap jari)', lockBioSub:'Akan datang dalam V2.0',
     lockHashNote:'Kata laluan di-hash, tidak disimpan sebagai teks biasa. Jika terlupa, tidak boleh dipulihkan.',
-    lockDataPreserved:'Data SaveWise sedia ada dikesan. Akaun, baki, transaksi, sasaran, aset dan tetapan dikekalkan.',
-    lockNoticeTitle:'Notis Identiti Produk · Product Identity · 产品性质声明',
+    lockDataPreserved:'Data Jiheng sedia ada dikesan. Akaun, baki, transaksi, sasaran, aset dan tetapan dikekalkan.',
+    lockNoticeTitle:'Notis Identiti Produk · Product Identity · 产品身份说明',
     lockSettingsTitle:'App Lock', lockModeLabel:'Kaedah Kunci',
     lockModePIN:'PIN Nombor (6 digit)', lockModePassword:'Kata Laluan Tersuai',
     lockModePINSub:'Buka dengan PIN 6 digit', lockModePasswordSub:'Buka dengan kata laluan tersuai',
     lockSetPIN:'Tetapkan / Tukar PIN', lockSetPassword:'Tetapkan / Tukar Kata Laluan Tersuai',
     lockCurrentPIN:'PIN Semasa', lockNewPIN:'PIN 6 digit Baharu', lockConfirmPIN:'Sahkan PIN Baharu',
     lockCurrentPassword:'Kata Laluan Semasa', lockNewPassword:'Kata Laluan Baharu', lockConfirmPassword:'Sahkan Kata Laluan Baharu',
-    lockVerifyFirst:'Sila masukkan kata laluan semasa untuk pengesahan',
     lockSetPasswordTitle:'Tetapkan Kata Laluan Tersuai', lockChangePasswordTitle:'Tukar Kata Laluan Tersuai',
     lockSetPINTitle:'Tetapkan PIN 6 digit', lockChangePINTitle:'Tukar PIN 6 digit',
     lockPasswordSet:'Kata laluan tersuai ditetapkan', lockPINSet:'PIN dikemas kini',
-    lockVerifyFailed:'Kata laluan semasa tidak betul', lockPasswordLength:'Kata laluan sekurang-kurangnya 4 aksara', lockModeChanged:'Kaedah kunci ditukar',
+    lockVerifyFailed:'Kata laluan semasa tidak betul', lockPasswordLength:'Kata laluan sekurang-kurangnya 4 aksara',
+
     cancel:'Batal', confirm:'Sahkan', save:'Simpan', delete:'Padam', edit:'Edit', add:'Tambah',
-    back:'Kembali', close:'Tutup', search:'Cari', all:'Semua', none:'Tiada', ok:'OK', yes:'Ya', no:'Tidak', optional:'pilihan',
+    back:'Kembali', close:'Tutup', search:'Cari', all:'Semua', none:'Tiada', ok:'OK', yes:'Ya', no:'Tidak',
     tabHome:'Utama', tabRecords:'Rekod', tabGoals:'Simpanan', tabAssets:'Aset', tabStats:'Statistik', tabSettings:'Tetapan',
-    totalAssets:'Jumlah Aset Tercatat', totalAssetsSub:'Jumlah aset sebenar yang direkod pengguna, bukan dipegang oleh SaveWise',
+
+    totalAssets:'Jumlah Aset Tercatat', totalAssetsSub:'Semua dana dan aset yang anda rekod dalam Jiheng',
     availableBalance:'Baki Boleh Guna', lockedSaving:'Peruntukan Sasaran',
     monthIncome:'Pendapatan bulan ini', monthExpense:'Perbelanjaan bulan ini',
-    myAccounts:'Akaun Wang Saya', allAccounts:'Semua Akaun / All Accounts', manage:'Urus',
+    myAccounts:'Akaun Wang Saya', allAccounts:'Semua Akaun', manage:'Urus',
     recentTx:'Transaksi Terkini', viewAll:'Lihat semua',
     quickIncome:'Pendapatan', quickExpense:'Perbelanjaan', quickTransfer:'Pindah', quickGoal:'Sasaran',
     noAccount:'Belum ada akaun wang', addFirstAccount:'Tambah akaun wang pertama',
-    noTx:'Belum ada rekod, tambah pendapatan pertama',
-    welcomeTitle:'Selamat datang ke SaveWise', welcomeSub:'Tambah akaun wang, kemudian rekod pendapatan pertama',
+    noTx:'Belum ada rekod, mula dengan menambah pendapatan pertama',
+    welcomeTitle:'Selamat datang ke Jiheng', welcomeSub:'Rekod wang sebenar. Mulakan dengan mencipta akaun wang.',
+
     createAccount:'Tambah Akaun Wang', accountName:'Nama Akaun Wang', accountType:'Jenis Akaun', initialBalance:'Baki awal (pilihan)',
     accountNamePlaceholder:'cth. Wallet Tunai',
     initialHint:'Jika diisi, satu rekod "Baki awal" akan dicipta.',
@@ -982,6 +1179,7 @@ const I18N = {
     accountDeleteUsed:'Akaun ada sejarah. Rekod kekal tetapi tunjuk "—". Padam?',
     accountDeleted:'Akaun wang dipadam', accountUpdated:'Dikemas kini', totalAvailable:'Jumlah Boleh Guna',
     accountDeleteHint:'Baki dikemas kini dengan pendapatan, perbelanjaan, pindahan, simpanan dan rekod wang diberi. Kosongkan baki sebelum padam.',
+
     income:'Pendapatan', expense:'Perbelanjaan', transfer:'Pindahan', goalDeposit:'Simpanan Sasaran', goalWithdraw:'Keluaran Sasaran',
     moneyGiven:'Wang Diberi', debtBorrow:'Saya Berhutang', debtLend:'Orang Berhutang',
     recordIncome:'Rekod Pendapatan', recordExpense:'Rekod Perbelanjaan', recordTransfer:'Rekod Pindahan Akaun',
@@ -993,7 +1191,7 @@ const I18N = {
     incomeSaved:'Pendapatan direkod', expenseSaved:'Perbelanjaan direkod', transferDone:'Pindahan akaun direkod',
     insufficientBalance:'Baki rekod tidak mencukupi', sameAccount:'Akaun sumber dan tujuan mesti berbeza',
     noAccountWarn:'Sila tambah akaun wang dahulu', needTwoAccounts:'Perlu sekurang-kurangnya dua akaun',
-    transferHint:'Ini hanya merekod pindahan sebenar. SaveWise tidak melaksanakan pemindahan wang sebenar.',
+    transferHint:'Ini hanya merekod pindahan sebenar. Jiheng tidak melaksanakan pemindahan wang sebenar.',
     invalidAmount:'Sila masukkan jumlah yang sah',
     filterAll:'Semua', filterIncome:'Pendapatan', filterExpense:'Perbelanjaan', filterSaving:'Pindahan/Simpanan',
     filterIncomeTotal:'Pendapatan Ditapis', filterExpenseTotal:'Perbelanjaan Ditapis',
@@ -1001,6 +1199,7 @@ const I18N = {
     noRecords:'Belum ada rekod', recordFirst:'＋ Rekod pertama', today:'Hari ini', yesterday:'Semalam',
     recurringLabel:'Pendapatan berulang?', recurringLabelExp:'Perbelanjaan berulang?',
     recurringNo:'Tidak, sekali sahaja', recurringYes:'Ya, berulang (disediakan)', initialBalanceNote:'Baki awal',
+
     goalNew:'Sasaran Simpanan Baharu', goalEdit:'Edit Sasaran',
     goalName:'Nama Sasaran', goalNamePlaceholder:'cth. Telefon Baharu',
     goalTarget:'Jumlah Sasaran', goalDeadline:'Tarikh akhir (pilihan)', goalIcon:'Ikon (pilihan)',
@@ -1017,11 +1216,13 @@ const I18N = {
     goalCancelTitle:'Batal Sasaran', goalCancelBtn:'Sahkan Batal',
     goalCancelHint:'{amt} diperuntukkan akan dipulangkan sepenuhnya ke akaun dipilih.',
     goalCancelled:'Sasaran dibatalkan, dana dipulangkan',
-    goalDeadlineNone:'Tiada tarikh akhir', goalDaysLeft:'{n} hari lagi', goalDueToday:'Tamat hari ini', goalOverdue:'Lewat {n} hari', goalDone:'Dicapai',
+    goalDeadlineNone:'Tiada tarikh akhir', goalDaysLeft:'{n} hari lagi',
+    goalDueToday:'Tamat hari ini', goalOverdue:'Lewat {n} hari', goalDone:'Dicapai',
     lockedSavingAmount:'Peruntukan Sasaran', goalTotal:'Jumlah Sasaran',
     goalNoGoals:'Belum ada sasaran simpanan', goalNoGoalsSub:'Tetapkan sasaran dan peruntukkan sebahagian baki', goalNewBtn:'Sasaran Baharu',
     goalReturnAccount:'Pulangkan ke Akaun', goalDeleteCustomHint:'Padam kategori tersuai "{name}"? Rekod sedia ada tidak terjejas.',
     goalIconNone:'Tiada', goalDeleteConfirm:'Adakah anda pasti mahu memadam sasaran simpanan ini?', goalDeleted:'Sasaran simpanan dipadam',
+
     assetNew:'Tambah Aset', assetEdit:'Edit Aset',
     assetName:'Nama Aset', assetNamePlaceholder:'cth. Komputer Riba',
     assetPrice:'Harga Belian', assetPurchaseDate:'Tarikh Belian',
@@ -1051,6 +1252,7 @@ const I18N = {
     assetHint:'Nilai harian teori = Harga ÷ Jangkaan hari. Ini tidak mengubah baki akaun.',
     assetRecoveryNote:'Pemulihan / nilai guna ialah ciri analisis. Ia tidak menghasilkan wang tunai dan tidak mengubah baki akaun.',
     assetValidName:'Sila masukkan nama aset', assetValidPrice:'Sila masukkan harga yang sah', assetValidPeriod:'Tempoh jangkaan mesti lebih daripada 0',
+
     debtTitle:'Rekod Hutang', debtSub:'Rekod hutang saya dan hutang orang kepada saya',
     debtIOwe:'Saya Berhutang', debtOweMe:'Orang Berhutang', debtAll:'Semua',
     debtNew:'Rekod Hutang Baharu', debtEdit:'Edit Rekod Hutang',
@@ -1069,32 +1271,31 @@ const I18N = {
     debtCancel:'Tanda Dibatalkan', debtCancelConfirm:'Tanda sebagai dibatalkan? Rekod ini tidak dikira dalam jumlah hutang.', debtCancelled:'Ditanda dibatalkan',
     debtSettle:'Tanda Selesai', debtSettleConfirm:'Tanda sebagai selesai dibayar?', debtSettled:'Ditanda selesai',
     debtTotalIOwe:'Jumlah Saya Berhutang', debtTotalOweMe:'Jumlah Orang Berhutang', debtNet:'Hutang Bersih',
-    debtImportantNote:'Rekod hutang hanya merekod pinjaman sebenar. SaveWise tidak melakukan pembayaran dan tidak mengubah baki akaun secara automatik.',
+    debtImportantNote:'Rekod hutang hanya merekod pinjaman sebenar. Jiheng tidak melakukan pembayaran dan tidak mengubah baki akaun secara automatik.',
     debtRepayHint:'Jika pembayaran sebenar telah berlaku, gunakan Pendapatan, Perbelanjaan atau Wang Diberi untuk merekod pergerakan dana.',
     debtOverdue:'Lewat', debtDueToday:'Tamat hari ini', debtDueIn:'{n} hari lagi', debtExceed:'Melebihi baki hutang',
+
     mgTitle:'Rekod Wang Diberi', mgSub:'Rekod wang sebenar yang diberi: hadiah, keluarga, rakan, bayaran balik',
     mgNew:'Rekod Wang Diberi', mgEdit:'Edit Rekod',
     mgPerson:'Nama Penerima', mgPersonPlaceholder:'cth. Emak',
     mgAmount:'Jumlah', mgDate:'Tarikh', mgTime:'Masa',
-    mgFromAccount:'Akaun Sumber', mgFromAccountHint:'Wang ini asalnya direkod dalam akaun SaveWise yang mana?',
+    mgFromAccount:'Akaun Sumber', mgFromAccountHint:'Wang ini asalnya direkod dalam akaun Jiheng yang mana?',
     mgPurpose:'Tujuan / Jenis', mgPurposeCustom:'Tujuan tersuai',
     mgMethod:'Cara Pemindahan', mgMethodCustom:'Cara tersuai', mgMethodHint:'Bagaimana anda memberi wang ini dalam dunia sebenar?',
-    mgType:'Jenis (lama, untuk keserasian)',
-    mgTypeGift:'Hadiah', mgTypeFamily:'Keluarga', mgTypeFriend:'Rakan', mgTypeRepay:'Bayaran Balik', mgTypeOther:'Lain-lain',
     mgNote:'Nota (pilihan)', mgSave:'Sahkan Rekod', mgCreated:'Wang diberi direkod',
     mgUpdated:'Dikemas kini', mgDeleted:'Dipadam',
     mgDeleteConfirm:'Adakah anda pasti mahu memadam rekod wang diberi ini? Baki akaun berkenaan akan dipulihkan.',
     mgNoRecords:'Belum ada rekod wang diberi', mgNoRecordsSub:'Rekod wang yang anda beri dalam kehidupan sebenar',
-    mgTotal:'Jumlah Diberi', mgImportantNote:'SaveWise hanya merekod perubahan dana sebenar ini. Ia tidak melaksanakan sebarang pemindahan.',
+    mgImportantNote:'Jiheng hanya merekod perubahan dana sebenar ini. Ia tidak melaksanakan sebarang pemindahan.',
+
     statsMonth:'Bulan Ini', statsAll:'Semua Masa', statsWeek:'Minggu Ini', statsYear:'Tahun Ini', statsToday:'Hari Ini',
     statsIncome:'Pendapatan', statsExpense:'Perbelanjaan', statsNet:'Simpanan Bersih', statsLocked:'Peruntukan',
-    statsCumulative:'Kumulatif (Semua Masa)', statsCumIncome:'Jumlah Pendapatan', statsCumExpense:'Jumlah Perbelanjaan', statsCumNet:'Jumlah Bersih',
     statsExpenseCat:'Kategori Perbelanjaan', statsIncomeCat:'Kategori Pendapatan',
-    statsAccDist:'Taburan Akaun', statsGoalProgress:'Kemajuan Sasaran',
     statsTrend:'Trend Bulanan', statsTrendSub:'Simpanan bersih 6 bulan',
     statsNoData:'Belum ada statistik', statsNoDataSub:'Rekod transaksi untuk jana analisis',
-    statsNoExpense:'Tiada data perbelanjaan', statsNoIncome:'Tiada data pendapatan', statsAvailable:'Boleh Guna',
+    statsNoExpense:'Tiada data perbelanjaan', statsNoIncome:'Tiada data pendapatan',
     statsTransferNote:'Pindahan akaun, operasi simpanan, rekod hutang dan rekod wang diberi tidak dikira sebagai pendapatan atau perbelanjaan.',
+
     achTitle:'Pencapaian Saya', achUnlocked:'Dibuka', achLocked:'Belum Dibuka',
     achHowTo:'Cara buka', achProgress:'Kemajuan',
     achList:[
@@ -1114,7 +1315,8 @@ const I18N = {
       { id:'save_1000',      name:'RM1000 Disimpan', desc:'Simpanan kumulatif RM1000', icon:'💎', how:'Peruntukkan jumlah kumulatif RM1000 ke sasaran simpanan untuk membuka.', target:1000, kind:'total_saved' }
     ],
     achUnlockToast:'🏆 Pencapaian dibuka: {name}',
-    setTitle:'Tetapan', setHideBalance:'Mod Sembunyi Baki', setHideBalanceSub:'Tunjuk semua jumlah sebagai RM**** (tidak sembunyikan notis produk)',
+
+    setTitle:'Tetapan', setHideBalance:'Mod Sembunyi Baki', setHideBalanceSub:'Tunjuk semua jumlah sebagai ••••••',
     setCurrency:'Mata Wang', setCurrencySub:'Mata wang semasa',
     setLock:'App Lock', setLockSubOn:'Dihidupkan', setLockSubOff:'Dimatikan',
     setCategories:'Pengurusan Kategori', setCategoriesSub:'Kategori pendapatan & perbelanjaan tersuai',
@@ -1123,27 +1325,29 @@ const I18N = {
     setExportJson:'Eksport Data (JSON)', setExportJsonSub:'Muat turun sandaran penuh',
     setExportCsv:'Eksport Transaksi (CSV)', setExportCsvSub:'Untuk Excel / spreadsheet',
     setImport:'Import / Pulih', setImportSub:'Pulih dari sandaran JSON',
-    setDataStorage:'Storan Data', setDataStorageSub:'localStorage tempatan',
-    setTxCount:'{n} transaksi', setClearData:'Padam Semua Data', setClearDataSub:'Tidak boleh dipulihkan',
-    setAbout:'SaveWise v{av} · Data v{dv}\nData disimpan dalam pelayar ini, eksport sandaran secara berkala.',
+    setDataStorage:'Storan Data', setDataStorageSub:'localStorage tempatan (Local-first)',
+    setClearData:'Padam Semua Data', setClearDataSub:'Tidak boleh dipulihkan',
+    setAbout:'Jiheng v{av} · Data v{dv}\nData disimpan dalam pelayar ini, eksport sandaran secara berkala.',
     setLanguage:'Bahasa / Language', setLanguageSub:'Tukar bahasa paparan',
     setVersion:'Versi App', setDataVersion:'Versi Data', setLastUpdate:'Kemas Kini Terakhir',
     setDataStats:'Statistik Data', setStatTx:'Transaksi', setStatAcc:'Akaun Wang', setStatGoal:'Sasaran', setStatAsset:'Aset',
     setStatTransfers:'Pindahan', setStatDebt:'Rekod Hutang', setStatGiven:'Wang Diberi',
     setWhatsNew:'Sejarah Kemas Kini', setWhatsNewSub:'Lihat kandungan kemas kini',
-    setSystemInfo:'Maklumat Sistem / System Information', setSystemInfoSub:'App, versi data dan status storan',
+    setProductGuide:'Panduan Produk', setProductGuideSub:'Lihat ciri semasa Jiheng',
+    setSystemInfo:'Maklumat Sistem', setSystemInfoSub:'App, versi data dan status storan',
     setIdentity:'Notis Identiti Produk', setIdentitySub:'Versi penuh 3 bahasa',
+
     catIncome:'Kategori Pendapatan', catExpense:'Kategori Perbelanjaan', catAdd:'＋ Tambah',
     catCustomIncome:'Kategori Pendapatan Tersuai', catCustomExpense:'Kategori Perbelanjaan Tersuai',
     catAddIncome:'Tambah Kategori Pendapatan', catAddExpense:'Tambah Kategori Perbelanjaan',
     catName:'Nama Kategori', catNamePlaceholder:'cth. Peralatan Fotografi',
     catAdded:'Kategori ditambah', catDeleted:'Kategori dipadam', catExists:'Kategori sudah wujud',
     catHint:'Kategori tersuai muncul dalam borang pendapatan/perbelanjaan.', catEnterName:'Sila masukkan nama kategori',
-    catPickPreset:'Pilih pratetap', catOrCustom:'Atau masukkan kategori tersuai',
-    catCustomPlaceholder:'Masukkan nama kategori tersuai', catOtherLabel:'Lain-lain / Tersuai…',
+    catPickPreset:'Pilih pratetap', catCustomPlaceholder:'Masukkan nama kategori tersuai',
     catDebtCustomIncome:'Kategori pendapatan tersuai (disimpan)', catDebtCustomExpense:'Kategori perbelanjaan tersuai (disimpan)',
+
     pickTitle:'Pilih', pickCustom:'Tersuai', pickPurpose:'Pilih tujuan', pickMethod:'Pilih cara', pickOther:'Lain-lain…',
-    pickCategory:'Pilih kategori',
+
     exportDone:'JSON dieksport', exportCsvDone:'CSV dieksport', exportFail:'Eksport gagal',
     importTitle:'Import / Pulih', importBtn:'Pilih fail dan import',
     importHint:'Import akan menimpa data semasa. Eksport sandaran dahulu.',
@@ -1155,12 +1359,15 @@ const I18N = {
     saveFail:'Gagal simpan: storan penuh',
     accountNotExist:'Akaun tidak wujud', goalNotExist:'Sasaran tidak wujud', assetNotExist:'Aset tidak wujud',
     amountPositive:'Jumlah mesti lebih daripada 0', invalidNumber:'Sila masukkan nombor yang sah',
-    migrationFailed:'SaveWise tidak dapat melengkapkan kemas kini ini dengan selamat. Data sedia ada anda telah dikekalkan.',
+    migrationFailed:'Jiheng tidak dapat melengkapkan kemas kini ini dengan selamat. Data sedia ada anda telah dikekalkan.',
     migrationSuccess:'Data berjaya dipindahkan. Semua rekod dikekalkan.', backupCreated:'Sandaran pra-kemas kini dicipta secara automatik.',
-    whatsNewTitle:'Sejarah Kemas Kini', dataVersionNote:'Data v{dv} · App v{av}',
-    aboutTitle:'Tentang SaveWise', sysInfoTitle:'Maklumat Sistem', storageLocal:'Storan tempatan', lastUpdated:'Kemas kini terakhir',
+    whatsNewTitle:'Sejarah Kemas Kini', productGuideTitle:'Panduan Produk',
+    dataVersionNote:'Data v{dv} · App v{av}',
+    aboutTitle:'Tentang Jiheng', sysInfoTitle:'Maklumat Sistem', storageLocal:'Storan tempatan', lastUpdated:'Kemas kini terakhir',
+
     delTxTitle:'Adakah anda pasti mahu memadam rekod transaksi ini?', delTransferTitle:'Adakah anda pasti mahu memadam rekod pindahan akaun ini?',
     delGoalDepositTitle:'Adakah anda pasti mahu memadam rekod simpanan ini?', delGoalWithdrawTitle:'Adakah anda pasti mahu memadam rekod keluaran simpanan ini?',
+
     incomeCatNames:{
       salary:'Gaji / Upah', part_time:'Pendapatan Sambilan', freelance:'Bebas / Gig', temp_work:'Kerja Sementara', bonus:'Bonus', allowance:'Elaun',
       pocket_money:'Duit Poket', family_give:'Keluarga Beri', angpao:'Angpao / Duit Hadiah', gift_income:'Hadiah', living_allowance:'Elaun Sara Hidup', other_family_income:'Pendapatan Keluarga Lain',
@@ -1215,12 +1422,51 @@ const I18N = {
       cheque:'Cek', other_method:'Cara Lain'
     },
     methodGroupNames:{ cash_method:'Tunai', ewallet_method:'E-dompet', bank_method:'Bank / Pindahan Bank', card_method:'Kad', other_method:'Lain-lain' },
-    mealSubs:['Sarapan','Makan Tengahari','Makan Malam','Makan Lewat','Makanan Segera','Kopi']
+
+    guideTitle:'Panduan Produk',
+    guideIntro:'Berikut ialah ciri sebenar yang disediakan Jiheng pada masa ini. Halaman ini diselaraskan dengan sistem.',
+    guideAccountsTitle:'Pengurusan Akaun',
+    guideAccountsDesc:'Urus berbilang akaun rekod wang dunia sebenar.',
+    guideTxTitle:'Rekod Transaksi',
+    guideTxDesc:'Rekod pendapatan dan perbelanjaan: jumlah, tarikh, masa, kategori, akaun, cara, nota.',
+    guideTransferTitle:'Rekod Pindahan',
+    guideTransferDesc:'Rekod pindahan sebenar dari Akaun A ke Akaun B. Jiheng hanya merekod; ia tidak memindahkan wang anda.',
+    guideGoalTitle:'Sasaran Simpanan',
+    guideGoalDesc:'Cipta sasaran simpanan dan peruntukkan baki boleh guna. Peruntukan ialah pembahagian rekod; Jiheng tidak mengunci dana sebenar.',
+    guideAssetTitle:'Rekod Aset',
+    guideAssetDesc:'Rekod aset sebenar (telefon, komputer riba, kamera) dan kira nilai guna teori sepanjang hayat jangkaan.',
+    guideDebtTitle:'Rekod Hutang',
+    guideDebtDesc:'Rekod hutang anda dan hutang orang kepada anda, dengan kemajuan bayaran, baki, tarikh dan nota.',
+    guideStatsTitle:'Statistik',
+    guideStatsDesc:'Pendapatan, perbelanjaan, simpanan bersih, pecahan kategori dan trend bulanan berdasarkan rekod sebenar.',
+    guideSearchTitle:'Carian & Penapis',
+    guideSearchDesc:'Cari dan tapis transaksi mengikut tarikh, jumlah, kategori, akaun atau kata kunci.',
+    guideAchTitle:'Pencapaian',
+    guideAchDesc:'Buka pencapaian berdasarkan penggunaan sebenar. Setiap satu tunjuk nama, penerangan, cara buka, kemajuan dan status.',
+    guideLockTitle:'App Lock',
+    guideLockDesc:'Lindungi aplikasi dengan PIN 6 digit atau kata laluan tersuai. Kata laluan di-hash, tidak disimpan sebagai teks biasa.',
+    guideDataTitle:'Sandaran & Pulih',
+    guideDataDesc:'Eksport JSON, eksport CSV, import dan pulih. Import mengesahkan format fail dan versi data; kegagalan tidak menimpa data sedia ada.',
+    guideLangTitle:'Bahasa',
+    guideLangDesc:'Menyokong Cina Ringkas, English, Bahasa Melayu. UI sistem ikut bahasa, tetapi nama dan nota pengguna tidak diterjemah.',
+    guidePrivacyTitle:'Sembunyi Jumlah',
+    guidePrivacyDesc:'Apabila dihidupkan, jumlah di Utama, Akaun, Rekod, Sasaran, Aset dan Statistik dipaparkan sebagai ••••••.',
+    guideLocalTitle:'Local-first',
+    guideLocalDesc:'Versi semasa ialah Local-first. Data disimpan dalam pelayar ini tanpa perlu rangkaian. Sync awan masa depan disediakan sebagai sambungan.'
   }
 };
 
 function detectLang(){
-  try{ const saved = localStorage.getItem(LANG_KEY); if(saved && I18N[saved]) return saved; }catch(e){}
+  try{
+    // 新品牌 key 优先
+    const saved = localStorage.getItem(LANG_KEY);
+    if(saved && I18N[saved]) return saved;
+    // 兼容旧 key
+    for(const k of LEGACY_LANG_KEYS){
+      const old = localStorage.getItem(k);
+      if(old && I18N[old]) return old;
+    }
+  }catch(e){}
   const nav = (navigator.language || 'zh').toLowerCase();
   if(nav.startsWith('ms')) return 'ms';
   if(nav.startsWith('en')) return 'en';
@@ -1278,80 +1524,73 @@ function setLang(l){
   toast(l === 'zh' ? '语言已切换为简体中文' : l === 'en' ? 'Language switched to English' : 'Bahasa ditukar ke Bahasa Melayu');
 }
 
-/* ============================ Metadata ============================ */
+/* ============================ Metadata (兼容旧 key) ============================ */
 function loadMeta(){
   try{
-    const raw = localStorage.getItem(META_KEY);
-    if(!raw) return { appVersion: APP_VERSION_FALLBACK, dataVersion: DATA_VERSION_FALLBACK, lastUpdated: new Date().toISOString() };
+    const raw = localStorage.getItem(META_KEY) || (LEGACY_META_KEYS.map(k=>localStorage.getItem(k)).find(Boolean));
+    if(!raw) return { appVersion: APP_VERSION, dataVersion: DATA_VERSION, lastUpdated: new Date().toISOString() };
     const m = JSON.parse(raw);
     return {
-      appVersion: m.appVersion || APP_VERSION_FALLBACK,
-      dataVersion: Number(m.dataVersion) || DATA_VERSION_FALLBACK,
+      appVersion: m.appVersion || APP_VERSION,
+      dataVersion: Number(m.dataVersion) || DATA_VERSION,
       lastUpdated: m.lastUpdated || new Date().toISOString()
     };
   }catch(e){
-    return { appVersion: APP_VERSION_FALLBACK, dataVersion: DATA_VERSION_FALLBACK, lastUpdated: new Date().toISOString() };
+    return { appVersion: APP_VERSION, dataVersion: DATA_VERSION, lastUpdated: new Date().toISOString() };
   }
 }
 function saveMeta(m){ try{ localStorage.setItem(META_KEY, JSON.stringify(m)); }catch(e){} }
 let META = loadMeta();
 
-/* ============================ Changelog ============================ */
+/* ============================ Changelog — 积衡 V1.00 起 ============================ */
 const CHANGELOG_SEED = [
-  { version:'1.00', date:'2026-09-12', items:{ zh:['初始版本'], en:['Initial Release'], ms:['Keluaran Awal'] } },
-  { version:'1.01', date:'2026-09-12', items:{ zh:['首页和锁屏新增永久三语产品性质声明'], en:['Permanent 3-language Product Identity Notice'], ms:['Notis Identiti Produk 3 bahasa kekal'] } },
-  { version:'1.02', date:'2026-09-12', items:{ zh:['设置页新增系统信息','数据版本变更前自动备份','更新记录改为只追加'], en:['Added System Information','Backup before data version change','Changelog append-only'], ms:['Maklumat Sistem ditambah','Sandaran sebelum perubahan versi data','Sejarah kemas kini hanya tambah'] } },
-  { version:'1.03', date:'2026-09-12', items:{ zh:['统计支持今日/本周/本月/本年/全部','改进资产回本措辞'], en:['Statistics: today/week/month/year/all','Improved asset recovery wording'], ms:['Statistik: hari ini/minggu/bulan/tahun/semua','Teks pemulihan aset diperbaiki'] } },
-  { version:'1.04', date:'2026-09-12', items:{ zh:['保证应用更新的数据连续性','迁移失败时保护数据'], en:['Data continuity on app updates','Migration failure protection'], ms:['Kesinambungan data semasa kemas kini','Perlindungan kegagalan migrasi'] } },
-  { version:'1.05', date:'2026-09-12', items:{
-    zh:['修复 App Lock 输入 PIN 时的页面跳动','「创建账号」改名为「新增资金账户」','新增欠款记录与还款追踪','新增转给他人 / 赠与记录'],
-    en:['Fixed App Lock layout jump','Renamed to "Add Money Account"','NEW: Debt Records with repayment tracking','NEW: Record Money Given'],
-    ms:['Betulkan lompatan susun atur App Lock','Dinamakan "Tambah Akaun Wang"','BAHARU: Rekod Hutang dengan jejak bayaran','BAHARU: Rekod Wang Diberi']
-  }},
-  { version:'1.06', date:'2026-09-12', items:{
-    zh:['恢复声明醒目大小','App Lock 固定视口','更新记录支持三语言','收入/支出/欠款/转账 详细分类','自定义分类真正保存'],
-    en:['Restored prominent notice','App Lock fixed viewport','Changelog supports 3 languages','Detailed categories for income/expense/debt/given','Custom categories truly saved'],
-    ms:['Notis dipulihkan','App Lock viewport tetap','Sejarah kemas kini 3 bahasa','Kategori terperinci','Kategori tersuai disimpan']
-  }},
-  { version:'1.07', date:'2026-09-12', items:{
-    zh:['App Lock 密码输入区在上，声明可滚动在下','修复自定义密码完全无法使用','新增设置/更改自定义密码入口','删除确认弹窗按对象区分'],
-    en:['App Lock input on top, notice scrollable below','Fixed Custom Password unusable','Added Set/Change Custom Password entry','Context-aware delete dialogs'],
-    ms:['App Lock input di atas, notis boleh skrol di bawah','Betulkan Kata Laluan Tersuai','Tambah pintu masuk Tetapkan Kata Laluan','Dialog padam mengikut objek']
-  }},
-  { version:'1.08', date:'2026-09-12', items:{
-    zh:['修复：分类 / 用途 / 方式选择器点击后无法选择','修复：选择后错误跳回主页','修复：选择后表单已填写内容丢失','新增：收入「收款方式」字段','新增：支出「付款方式」字段','新增：欠款「欠款方式」字段','完善：转给他人「转账方式」','改进：成就页面显示「如何达到」与真实进度条'],
-    en:['FIX: Selectors could not be picked','FIX: Selector returned to Home','FIX: Form data lost after selector','NEW: Income Method','NEW: Expense Method','NEW: Debt Method','IMPROVED: Money-Given Method unified','IMPROVED: Achievement how-to + real progress'],
-    ms:['BETUL: Pemilih tidak boleh dipilih','BETUL: Pemilih kembali ke Utama','BETUL: Data borang hilang','BAHARU: Cara Terima Pendapatan','BAHARU: Cara Bayar Perbelanjaan','BAHARU: Cara Hutang','DIPERBAIKI: Cara Wang Diberi','DIPERBAIKI: Cara buka + kemajuan pencapaian']
-  }},
-  { version:'1.09', date:'2026-09-12', items:{
-    zh:[
-      '修复：Custom Password 设置后无法验证解锁',
-      '修复：Confirm 按钮未真正触发 Custom Password 验证',
-      '统一：设置密码与验证密码使用相同的字符串处理与哈希算法',
-      '保证：PIN 与 Custom Password 都可正常解锁',
-      '改进：Custom Password 验证失败显示明确错误提示',
-      '改进：Custom Password 输入不强制数字，支持字母、数字和符号',
-      '保留：V1.00–V1.08 所有数据、密码、设置和更新历史'
-    ],
-    en:[
-      'FIX: Custom Password could not be verified after being set',
-      'FIX: Confirm button did not truly trigger Custom Password verification',
-      'UNIFIED: Setting and verifying use identical string handling + hash',
-      'GUARANTEED: Both PIN and Custom Password now unlock the app',
-      'IMPROVED: Clear error message on Custom Password verification failure',
-      'IMPROVED: Custom Password accepts letters, numbers and symbols, not only digits',
-      'PRESERVED: All V1.00–V1.08 data, passwords, settings and changelog'
-    ],
-    ms:[
-      'BETUL: Kata Laluan Tersuai tidak boleh disahkan selepas ditetapkan',
-      'BETUL: Butang Sahkan tidak mencetuskan pengesahan Kata Laluan Tersuai',
-      'DISATUKAN: Tetapan dan pengesahan guna pemprosesan teks + hash yang sama',
-      'DIJAMIN: PIN dan Kata Laluan Tersuai kini boleh membuka aplikasi',
-      'DIPERBAIKI: Mesej ralat jelas apabila pengesahan Kata Laluan Tersuai gagal',
-      'DIPERBAIKI: Kata Laluan Tersuai terima huruf, nombor dan simbol',
-      'DIKEKALKAN: Semua data V1.00–V1.08, kata laluan, tetapan dan sejarah'
-    ]
-  }}
+  {
+    version:'1.00',
+    date:'2026-09-12',
+    title:{
+      zh:'积衡 Jiheng — 初始发布',
+      en:'Jiheng — Initial Release',
+      ms:'Jiheng — Keluaran Awal'
+    },
+    items:{
+      zh:[
+        '品牌正式升级为「积衡 Jiheng」',
+        '产品定位：个人财务记录工具（Personal Finance Record Tool）',
+        '保留并延续用户所有账户、交易、储蓄、资产、欠款、转给他人记录',
+        '保留原有 PIN、自定义密码、应用锁、自动锁定设置',
+        '保留所有成就与自定义分类',
+        '首页、交易、储蓄、资产、统计、设置全部适配新品牌视觉',
+        '新增「产品功能讲解 Product Guide」，跟随系统实际功能更新',
+        '新增金额隐藏模式',
+        '本地优先（Local-first），数据保存在本机浏览器',
+        '产品身份说明三语同时显示'
+      ],
+      en:[
+        'Brand upgraded to Jiheng (积衡)',
+        'Positioning: Personal Finance Record Tool',
+        'All accounts, transactions, savings, assets, debts and money-given records preserved',
+        'PIN, Custom Password, App Lock and Auto-Lock preserved',
+        'All achievements and custom categories preserved',
+        'Home, Records, Goals, Assets, Stats, Settings redesigned around new brand',
+        'NEW: Product Guide stays in sync with the actual system',
+        'NEW: Hide Amount Mode',
+        'Local-first: data stored in the local browser',
+        'Product Identity Notice shown in 3 languages'
+      ],
+      ms:[
+        'Jenama dinaik taraf kepada Jiheng (积衡)',
+        'Kedudukan: Alat Rekod Kewangan Peribadi',
+        'Semua akaun, transaksi, simpanan, aset, hutang dan rekod wang diberi dikekalkan',
+        'PIN, Kata Laluan Tersuai, App Lock dan Kunci Automatik dikekalkan',
+        'Semua pencapaian dan kategori tersuai dikekalkan',
+        'Utama, Rekod, Sasaran, Aset, Statistik, Tetapan disesuaikan dengan jenama baharu',
+        'BAHARU: Panduan Produk selaras dengan sistem sebenar',
+        'BAHARU: Mod Sembunyi Jumlah',
+        'Local-first: data disimpan dalam pelayar setempat',
+        'Notis Identiti Produk dipaparkan dalam 3 bahasa'
+      ]
+    }
+  }
 ];
 function loadChangelog(){
   try{
@@ -1360,18 +1599,17 @@ function loadChangelog(){
     const arr = JSON.parse(raw);
     if(!Array.isArray(arr)) return CHANGELOG_SEED.slice();
     const seen = new Set(arr.map(x => x.version));
-    CHANGELOG_SEED.forEach(c => {
-      if(!seen.has(c.version)) arr.push(c);
-      else {
-        const i = arr.findIndex(x => x.version === c.version);
-        if(i >= 0 && Array.isArray(arr[i].items) && c.items && typeof c.items === 'object'){ arr[i].items = c.items; }
-      }
-    });
+    CHANGELOG_SEED.forEach(c => { if(!seen.has(c.version)) arr.push(c); });
     return arr;
   }catch(e){ return CHANGELOG_SEED.slice(); }
 }
 let CHANGELOG = loadChangelog();
 function saveChangelog(){ try{ localStorage.setItem(CHANGELOG_KEY, JSON.stringify(CHANGELOG)); }catch(e){} }
+function changelogTitle(entry){
+  if(!entry || !entry.title) return '';
+  if(typeof entry.title === 'string') return entry.title;
+  return entry.title[LANG] || entry.title.zh || entry.title.en || '';
+}
 function changelogItems(entry){
   if(!entry || !entry.items) return [];
   if(Array.isArray(entry.items)) return entry.items;
@@ -1381,13 +1619,15 @@ function changelogItems(entry){
 /* ============================ 数据层 ============================ */
 function defaultState(){
   return {
-    dataVersion: DATA_VERSION_FALLBACK,
+    dataVersion: DATA_VERSION,
     settings: { currency:'RM', hideBalance:false, autoLockMinutes:5, appLockEnabled:true, lang:LANG, lastUpdated:new Date().toISOString() },
     accounts: [], transactions: [], goals: [], assets: [], debts: [], moneyGiven: [],
     customIncomeCats: [], customExpenseCats: [], customMethods: [],
     achievements: {}, createdAt: new Date().toISOString()
   };
 }
+
+/* 迁移：只补齐字段，绝不删除数据 */
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
@@ -1410,7 +1650,7 @@ function migrate(p){
     if(m.method === undefined) m.method = '';
     if(m.methodCustom === undefined) m.methodCustom = '';
   });
-  p.dataVersion = META.dataVersion || DATA_VERSION_FALLBACK;
+  p.dataVersion = DATA_VERSION;
   const checks = [
     Array.isArray(p.accounts), Array.isArray(p.transactions), Array.isArray(p.goals),
     Array.isArray(p.assets), Array.isArray(p.debts), Array.isArray(p.moneyGiven),
@@ -1419,17 +1659,27 @@ function migrate(p){
   if(checks.some(x => !x)) return { ok:false, reason:'shape', data:original };
   return { ok:true, data:p };
 }
+
+/* 数据加载：优先读新 key，其次兼容旧 key，绝不重置 */
 function loadState(){
   const base = defaultState();
   try{
-    const raw = localStorage.getItem(STORAGE_KEY);
+    let raw = localStorage.getItem(STORAGE_KEY);
+    let cameFromLegacy = false;
+    if(!raw){
+      // 兼容旧品牌 key
+      for(const k of LEGACY_KEYS){
+        const old = localStorage.getItem(k);
+        if(old){ raw = old; cameFromLegacy = true; break; }
+      }
+    }
     if(!raw) return { state:base, fresh:true };
     let p = JSON.parse(raw) || {};
     if(p && p.state && p.state.accounts) p = p.state;
     const r = migrate(p);
     if(!r.ok){ return { state:base, fresh:false, migrationFailed:true, original:r.data }; }
     const merged = {
-      dataVersion: META.dataVersion || DATA_VERSION_FALLBACK,
+      dataVersion: DATA_VERSION,
       settings: Object.assign({}, base.settings, r.data.settings || {}),
       accounts: Array.isArray(r.data.accounts) ? r.data.accounts : [],
       transactions: Array.isArray(r.data.transactions) ? r.data.transactions : [],
@@ -1443,8 +1693,14 @@ function loadState(){
       achievements: (r.data.achievements && typeof r.data.achievements === 'object') ? r.data.achievements : {},
       createdAt: r.data.createdAt || new Date().toISOString()
     };
-    return { state:merged, fresh:false };
-  }catch(e){ return { state:base, fresh:true }; }
+    // 立刻把合并后的数据写回新 key（不删除旧 key 作为兜底）
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(merged)); }catch(e){}
+    return { state:merged, fresh:false, cameFromLegacy };
+  }catch(e){
+    // JSON 损坏时：保留旧 raw，返回默认空状态，并提示用户
+    console.error('[Jiheng loadState] error:', e);
+    return { state:base, fresh:true, parseError:true };
+  }
 }
 let loadResult = loadState();
 let state = loadResult.state;
@@ -1454,44 +1710,77 @@ function saveState(){
   try{
     state.settings.lang = LANG;
     state.settings.lastUpdated = new Date().toISOString();
-    state.dataVersion = META.dataVersion || DATA_VERSION_FALLBACK;
+    state.dataVersion = DATA_VERSION;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }catch(e){ toast(t('saveFail')); }
 }
 function createBackup(reason){
   try{
     localStorage.setItem(BACKUP_KEY, JSON.stringify({
-      app:'SaveWise', appVersion:META.appVersion, dataVersion:META.dataVersion,
+      app:'Jiheng', appVersion:APP_VERSION, dataVersion:DATA_VERSION,
       exportedAt:new Date().toISOString(), reason:reason||'auto', state
     }));
     return true;
   }catch(e){ return false; }
 }
 
-/* =========================================================================
-   安全 / 锁 —— V1.09 关键修复
-   ------------------------------------------------------------------
-   FIX: Setting and verifying MUST use identical string handling.
-   Previously custom password could be set but not verified because the
-   lock screen only had PIN keypad logic. Now:
-   1. lockRecord always has a `type` field: 'pin' or 'text'.
-   2. Lock screen reads that type and renders the correct UI.
-   3. Verification uses sha256(String(pin)) for BOTH types.
-   4. Text mode has its own input + confirm button, works with any chars.
-   ========================================================================= */
-async function sha256(text){
-  if(window.crypto && crypto.subtle){
-    try{
-      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
-      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-    }catch(e){}
+/* ============================ 安全 / 锁 ============================ */
+function _syncHash(text){
+  const str = String(text == null ? '' : text);
+  let h1 = 0x811c9dc5 >>> 0;
+  let h2 = 0x1000193 >>> 0;
+  for(let i = 0; i < str.length; i++){
+    const c = str.charCodeAt(i);
+    h1 = (h1 ^ c) >>> 0;
+    h1 = (h1 * 0x01000193) >>> 0;
+    h2 = ((h2 << 5) + h2 + c) >>> 0;
   }
-  let h = 5381;
-  for(let i=0;i<text.length;i++) h = ((h<<5)+h+text.charCodeAt(i))|0;
-  return 'fb' + Math.abs(h).toString(16) + text.length.toString(16);
+  return 'jh10_' + h1.toString(16).padStart(8,'0') + h2.toString(16).padStart(8,'0') + '_' + str.length.toString(16);
 }
-function loadLock(){ try{ const raw = localStorage.getItem(LOCK_KEY); if(!raw) return null; return JSON.parse(raw); }catch(e){ return null; } }
-function saveLock(obj){ try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){} }
+async function sha256(text){
+  const str = String(text == null ? '' : text);
+  if(window.crypto && crypto.subtle && typeof crypto.subtle.digest === 'function'){
+    try{
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      const arr = Array.from(new Uint8Array(buf));
+      let out = '';
+      for(let i = 0; i < arr.length; i++){ out += arr[i].toString(16).padStart(2,'0'); }
+      return out;
+    }catch(err){
+      console.warn('[Jiheng sha256] crypto.subtle.digest failed, using sync fallback:', err);
+    }
+  }
+  return _syncHash(str);
+}
+
+function loadLock(){
+  try{
+    // 新 key 优先
+    let raw = localStorage.getItem(LOCK_KEY);
+    let fromLegacy = false;
+    if(!raw){
+      for(const k of LEGACY_LOCK_KEYS){
+        const old = localStorage.getItem(k);
+        if(old){ raw = old; fromLegacy = true; break; }
+      }
+    }
+    if(!raw) return null;
+    const obj = JSON.parse(raw);
+    if(obj && obj.hash && !obj.type) obj.type = 'pin';
+    // 迁移到新 key（旧 key 保留作为兜底）
+    if(fromLegacy){
+      try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){}
+    }
+    return obj;
+  }catch(e){
+    console.error('[Jiheng loadLock] failed:', e);
+    return null;
+  }
+}
+function saveLock(obj){
+  try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }
+  catch(e){ console.error('[Jiheng saveLock] failed:', e); toast(t('saveFail')); }
+}
 function clearLock(){ try{ localStorage.removeItem(LOCK_KEY); }catch(e){} }
 
 let lockRecord = loadLock();
@@ -1512,7 +1801,7 @@ function round2(n){ return Math.round((Number(n) + Number.EPSILON) * 100) / 100;
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
 function fmtNum(n){ return Math.abs(round2(n)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
 function money(n){
-  if(state.settings.hideBalance) return state.settings.currency + '**.**';
+  if(state.settings.hideBalance) return state.settings.currency + ' ••••••';
   const neg = Number(n) < -0.004;
   return (neg ? '-' : '') + state.settings.currency + fmtNum(n);
 }
@@ -1585,7 +1874,7 @@ function matchRange(iso, range){
   return true;
 }
 
-/* ============================ Category / Method helpers ============================ */
+/* ============================ 分类 helpers ============================ */
 function allIncomeIds(){ const ids = []; INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function allExpenseIds(){ const ids = []; EXPENSE_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function allMethodIds(){ const ids = []; MONEY_METHOD_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
@@ -1662,18 +1951,10 @@ function afterChange(){
 }
 
 /* =========================================================================
-   Lock Screen — V1.09 FIX
+   Lock Screen
    ========================================================================= */
 let lockUI = { mode:'unlock', pin:'', firstPin:'', useTextMode:false, msg:'', error:false };
-
-function currentLockKind(){
-  if(lockRecord && lockRecord.type === 'text') return 'text';
-  return 'pin';
-}
-
-/* V1.09: Determine which UI mode we should be in.
-   During unlock, ALWAYS follow the stored lockRecord.type.
-   During create/change, allow user to pick with useTextMode. */
+function currentLockKind(){ return (lockRecord && lockRecord.type === 'text') ? 'text' : 'pin'; }
 function shouldUseTextMode(){
   if(lockUI.mode === 'unlock') return currentLockKind() === 'text';
   return lockUI.useTextMode;
@@ -1681,11 +1962,10 @@ function shouldUseTextMode(){
 
 function renderLock(){
   const root = document.getElementById('lock-root');
+  if(!root) return;
   const hasLock = !!(lockRecord && lockRecord.hash);
   const hasData = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
   if(isUnlocked){ root.innerHTML = ''; return; }
-
-  // Sync useTextMode with stored type during unlock
   if(lockUI.mode === 'unlock'){ lockUI.useTextMode = currentLockKind() === 'text'; }
 
   let title = shouldUseTextMode() ? t('lockEnterPassword') : t('lockEnterPin');
@@ -1702,8 +1982,8 @@ function renderLock(){
   root.innerHTML = `
   <div class="lock-screen" id="lock-screen">
     <div class="lock-header">
-      <div class="lock-logo">SaveWise</div>
-      <div class="lock-sub">${esc(t('slogan'))}</div>
+      <div class="jiheng-wordmark light"><span class="zh">积衡</span><span class="en">JI HENG</span></div>
+      <div class="lock-sub">${esc(t('brandTagline'))}</div>
     </div>
     <div class="lock-mid">
       <div class="lock-title">${esc(title)}</div>
@@ -1724,9 +2004,8 @@ function renderLock(){
   </div>`;
 
   updateLockDynamic();
-
-  const togglePin = $('#lock-toggle-pin');
-  const toggleText = $('#lock-toggle-text');
+  const togglePin = document.getElementById('lock-toggle-pin');
+  const toggleText = document.getElementById('lock-toggle-text');
   if(togglePin)  togglePin.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = false; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
   if(toggleText) toggleText.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = true; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
 }
@@ -1736,7 +2015,6 @@ function updateLockDynamic(){
   if(!dyn) return;
   const pinLen = 6;
   if(shouldUseTextMode()){
-    // V1.09: text mode uses a real text input + dedicated confirm button
     dyn.innerHTML = `
       <div class="lock-input-wrap">
         <input class="lock-input" id="lock-text" type="password" inputmode="text"
@@ -1745,14 +2023,14 @@ function updateLockDynamic(){
       </div>
       <div class="lock-msg" id="lock-msg-el">${esc(lockUI.msg)}</div>
       <button type="button" class="lock-ok-btn" id="lock-ok">${esc(t('lockOk'))}</button>`;
-    const txt = $('#lock-text');
+    const txt = document.getElementById('lock-text');
     if(txt){
       txt.focus();
       try{ txt.setSelectionRange(txt.value.length, txt.value.length); }catch(e){}
       txt.addEventListener('input', e => { lockUI.pin = e.target.value; lockUI.error = false; });
       txt.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); handleTextConfirm(); } });
     }
-    const ok = $('#lock-ok');
+    const ok = document.getElementById('lock-ok');
     if(ok) ok.addEventListener('click', e => { e.preventDefault(); handleTextConfirm(); });
   }else{
     dyn.innerHTML = `
@@ -1772,14 +2050,11 @@ function updateLockDynamic(){
     });
   }
 }
-
-/* V1.09: dedicated handler for text-mode confirm */
 function handleTextConfirm(){
   const txt = document.getElementById('lock-text');
   if(txt) lockUI.pin = txt.value;
   submitPin();
 }
-
 function handleKey(k){
   if(k === 'del'){ lockUI.pin = lockUI.pin.slice(0,-1); lockUI.error = false; updateLockDynamic(); return; }
   if(k === 'clear'){ lockUI.pin = ''; lockUI.error = false; lockUI.msg = ''; updateLockDynamic(); return; }
@@ -1790,90 +2065,72 @@ function handleKey(k){
     if(!shouldUseTextMode() && lockUI.pin.length === 6) setTimeout(submitPin, 120);
   }
 }
-
-/* V1.09 CORE FIX:
-   submitPin() now reads the CURRENT useTextMode from shouldUseTextMode() and
-   always uses sha256(String(pin)) for both setting and verifying.
-   No parseInt, no numeric-only conversion. */
 async function submitPin(){
-  const pin = String(lockUI.pin == null ? '' : lockUI.pin);
-  const usingText = shouldUseTextMode();
-  const hasLock = !!(lockRecord && lockRecord.hash);
+  try{
+    const pin = String(lockUI.pin == null ? '' : lockUI.pin);
+    const usingText = shouldUseTextMode();
+    const hasLock = !!(lockRecord && lockRecord.hash);
 
-  if(!pin){ lockUI.msg = t('lockErrEmpty'); lockUI.error = true; updateLockDynamic(); return; }
+    if(!pin){ lockUI.msg = t('lockErrEmpty'); lockUI.error = true; updateLockDynamic(); return; }
 
-  if(lockUI.mode === 'create'){
-    if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
-    if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
-    lockUI.firstPin = pin;
-    lockUI.pin = '';
-    lockUI.mode = 'confirm';
-    lockUI.msg = '';
-    renderLock();
-    return;
-  }
-  if(lockUI.mode === 'confirm'){
-    if(pin !== lockUI.firstPin){
-      lockUI.msg = t('lockErrMismatch');
-      lockUI.error = true;
-      lockUI.pin = '';
-      lockUI.firstPin = '';
-      lockUI.mode = 'create';
-      renderLock();
+    if(lockUI.mode === 'create'){
+      if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
+      if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
+      lockUI.firstPin = pin; lockUI.pin = ''; lockUI.mode = 'confirm'; lockUI.msg = ''; renderLock(); return;
+    }
+    if(lockUI.mode === 'confirm'){
+      if(pin !== lockUI.firstPin){
+        lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'create'; renderLock(); return;
+      }
+      const hash = await sha256(pin);
+      if(!hash){ throw new Error('hash empty'); }
+      lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
+      saveLock(lockRecord);
+      lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
+      isUnlocked = true; markActivity(); renderLock(); render({ top:true });
+      toast(t('lockWelcome'));
       return;
     }
-    const hash = await sha256(pin);
-    lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
-    saveLock(lockRecord);
-    lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
-    isUnlocked = true; markActivity(); renderLock(); render({ top:true });
-    toast(t('lockWelcome'));
-    return;
-  }
-  if(lockUI.mode === 'changeOld'){
-    const hash = await sha256(pin);
-    if(!lockRecord || hash !== lockRecord.hash){
-      lockUI.msg = t('lockVerifyFailed'); lockUI.error = true; lockUI.pin = ''; updateLockDynamic(); return;
+    if(lockUI.mode === 'changeOld'){
+      const hash = await sha256(pin);
+      if(!lockRecord || hash !== lockRecord.hash){ lockUI.msg = t('lockVerifyFailed'); lockUI.error = true; lockUI.pin = ''; updateLockDynamic(); return; }
+      lockUI.mode = 'changeNew'; lockUI.pin = ''; lockUI.msg = '';
+      lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
+      renderLock(); return;
     }
-    lockUI.mode = 'changeNew'; lockUI.pin = ''; lockUI.msg = '';
-    lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
-    renderLock();
-    return;
-  }
-  if(lockUI.mode === 'changeNew'){
-    if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
-    if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
-    lockUI.firstPin = pin; lockUI.pin = ''; lockUI.mode = 'changeConfirm'; lockUI.msg = ''; renderLock(); return;
-  }
-  if(lockUI.mode === 'changeConfirm'){
-    if(pin !== lockUI.firstPin){
-      lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'changeNew'; renderLock(); return;
+    if(lockUI.mode === 'changeNew'){
+      if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
+      if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
+      lockUI.firstPin = pin; lockUI.pin = ''; lockUI.mode = 'changeConfirm'; lockUI.msg = ''; renderLock(); return;
     }
-    const hash = await sha256(pin);
-    lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
-    saveLock(lockRecord);
-    lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
-    renderLock(); toast(t('lockUpdated')); return;
-  }
+    if(lockUI.mode === 'changeConfirm'){
+      if(pin !== lockUI.firstPin){
+        lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'changeNew'; renderLock(); return;
+      }
+      const hash = await sha256(pin);
+      if(!hash){ throw new Error('hash empty'); }
+      lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
+      saveLock(lockRecord);
+      lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
+      renderLock(); toast(t('lockUpdated')); return;
+    }
 
-  /* Unlock attempt */
-  if(!hasLock){ lockUI.mode = 'create'; renderLock(); return; }
-  const hash = await sha256(pin);
-  if(hash === lockRecord.hash){
-    isUnlocked = true;
-    lockUI.pin = ''; lockUI.msg = ''; lockUI.error = false;
-    markActivity();
-    renderLock(); render({ top:true });
-  }else{
-    lockUI.msg = t('lockErrWrong');
-    lockUI.error = true;
-    lockUI.pin = '';
-    // Re-render so the text input is cleared correctly in text mode
-    updateLockDynamic();
-    if(navigator.vibrate) navigator.vibrate(60);
+    if(!hasLock){ lockUI.mode = 'create'; renderLock(); return; }
+    const hash = await sha256(pin);
+    if(hash === lockRecord.hash){
+      isUnlocked = true; lockUI.pin = ''; lockUI.msg = ''; lockUI.error = false;
+      markActivity(); renderLock(); render({ top:true });
+    }else{
+      lockUI.msg = t('lockErrWrong'); lockUI.error = true; lockUI.pin = '';
+      updateLockDynamic();
+      if(navigator.vibrate) navigator.vibrate(60);
+    }
+  }catch(err){
+    console.error('[Jiheng submitPin] exception:', err);
+    lockUI.msg = t('lockErrGeneric'); lockUI.error = true; lockUI.pin = '';
+    try{ updateLockDynamic(); }catch(e2){}
   }
 }
-
 function lockApp(msg){
   isUnlocked = false;
   lockUI.mode = 'unlock'; lockUI.pin = ''; lockUI.firstPin = '';
@@ -1881,7 +2138,6 @@ function lockApp(msg){
   lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
   renderLock();
 }
-
 setInterval(() => {
   if(!isUnlocked) return;
   if(!state.settings.appLockEnabled) return;
@@ -1903,7 +2159,6 @@ function render(opts){
   root.innerHTML = renderTopbar() + '<main class="view">' + renderView() + '</main>' + renderTabbar();
   if(opts.top) window.scrollTo(0,0); else window.scrollTo(0, sy);
 }
-
 function renderTopbar(){
   if(ui.sub === 'accounts')      return bar(t('setAccounts'), true);
   if(ui.sub === 'settings')      return bar(t('setTitle'), true);
@@ -1911,12 +2166,14 @@ function renderTopbar(){
   if(ui.sub === 'categories')    return bar(t('setCategories'), true);
   if(ui.sub === 'lock-settings') return bar(t('lockSettingsTitle'), true);
   if(ui.sub === 'whats-new')     return bar(t('whatsNewTitle'), true);
+  if(ui.sub === 'product-guide') return bar(t('productGuideTitle'), true);
   if(ui.sub === 'sys-info')      return bar(t('sysInfoTitle'), true);
   if(ui.sub === 'identity')      return bar(t('setIdentity'), true);
   if(ui.sub === 'account-detail')return bar(accountDetailTitle(), true);
   const titles = { home:'', records:t('tabRecords'), goals:t('tabGoals'), assets:t('tabAssets'), stats:t('tabStats'), settings:t('setTitle') };
   if(ui.tab === 'home'){
-    return `<header class="topbar brand"><h1>SaveWise</h1>
+    return `<header class="topbar brand">
+      <div class="jiheng-wordmark"><span class="zh">积衡</span><span class="en">JI HENG</span></div>
       <button class="icon-btn" onclick="openSub('settings')">⚙</button></header>`;
   }
   return `<header class="topbar"><span style="width:38px"></span><h1>${esc(titles[ui.tab]||'')}</h1>
@@ -1943,7 +2200,6 @@ function renderTabbar(){
       <span class="ti">${it.i}</span><span>${esc(it.l)}</span></button>`
   ).join('')}</nav>`;
 }
-
 function renderView(){
   if(ui.sub === 'accounts')      return viewAccounts();
   if(ui.sub === 'settings')      return viewSettings();
@@ -1951,6 +2207,7 @@ function renderView(){
   if(ui.sub === 'categories')    return viewCategories();
   if(ui.sub === 'lock-settings') return viewLockSettings();
   if(ui.sub === 'whats-new')     return viewWhatsNew();
+  if(ui.sub === 'product-guide') return viewProductGuide();
   if(ui.sub === 'sys-info')      return viewSystemInfo();
   if(ui.sub === 'identity')      return viewIdentity();
   if(ui.sub === 'account-detail')return viewAccountDetail();
@@ -2017,7 +2274,7 @@ function viewHome(){
     <div class="list">
       ${ state.accounts.length
           ? `<div class="row" onclick="goAccountDetail(null)">
-              <div class="row-icon" style="background:#eef2ff;color:#4f46e5">∑</div>
+              <div class="row-icon" style="background:var(--brand-soft);color:var(--brand)">∑</div>
               <div class="row-main"><div class="row-title">${esc(t('allAccounts'))}</div><div class="row-sub">${state.accounts.length} ${esc(t('setStatAcc'))}</div></div>
               <div class="row-amount">${money(availableBalance())}</div>
             </div>` + state.accounts.map(accRow).join('')
@@ -2035,7 +2292,7 @@ function viewHome(){
   </section>
   ${ !hasAny ? `
   <div class="empty big">
-    <div class="empty-icon">👋</div>
+    <div class="empty-icon">🌱</div>
     <p>${esc(t('welcomeTitle'))}</p>
     <span>${esc(t('welcomeSub'))}</span>
     <button class="btn primary sm" onclick="openAccountForm()">${esc(t('createAccount'))}</button>
@@ -2122,7 +2379,7 @@ function viewAccountDetail(){
   const tOut   = accountTransferOut(a.id, 'all');
   const list = sortedTx().filter(tx => tx.accountId === a.id || tx.toAccountId === a.id);
   return `
-  <div class="hero" style="background:linear-gradient(135deg,${meta.color} 0%,#4f46e5 100%)">
+  <div class="hero" style="background:linear-gradient(135deg,${meta.color} 0%,var(--brand) 100%)">
     <div class="hero-top">
       <div><span class="hero-label">${esc(meta.label)} · ${esc(a.name)}</span><div class="hero-sub">${esc(t('totalAssetsSub'))}</div></div>
       <button class="eye-btn" onclick="toggleHide()">${state.settings.hideBalance ? '🙈' : '👁'}</button>
@@ -2583,6 +2840,10 @@ function viewSettings(){
     </div>
   </div>
   <div class="card">
+    <div class="set-row tap" onclick="openSub('product-guide')">
+      <div><div class="set-title">📖 ${esc(t('setProductGuide'))}</div><div class="set-sub">${esc(t('setProductGuideSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
     <div class="set-row tap" onclick="openSub('sys-info')">
       <div><div class="set-title">ℹ️ ${esc(t('setSystemInfo'))}</div><div class="set-sub">${esc(t('setSystemInfoSub'))}</div></div>
       <span class="chev">›</span>
@@ -2636,7 +2897,7 @@ function viewSettings(){
       <div><span>${esc(t('setStatGiven'))}</span><b>${state.moneyGiven.length}</b></div>
     </div>
   </div>
-  <p class="about">${esc(t('setAbout', { av:META.appVersion, dv:META.dataVersion })).replace(/\n/g,'<br>')}</p>`;
+  <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION })).replace(/\n/g,'<br>')}</p>`;
 }
 
 function viewLockSettings(){
@@ -2689,7 +2950,6 @@ function viewLockSettings(){
   <p class="about">${esc(t('lockHashNote'))}</p>`;
 }
 
-/* V1.09: Set PIN — uses sha256(String(pin)) */
 function openSetPIN(){
   const hasLock = !!(lockRecord && lockRecord.hash);
   const needVerify = hasLock;
@@ -2702,23 +2962,26 @@ function openSetPIN(){
       <label class="field"><span class="field-label">${esc(t('lockConfirmPIN'))}</span><input name="confirmPin" type="password" inputmode="numeric" maxlength="6" required></label>
       <p class="hint">${esc(t('lockHashNote'))}</p>`,
     onSubmit: async (d) => {
-      const newPin = String(d.newPin || '').trim();
-      const confirmPin = String(d.confirmPin || '').trim();
-      if(!/^\d{6}$/.test(newPin)){ toast(t('lockErrPin6')); return false; }
-      if(newPin !== confirmPin){ toast(t('lockErrMismatch')); return false; }
-      if(needVerify){
-        const curHash = await sha256(String(d.current || ''));
-        if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
+      try{
+        const newPin = String(d.newPin || '').trim();
+        const confirmPin = String(d.confirmPin || '').trim();
+        if(!/^\d{6}$/.test(newPin)){ toast(t('lockErrPin6')); return false; }
+        if(newPin !== confirmPin){ toast(t('lockErrMismatch')); return false; }
+        if(needVerify){
+          const curHash = await sha256(String(d.current || ''));
+          if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
+        }
+        const hash = await sha256(newPin);
+        lockRecord = { hash, type:'pin', createdAt: Date.now() };
+        saveLock(lockRecord);
+        toast(t('lockPINSet')); render(); return true;
+      }catch(err){
+        console.error('[Jiheng openSetPIN] error:', err);
+        toast(t('lockErrGeneric')); return false;
       }
-      const hash = await sha256(newPin);
-      lockRecord = { hash, type:'pin', createdAt: Date.now() };
-      saveLock(lockRecord);
-      toast(t('lockPINSet')); render(); return true;
     }
   });
 }
-
-/* V1.09: Set Custom Password — uses identical sha256(String(pw)) */
 function openSetPassword(){
   const hasLock = !!(lockRecord && lockRecord.hash);
   const needVerify = hasLock;
@@ -2731,19 +2994,23 @@ function openSetPassword(){
       <label class="field"><span class="field-label">${esc(t('lockConfirmPassword'))}</span><input name="confirmPw" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>
       <p class="hint">${esc(t('lockHashNote'))}</p>`,
     onSubmit: async (d) => {
-      // V1.09: do NOT trim the password beyond what user types. Only guard min length.
-      const newPw = String(d.newPw == null ? '' : d.newPw);
-      const confirmPw = String(d.confirmPw == null ? '' : d.confirmPw);
-      if(newPw.length < 4){ toast(t('lockPasswordLength')); return false; }
-      if(newPw !== confirmPw){ toast(t('lockErrMismatch')); return false; }
-      if(needVerify){
-        const curHash = await sha256(String(d.current == null ? '' : d.current));
-        if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
+      try{
+        const newPw = String(d.newPw == null ? '' : d.newPw);
+        const confirmPw = String(d.confirmPw == null ? '' : d.confirmPw);
+        if(newPw.length < 4){ toast(t('lockPasswordLength')); return false; }
+        if(newPw !== confirmPw){ toast(t('lockErrMismatch')); return false; }
+        if(needVerify){
+          const curHash = await sha256(String(d.current == null ? '' : d.current));
+          if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
+        }
+        const hash = await sha256(newPw);
+        lockRecord = { hash, type:'text', createdAt: Date.now() };
+        saveLock(lockRecord);
+        toast(t('lockPasswordSet')); render(); return true;
+      }catch(err){
+        console.error('[Jiheng openSetPassword] error:', err);
+        toast(t('lockErrGeneric')); return false;
       }
-      const hash = await sha256(newPw);
-      lockRecord = { hash, type:'text', createdAt: Date.now() };
-      saveLock(lockRecord);
-      toast(t('lockPasswordSet')); render(); return true;
     }
   });
 }
@@ -2754,8 +3021,8 @@ function viewSystemInfo(){
   return `
   <div class="card">
     <div class="asset-grid">
-      <div><span>App Version</span><b>v${esc(META.appVersion)}</b></div>
-      <div><span>Data Version</span><b>v${esc(META.dataVersion)}</b></div>
+      <div><span>App Version</span><b>v${esc(APP_VERSION)}</b></div>
+      <div><span>Data Version</span><b>v${esc(DATA_VERSION)}</b></div>
       <div><span>${esc(t('lastUpdated'))}</span><b style="font-size:12px">${esc(localDateStr(META.lastUpdated))} ${esc(localTimeStr(META.lastUpdated))}</b></div>
       <div><span>${esc(t('storageLocal'))}</span><b>localStorage</b></div>
       <div><span>${esc(t('lockModeLabel'))}</span><b>${lockKind === 'text' ? esc(t('lockModePassword')) : esc(t('lockModePIN'))}</b></div>
@@ -2774,36 +3041,81 @@ function viewSystemInfo(){
       <div><span>${esc(t('setAchievements'))}</span><b>${Object.keys(state.achievements).length}</b></div>
     </div>
   </div>
-  <p class="about">${esc(t('dataVersionNote', { av:META.appVersion, dv:META.dataVersion }))}</p>`;
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
 }
 function viewIdentity(){
   return `${renderProductNotice()}
   <div class="card"><div style="font-size:13px;line-height:1.7;color:var(--muted)">
-    SaveWise records the user's real-world money.<br>
-    SaveWise does not hold or handle real-world money.<br>
-    SaveWise is not a bank, e-wallet, payment, or remittance service.
+    积衡 Jiheng records the user's real-world money.<br>
+    积衡 Jiheng does not hold or handle real-world money.<br>
+    积衡 Jiheng is not a bank, e-wallet, payment, or remittance service.
   </div></div>`;
 }
+
+/* =========================================================================
+   Product Guide
+   ========================================================================= */
+function viewProductGuide(){
+  const items = [
+    { icon:'🏛️', title:t('guideAccountsTitle'), desc:t('guideAccountsDesc') },
+    { icon:'🧾', title:t('guideTxTitle'),       desc:t('guideTxDesc') },
+    { icon:'⇄',  title:t('guideTransferTitle'), desc:t('guideTransferDesc') },
+    { icon:'🎯', title:t('guideGoalTitle'),     desc:t('guideGoalDesc') },
+    { icon:'📦', title:t('guideAssetTitle'),    desc:t('guideAssetDesc') },
+    { icon:'🤝', title:t('guideDebtTitle'),     desc:t('guideDebtDesc') },
+    { icon:'📊', title:t('guideStatsTitle'),    desc:t('guideStatsDesc') },
+    { icon:'🔎', title:t('guideSearchTitle'),   desc:t('guideSearchDesc') },
+    { icon:'🏆', title:t('guideAchTitle'),      desc:t('guideAchDesc') },
+    { icon:'🔒', title:t('guideLockTitle'),     desc:t('guideLockDesc') },
+    { icon:'💾', title:t('guideDataTitle'),     desc:t('guideDataDesc') },
+    { icon:'🌐', title:t('guideLangTitle'),     desc:t('guideLangDesc') },
+    { icon:'👁', title:t('guidePrivacyTitle'),  desc:t('guidePrivacyDesc') },
+    { icon:'📶', title:t('guideLocalTitle'),    desc:t('guideLocalDesc') }
+  ];
+  return `
+  <p class="about" style="margin:0 0 10px">${esc(t('guideIntro'))}</p>
+  ${items.map(it => `
+    <div class="guide-item">
+      <div class="guide-icon">${it.icon}</div>
+      <div class="guide-body">
+        <div class="guide-title">${esc(it.title)}</div>
+        <div class="guide-desc">${esc(it.desc)}</div>
+      </div>
+    </div>
+  `).join('')}
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
+}
+
+/* =========================================================================
+   Update History (Jiheng V1.00 起)
+   ========================================================================= */
 function viewWhatsNew(){
   return `
   ${ CHANGELOG.slice().reverse().map(c => `
-    <div class="card">
-      <div class="section-head" style="margin-bottom:10px"><h3>v${esc(c.version)}</h3><span style="font-size:12px;color:var(--muted)">${esc(c.date)}</span></div>
-      <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.9;color:var(--text)">
+    <div class="version-card">
+      <div class="version-head">
+        <span class="version-no">v${esc(c.version)}</span>
+        <span class="version-date">${esc(c.date)}</span>
+      </div>
+      ${ changelogTitle(c) ? `<div class="version-title">${esc(changelogTitle(c))}</div>` : '' }
+      <ul class="version-list">
         ${ changelogItems(c).map(it => `<li>${esc(it)}</li>`).join('') }
       </ul>
     </div>
   `).join('') }
-  <p class="about">${esc(t('dataVersionNote', { av:META.appVersion, dv:META.dataVersion }))}</p>`;
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
 }
 function toggleAppLock(){ state.settings.appLockEnabled = !state.settings.appLockEnabled; saveState(); render(); toast(state.settings.appLockEnabled ? t('lockEnabled') : t('lockDisabled')); }
 function setAutoLock(v){ state.settings.autoLockMinutes = v; saveState(); render(); }
 
+/* =========================================================================
+   导出 / 导入 / 清除
+   ========================================================================= */
 function exportData(){
   try{
-    const payload = { app:'SaveWise', appVersion:META.appVersion, dataVersion:META.dataVersion, exportedAt:new Date().toISOString(), changelog:CHANGELOG, state };
+    const payload = { app:'Jiheng', appVersion:APP_VERSION, dataVersion:DATA_VERSION, exportedAt:new Date().toISOString(), changelog:CHANGELOG, state };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
-    downloadBlob(blob, 'savewise-' + nowLocalDate() + '.json');
+    downloadBlob(blob, 'jiheng-' + nowLocalDate() + '.json');
     toast(t('exportDone'));
   }catch(e){ toast(t('exportFail')); }
 }
@@ -2824,7 +3136,7 @@ function exportCSV(){
     });
     const csv = '\ufeff' + rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
     const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
-    downloadBlob(blob, 'savewise-transactions-' + nowLocalDate() + '.csv');
+    downloadBlob(blob, 'jiheng-transactions-' + nowLocalDate() + '.csv');
     toast(t('exportCsvDone'));
   }catch(e){ toast(t('exportFail')); }
 }
@@ -2847,15 +3159,13 @@ function triggerImport(){
         const parsed = JSON.parse(ev.target.result);
         const src = parsed.state || parsed;
         if(!src || !Array.isArray(src.accounts)){ toast(t('importInvalid')); return; }
-        const srcVer = Number(src.dataVersion) || 1;
-        if(srcVer > (META.dataVersion || DATA_VERSION_FALLBACK)){ toast(t('importVersionFail')); return; }
         confirmDialog(t('importConfirm'), () => {
           createBackup('before-import');
           try{
             const r = migrate(src);
             if(!r.ok){ toast(t('migrationFailed')); return; }
             state = {
-              dataVersion: META.dataVersion,
+              dataVersion: DATA_VERSION,
               settings: Object.assign({}, defaultState().settings, r.data.settings || {}),
               accounts: Array.isArray(r.data.accounts) ? r.data.accounts : [],
               transactions: Array.isArray(r.data.transactions) ? r.data.transactions : [],
@@ -2924,7 +3234,7 @@ function openSheet(opts){
     let ok = true;
     if(opts.onSubmit){
       try { ok = await opts.onSubmit(data, form); }
-      catch(err){ console.error(err); ok = false; }
+      catch(err){ console.error('[Jiheng openSheet] submit error:', err); ok = false; }
     }
     if(ok !== false) closeSheet();
   });
@@ -2988,7 +3298,6 @@ function toast(msg){
     setTimeout(() => { if(root.firstChild === el) root.innerHTML = ''; }, 320);
   }, 2200);
 }
-
 function openGroupedPicker(opts){
   const sheetRoot = document.getElementById('sheet-root');
   const parentSheet = sheetRoot.querySelector('.sheet');
@@ -3014,13 +3323,13 @@ function openGroupedPicker(opts){
   const groupLabelFor = opts.groupLabelFor || (id => id);
   const iconFor = opts.iconFor || (id => '');
   pickerRoot.innerHTML = `
-    <div class="mask" id="picker-mask" style="position:absolute;inset:0;background:rgba(15,23,42,.45);opacity:0;transition:opacity .26s;"></div>
+    <div class="mask" id="picker-mask" style="position:absolute;inset:0;background:rgba(28,24,48,.45);opacity:0;transition:opacity .26s;"></div>
     <div class="sheet" style="position:absolute;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:#fff;border-radius:26px 26px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);padding-bottom:calc(16px + var(--safe-b));">
       <div class="sheet-handle"></div>
       <div class="sheet-head" style="display:flex;align-items:center;justify-content:space-between;padding:8px 18px 12px;position:sticky;top:0;background:#fff;z-index:2;border-radius:26px 26px 0 0;">
-        <button type="button" class="icon-btn" id="picker-back" style="width:32px;height:32px;font-size:14px;box-shadow:none;background:#f4f5f9;">←</button>
-        <h3 style="margin:0;font-size:16.5px;font-weight:700;">${esc(opts.title || t('pickTitle'))}</h3>
-        <button type="button" class="icon-btn" id="picker-close" style="width:32px;height:32px;font-size:14px;box-shadow:none;background:#f4f5f9;">✕</button>
+        <button type="button" class="icon-btn" id="picker-back" style="width:32px;height:32px;font-size:14px;box-shadow:none;background:var(--brand-soft);">←</button>
+        <h3 style="margin:0;font-size:16.5px;font-weight:700;color:var(--brand);">${esc(opts.title || t('pickTitle'))}</h3>
+        <button type="button" class="icon-btn" id="picker-close" style="width:32px;height:32px;font-size:14px;box-shadow:none;background:var(--brand-soft);">✕</button>
       </div>
       <div class="sheet-body" style="padding:0 18px;">
         ${opts.groups.map(g => `
@@ -4083,42 +4392,23 @@ function openAssetEnd(id){
     d.amount = round2(Number(d.amount)||0);
     d.paid = round2(Number(d.paid)||0);
     if(!Array.isArray(d.payments)) d.payments = [];
-    if(d.purpose === undefined) d.purpose = '';
-    if(d.purposeCustom === undefined) d.purposeCustom = '';
-    if(d.method === undefined) d.method = '';
-    if(d.methodCustom === undefined) d.methodCustom = '';
   });
-  state.moneyGiven.forEach(m => {
-    m.amount = round2(Number(m.amount)||0);
-    if(m.purpose === undefined) m.purpose = m.giftType || '';
-    if(m.purposeCustom === undefined) m.purposeCustom = '';
-    if(m.method === undefined) m.method = '';
-    if(m.methodCustom === undefined) m.methodCustom = '';
-  });
-  state.transactions.forEach(tx => {
-    if(tx.method === undefined) tx.method = '';
-    if(tx.methodCustom === undefined) tx.methodCustom = '';
-  });
+  state.moneyGiven.forEach(m => { m.amount = round2(Number(m.amount)||0); });
 
-  // V1.09: normalise lockRecord so we ALWAYS have a valid type
-  if(lockRecord && lockRecord.hash){
-    if(!lockRecord.type){
-      // Legacy record — infer type from hash prefix or default to pin
-      lockRecord.type = 'pin';
-      saveLock(lockRecord);
-    }
+  if(lockRecord && lockRecord.hash && !lockRecord.type){
+    lockRecord.type = 'pin';
+    saveLock(lockRecord);
   }
 
-  if(APP_VERSION_FALLBACK && APP_VERSION_FALLBACK > (META.appVersion || '0')){
-    META.appVersion = APP_VERSION_FALLBACK;
+  if(APP_VERSION && APP_VERSION > (META.appVersion || '0')){
+    META.appVersion = APP_VERSION;
   }
-  if(!META.dataVersion || META.dataVersion < DATA_VERSION_FALLBACK){
-    META.dataVersion = DATA_VERSION_FALLBACK;
-  }
+  META.dataVersion = DATA_VERSION;
   META.lastUpdated = new Date().toISOString();
   saveMeta(META);
 
   if(loadResult.migrationFailed){ setTimeout(() => toast(t('migrationFailed')), 800); }
+  if(loadResult.parseError){ setTimeout(() => toast(t('migrationFailed')), 800); }
 
   saveChangelog();
   saveState();
@@ -4128,12 +4418,14 @@ function openAssetEnd(id){
   else { isUnlocked = false; lockUI.mode = 'create'; }
   renderLock();
   render({ top:true });
+
+  console.log('[Jiheng] v' + APP_VERSION + ' ready. lockRecord:', lockRecord ? { type: lockRecord.type, hashPrefix: String(lockRecord.hash).slice(0,12) } : null);
 })();
 
 window.addEventListener('storage', e => {
   if(e.key === STORAGE_KEY){
     const r = loadState();
-    if(!r.migrationFailed){
+    if(!r.migrationFailed && !r.parseError){
       state = r.state;
       LANG = state.settings.lang || LANG;
       if(isUnlocked) render();
