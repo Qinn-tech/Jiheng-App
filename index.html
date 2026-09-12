@@ -1,0 +1,2970 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#4f46e5">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SaveWise">
+<meta name="format-detection" content="telephone=no">
+<title>SaveWise · 个人财务</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --brand:#4f46e5;--brand-dark:#4338ca;--brand-soft:#eef2ff;
+  --bg:#f4f5f9;--card:#fff;--text:#0f172a;--muted:#8a91a3;
+  --line:#eef0f5;--green:#0ea371;--red:#e5484d;--amber:#f59e0b;
+  --r-lg:20px;--r-md:14px;--r-sm:10px;
+  --shadow:0 2px 12px rgba(17,24,39,.06);
+  --safe-b:env(safe-area-inset-bottom,0px);
+  --safe-t:env(safe-area-inset-top,0px);
+}
+html,body{margin:0;padding:0;height:100%;}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;overscroll-behavior-y:none;
+}
+body.no-scroll{overflow:hidden;}
+button{font-family:inherit;}
+input,select,textarea{font-family:inherit;}
+#app{max-width:520px;margin:0 auto;min-height:100vh;padding-bottom:calc(92px + var(--safe-b));}
+
+/* ---------- Topbar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:calc(12px + var(--safe-t)) 16px 12px;
+  background:rgba(244,245,249,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.topbar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;}
+.topbar.brand h1{font-size:23px;font-weight:800;letter-spacing:-.5px;color:var(--brand);}
+.icon-btn{
+  width:38px;height:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;
+  display:grid;place-items:center;font-size:16px;color:var(--text);
+  box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;
+}
+.icon-btn:active{transform:scale(.92);}
+.icon-btn.sm{width:30px;height:30px;font-size:14px;border-radius:10px;box-shadow:none;background:#f5f6fa;}
+
+/* ---------- Layout ---------- */
+.view{padding:4px 16px 24px;display:flex;flex-direction:column;gap:14px;}
+section{display:flex;flex-direction:column;gap:10px;}
+.section-head{display:flex;align-items:center;justify-content:space-between;}
+.section-head h3{font-size:15px;font-weight:700;margin:0;}
+.link{background:none;border:none;color:var(--brand);font-size:13px;font-weight:600;cursor:pointer;padding:2px 4px;}
+.card{background:var(--card);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);}
+.list{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;}
+.list .row+.row{border-top:1px solid var(--line);}
+.c-green{color:var(--green)!important;}
+.c-red{color:var(--red)!important;}
+.c-muted{color:var(--muted)!important;}
+.c-amber{color:var(--amber)!important;}
+
+/* ---------- Lock screen ---------- */
+.lock-screen{
+  position:fixed;inset:0;z-index:500;background:linear-gradient(160deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px calc(32px + var(--safe-b));
+  color:#fff;text-align:center;
+}
+.lock-screen::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.07);top:-120px;right:-100px;}
+.lock-screen::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-80px;left:-60px;}
+.lock-logo{font-size:32px;font-weight:800;letter-spacing:-1px;margin-bottom:6px;position:relative;z-index:1;}
+.lock-sub{font-size:13px;opacity:.82;margin-bottom:32px;position:relative;z-index:1;line-height:1.6;max-width:300px;}
+.lock-title{font-size:17px;font-weight:700;margin-bottom:22px;position:relative;z-index:1;}
+.pin-dots{display:flex;gap:16px;justify-content:center;margin-bottom:8px;position:relative;z-index:1;}
+.pin-dot{width:16px;height:16px;border-radius:50%;border:2px solid rgba(255,255,255,.5);transition:all .18s;}
+.pin-dot.filled{background:#fff;border-color:#fff;transform:scale(1.1);}
+.pin-dot.error{border-color:#ff8a8a;background:#ff8a8a;animation:shake .4s;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.lock-msg{height:22px;font-size:13px;margin-bottom:20px;color:#ffd6d6;font-weight:600;position:relative;z-index:1;}
+.keypad{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;max-width:280px;
+  position:relative;z-index:1;
+}
+.key{
+  height:62px;border-radius:18px;border:none;background:rgba(255,255,255,.15);
+  color:#fff;font-size:23px;font-weight:600;cursor:pointer;transition:all .12s;
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+}
+.key:active{transform:scale(.93);background:rgba(255,255,255,.28);}
+.key.fn{font-size:15px;font-weight:700;background:transparent;}
+.key.fn:active{background:rgba(255,255,255,.12);}
+.key.enter{background:rgba(255,255,255,.95);color:var(--brand);font-size:15px;font-weight:800;}
+.key.enter:active{background:#fff;}
+.lock-alt{position:relative;z-index:1;margin-top:22px;display:flex;flex-direction:column;gap:10px;width:100%;max-width:280px;}
+.lock-alt button{
+  background:rgba(255,255,255,.14);border:none;color:#fff;font-size:14px;font-weight:600;
+  padding:13px;border-radius:14px;cursor:pointer;transition:background .14s;
+}
+.lock-alt button:active{background:rgba(255,255,255,.26);}
+.lock-input-wrap{position:relative;z-index:1;width:100%;max-width:280px;}
+.lock-input{
+  width:100%;padding:15px 16px;border-radius:15px;border:1.5px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.12);color:#fff;font-size:16px;outline:none;text-align:center;
+  font-weight:600;letter-spacing:1px;
+}
+.lock-input::placeholder{color:rgba(255,255,255,.6);letter-spacing:0;}
+.lock-input:focus{border-color:#fff;background:rgba(255,255,255,.18);}
+.lock-input.plain{letter-spacing:normal;}
+.bio-btn{
+  position:relative;z-index:1;margin-top:18px;background:rgba(255,255,255,.16);border:none;color:#fff;
+  padding:13px 26px;border-radius:15px;font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;
+}
+.bio-btn:active{background:rgba(255,255,255,.28);}
+.bio-btn.disabled{opacity:.4;cursor:not-allowed;}
+
+/* ---------- Hero ---------- */
+.hero{
+  position:relative;overflow:hidden;border-radius:24px;padding:20px;
+  background:linear-gradient(135deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);
+  color:#fff;box-shadow:0 10px 26px rgba(79,70,229,.28);
+}
+.hero::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.09);top:-110px;right:-70px;}
+.hero::before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-90px;left:-40px;}
+.hero-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;}
+.hero-label{font-size:13px;opacity:.85;font-weight:500;letter-spacing:.4px;}
+.eye-btn{background:rgba(255,255,255,.18);border:none;color:#fff;width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-size:15px;cursor:pointer;transition:transform .12s;}
+.eye-btn:active{transform:scale(.9);}
+.hero-amount{font-size:34px;font-weight:800;letter-spacing:-1.2px;margin:6px 0 18px;position:relative;z-index:1;font-variant-numeric:tabular-nums;word-break:break-all;}
+.hero-split{display:flex;position:relative;z-index:1;background:rgba(255,255,255,.14);border-radius:16px;padding:12px 14px;}
+.split-item{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
+.split-item span{font-size:11.5px;opacity:.85;}
+.split-item b{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.split-div{width:1px;background:rgba(255,255,255,.22);margin:0 12px;}
+
+/* ---------- Mini cards ---------- */
+.mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
+.mini span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
+.mini b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;word-break:break-all;}
+
+/* ---------- Quick actions ---------- */
+.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.quick button{
+  background:#fff;border:none;border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;
+  align-items:center;gap:6px;font-size:12px;color:var(--text);box-shadow:var(--shadow);
+  cursor:pointer;font-weight:600;transition:transform .12s;
+}
+.quick button:active{transform:scale(.94);}
+.quick .qi{font-size:17px;line-height:1;}
+
+/* ---------- Rows ---------- */
+.row{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .12s;}
+.row:active{background:#fafbfd;}
+.row-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
+.row-main{flex:1;min-width:0;}
+.row-title{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.row-sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+
+/* ---------- Empty ---------- */
+.empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px;}
+.empty p{margin:0 0 10px;}
+.empty.big{padding:44px 20px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);}
+.empty-icon{font-size:38px;margin-bottom:10px;opacity:.7;}
+.empty.big p{font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:4px;}
+.empty.big span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:16px;}
+
+/* ---------- Buttons ---------- */
+.btn{border:none;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;}
+.btn:active{transform:scale(.97);}
+.btn.primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(79,70,229,.28);}
+.btn.ghost{background:#f2f3f7;color:var(--text);}
+.btn.danger{background:var(--red);color:#fff;}
+.btn.soft{background:var(--brand-soft);color:var(--brand);font-size:13.5px;padding:10px 14px;flex:1;}
+.btn.sm{padding:9px 16px;font-size:13.5px;}
+.btn.block{width:100%;}
+
+/* ---------- Segmented ---------- */
+.seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;}
+.seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;}
+.seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(79,70,229,.25);}
+
+/* ---------- Day groups ---------- */
+.day-group{display:flex;flex-direction:column;gap:8px;}
+.day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
+.day-head i{font-style:normal;font-weight:700;}
+
+/* ---------- Goal ---------- */
+.summary-strip{
+  background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);
+  display:flex;gap:16px;
+}
+.summary-strip>div{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
+.summary-strip span{font-size:12px;color:var(--muted);}
+.summary-strip b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;}
+
+.goal-card,.asset-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;}
+.goal-top,.asset-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.goal-name,.asset-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.goal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.badge-done{font-size:10.5px;background:#e7f8f1;color:var(--green);padding:2px 7px;border-radius:6px;font-weight:700;}
+.goal-amt{font-variant-numeric:tabular-nums;}
+.goal-amt b{font-size:20px;font-weight:800;}
+.goal-amt span{font-size:13px;color:var(--muted);}
+.bar-track{height:8px;background:#f0f1f6;border-radius:99px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,#6366f1,#8b5cf6);transition:width .4s cubic-bezier(.3,.8,.4,1);}
+.bar-fill.alt{background:linear-gradient(90deg,#10b981,#34d399);}
+.goal-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;}
+.goal-acts,.asset-acts{display:flex;gap:8px;margin-top:2px;}
+
+/* ---------- Asset ---------- */
+.badge{font-size:10.5px;padding:3px 8px;border-radius:7px;font-weight:700;white-space:nowrap;}
+.st-active{background:#eef2ff;color:var(--brand);}
+.st-done{background:#e7f8f1;color:var(--green);}
+.st-end{background:#fff5e6;color:var(--amber);}
+.st-bad{background:#fdecec;color:var(--red);}
+.asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
+.asset-grid>div{display:flex;flex-direction:column;gap:2px;}
+.asset-grid span{font-size:11.5px;color:var(--muted);}
+.asset-grid b{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;}
+.asset-rows{display:flex;flex-direction:column;gap:6px;background:#fafbfd;border-radius:12px;padding:12px;}
+.ar{display:flex;justify-content:space-between;font-size:12.5px;gap:8px;}
+.ar span{color:var(--muted);}
+.ar b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;}
+
+/* ---------- Stats ---------- */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.stat-box{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
+.stat-box span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
+.stat-box b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;}
+.cat-row{display:flex;flex-direction:column;gap:6px;padding:11px 0;}
+.cat-row+.cat-row{border-top:1px solid var(--line);}
+.cat-head{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;gap:8px;}
+.cat-head span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap;}
+.cat-bar{height:6px;background:#f0f1f6;border-radius:99px;overflow:hidden;}
+.cat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#6366f1,#a78bfa);}
+.cat-bar i.inc{background:linear-gradient(90deg,#10b981,#34d399);}
+.trend{display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:8px;}
+.trend-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
+.trend-bar{width:100%;max-width:26px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#818cf8,#6366f1);min-height:3px;transition:height .4s;}
+.trend-bar.neg{background:linear-gradient(180deg,#fca5a5,#ef4444);}
+.trend-lbl{font-size:11px;color:var(--muted);font-weight:600;}
+.trend-val{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;}
+
+/* ---------- Settings ---------- */
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;}
+.set-row+.set-row{border-top:1px solid var(--line);}
+.set-title{font-size:14.5px;font-weight:600;}
+.set-title.danger{color:var(--red);}
+.set-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.set-val{font-size:13px;color:var(--muted);font-weight:600;text-align:right;}
+.set-row.tap{cursor:pointer;}
+.chev{font-size:20px;color:#c6cad6;line-height:1;flex:0 0 auto;}
+.switch{width:48px;height:28px;border-radius:99px;background:#dfe2ea;border:none;position:relative;cursor:pointer;transition:background .2s;flex:0 0 auto;}
+.switch i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.switch.on{background:var(--brand);}
+.switch.on i{transform:translateX(20px);}
+.about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;}
+
+/* ---------- Achievements ---------- */
+.ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ach{background:#fff;border-radius:var(--r-lg);padding:16px 12px;text-align:center;box-shadow:var(--shadow);opacity:.55;transition:opacity .2s;}
+.ach.got{opacity:1;background:linear-gradient(160deg,#fff,#f7f7ff);}
+.ach-icon{font-size:28px;margin-bottom:8px;}
+.ach-name{font-size:13.5px;font-weight:700;margin-bottom:3px;}
+.ach-desc{font-size:11px;color:var(--muted);line-height:1.4;}
+
+/* ---------- Tabbar ---------- */
+.tabbar{
+  position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;z-index:50;
+  background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-top:1px solid var(--line);
+  display:flex;padding:8px 4px calc(8px + var(--safe-b));
+}
+.tabbar button{
+  flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:10px;font-weight:600;color:#9aa0b0;cursor:pointer;padding:4px 0;border-radius:12px;
+  transition:color .16s;position:relative;
+}
+.tabbar button .ti{font-size:18px;line-height:1;transition:transform .18s;}
+.tabbar button.on{color:var(--brand);}
+.tabbar button.on .ti{transform:translateY(-1px) scale(1.06);}
+
+/* ---------- Sheet ---------- */
+#sheet-root{position:fixed;inset:0;z-index:100;pointer-events:none;}
+#sheet-root.show{pointer-events:auto;}
+#sheet-root .mask{position:absolute;inset:0;background:rgba(15,23,42,.45);opacity:0;transition:opacity .26s;}
+#sheet-root.show .mask{opacity:1;}
+#sheet-root .sheet{
+  position:absolute;left:0;right:0;bottom:0;max-width:520px;margin:0 auto;
+  background:#fff;border-radius:26px 26px 0 0;max-height:92vh;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);
+  padding-bottom:calc(16px + var(--safe-b));
+}
+#sheet-root.show .sheet{transform:translateY(0);}
+#sheet-root .sheet.small{padding-bottom:calc(20px + var(--safe-b));}
+.sheet-handle{width:38px;height:4px;border-radius:99px;background:#e2e4ec;margin:10px auto 4px;}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;padding:8px 18px 12px;position:sticky;top:0;background:#fff;z-index:2;border-radius:26px 26px 0 0;}
+.sheet-head h3{margin:0;font-size:16.5px;font-weight:700;}
+.sheet-head .icon-btn{width:32px;height:32px;font-size:14px;box-shadow:none;background:#f4f5f9;}
+.sheet-body{padding:0 18px;}
+.sheet-foot{display:flex;gap:10px;padding:8px 18px 4px;position:sticky;bottom:0;background:#fff;padding-top:12px;}
+.sheet-foot .btn{flex:1;}
+.field{display:block;margin-bottom:14px;}
+.field-label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;}
+.field input,.field select,.field textarea{
+  width:100%;border:1.5px solid var(--line);background:#fafbfc;border-radius:13px;
+  padding:12px 14px;font-size:15px;color:var(--text);font-family:inherit;outline:none;
+  transition:border-color .16s,background .16s;appearance:none;-webkit-appearance:none;
+}
+.field textarea{resize:vertical;min-height:64px;line-height:1.5;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);background:#fff;}
+.field select{
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a91a3' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;
+}
+.input-wrap{position:relative;display:flex;align-items:center;}
+.input-wrap .prefix{position:absolute;left:15px;font-size:15px;font-weight:800;color:var(--muted);pointer-events:none;}
+.input-wrap input{padding-left:48px;font-weight:800;font-size:18px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.hint{font-size:11.5px;color:var(--muted);margin:-8px 0 14px;line-height:1.5;}
+.action-list{padding:0 14px 6px;display:flex;flex-direction:column;gap:6px;}
+.action-item{
+  width:100%;border:none;background:#f7f8fc;border-radius:14px;padding:15px 16px;text-align:left;
+  font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:10px;
+  transition:background .14s,transform .12s;
+}
+.action-item:active{transform:scale(.985);background:#eef0f7;}
+.action-item.danger{color:var(--red);}
+.confirm-msg{font-size:15px;line-height:1.6;padding:16px 4px 20px;margin:0;text-align:center;font-weight:600;}
+.confirm-btns{display:flex;gap:10px;padding:0 2px 8px;}
+.confirm-btns .btn{flex:1;}
+
+/* ---------- Category chips ---------- */
+.chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
+.chip{
+  border:none;background:#f2f3f7;color:var(--text);font-size:12.5px;font-weight:600;
+  padding:8px 13px;border-radius:11px;cursor:pointer;transition:all .14s;
+}
+.chip:active{transform:scale(.95);}
+.chip.on{background:var(--brand);color:#fff;}
+
+/* ---------- Toast ---------- */
+#toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;}
+.toast{
+  background:rgba(15,23,42,.92);color:#fff;font-size:13.5px;font-weight:600;
+  padding:11px 20px;border-radius:14px;max-width:88%;text-align:center;
+  opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);
+  box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+.toast.in{opacity:1;transform:translateY(0);}
+
+/* ---------- Search ---------- */
+.search-bar{display:flex;gap:8px;}
+.search-input{
+  flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;
+  font-size:14.5px;outline:none;transition:border-color .16s;
+}
+.search-input:focus{border-color:var(--brand);}
+
+::-webkit-scrollbar{width:0;height:0;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="sheet-root"></div>
+<div id="toast-root"></div>
+<div id="lock-root"></div>
+
+<script>
+/* =========================================================================
+   SaveWise v1.0
+   单页应用 · 本地持久化 · 统一数据源 · App Lock
+   ========================================================================= */
+
+const STORAGE_KEY  = 'savewise_state_v1';
+const LOCK_KEY     = 'savewise_lock_v1';
+
+/* ============================ 数据层 ============================ */
+function defaultState(){
+  return {
+    version: 1,
+    settings: {
+      currency: 'RM',
+      hideBalance: false,
+      autoLockMinutes: 5,
+      appLockEnabled: true
+    },
+    accounts: [],
+    transactions: [],
+    goals: [],
+    assets: [],
+    customIncomeCats: [],
+    customExpenseCats: [],
+    achievements: {},
+    createdAt: Date.now()
+  };
+}
+
+function loadState(){
+  const base = defaultState();
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return base;
+    const p = JSON.parse(raw) || {};
+    return {
+      version: 1,
+      settings: Object.assign({}, base.settings, p.settings || {}),
+      accounts: Array.isArray(p.accounts) ? p.accounts : [],
+      transactions: Array.isArray(p.transactions) ? p.transactions : [],
+      goals: Array.isArray(p.goals) ? p.goals : [],
+      assets: Array.isArray(p.assets) ? p.assets : [],
+      customIncomeCats: Array.isArray(p.customIncomeCats) ? p.customIncomeCats : [],
+      customExpenseCats: Array.isArray(p.customExpenseCats) ? p.customExpenseCats : [],
+      achievements: (p.achievements && typeof p.achievements === 'object') ? p.achievements : {},
+      createdAt: p.createdAt || Date.now()
+    };
+  }catch(e){
+    return base;
+  }
+}
+
+let state = loadState();
+
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+  catch(e){ toast('保存失败：存储空间不足'); }
+}
+
+/* ============================ 安全 / 锁 ============================ */
+async function sha256(text){
+  if(window.crypto && crypto.subtle){
+    try{
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(text));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+    }catch(e){ /* fallthrough */ }
+  }
+  // 降级：简单哈希（仅当无 crypto.subtle 时使用）
+  let h = 5381;
+  for(let i=0;i<text.length;i++) h = ((h<<5)+h+text.charCodeAt(i))|0;
+  return 'fb' + Math.abs(h).toString(16) + text.length.toString(16);
+}
+
+function loadLock(){
+  try{
+    const raw = localStorage.getItem(LOCK_KEY);
+    if(!raw) return null;
+    return JSON.parse(raw);
+  }catch(e){ return null; }
+}
+function saveLock(obj){
+  try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){}
+}
+function clearLock(){ try{ localStorage.removeItem(LOCK_KEY); }catch(e){} }
+
+let lockRecord = loadLock();
+let isUnlocked  = false;
+let lastActivity = Date.now();
+
+function markActivity(){ lastActivity = Date.now(); }
+
+/* ============================ UI 状态 ============================ */
+let ui = {
+  tab: 'home',
+  sub: null,
+  recordFilter: 'all',
+  statsRange: 'month',
+  searchQuery: '',
+  recordCat: ''
+};
+
+/* ============================ 工具函数 ============================ */
+const $ = (s, r) => (r||document).querySelector(s);
+
+function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
+function round2(n){ return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
+function esc(s){
+  return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+function fmtNum(n){
+  return Math.abs(round2(n)).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+function money(n){
+  if(state.settings.hideBalance) return state.settings.currency + '****';
+  const neg = Number(n) < -0.004;
+  return (neg ? '-' : '') + state.settings.currency + fmtNum(n);
+}
+function todayStr(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function toDateStr(d){
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function parseDate(s){
+  const [y,m,d] = String(s).split('-').map(Number);
+  return new Date(y||1970, (m||1)-1, d||1);
+}
+function fmtDateLabel(ds){
+  const today = todayStr();
+  const y = new Date(); y.setDate(y.getDate()-1);
+  if(ds === today) return '今天';
+  if(ds === toDateStr(y)) return '昨天';
+  const d = parseDate(ds);
+  if(isNaN(d.getTime())) return ds;
+  const w = ['日','一','二','三','四','五','六'][d.getDay()];
+  return `${d.getMonth()+1}月${d.getDate()}日 周${w}`;
+}
+function getAccount(id){ return state.accounts.find(a => a.id === id) || null; }
+function getGoal(id){ return state.goals.find(g => g.id === id) || null; }
+function getAsset(id){ return state.assets.find(a => a.id === id) || null; }
+function sortedTx(){
+  return state.transactions.slice().sort((a,b) =>
+    String(b.date||'').localeCompare(String(a.date||'')) ||
+    (b.createdAt||0) - (a.createdAt||0)
+  );
+}
+function monthKey(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
+function inThisMonth(ds){
+  return String(ds||'').startsWith(monthKey(new Date()));
+}
+
+/* ============================ 核心计算 ============================ */
+function availableBalance(){
+  return round2(state.accounts.reduce((s,a) => s + (Number(a.balance)||0), 0));
+}
+function lockedBalance(){
+  return round2(state.goals.reduce((s,g) => s + (Number(g.saved)||0), 0));
+}
+function totalAssets(){
+  return round2(availableBalance() + lockedBalance());
+}
+
+/* ============================ 常量 ============================ */
+const ACC_TYPES = {
+  cash  : { label:'现金',          icon:'💵', bg:'#e8f5e9', color:'#2e7d32' },
+  tng   : { label:'TNG eWallet',   icon:'📱', bg:'#e3f2fd', color:'#1565c0' },
+  bank  : { label:'银行账户',      icon:'🏦', bg:'#ede7f6', color:'#5e35b1' },
+  saving: { label:'储蓄账户',      icon:'🐖', bg:'#fff3e0', color:'#ef6c00' },
+  ewallet:{ label:'电子钱包',      icon:'👛', bg:'#e0f7fa', color:'#00838f' },
+  other : { label:'其他账户',      icon:'📦', bg:'#fce4ec', color:'#c2185b' }
+};
+
+const DEFAULT_INCOME_CATS = [
+  '工资 / 薪金','零用钱 / 津贴','红包 / 礼金','奖学金','兼职收入',
+  '自由职业 / 接案','奖金','退款','利息收入','现金回赠',
+  '出售物品所得','礼物','家庭收入','其他收入'
+];
+const DEFAULT_EXPENSE_CATS = [
+  '餐饮','饮料','零食','交通','公共交通','打车 / 网约车',
+  '购物','衣服 / 配饰','电子产品','游戏','娱乐','电影 / 影音','订阅服务',
+  '学习 / 教育','书籍 / 文具','学校用品','运动 / 健身','医疗 / 健康',
+  '通讯 / 电话费','网络费','生活用品','礼物','人情','旅行','住宿',
+  '账单','服务费','手续费','维修','宠物','家庭支出','捐款','其他支出'
+];
+
+const INCOME_ICONS = {
+  '工资 / 薪金':'💼','零用钱 / 津贴':'💰','红包 / 礼金':'🧧','奖学金':'🎓',
+  '兼职收入':'⏰','自由职业 / 接案':'🧑‍💻','奖金':'🏆','退款':'↩️',
+  '利息收入':'🏦','现金回赠':'🎁','出售物品所得':'🏷️','礼物':'🎀',
+  '家庭收入':'🏠','其他收入':'📌'
+};
+const EXPENSE_ICONS = {
+  '餐饮':'🍚','饮料':'🥤','零食':'🍿','交通':'🚌','公共交通':'🚇',
+  '打车 / 网约车':'🚕','购物':'🛍️','衣服 / 配饰':'👕','电子产品':'📱',
+  '游戏':'🎮','娱乐':'🎉','电影 / 影音':'🎬','订阅服务':'📺',
+  '学习 / 教育':'📚','书籍 / 文具':'📖','学校用品':'🎒','运动 / 健身':'🏃',
+  '医疗 / 健康':'💊','通讯 / 电话费':'📞','网络费':'🌐','生活用品':'🧴',
+  '礼物':'🎁','人情':'🤝','旅行':'✈️','住宿':'🏨','账单':'🧾',
+  '服务费':'🛎️','手续费':'💳','维修':'🔧','宠物':'🐾','家庭支出':'🏡',
+  '捐款':'❤️','其他支出':'📌'
+};
+const MEAL_SUBS = ['早餐','午餐','晚餐','宵夜','快餐','咖啡'];
+
+function incomeCats(){ return DEFAULT_INCOME_CATS.concat(state.customIncomeCats.filter(c => !DEFAULT_INCOME_CATS.includes(c))); }
+function expenseCats(){ return DEFAULT_EXPENSE_CATS.concat(state.customExpenseCats.filter(c => !DEFAULT_EXPENSE_CATS.includes(c))); }
+function catIcon(name){
+  return INCOME_ICONS[name] || EXPENSE_ICONS[name] || '📌';
+}
+
+/* ============================ 成就 ============================ */
+const ACHIEVEMENTS = [
+  { id:'first_income',   name:'第一笔收入', desc:'记录第一笔收入',       icon:'💵' },
+  { id:'first_expense',  name:'开始记账',   desc:'记录第一笔支出',       icon:'🧾' },
+  { id:'first_goal',     name:'目标达人',   desc:'创建第一个储蓄目标',   icon:'🎯' },
+  { id:'first_save',     name:'第一桶金',   desc:'首次向储蓄目标存入资金', icon:'🏦' },
+  { id:'first_asset',    name:'资产管家',   desc:'添加第一个回本资产',   icon:'📦' },
+  { id:'first_account',  name:'账户创建',   desc:'创建第一个账户',       icon:'🏛️' },
+  { id:'goal_done',      name:'目标达成',   desc:'完成第一个储蓄目标',   icon:'🏅' },
+  { id:'streak_7',       name:'坚持一周',   desc:'连续 7 天记录交易',    icon:'🔥' },
+  { id:'streak_30',      name:'坚持一月',   desc:'连续 30 天记录交易',   icon:'⚡' },
+  { id:'save_100',       name:'小有积蓄',   desc:'累计储蓄达到 RM100',   icon:'🪙' },
+  { id:'save_500',       name:'稳步积累',   desc:'累计储蓄达到 RM500',   icon:'💵' },
+  { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎' }
+];
+
+function currentStreak(){
+  const days = new Set(state.transactions.map(t => t.date));
+  if(!days.size) return 0;
+  let streak = 0;
+  let d = new Date();
+  if(!days.has(toDateStr(d))) d.setDate(d.getDate() - 1);
+  while(days.has(toDateStr(d))){
+    streak++;
+    d.setDate(d.getDate() - 1);
+    if(streak > 3650) break;
+  }
+  return streak;
+}
+
+function totalSavedEver(){
+  return state.transactions
+    .filter(t => t.type === 'goal_deposit')
+    .reduce((s,t) => s + (Number(t.amount)||0), 0);
+}
+
+function checkAchievements(){
+  const newly = [];
+  const unlock = (id) => {
+    if(!state.achievements[id]){
+      state.achievements[id] = Date.now();
+      const a = ACHIEVEMENTS.find(x => x.id === id);
+      if(a) newly.push(a);
+    }
+  };
+  if(state.accounts.length > 0) unlock('first_account');
+  if(state.transactions.some(t => t.type === 'income'))  unlock('first_income');
+  if(state.transactions.some(t => t.type === 'expense')) unlock('first_expense');
+  if(state.goals.length > 0) unlock('first_goal');
+  if(state.assets.length > 0) unlock('first_asset');
+  if(state.transactions.some(t => t.type === 'goal_deposit')) unlock('first_save');
+  if(state.goals.some(g => Number(g.targetAmount) > 0 && Number(g.saved) >= Number(g.targetAmount))) unlock('goal_done');
+  if(currentStreak() >= 7)  unlock('streak_7');
+  if(currentStreak() >= 30) unlock('streak_30');
+  const ts = totalSavedEver();
+  if(ts >= 100)  unlock('save_100');
+  if(ts >= 500)  unlock('save_500');
+  if(ts >= 1000) unlock('save_1000');
+  if(newly.length) saveState();
+  return newly;
+}
+
+function afterChange(){
+  saveState();
+  const unlocked = checkAchievements();
+  render();
+  unlocked.forEach((a,i) => setTimeout(() => toast('🏆 解锁成就：' + a.name), 300 + i*900));
+}
+
+/* =========================================================================
+   锁屏（App Lock）
+   ========================================================================= */
+let lockUI = {
+  mode: 'unlock',   // unlock | create | confirm | changeOld | changeNew | changeConfirm
+  pin: '',
+  firstPin: '',
+  useTextMode: false,
+  msg: '',
+  error: false
+};
+
+function renderLock(){
+  const root = document.getElementById('lock-root');
+  const hasLock = !!(lockRecord && lockRecord.hash);
+
+  if(isUnlocked){ root.innerHTML = ''; return; }
+
+  let title = '输入 PIN 解锁';
+  if(lockUI.mode === 'create')        title = '创建 6 位数字 PIN';
+  else if(lockUI.mode === 'confirm')  title = '请再次输入确认';
+  else if(lockUI.mode === 'changeOld')title = '请输入当前 PIN';
+  else if(lockUI.mode === 'changeNew')title = '设置新的 6 位 PIN';
+  else if(lockUI.mode === 'changeConfirm') title = '再次输入新 PIN';
+
+  if(!hasLock && (lockUI.mode === 'unlock')) lockUI.mode = 'create';
+
+  const pinLen = lockUI.mode === 'create' || lockUI.mode === 'changeNew' ? 6 : 6;
+
+  root.innerHTML = `
+  <div class="lock-screen">
+    <div class="lock-logo">SaveWise</div>
+    <div class="lock-sub">安全 · 清晰 · 真实记录你的每一笔钱</div>
+    <div class="lock-title">${esc(title)}</div>
+    ${ lockUI.useTextMode
+      ? `<div class="lock-input-wrap">
+           <input class="lock-input plain" id="lock-text" type="password" inputmode="text"
+                  placeholder="输入密码" value="${esc(lockUI.pin)}" maxlength="64">
+         </div>
+         <div class="lock-msg">${esc(lockUI.msg)}</div>`
+      : `<div class="pin-dots" id="pin-dots">
+           ${Array.from({length: pinLen}).map((_,i) =>
+             `<div class="pin-dot ${i < lockUI.pin.length ? 'filled':''} ${lockUI.error && i < lockUI.pin.length ? 'error':''}"></div>`
+           ).join('')}
+         </div>
+         <div class="lock-msg">${esc(lockUI.msg)}</div>` }
+    ${ !lockUI.useTextMode ? `
+    <div class="keypad" id="keypad">
+      ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" data-k="${n}">${n}</button>`).join('')}
+      <button class="key fn" data-k="clear">清除</button>
+      <button class="key" data-k="0">0</button>
+      <button class="key fn" data-k="del">⌫</button>
+      <button class="key enter" data-k="ok" style="grid-column:span 3">确认</button>
+    </div>` : `
+    <div class="lock-alt">
+      <button id="lock-ok">确认</button>
+    </div>` }
+    <div class="lock-alt">
+      ${ !lockUI.useTextMode ? `<button id="lock-toggle-text">使用自定义密码</button>`
+                             : `<button id="lock-toggle-pin">改用数字 PIN</button>` }
+      ${ hasLock && lockUI.mode === 'unlock' ? `<button id="lock-bio" class="bio-btn disabled" title="未来版本支持">
+        <span>🧬</span> 生物识别（即将推出）
+      </button>` : '' }
+    </div>
+  </div>`;
+
+  // 事件
+  root.querySelectorAll('#keypad .key').forEach(btn => {
+    btn.addEventListener('click', () => handleKey(btn.dataset.k));
+  });
+  const togglePin = $('#lock-toggle-pin');
+  const toggleText = $('#lock-toggle-text');
+  if(togglePin)  togglePin.addEventListener('click', () => { lockUI.useTextMode = false; lockUI.msg = ''; renderLock(); });
+  if(toggleText) toggleText.addEventListener('click', () => { lockUI.useTextMode = true; lockUI.msg = ''; renderLock(); });
+
+  const txt = $('#lock-text');
+  if(txt){
+    txt.focus();
+    txt.addEventListener('input', e => { lockUI.pin = e.target.value; });
+    txt.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); handleKey('ok'); } });
+  }
+  const okBtn = $('#lock-ok');
+  if(okBtn) okBtn.addEventListener('click', () => handleKey('ok'));
+}
+
+function handleKey(k){
+  if(k === 'del'){ lockUI.pin = lockUI.pin.slice(0,-1); lockUI.error = false; renderLock(); return; }
+  if(k === 'clear'){ lockUI.pin = ''; lockUI.error = false; lockUI.msg = ''; renderLock(); return; }
+  if(k === 'ok'){ submitPin(); return; }
+  if(/^\d$/.test(k)){
+    if(lockUI.pin.length < 12){ lockUI.pin += k; lockUI.error = false; lockUI.msg = ''; }
+    renderLock();
+    // 6 位时自动提交（仅 PIN 模式）
+    if(!lockUI.useTextMode && lockUI.pin.length === 6){
+      setTimeout(submitPin, 120);
+    }
+  }
+}
+
+async function submitPin(){
+  const pin = lockUI.pin;
+  const hasLock = !!(lockRecord && lockRecord.hash);
+
+  if(!pin){ lockUI.msg = '请输入密码'; lockUI.error = true; renderLock(); return; }
+
+  // 创建流程
+  if(lockUI.mode === 'create'){
+    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = '请输入 6 位数字 PIN'; lockUI.error = true; renderLock(); return; }
+    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = '密码至少 4 位'; lockUI.error = true; renderLock(); return; }
+    lockUI.firstPin = pin;
+    lockUI.pin = '';
+    lockUI.mode = 'confirm';
+    lockUI.msg = '';
+    renderLock();
+    return;
+  }
+  if(lockUI.mode === 'confirm'){
+    if(pin !== lockUI.firstPin){
+      lockUI.msg = '两次输入不一致，请重新创建';
+      lockUI.error = true;
+      lockUI.pin = '';
+      lockUI.firstPin = '';
+      lockUI.mode = 'create';
+      renderLock();
+      return;
+    }
+    const hash = await sha256(pin);
+    lockRecord = { hash, type: lockUI.useTextMode ? 'text':'pin', createdAt: Date.now() };
+    saveLock(lockRecord);
+    lockUI.pin = '';
+    lockUI.firstPin = '';
+    lockUI.mode = 'unlock';
+    lockUI.msg = '';
+    lockUI.error = false;
+    isUnlocked = true;
+    markActivity();
+    renderLock();
+    render({ top:true });
+    toast('欢迎使用 SaveWise');
+    return;
+  }
+
+  // 修改流程
+  if(lockUI.mode === 'changeOld'){
+    const hash = await sha256(pin);
+    if(!lockRecord || hash !== lockRecord.hash){
+      lockUI.msg = '当前密码不正确';
+      lockUI.error = true;
+      lockUI.pin = '';
+      renderLock();
+      return;
+    }
+    lockUI.mode = 'changeNew';
+    lockUI.pin = '';
+    lockUI.msg = '';
+    renderLock();
+    return;
+  }
+  if(lockUI.mode === 'changeNew'){
+    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = '请输入 6 位数字 PIN'; lockUI.error = true; renderLock(); return; }
+    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = '密码至少 4 位'; lockUI.error = true; renderLock(); return; }
+    lockUI.firstPin = pin;
+    lockUI.pin = '';
+    lockUI.mode = 'changeConfirm';
+    lockUI.msg = '';
+    renderLock();
+    return;
+  }
+  if(lockUI.mode === 'changeConfirm'){
+    if(pin !== lockUI.firstPin){
+      lockUI.msg = '两次输入不一致，请重新设置';
+      lockUI.error = true;
+      lockUI.pin = '';
+      lockUI.firstPin = '';
+      lockUI.mode = 'changeNew';
+      renderLock();
+      return;
+    }
+    const hash = await sha256(pin);
+    lockRecord = { hash, type: lockUI.useTextMode ? 'text':'pin', createdAt: Date.now() };
+    saveLock(lockRecord);
+    lockUI.pin = '';
+    lockUI.firstPin = '';
+    lockUI.mode = 'unlock';
+    lockUI.msg = '';
+    lockUI.error = false;
+    renderLock();
+    toast('密码已更新');
+    return;
+  }
+
+  // 解锁
+  if(!hasLock){
+    lockUI.mode = 'create';
+    renderLock();
+    return;
+  }
+  const hash = await sha256(pin);
+  if(hash === lockRecord.hash){
+    isUnlocked = true;
+    lockUI.pin = '';
+    lockUI.msg = '';
+    lockUI.error = false;
+    markActivity();
+    renderLock();
+    render({ top:true });
+  }else{
+    lockUI.msg = '密码不正确，请重试';
+    lockUI.error = true;
+    lockUI.pin = '';
+    renderLock();
+    // 震动反馈（如果支持）
+    if(navigator.vibrate) navigator.vibrate(60);
+  }
+}
+
+function lockApp(showMsg){
+  isUnlocked = false;
+  lockUI.mode = 'unlock';
+  lockUI.pin = '';
+  lockUI.firstPin = '';
+  lockUI.msg = showMsg || '';
+  lockUI.error = false;
+  lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
+  renderLock();
+}
+
+/* 自动锁定 */
+setInterval(() => {
+  if(!isUnlocked) return;
+  if(!state.settings.appLockEnabled) return;
+  const mins = Number(state.settings.autoLockMinutes) || 0;
+  if(mins <= 0) return;
+  if(Date.now() - lastActivity > mins * 60000){
+    lockApp('已自动锁定');
+  }
+}, 5000);
+['click','touchstart','keydown','scroll'].forEach(ev => {
+  window.addEventListener(ev, markActivity, { passive:true });
+});
+document.addEventListener('visibilitychange', () => {
+  if(document.visibilityState === 'visible') markActivity();
+});
+
+/* =========================================================================
+   渲染
+   ========================================================================= */
+function render(opts){
+  opts = opts || {};
+  if(!isUnlocked){ renderLock(); document.getElementById('app').innerHTML = ''; return; }
+
+  const root = document.getElementById('app');
+  const sy = opts.top ? 0 : window.scrollY;
+  root.innerHTML = renderTopbar() + '<main class="view">' + renderView() + '</main>' + renderTabbar();
+  if(opts.top) window.scrollTo(0,0);
+  else window.scrollTo(0, sy);
+}
+
+function renderTopbar(){
+  if(ui.sub === 'accounts')     return bar('账户管理', true);
+  if(ui.sub === 'settings')     return bar('设置', true);
+  if(ui.sub === 'achievements') return bar('我的成就', true);
+  if(ui.sub === 'categories')   return bar('分类管理', true);
+  if(ui.sub === 'lock-settings')return bar('App Lock', true);
+
+  const titles = { home:'', records:'交易记录', goals:'储蓄目标', assets:'资产回本', stats:'统计' };
+  if(ui.tab === 'home'){
+    return `<header class="topbar brand"><h1>SaveWise</h1>
+      <button class="icon-btn" onclick="openSub('settings')">⚙</button></header>`;
+  }
+  return `<header class="topbar"><span style="width:38px"></span><h1>${esc(titles[ui.tab]||'')}</h1>
+    <button class="icon-btn" onclick="openSub('settings')">⚙</button></header>`;
+}
+function bar(title, back){
+  return `<header class="topbar">${back ? '<button class="icon-btn" onclick="back()">←</button>' : '<span style="width:38px"></span>'}
+    <h1>${esc(title)}</h1>
+    <button class="icon-btn" onclick="lockApp()" title="锁定">🔒</button></header>`;
+}
+
+function renderTabbar(){
+  const items = [
+    { k:'home',    i:'🏠', l:'首页' },
+    { k:'records', i:'🧾', l:'交易' },
+    { k:'goals',   i:'🎯', l:'储蓄' },
+    { k:'assets',  i:'📦', l:'资产' },
+    { k:'stats',   i:'📊', l:'统计' },
+    { k:'settings',i:'⚙️', l:'设置' }
+  ];
+  return `<nav class="tabbar">${items.map(it =>
+    `<button class="${ui.tab===it.k && !ui.sub ? 'on':''}" onclick="go('${it.k}')">
+      <span class="ti">${it.i}</span><span>${it.l}</span></button>`
+  ).join('')}</nav>`;
+}
+
+function renderView(){
+  if(ui.sub === 'accounts')      return viewAccounts();
+  if(ui.sub === 'settings')      return viewSettings();
+  if(ui.sub === 'achievements')  return viewAchievements();
+  if(ui.sub === 'categories')    return viewCategories();
+  if(ui.sub === 'lock-settings') return viewLockSettings();
+  switch(ui.tab){
+    case 'home':     return viewHome();
+    case 'records':  return viewRecords();
+    case 'goals':    return viewGoals();
+    case 'assets':   return viewAssets();
+    case 'stats':    return viewStats();
+    case 'settings': return viewSettings();
+  }
+  return '';
+}
+
+/* ---------------- 导航 ---------------- */
+function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
+function openSub(name){ ui.sub = name; render({ top:true }); }
+function back(){ ui.sub = null; render({ top:true }); }
+function toggleHide(){
+  state.settings.hideBalance = !state.settings.hideBalance;
+  saveState(); render();
+}
+
+/* =========================================================================
+   首页
+   ========================================================================= */
+function viewHome(){
+  const total  = totalAssets();
+  const avail  = availableBalance();
+  const locked = lockedBalance();
+
+  const mIn = state.transactions
+    .filter(t => t.type === 'income' && inThisMonth(t.date))
+    .reduce((s,t) => s + Number(t.amount||0), 0);
+  const mOut = state.transactions
+    .filter(t => t.type === 'expense' && inThisMonth(t.date))
+    .reduce((s,t) => s + Number(t.amount||0), 0);
+
+  const recent = sortedTx().slice(0,5);
+  const goalsPreview = state.goals.filter(g => Number(g.saved) > 0 || Number(g.targetAmount) > 0).slice(0,2);
+
+  const hasAny = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length;
+
+  return `
+  <div class="hero">
+    <div class="hero-top">
+      <span class="hero-label">总资产</span>
+      <button class="eye-btn" onclick="toggleHide()">${state.settings.hideBalance ? '🙈' : '👁'}</button>
+    </div>
+    <div class="hero-amount">${money(total)}</div>
+    <div class="hero-split">
+      <div class="split-item"><span>可用余额</span><b>${money(avail)}</b></div>
+      <div class="split-div"></div>
+      <div class="split-item"><span>储蓄目标锁定</span><b>${money(locked)}</b></div>
+    </div>
+  </div>
+
+  <div class="mini-row">
+    <div class="mini"><span>本月收入</span><b class="c-green">${money(mIn)}</b></div>
+    <div class="mini"><span>本月支出</span><b class="c-red">${money(mOut)}</b></div>
+  </div>
+
+  <div class="quick">
+    <button onclick="openIncomeForm()"><span class="qi">＋</span>收入</button>
+    <button onclick="openExpenseForm()"><span class="qi">－</span>支出</button>
+    <button onclick="openTransferForm()"><span class="qi">⇄</span>转账</button>
+    <button onclick="openGoalForm()"><span class="qi">🎯</span>目标</button>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h3>我的账户</h3>
+      <button class="link" onclick="openSub('accounts')">管理</button>
+    </div>
+    <div class="list">
+      ${ state.accounts.length
+          ? state.accounts.map(accRow).join('')
+          : `<div class="empty"><p>还没有账户</p>
+             <button class="btn primary sm" onclick="openAccountForm()">添加第一个账户</button></div>` }
+    </div>
+  </section>
+
+  ${ goalsPreview.length ? `
+  <section>
+    <div class="section-head">
+      <h3>储蓄目标</h3>
+      <button class="link" onclick="go('goals')">查看全部</button>
+    </div>
+    ${ goalsPreview.map(goalCard).join('') }
+  </section>` : '' }
+
+  <section>
+    <div class="section-head">
+      <h3>最近交易</h3>
+      <button class="link" onclick="go('records')">查看全部</button>
+    </div>
+    <div class="list">
+      ${ recent.length
+          ? recent.map(txRow).join('')
+          : `<div class="empty"><p>还没有记录，开始添加第一笔收入吧</p></div>` }
+    </div>
+  </section>
+
+  ${ !hasAny ? `
+  <div class="empty big">
+    <div class="empty-icon">👋</div>
+    <p>欢迎使用 SaveWise</p>
+    <span>从创建一个账户开始，然后记录你的第一笔收入</span>
+    <button class="btn primary sm" onclick="openAccountForm()">创建账户</button>
+  </div>` : '' }
+  `;
+}
+
+function accRow(a){
+  const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
+  return `<div class="row" onclick="openAccountMenu('${a.id}')">
+    <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${meta.icon}</div>
+    <div class="row-main">
+      <div class="row-title">${esc(a.name)}</div>
+      <div class="row-sub">${meta.label}</div>
+    </div>
+    <div class="row-amount">${money(a.balance || 0)}</div>
+  </div>`;
+}
+
+function txRow(t){
+  let icon = '📌', title = '', sub = '', cls = '', sign = '';
+  const acc = getAccount(t.accountId);
+
+  switch(t.type){
+    case 'income':
+      icon = catIcon(t.category);
+      title = t.category || '收入';
+      sub = (acc ? acc.name : '—') + (t.note ? ' · ' + t.note : '');
+      cls = 'c-green'; sign = '+';
+      break;
+    case 'expense':
+      icon = catIcon(t.category);
+      title = t.subCategory ? `${t.category} · ${t.subCategory}` : (t.category || '支出');
+      sub = (acc ? acc.name : '—') + (t.note ? ' · ' + t.note : '');
+      cls = 'c-red'; sign = '-';
+      break;
+    case 'transfer': {
+      const to = getAccount(t.toAccountId);
+      icon = '⇄'; title = '账户转账';
+      sub = (acc ? acc.name : '—') + ' → ' + (to ? to.name : '—') + (t.note ? ' · ' + t.note : '');
+      cls = 'c-muted'; sign = '';
+      break;
+    }
+    case 'goal_deposit': {
+      const g = getGoal(t.goalId);
+      icon = '🎯'; title = '存入储蓄目标';
+      sub = (acc ? acc.name : '—') + ' → ' + (g ? g.name : '目标');
+      cls = 'c-amber'; sign = '';
+      break;
+    }
+    case 'goal_withdraw': {
+      const g2 = getGoal(t.goalId);
+      icon = '🎯'; title = '从储蓄目标取出';
+      sub = (g2 ? g2.name : '目标') + ' → ' + (acc ? acc.name : '—');
+      cls = 'c-green'; sign = '+';
+      break;
+    }
+    default:
+      icon = '📌'; title = '记录'; sub = t.note || '';
+  }
+
+  const amountText = sign ? sign + money(t.amount) : money(t.amount);
+  const recurring = t.recurring ? ' · 🔁' : '';
+
+  return `<div class="row" onclick="openTxMenu('${t.id}')">
+    <div class="row-icon" style="background:#f5f6fa">${icon}</div>
+    <div class="row-main">
+      <div class="row-title">${esc(title)}</div>
+      <div class="row-sub">${esc(sub)}${recurring}</div>
+    </div>
+    <div class="tx-amt ${cls}">${amountText}</div>
+  </div>`;
+}
+
+/* =========================================================================
+   交易记录页
+   ========================================================================= */
+function viewRecords(){
+  const f = ui.recordFilter;
+  const q = (ui.searchQuery || '').trim().toLowerCase();
+  const catFilter = ui.recordCat || '';
+
+  let list = sortedTx();
+
+  if(f === 'income')       list = list.filter(t => t.type === 'income');
+  else if(f === 'expense') list = list.filter(t => t.type === 'expense');
+  else if(f === 'saving')  list = list.filter(t =>
+    t.type === 'transfer' || t.type === 'goal_deposit' || t.type === 'goal_withdraw');
+
+  if(catFilter){
+    list = list.filter(t => t.category === catFilter);
+  }
+  if(q){
+    list = list.filter(t =>
+      String(t.note||'').toLowerCase().includes(q) ||
+      String(t.category||'').toLowerCase().includes(q) ||
+      String(t.subCategory||'').toLowerCase().includes(q)
+    );
+  }
+
+  // 汇总
+  const totalIn  = list.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
+  const totalOut = list.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+
+  const groups = new Map();
+  list.forEach(t => {
+    if(!groups.has(t.date)) groups.set(t.date, []);
+    groups.get(t.date).push(t);
+  });
+  const dates = Array.from(groups.keys()).sort().reverse();
+
+  const segs = [
+    ['all','全部'],['income','收入'],['expense','支出'],['saving','转账/储蓄']
+  ];
+
+  // 分类筛选选项
+  const catSet = new Set();
+  state.transactions.forEach(t => { if(t.category) catSet.add(t.category); });
+  const catList = Array.from(catSet).sort();
+
+  return `
+  <div class="search-bar">
+    <input class="search-input" id="rec-search" type="search" placeholder="搜索备注或分类…"
+           value="${esc(ui.searchQuery)}">
+  </div>
+  <div class="seg">
+    ${segs.map(([v,l]) =>
+      `<button class="${f===v?'on':''}" onclick="setFilter('${v}')">${l}</button>`).join('')}
+  </div>
+  ${ catList.length ? `
+  <div class="seg">
+    <button class="${!catFilter?'on':''}" onclick="setRecordCat('')">全部分类</button>
+    ${catList.slice(0,8).map(c =>
+      `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)}</button>`
+    ).join('')}
+  </div>` : '' }
+
+  <div class="stat-grid">
+    <div class="stat-box"><span>筛选收入</span><b class="c-green">${money(totalIn)}</b></div>
+    <div class="stat-box"><span>筛选支出</span><b class="c-red">${money(totalOut)}</b></div>
+  </div>
+
+  ${ dates.length
+    ? dates.map(d => {
+        const items = groups.get(d);
+        const dayIn  = items.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
+        const dayOut = items.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+        return `<div class="day-group">
+          <div class="day-head">
+            <span>${fmtDateLabel(d)}</span>
+            <span>${dayIn ? `<i class="c-green">+${money(dayIn)}</i>` : ''}${dayOut ? ` <i class="c-red">-${money(dayOut)}</i>` : ''}</span>
+          </div>
+          <div class="list">${items.map(txRow).join('')}</div>
+        </div>`;
+      }).join('')
+    : `<div class="empty big">
+        <div class="empty-icon">🧾</div>
+        <p>${q || catFilter ? '没有符合条件的记录' : '还没有交易记录'}</p>
+        <span>${q || catFilter ? '换个关键词试试' : '记录你的第一笔收入或支出'}</span>
+        ${!q && !catFilter ? `<button class="btn primary sm" onclick="openIncomeForm()">＋ 记录第一笔</button>` : ''}
+      </div>` }
+  `;
+}
+
+function setFilter(v){ ui.recordFilter = v; render(); }
+function setRecordCat(c){ ui.recordCat = c; render(); }
+
+// 搜索输入（防抖）
+document.addEventListener('input', e => {
+  if(e.target && e.target.id === 'rec-search'){
+    const v = e.target.value;
+    clearTimeout(window.__searchTimer);
+    window.__searchTimer = setTimeout(() => {
+      ui.searchQuery = v;
+      const el = document.getElementById('rec-search');
+      const pos = el ? el.selectionStart : 0;
+      render();
+      const el2 = document.getElementById('rec-search');
+      if(el2){ el2.focus(); el2.setSelectionRange(pos,pos); }
+    }, 260);
+  }
+});
+
+/* =========================================================================
+   储蓄目标
+   ========================================================================= */
+function viewGoals(){
+  const goals = state.goals;
+  const totalTarget = goals.reduce((s,g) => s + Number(g.targetAmount||0), 0);
+
+  return `
+  <div class="summary-strip">
+    <div><span>锁定储蓄金额</span><b>${money(lockedBalance())}</b></div>
+    <div><span>目标总额</span><b>${money(totalTarget)}</b></div>
+  </div>
+  ${ goals.length
+    ? goals.map(goalCard).join('') + `<button class="btn primary block" onclick="openGoalForm()">＋ 新建储蓄目标</button>`
+    : `<div class="empty big">
+        <div class="empty-icon">🎯</div>
+        <p>还没有储蓄目标</p>
+        <span>设定目标，把可用余额锁定起来专门储蓄</span>
+        <button class="btn primary sm" onclick="openGoalForm()">新建目标</button>
+      </div>` }
+  `;
+}
+
+function goalCard(g){
+  const target = Number(g.targetAmount) || 0;
+  const saved  = Number(g.saved) || 0;
+  const pct    = target > 0 ? Math.min(saved / target * 100, 100) : 0;
+  const remain = Math.max(target - saved, 0);
+  const done   = target > 0 && saved >= target;
+
+  let dl = '未设置期限';
+  if(g.deadline){
+    const days = Math.ceil((parseDate(g.deadline) - new Date()) / 86400000);
+    if(days > 0) dl = `还剩 ${days} 天`;
+    else if(days === 0) dl = '今天到期';
+    else dl = `已逾期 ${-days} 天`;
+  }
+
+  return `<div class="goal-card">
+    <div class="goal-top">
+      <div>
+        <div class="goal-name">${g.icon ? g.icon + ' ' : ''}${esc(g.name)}${done ? '<span class="badge-done">已达成</span>' : ''}</div>
+        <div class="goal-sub">期限：${g.deadline ? esc(g.deadline) : '未设置'} · ${dl}</div>
+        ${g.note ? `<div class="goal-sub">备注：${esc(g.note)}</div>` : ''}
+      </div>
+      <button class="icon-btn sm" onclick="goalMenu('${g.id}')">⋯</button>
+    </div>
+    <div class="goal-amt"><b>${money(saved)}</b><span> / ${money(target)}</span></div>
+    <div class="bar-track"><div class="bar-fill ${done?'alt':''}" style="width:${pct.toFixed(1)}%"></div></div>
+    <div class="goal-foot"><span>${pct.toFixed(1)}%</span><span>还差 ${money(remain)}</span></div>
+    <div class="goal-acts">
+      <button class="btn soft" onclick="openGoalDeposit('${g.id}')">存入</button>
+      <button class="btn soft" onclick="openGoalWithdraw('${g.id}')">取出</button>
+      <button class="btn soft" onclick="editGoal('${g.id}')">编辑</button>
+    </div>
+  </div>`;
+}
+
+/* =========================================================================
+   资产回本
+   ========================================================================= */
+function assetCalc(a){
+  const price    = Number(a.price) || 0;
+  const totalDays = (Number(a.expectedYears)||0) * 365 + (Number(a.expectedMonths)||0) * 30;
+  const dailyValue = totalDays > 0 ? price / totalDays : 0;
+
+  const start = parseDate(a.purchaseDate);
+  const end   = a.endDate ? parseDate(a.endDate) : new Date();
+  let usedMs  = end.getTime() - start.getTime();
+  if(!isFinite(usedMs) || usedMs < 0) usedMs = 0;
+  const usedDays = usedMs / 86400000;
+
+  let systemValue = dailyValue * usedDays;
+  if(systemValue < 0) systemValue = 0;
+  if(systemValue > price) systemValue = price;
+
+  const hasManual = (a.manualValue !== null && a.manualValue !== undefined && a.manualValue !== '');
+  const actualValue = hasManual ? Number(a.manualValue) : systemValue;
+
+  const rate       = price > 0 ? actualValue / price : 0;
+  const unreturned = Math.max(price - actualValue, 0);
+
+  return { price, totalDays, dailyValue, usedDays, systemValue, actualValue, rate, unreturned, hasManual };
+}
+
+const ASSET_STATUS = {
+  active:    { label:'回本中',   cls:'st-active' },
+  completed: { label:'已完成',   cls:'st-done' },
+  ended:     { label:'提前结束', cls:'st-end' },
+  damaged:   { label:'已损坏',   cls:'st-bad' },
+  lost:      { label:'已遗失',   cls:'st-bad' },
+  sold:      { label:'已出售',   cls:'st-done' },
+  stopped:   { label:'停止使用', cls:'st-end' }
+};
+
+function viewAssets(){
+  const list = state.assets;
+  const totalReturned = list.reduce((s,a) => s + assetCalc(a).actualValue, 0);
+  const totalUnreturned = list.reduce((s,a) => s + assetCalc(a).unreturned, 0);
+  const activeCount = list.filter(a => a.status === 'active').length;
+
+  return `
+  <div class="summary-strip">
+    <div><span>资产总数</span><b>${list.length} 项</b></div>
+    <div><span>回本中</span><b>${activeCount} 项</b></div>
+  </div>
+  ${ list.length
+    ? list.map(assetCard).join('') +
+      `<div class="summary-strip">
+        <div><span>累计已回本</span><b class="c-green">${money(totalReturned)}</b></div>
+        <div><span>未回本总额</span><b class="c-red">${money(totalUnreturned)}</b></div>
+      </div>` +
+      `<button class="btn primary block" onclick="openAssetForm()">＋ 添加资产</button>`
+    : `<div class="empty big">
+        <div class="empty-icon">📦</div>
+        <p>还没有记录资产</p>
+        <span>记录购买物品，按预计使用期限计算每日价值与回本进度</span>
+        <button class="btn primary sm" onclick="openAssetForm()">添加资产</button>
+      </div>` }
+  `;
+}
+
+function assetCard(a){
+  const c = assetCalc(a);
+  const st = ASSET_STATUS[a.status] || ASSET_STATUS.active;
+  const pct = Math.min(c.rate * 100, 100);
+  const isActive = a.status === 'active';
+
+  return `<div class="asset-card">
+    <div class="asset-top">
+      <div>
+        <div class="asset-name">${esc(a.name)}</div>
+        <div class="goal-sub">购买：${esc(a.purchaseDate)}${a.endDate ? ' · 结束：' + esc(a.endDate) : ''}</div>
+        ${a.note ? `<div class="goal-sub">${esc(a.note)}</div>` : ''}
+      </div>
+      <span class="badge ${st.cls}">${st.label}</span>
+    </div>
+
+    <div class="asset-grid">
+      <div><span>购买价格</span><b>${money(c.price)}</b></div>
+      <div><span>每日价值</span><b>${money(c.dailyValue)}</b></div>
+      <div><span>已使用</span><b>${c.usedDays.toFixed(1)} 天</b></div>
+      <div><span>预计使用</span><b>${c.totalDays} 天</b></div>
+    </div>
+
+    <div class="bar-track"><div class="bar-fill alt" style="width:${pct.toFixed(1)}%"></div></div>
+
+    <div class="asset-rows">
+      <div class="ar"><span>系统计算回本</span><b>${money(c.systemValue)}</b></div>
+      <div class="ar"><span>用户调整值</span><b>${c.hasManual ? money(c.manualValue) : '未设置'}</b></div>
+      <div class="ar"><span>实际已回本</span><b class="c-green">${money(c.actualValue)}</b></div>
+      <div class="ar"><span>未回本金额</span><b class="c-red">${money(c.unreturned)}</b></div>
+      <div class="ar"><span>回本率</span><b>${(c.rate * 100).toFixed(1)}%</b></div>
+    </div>
+
+    <div class="asset-acts">
+      ${isActive ? `<button class="btn soft" onclick="openAssetEnd('${a.id}')">结束回本</button>` : ''}
+      <button class="btn soft" onclick="openAssetAdjust('${a.id}')">调整价值</button>
+      <button class="btn soft" onclick="assetMenu('${a.id}')">更多</button>
+    </div>
+  </div>`;
+}
+
+/* =========================================================================
+   统计
+   ========================================================================= */
+function last6Months(){
+  const arr = [];
+  const now = new Date();
+  for(let i = 5; i >= 0; i--){
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    arr.push({ key: monthKey(d), label: `${d.getMonth()+1}月` });
+  }
+  return arr;
+}
+
+function viewStats(){
+  const range = ui.statsRange;
+  const txs = state.transactions.filter(t => range === 'all' ? true : inThisMonth(t.date));
+
+  const income  = txs.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
+  const expense = txs.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+  const net     = income - expense;
+
+  const allIncome  = state.transactions.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
+  const allExpense = state.transactions.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+
+  // 支出分类
+  const catMap = {};
+  txs.filter(t => t.type === 'expense').forEach(t => {
+    const k = t.category || '其他支出';
+    catMap[k] = (catMap[k] || 0) + Number(t.amount||0);
+  });
+  const cats = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
+  const maxCat = cats.length ? cats[0][1] : 0;
+
+  // 收入分类
+  const incMap = {};
+  txs.filter(t => t.type === 'income').forEach(t => {
+    const k = t.category || '其他收入';
+    incMap[k] = (incMap[k] || 0) + Number(t.amount||0);
+  });
+  const incCats = Object.entries(incMap).sort((a,b) => b[1] - a[1]);
+  const maxInc = incCats.length ? incCats[0][1] : 0;
+
+  // 账户余额分布
+  const accTotal = availableBalance();
+
+  // 月度趋势
+  const months = last6Months().map(m => {
+    const inc = state.transactions.filter(t => t.type === 'income'  && String(t.date||'').startsWith(m.key)).reduce((s,t) => s + Number(t.amount||0), 0);
+    const exp = state.transactions.filter(t => t.type === 'expense' && String(t.date||'').startsWith(m.key)).reduce((s,t) => s + Number(t.amount||0), 0);
+    return { key:m.key, label:m.label, inc, exp, net: inc - exp };
+  });
+  const maxAbs = Math.max.apply(null, months.map(m => Math.abs(m.net)).concat([1]));
+
+  const hasData = txs.length > 0;
+
+  return `
+  <div class="seg">
+    <button class="${range==='month'?'on':''}" onclick="setStatsRange('month')">本月</button>
+    <button class="${range==='all'?'on':''}" onclick="setStatsRange('all')">全部时间</button>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-box"><span>收入</span><b class="c-green">${money(income)}</b></div>
+    <div class="stat-box"><span>支出</span><b class="c-red">${money(expense)}</b></div>
+    <div class="stat-box"><span>净储蓄</span><b class="${net>=0?'c-green':'c-red'}">${money(net)}</b></div>
+    <div class="stat-box"><span>锁定储蓄</span><b>${money(lockedBalance())}</b></div>
+  </div>
+
+  ${ range === 'month' ? `
+  <div class="card">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">累计数据（全部时间）</div>
+    <div class="asset-rows">
+      <div class="ar"><span>累计收入</span><b class="c-green">${money(allIncome)}</b></div>
+      <div class="ar"><span>累计支出</span><b class="c-red">${money(allExpense)}</b></div>
+      <div class="ar"><span>累计净储蓄</span><b>${money(allIncome - allExpense)}</b></div>
+    </div>
+  </div>` : '' }
+
+  <div class="card">
+    <div class="section-head" style="margin-bottom:12px">
+      <h3>支出分类</h3>
+      <span style="font-size:12px;color:var(--muted)">${range==='month'?'本月':'全部'}</span>
+    </div>
+    ${ cats.length
+      ? cats.map(([name, amt]) =>
+        `<div class="cat-row">
+          <div class="cat-head"><span>${catIcon(name)} ${esc(name)}</span><span>${money(amt)}</span></div>
+          <div class="cat-bar"><i style="width:${maxCat>0?(amt/maxCat*100).toFixed(1):0}%"></i></div>
+        </div>`).join('')
+      : `<div class="empty"><p>暂无支出数据</p></div>` }
+  </div>
+
+  <div class="card">
+    <div class="section-head" style="margin-bottom:12px">
+      <h3>收入分类</h3>
+      <span style="font-size:12px;color:var(--muted)">${range==='month'?'本月':'全部'}</span>
+    </div>
+    ${ incCats.length
+      ? incCats.map(([name, amt]) =>
+        `<div class="cat-row">
+          <div class="cat-head"><span>${catIcon(name)} ${esc(name)}</span><span>${money(amt)}</span></div>
+          <div class="cat-bar"><i class="inc" style="width:${maxInc>0?(amt/maxInc*100).toFixed(1):0}%"></i></div>
+        </div>`).join('')
+      : `<div class="empty"><p>暂无收入数据</p></div>` }
+  </div>
+
+  ${ state.accounts.length ? `
+  <div class="card">
+    <div class="section-head" style="margin-bottom:12px">
+      <h3>账户余额分布</h3>
+      <span style="font-size:12px;color:var(--muted)">可用 ${money(accTotal)}</span>
+    </div>
+    ${ state.accounts.map(a => {
+        const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
+        const amt = Number(a.balance)||0;
+        const w = accTotal > 0 ? Math.max(amt / accTotal * 100, amt > 0 ? 2 : 0) : 0;
+        return `<div class="cat-row">
+          <div class="cat-head"><span>${meta.icon} ${esc(a.name)}</span><span>${money(amt)}</span></div>
+          <div class="cat-bar"><i style="width:${w.toFixed(1)}%"></i></div>
+        </div>`;
+      }).join('') }
+  </div>` : '' }
+
+  ${ state.goals.length ? `
+  <div class="card">
+    <div class="section-head" style="margin-bottom:12px">
+      <h3>储蓄目标进度</h3>
+      <span style="font-size:12px;color:var(--muted)">锁定 ${money(lockedBalance())}</span>
+    </div>
+    ${ state.goals.map(g => {
+        const t = Number(g.targetAmount)||0;
+        const s = Number(g.saved)||0;
+        const p = t > 0 ? Math.min(s / t * 100, 100) : 0;
+        return `<div class="cat-row">
+          <div class="cat-head"><span>${g.icon||'🎯'} ${esc(g.name)}</span><span>${p.toFixed(0)}%</span></div>
+          <div class="cat-bar"><i class="${p>=100?'inc':''}" style="width:${p.toFixed(1)}%"></i></div>
+        </div>`;
+      }).join('') }
+  </div>` : '' }
+
+  <div class="card">
+    <div class="section-head" style="margin-bottom:6px">
+      <h3>月度趋势</h3>
+      <span style="font-size:12px;color:var(--muted)">近 6 个月净储蓄</span>
+    </div>
+    <div class="trend">
+      ${ months.map(m => {
+        const h = Math.max(Math.abs(m.net) / maxAbs * 92, m.net === 0 ? 2 : 6);
+        return `<div class="trend-col">
+          <div class="trend-val">${m.net === 0 ? '' : (m.net>0?'+':'-') + fmtNum(m.net)}</div>
+          <div class="trend-bar ${m.net < 0 ? 'neg':''}" style="height:${h.toFixed(1)}%"></div>
+          <div class="trend-lbl">${m.label}</div>
+        </div>`;
+      }).join('') }
+    </div>
+  </div>
+
+  ${ !hasData ? `<div class="empty big"><div class="empty-icon">📊</div><p>还没有统计数据</p><span>记录收支后这里会自动生成分析</span></div>` : '' }
+  `;
+}
+function setStatsRange(v){ ui.statsRange = v; render(); }
+
+/* =========================================================================
+   账户管理
+   ========================================================================= */
+function viewAccounts(){
+  return `
+  <div class="card">
+    <div style="font-size:12px;color:var(--muted);margin-bottom:4px">总可用余额</div>
+    <div style="font-size:28px;font-weight:800;font-variant-numeric:tabular-nums">${money(availableBalance())}</div>
+  </div>
+  <div class="list">
+    ${ state.accounts.length
+      ? state.accounts.map(a => {
+          const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
+          return `<div class="row" onclick="openAccountMenu('${a.id}')">
+            <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${meta.icon}</div>
+            <div class="row-main">
+              <div class="row-title">${esc(a.name)}</div>
+              <div class="row-sub">${meta.label}</div>
+            </div>
+            <div class="row-amount">${money(a.balance||0)}</div>
+          </div>`;
+        }).join('')
+      : `<div class="empty"><p>还没有账户</p></div>` }
+  </div>
+  <button class="btn primary block" onclick="openAccountForm()">＋ 添加账户</button>
+  <p class="about">账户余额会随收入、支出、转账和储蓄操作实时更新。<br>删除账户前需先清空余额。</p>
+  `;
+}
+
+/* =========================================================================
+   分类管理
+   ========================================================================= */
+function viewCategories(){
+  return `
+  <div class="card">
+    <div class="section-head" style="margin-bottom:10px">
+      <h3>收入分类</h3>
+      <button class="link" onclick="addCustomCat('income')">＋ 新增</button>
+    </div>
+    <div class="chip-row">
+      ${ incomeCats().map(c =>
+        `<span class="chip" style="background:#e7f8f1;color:#0a7a55">${catIcon(c)} ${esc(c)}</span>`).join('') }
+    </div>
+    ${ state.customIncomeCats.length ? `
+    <div class="section-head" style="margin:10px 0 6px">
+      <h3 style="font-size:13px;color:var(--muted)">自定义收入分类</h3>
+    </div>
+    <div class="chip-row">
+      ${ state.customIncomeCats.map(c =>
+        `<button class="chip on" onclick="removeCustomCat('income','${esc(c)}')">${esc(c)} ✕</button>`).join('') }
+    </div>` : '' }
+  </div>
+
+  <div class="card">
+    <div class="section-head" style="margin-bottom:10px">
+      <h3>支出分类</h3>
+      <button class="link" onclick="addCustomCat('expense')">＋ 新增</button>
+    </div>
+    <div class="chip-row">
+      ${ expenseCats().map(c =>
+        `<span class="chip" style="background:#fdecec;color:#b3282c">${catIcon(c)} ${esc(c)}</span>`).join('') }
+    </div>
+    ${ state.customExpenseCats.length ? `
+    <div class="section-head" style="margin:10px 0 6px">
+      <h3 style="font-size:13px;color:var(--muted)">自定义支出分类</h3>
+    </div>
+    <div class="chip-row">
+      ${ state.customExpenseCats.map(c =>
+        `<button class="chip on" onclick="removeCustomCat('expense','${esc(c)}')">${esc(c)} ✕</button>`).join('') }
+    </div>` : '' }
+  </div>
+
+  <p class="about">自定义分类会出现在记录收入 / 支出时的分类选择中。</p>
+  `;
+}
+
+function addCustomCat(kind){
+  openSheet({
+    title: kind === 'income' ? '新增收入分类' : '新增支出分类',
+    submitText: '添加',
+    body: `<label class="field"><span class="field-label">分类名称</span>
+      <input name="name" type="text" required maxlength="16" placeholder="例如：投资收入"></label>`,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      if(!name){ toast('请输入分类名称'); return false; }
+      const all = kind === 'income' ? incomeCats() : expenseCats();
+      if(all.includes(name)){ toast('该分类已存在'); return false; }
+      if(kind === 'income') state.customIncomeCats.push(name);
+      else state.customExpenseCats.push(name);
+      afterChange();
+      toast('分类已添加');
+      return true;
+    }
+  });
+}
+
+function removeCustomCat(kind, name){
+  confirmDialog(`确定删除自定义分类「${name}」？已存在的交易记录不受影响。`, () => {
+    if(kind === 'income') state.customIncomeCats = state.customIncomeCats.filter(c => c !== name);
+    else state.customExpenseCats = state.customExpenseCats.filter(c => c !== name);
+    afterChange();
+    toast('分类已删除');
+  });
+}
+
+/* =========================================================================
+   成就
+   ========================================================================= */
+function viewAchievements(){
+  return `<div class="ach-grid">
+    ${ ACHIEVEMENTS.map(a => {
+      const got = !!state.achievements[a.id];
+      const date = got ? new Date(state.achievements[a.id]) : null;
+      const ds = date ? `${date.getMonth()+1}/${date.getDate()} 解锁` : a.desc;
+      return `<div class="ach ${got?'got':''}">
+        <div class="ach-icon">${got ? a.icon : '🔒'}</div>
+        <div class="ach-name">${a.name}</div>
+        <div class="ach-desc">${esc(ds)}</div>
+      </div>`;
+    }).join('') }
+  </div>`;
+}
+
+/* =========================================================================
+   设置
+   ========================================================================= */
+function viewSettings(){
+  const unlockedCount = Object.keys(state.achievements).length;
+  const autoLock = Number(state.settings.autoLockMinutes) || 0;
+  const autoLockLabel = autoLock <= 0 ? '不自动锁定' : autoLock + ' 分钟';
+
+  return `
+  <div class="card">
+    <div class="set-row">
+      <div><div class="set-title">金额隐藏模式</div>
+        <div class="set-sub">所有金额显示为 RM****</div></div>
+      <button class="switch ${state.settings.hideBalance?'on':''}" onclick="toggleHide()"><i></i></button>
+    </div>
+    <div class="set-row">
+      <div><div class="set-title">货币显示</div>
+        <div class="set-sub">当前货币单位</div></div>
+      <span class="set-val">RM / MYR</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row tap" onclick="openSub('lock-settings')">
+      <div><div class="set-title">🔒 App Lock</div>
+        <div class="set-sub">${state.settings.appLockEnabled ? '已开启 · ' + autoLockLabel : '已关闭'}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="openSub('categories')">
+      <div><div class="set-title">🏷️ 分类管理</div>
+        <div class="set-sub">自定义收入与支出分类</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="openSub('accounts')">
+      <div><div class="set-title">🏛️ 账户管理</div>
+        <div class="set-sub">${state.accounts.length} 个账户</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="openSub('achievements')">
+      <div><div class="set-title">🏆 我的成就</div>
+        <div class="set-sub">已解锁 ${unlockedCount} / ${ACHIEVEMENTS.length}</div></div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row tap" onclick="exportData()">
+      <div><div class="set-title">📤 导出数据 (JSON)</div>
+        <div class="set-sub">下载完整备份文件</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="exportCSV()">
+      <div><div class="set-title">📊 导出交易 (CSV)</div>
+        <div class="set-sub">适合 Excel / 表格查看</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row">
+      <div><div class="set-title">数据存储</div>
+        <div class="set-sub">本地 localStorage</div></div>
+      <span class="set-val">${state.transactions.length} 笔交易</span>
+    </div>
+    <div class="set-row tap" onclick="clearData()">
+      <div><div class="set-title danger">🗑 清除所有数据</div>
+        <div class="set-sub">不可恢复，请谨慎操作</div></div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+
+  <p class="about">SaveWise v1.0 · 本地优先<br>
+  数据保存在本机浏览器，建议定期导出备份。<br>
+  已为云端同步、账号系统、生物识别与 AI 分析预留扩展空间。</p>
+  `;
+}
+
+function viewLockSettings(){
+  const hasLock = !!(lockRecord && lockRecord.hash);
+  const autoLock = Number(state.settings.autoLockMinutes) || 0;
+  const opts = [
+    { v:0,  l:'不自动锁定' },
+    { v:1,  l:'1 分钟' },
+    { v:5,  l:'5 分钟' },
+    { v:15, l:'15 分钟' },
+    { v:30, l:'30 分钟' }
+  ];
+
+  return `
+  <div class="card">
+    <div class="set-row">
+      <div><div class="set-title">启用 App Lock</div>
+        <div class="set-sub">打开应用时需要输入密码</div></div>
+      <button class="switch ${state.settings.appLockEnabled?'on':''}" onclick="toggleAppLock()"><i></i></button>
+    </div>
+    <div class="set-row">
+      <div><div class="set-title">自动锁定</div>
+        <div class="set-sub">离开应用一段时间后自动锁定</div></div>
+      <span class="set-val">${autoLock <= 0 ? '不自动锁定' : autoLock + ' 分钟'}</span>
+    </div>
+    <div class="chip-row" style="margin:10px 0 0">
+      ${ opts.map(o =>
+        `<button class="chip ${autoLock===o.v?'on':''}" onclick="setAutoLock(${o.v})">${o.l}</button>`).join('') }
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row tap" onclick="changePin()">
+      <div><div class="set-title">🔑 修改 PIN / 密码</div>
+        <div class="set-sub">当前为 ${lockRecord && lockRecord.type === 'text' ? '自定义密码' : '6 位数字 PIN'}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="lockApp()">
+      <div><div class="set-title">🔒 立即锁定应用</div>
+        <div class="set-sub">下次打开需要重新输入密码</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="disableLock()">
+      <div><div class="set-title danger">关闭 App Lock</div>
+        <div class="set-sub">删除已保存的密码数据</div></div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row">
+      <div><div class="set-title">🧬 生物识别（Face ID / 指纹）</div>
+        <div class="set-sub">V2.0 将支持，当前设备暂不可用</div></div>
+      <button class="switch" disabled style="opacity:.4"><i></i></button>
+    </div>
+  </div>
+
+  <p class="about">密码经过 SHA-256 哈希后保存，不会以明文形式存储。<br>
+  忘记密码将无法恢复，请务必牢记。</p>
+  `;
+}
+
+function toggleAppLock(){
+  state.settings.appLockEnabled = !state.settings.appLockEnabled;
+  saveState(); render();
+  toast(state.settings.appLockEnabled ? 'App Lock 已开启' : 'App Lock 已关闭');
+}
+
+function setAutoLock(v){
+  state.settings.autoLockMinutes = v;
+  saveState(); render();
+  toast('自动锁定已设置为 ' + (v <= 0 ? '不自动锁定' : v + ' 分钟'));
+}
+
+function changePin(){
+  lockUI.mode = 'changeOld';
+  lockUI.pin = '';
+  lockUI.msg = '';
+  lockUI.error = false;
+  lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
+  isUnlocked = false;
+  renderLock();
+}
+
+function disableLock(){
+  confirmDialog('关闭 App Lock 后，任何人打开应用都无需密码。确定继续？', () => {
+    clearLock();
+    lockRecord = null;
+    state.settings.appLockEnabled = false;
+    saveState();
+    lockUI.mode = 'create';
+    lockUI.pin = '';
+    lockUI.msg = '';
+    render();
+    toast('App Lock 已关闭');
+  });
+}
+
+/* =========================================================================
+   数据导出 / 清除
+   ========================================================================= */
+function exportData(){
+  try{
+    const payload = {
+      app: 'SaveWise', version: 1,
+      exportedAt: new Date().toISOString(),
+      state
+    };
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
+    downloadBlob(blob, 'savewise-' + todayStr() + '.json');
+    toast('JSON 已导出');
+  }catch(e){ toast('导出失败'); }
+}
+
+function exportCSV(){
+  try{
+    const rows = [['日期','类型','分类','子分类','金额','账户','转入账户','备注','固定']];
+    sortedTx().forEach(t => {
+      const acc = getAccount(t.accountId);
+      const to  = getAccount(t.toAccountId);
+      const typeLabel = {
+        income:'收入', expense:'支出', transfer:'转账',
+        goal_deposit:'储蓄存入', goal_withdraw:'储蓄取出'
+      }[t.type] || t.type;
+      rows.push([
+        t.date || '',
+        typeLabel,
+        t.category || '',
+        t.subCategory || '',
+        String(Number(t.amount||0).toFixed(2)),
+        acc ? acc.name : '',
+        to ? to.name : '',
+        (t.note || '').replace(/[\r\n,]/g,' '),
+        t.recurring ? '是' : '否'
+      ]);
+    });
+    const csv = '\ufeff' + rows.map(r =>
+      r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')
+    ).join('\n');
+    const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
+    downloadBlob(blob, 'savewise-transactions-' + todayStr() + '.csv');
+    toast('CSV 已导出');
+  }catch(e){ toast('导出失败'); }
+}
+
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function clearData(){
+  confirmDialog('将清除所有账户、交易、储蓄目标、资产与成就数据，且不可恢复。建议先导出备份。确定继续？', () => {
+    confirmDialog('再次确认：所有财务数据将被永久删除。真的要清除吗？', () => {
+      try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
+      state = defaultState();
+      saveState();
+      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'' };
+      render({ top:true });
+      toast('所有数据已清除');
+    });
+  });
+}
+
+/* =========================================================================
+   Sheet 系统
+   ========================================================================= */
+function openSheet(opts){
+  const root = document.getElementById('sheet-root');
+  root.innerHTML = `
+    <div class="mask"></div>
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <h3>${esc(opts.title)}</h3>
+        <button type="button" class="icon-btn" data-close>✕</button>
+      </div>
+      <form id="sheet-form" novalidate autocomplete="off">
+        <div class="sheet-body">${opts.body}</div>
+        <div class="sheet-foot">
+          <button type="button" class="btn ghost" data-close>取消</button>
+          <button type="submit" class="btn primary">${esc(opts.submitText || '保存')}</button>
+        </div>
+      </form>
+    </div>`;
+  root.classList.add('show');
+  document.body.classList.add('no-scroll');
+
+  root.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeSheet));
+  root.querySelector('.mask').addEventListener('click', closeSheet);
+
+  const form = root.querySelector('#sheet-form');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const data = {};
+    new FormData(form).forEach((v,k) => { data[k] = v; });
+    let ok = true;
+    if(opts.onSubmit) ok = opts.onSubmit(data, form);
+    if(ok !== false) closeSheet();
+  });
+}
+
+function openActionSheet(title, actions){
+  const root = document.getElementById('sheet-root');
+  root.innerHTML = `
+    <div class="mask"></div>
+    <div class="sheet">
+      <div class="sheet-handle"></div>
+      <div class="sheet-head">
+        <h3>${esc(title)}</h3>
+        <button type="button" class="icon-btn" data-close>✕</button>
+      </div>
+      <div class="sheet-body action-list">
+        ${actions.map((a,i) =>
+          `<button type="button" class="action-item ${a.danger?'danger':''}" data-i="${i}">
+            <span>${a.icon || ''}</span>${esc(a.label)}</button>`).join('')}
+      </div>
+    </div>`;
+  root.classList.add('show');
+  document.body.classList.add('no-scroll');
+
+  root.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeSheet));
+  root.querySelector('.mask').addEventListener('click', closeSheet);
+  root.querySelectorAll('.action-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const a = actions[Number(btn.dataset.i)];
+      closeSheet();
+      setTimeout(() => { if(a && a.onClick) a.onClick(); }, 280);
+    });
+  });
+}
+
+function confirmDialog(msg, onYes){
+  const root = document.getElementById('sheet-root');
+  root.innerHTML = `
+    <div class="mask"></div>
+    <div class="sheet small">
+      <div class="sheet-body">
+        <p class="confirm-msg">${esc(msg)}</p>
+        <div class="confirm-btns">
+          <button type="button" class="btn ghost" data-close>取消</button>
+          <button type="button" class="btn danger" id="cf-yes">确认</button>
+        </div>
+      </div>
+    </div>`;
+  root.classList.add('show');
+  document.body.classList.add('no-scroll');
+  root.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeSheet));
+  root.querySelector('.mask').addEventListener('click', closeSheet);
+  root.querySelector('#cf-yes').addEventListener('click', () => {
+    closeSheet();
+    setTimeout(() => onYes(), 280);
+  });
+}
+
+function closeSheet(){
+  const root = document.getElementById('sheet-root');
+  root.classList.remove('show');
+  document.body.classList.remove('no-scroll');
+  const el = root;
+  setTimeout(() => { if(!el.classList.contains('show')) el.innerHTML = ''; }, 340);
+}
+
+/* ---------------- Toast ---------------- */
+let toastTimer = null;
+function toast(msg){
+  const root = document.getElementById('toast-root');
+  root.innerHTML = `<div class="toast">${esc(msg)}</div>`;
+  const el = root.querySelector('.toast');
+  requestAnimationFrame(() => el.classList.add('in'));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    el.classList.remove('in');
+    setTimeout(() => { if(root.firstChild === el) root.innerHTML = ''; }, 320);
+  }, 2200);
+}
+
+/* =========================================================================
+   表单：账户
+   ========================================================================= */
+function openAccountForm(){
+  openSheet({
+    title: '添加账户',
+    submitText: '创建账户',
+    body: `
+      <label class="field">
+        <span class="field-label">账户名称</span>
+        <input name="name" type="text" required maxlength="20" placeholder="例如：现金钱包">
+      </label>
+      <label class="field">
+        <span class="field-label">账户类型</span>
+        <select name="type">
+          ${Object.entries(ACC_TYPES).map(([k,v]) =>
+            `<option value="${k}">${v.icon} ${v.label}</option>`).join('')}
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">初始余额（可选）</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="initial" type="number" step="0.01" min="0" placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <p class="hint">若填写初始余额，会自动生成一笔「初始余额」收入记录。</p>
+    `,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      if(!name){ toast('请输入账户名称'); return false; }
+      const acc = {
+        id: uid(), name, type: d.type || 'other',
+        balance: 0, createdAt: Date.now()
+      };
+      const initial = parseFloat(d.initial);
+      if(initial && initial > 0){
+        const amt = round2(initial);
+        acc.balance = amt;
+        state.accounts.push(acc);
+        state.transactions.push({
+          id: uid(), type:'income', amount: amt,
+          date: todayStr(), category:'其他收入',
+          accountId: acc.id, note:'初始余额', createdAt: Date.now()
+        });
+      }else{
+        state.accounts.push(acc);
+      }
+      afterChange();
+      toast('账户已创建');
+      return true;
+    }
+  });
+}
+
+function openAccountMenu(id){
+  const a = getAccount(id);
+  if(!a) return;
+  openActionSheet(a.name, [
+    { label:'重命名账户', icon:'✏️', onClick: () => renameAccount(id) },
+    { label:'删除账户',   icon:'🗑', danger:true, onClick: () => deleteAccount(id) }
+  ]);
+}
+
+function renameAccount(id){
+  const a = getAccount(id);
+  if(!a) return;
+  openSheet({
+    title: '重命名账户',
+    body: `<label class="field"><span class="field-label">账户名称</span>
+      <input name="name" type="text" required maxlength="20" value="${esc(a.name)}"></label>`,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      if(!name) return false;
+      a.name = name;
+      afterChange();
+      toast('已更新');
+      return true;
+    }
+  });
+}
+
+function deleteAccount(id){
+  const a = getAccount(id);
+  if(!a) return;
+  if(Math.abs(Number(a.balance)||0) > 0.001){
+    toast('该账户仍有余额，请先转出或消费');
+    return;
+  }
+  const used = state.transactions.some(t => t.accountId === id || t.toAccountId === id);
+  confirmDialog(
+    used ? '该账户已有历史记录，删除后记录会保留但账户显示为「—」。确定删除？'
+         : '确定删除该账户？',
+    () => {
+      state.accounts = state.accounts.filter(x => x.id !== id);
+      afterChange();
+      toast('账户已删除');
+    }
+  );
+}
+
+/* =========================================================================
+   表单：收入 / 支出 / 转账
+   ========================================================================= */
+function accountOptions(selected, excludeId){
+  return state.accounts
+    .filter(a => a.id !== excludeId)
+    .map(a => `<option value="${a.id}" ${selected===a.id?'selected':''}>${esc(a.name)}（${fmtNum(a.balance||0)}）</option>`)
+    .join('');
+}
+
+function openIncomeForm(){
+  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+  openSheet({
+    title: '记录收入',
+    submitText: '保存收入',
+    body: `
+      <label class="field">
+        <span class="field-label">金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">收入分类</span>
+        <select name="category">${incomeCats().map(c => `<option>${esc(c)}</option>`).join('')}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">存入账户</span>
+        <select name="accountId">${accountOptions()}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">日期</span>
+        <input name="date" type="date" value="${todayStr()}" required>
+      </label>
+      <label class="field">
+        <span class="field-label">备注（可选）</span>
+        <input name="note" type="text" maxlength="60" placeholder="例如：周末兼职">
+      </label>
+      <label class="field">
+        <span class="field-label">周期性收入？</span>
+        <select name="recurring">
+          <option value="">否，仅记录这一次</option>
+          <option value="1">是，固定 / 周期性（预留）</option>
+        </select>
+      </label>
+    `,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount));
+      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      const acc = getAccount(d.accountId);
+      if(!acc){ toast('账户不存在'); return false; }
+      acc.balance = round2((Number(acc.balance)||0) + amount);
+      state.transactions.push({
+        id: uid(), type: 'income', amount,
+        date: d.date || todayStr(), category: d.category || '其他收入',
+        accountId: acc.id, note: (d.note || '').trim(),
+        recurring: !!d.recurring,
+        createdAt: Date.now()
+      });
+      afterChange();
+      toast('收入已记录');
+      return true;
+    }
+  });
+}
+
+function openExpenseForm(){
+  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+  openSheet({
+    title: '记录支出',
+    submitText: '保存支出',
+    body: `
+      <label class="field">
+        <span class="field-label">金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">支出分类</span>
+        <select name="category" id="exp-cat">${expenseCats().map(c => `<option>${esc(c)}</option>`).join('')}</select>
+      </label>
+      <label class="field" id="sub-cat-wrap" style="display:none">
+        <span class="field-label">子分类（可选）</span>
+        <select name="subCategory" id="sub-cat">
+          <option value="">不选择</option>
+          ${MEAL_SUBS.map(s => `<option>${s}</option>`).join('')}
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">从账户扣除</span>
+        <select name="accountId">${accountOptions()}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">日期</span>
+        <input name="date" type="date" value="${todayStr()}" required>
+      </label>
+      <label class="field">
+        <span class="field-label">备注（可选）</span>
+        <input name="note" type="text" maxlength="60" placeholder="例如：午餐">
+      </label>
+      <label class="field">
+        <span class="field-label">周期性支出？</span>
+        <select name="recurring">
+          <option value="">否，仅记录这一次</option>
+          <option value="1">是，固定 / 周期性（预留）</option>
+        </select>
+      </label>
+    `,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount));
+      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      const acc = getAccount(d.accountId);
+      if(!acc){ toast('账户不存在'); return false; }
+      if(round2(Number(acc.balance)||0) < amount){ toast('该账户余额不足'); return false; }
+      acc.balance = round2((Number(acc.balance)||0) - amount);
+      state.transactions.push({
+        id: uid(), type: 'expense', amount,
+        date: d.date || todayStr(), category: d.category || '其他支出',
+        subCategory: (d.subCategory || '').trim(),
+        accountId: acc.id, note: (d.note || '').trim(),
+        recurring: !!d.recurring,
+        createdAt: Date.now()
+      });
+      afterChange();
+      toast('支出已记录');
+      return true;
+    }
+  });
+  // 餐饮子分类显示
+  setTimeout(() => {
+    const sel = document.getElementById('exp-cat');
+    const wrap = document.getElementById('sub-cat-wrap');
+    if(sel && wrap){
+      const toggle = () => { wrap.style.display = sel.value === '餐饮' ? '' : 'none'; };
+      sel.addEventListener('change', toggle);
+      toggle();
+    }
+  }, 60);
+}
+
+function openTransferForm(){
+  if(state.accounts.length < 2){ toast('至少需要两个账户才能转账'); return; }
+  openSheet({
+    title: '账户转账',
+    submitText: '确认转账',
+    body: `
+      <label class="field">
+        <span class="field-label">转出账户</span>
+        <select name="fromId">${accountOptions()}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">转入账户</span>
+        <select name="toId">${accountOptions(state.accounts[1].id)}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">日期</span>
+        <input name="date" type="date" value="${todayStr()}" required>
+      </label>
+      <label class="field">
+        <span class="field-label">备注（可选）</span>
+        <input name="note" type="text" maxlength="60" placeholder="例如：转入银行">
+      </label>
+      <p class="hint">转账不会计入收入或支出，仅调整账户余额。</p>
+    `,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount));
+      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      if(d.fromId === d.toId){ toast('转出与转入账户不能相同'); return false; }
+      const from = getAccount(d.fromId), to = getAccount(d.toId);
+      if(!from || !to){ toast('账户不存在'); return false; }
+      if(round2(Number(from.balance)||0) < amount){ toast('转出账户余额不足'); return false; }
+
+      from.balance = round2((Number(from.balance)||0) - amount);
+      to.balance   = round2((Number(to.balance)||0)   + amount);
+
+      state.transactions.push({
+        id: uid(), type: 'transfer', amount,
+        date: d.date || todayStr(), accountId: from.id, toAccountId: to.id,
+        note: (d.note || '').trim(), createdAt: Date.now()
+      });
+      afterChange();
+      toast('转账完成');
+      return true;
+    }
+  });
+}
+
+/* =========================================================================
+   交易菜单 / 编辑 / 删除
+   ========================================================================= */
+function openTxMenu(id){
+  const t = state.transactions.find(x => x.id === id);
+  if(!t) return;
+  const labelMap = {
+    income:'收入记录', expense:'支出记录', transfer:'转账记录',
+    goal_deposit:'储蓄存入记录', goal_withdraw:'储蓄取出记录'
+  };
+  const acts = [];
+  if(t.type === 'income' || t.type === 'expense'){
+    acts.push({ label:'编辑这笔记录', icon:'✏️', onClick: () => editTransaction(id) });
+  }
+  acts.push({ label:'删除这笔记录', icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
+  openActionSheet(labelMap[t.type] || '记录', acts);
+}
+
+function editTransaction(id){
+  const t = state.transactions.find(x => x.id === id);
+  if(!t) return;
+  const isIncome = t.type === 'income';
+  const cats = isIncome ? incomeCats() : expenseCats();
+
+  openSheet({
+    title: isIncome ? '编辑收入' : '编辑支出',
+    submitText: '保存修改',
+    body: `
+      <label class="field">
+        <span class="field-label">金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="amount" type="number" step="0.01" min="0.01" required value="${t.amount}" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">分类</span>
+        <select name="category">${cats.map(c =>
+          `<option ${c===t.category?'selected':''}>${esc(c)}</option>`).join('')}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">账户</span>
+        <select name="accountId">${state.accounts.map(a =>
+          `<option value="${a.id}" ${a.id===t.accountId?'selected':''}>${esc(a.name)}（${fmtNum(a.balance||0)}）</option>`).join('')}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">日期</span>
+        <input name="date" type="date" value="${t.date}" required>
+      </label>
+      <label class="field">
+        <span class="field-label">备注</span>
+        <input name="note" type="text" maxlength="60" value="${esc(t.note||'')}">
+      </label>
+      <p class="hint">修改后会自动重新计算账户余额与统计数据。</p>
+    `,
+    onSubmit(d){
+      const newAmount = round2(parseFloat(d.amount));
+      if(!(newAmount > 0)){ toast('请输入有效金额'); return false; }
+
+      // 还原旧数据
+      if(t.type === 'income'){
+        const oldAcc = getAccount(t.accountId);
+        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(t.amount));
+      }else if(t.type === 'expense'){
+        const oldAcc = getAccount(t.accountId);
+        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(t.amount));
+      }
+
+      const newAcc = getAccount(d.accountId);
+      if(!newAcc){ toast('账户不存在'); return false; }
+      if(t.type === 'expense' && round2(Number(newAcc.balance)||0) < newAmount){
+        // 再次还原
+        if(t.type === 'income'){
+          const oldAcc = getAccount(t.accountId);
+          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(t.amount));
+        }else if(t.type === 'expense'){
+          const oldAcc = getAccount(t.accountId);
+          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(t.amount));
+        }
+        toast('该账户余额不足');
+        return false;
+      }
+
+      // 应用新数据
+      if(t.type === 'income'){
+        newAcc.balance = round2((Number(newAcc.balance)||0) + newAmount);
+      }else{
+        newAcc.balance = round2((Number(newAcc.balance)||0) - newAmount);
+      }
+
+      t.amount = newAmount;
+      t.category = d.category || t.category;
+      t.accountId = newAcc.id;
+      t.date = d.date || t.date;
+      t.note = (d.note || '').trim();
+
+      afterChange();
+      toast('已保存修改');
+      return true;
+    }
+  });
+}
+
+function deleteTransaction(id){
+  const t = state.transactions.find(x => x.id === id);
+  if(!t) return;
+
+  confirmDialog('删除后对应账户余额会自动还原，确定删除？', () => {
+    try{
+      switch(t.type){
+        case 'income': {
+          const a = getAccount(t.accountId);
+          if(a) a.balance = round2((Number(a.balance)||0) - Number(t.amount));
+          break;
+        }
+        case 'expense': {
+          const a = getAccount(t.accountId);
+          if(a) a.balance = round2((Number(a.balance)||0) + Number(t.amount));
+          break;
+        }
+        case 'transfer': {
+          const f = getAccount(t.accountId), to = getAccount(t.toAccountId);
+          if(f)  f.balance  = round2((Number(f.balance)||0)  + Number(t.amount));
+          if(to) to.balance = round2((Number(to.balance)||0) - Number(t.amount));
+          break;
+        }
+        case 'goal_deposit': {
+          const a = getAccount(t.accountId), g = getGoal(t.goalId);
+          if(a) a.balance = round2((Number(a.balance)||0) + Number(t.amount));
+          if(g) g.saved   = round2((Number(g.saved)||0)   - Number(t.amount));
+          break;
+        }
+        case 'goal_withdraw': {
+          const a = getAccount(t.accountId), g = getGoal(t.goalId);
+          if(a) a.balance = round2((Number(a.balance)||0) - Number(t.amount));
+          if(g) g.saved   = round2((Number(g.saved)||0)   + Number(t.amount));
+          break;
+        }
+      }
+    }catch(e){ /* 账户可能已被删除，跳过还原 */ }
+
+    state.transactions = state.transactions.filter(x => x.id !== id);
+    state.goals.forEach(g => { if(Number(g.saved) < 0) g.saved = 0; });
+    afterChange();
+    toast('记录已删除，余额已还原');
+  });
+}
+
+/* =========================================================================
+   储蓄目标
+   ========================================================================= */
+function openGoalForm(){
+  openSheet({
+    title: '新建储蓄目标',
+    submitText: '创建目标',
+    body: `
+      <label class="field">
+        <span class="field-label">目标名称</span>
+        <input name="name" type="text" required maxlength="24" placeholder="例如：买新手机">
+      </label>
+      <label class="field">
+        <span class="field-label">目标金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="target" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">期限（可选）</span>
+        <input name="deadline" type="date">
+      </label>
+      <label class="field">
+        <span class="field-label">图标（可选）</span>
+        <select name="icon">
+          <option value="">不选择</option>
+          <option value="🎯">🎯 目标</option>
+          <option value="📱">📱 手机</option>
+          <option value="✈️">✈️ 旅行</option>
+          <option value="🏠">🏠 家</option>
+          <option value="🎓">🎓 学习</option>
+          <option value="🚗">🚗 车</option>
+          <option value="💻">💻 电脑</option>
+          <option value="🎁">🎁 礼物</option>
+          <option value="🏥">🏥 医疗</option>
+          <option value="🪙">🪙 储蓄</option>
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">备注（可选）</span>
+        <textarea name="note" maxlength="80" placeholder="为什么想存这笔钱？"></textarea>
+      </label>
+      <p class="hint">创建后，可用「存入」把可用余额转为锁定储蓄，不会凭空产生金额。</p>
+    `,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      const target = round2(parseFloat(d.target));
+      if(!name){ toast('请输入目标名称'); return false; }
+      if(!(target > 0)){ toast('请输入有效目标金额'); return false; }
+      state.goals.push({
+        id: uid(), name, targetAmount: target,
+        deadline: d.deadline || '', saved: 0,
+        icon: d.icon || '', note: (d.note || '').trim(),
+        status: 'active', createdAt: Date.now()
+      });
+      afterChange();
+      toast('储蓄目标已创建');
+      return true;
+    }
+  });
+}
+
+function goalMenu(id){
+  const g = getGoal(id);
+  if(!g) return;
+  openActionSheet(g.name, [
+    { label:'修改目标', icon:'✏️', onClick: () => editGoal(id) },
+    { label:'取消目标（退还全部资金）', icon:'↩️', danger:true, onClick: () => cancelGoal(id) }
+  ]);
+}
+
+function editGoal(id){
+  const g = getGoal(id);
+  if(!g) return;
+  openSheet({
+    title: '修改目标',
+    body: `
+      <label class="field"><span class="field-label">目标名称</span>
+        <input name="name" type="text" required maxlength="24" value="${esc(g.name)}"></label>
+      <label class="field"><span class="field-label">目标金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="target" type="number" step="0.01" min="0.01" required value="${g.targetAmount}"></div></label>
+      <label class="field"><span class="field-label">期限（可选）</span>
+        <input name="deadline" type="date" value="${g.deadline || ''}"></label>
+      <label class="field"><span class="field-label">图标（可选）</span>
+        <select name="icon">
+          <option value="">不选择</option>
+          ${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i =>
+            `<option value="${i}" ${g.icon===i?'selected':''}>${i}</option>`).join('')}
+        </select></label>
+      <label class="field"><span class="field-label">备注（可选）</span>
+        <textarea name="note" maxlength="80">${esc(g.note||'')}</textarea></label>
+      <p class="hint">已储蓄金额不会因修改目标而变化。</p>
+    `,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      const target = round2(parseFloat(d.target));
+      if(!name || !(target > 0)){ toast('请填写完整信息'); return false; }
+      g.name = name;
+      g.targetAmount = target;
+      g.deadline = d.deadline || '';
+      g.icon = d.icon || '';
+      g.note = (d.note || '').trim();
+      afterChange();
+      toast('已更新');
+      return true;
+    }
+  });
+}
+
+function openGoalDeposit(goalId){
+  const g = getGoal(goalId);
+  if(!g) return;
+  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+  const avail = availableBalance();
+  openSheet({
+    title: '存入储蓄目标',
+    submitText: '确认存入',
+    body: `
+      <label class="field">
+        <span class="field-label">金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">从账户扣除</span>
+        <select name="accountId">${accountOptions()}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">日期</span>
+        <input name="date" type="date" value="${todayStr()}" required>
+      </label>
+      <p class="hint">可用余额：${money(avail)} · 存入后从可用余额转入锁定储蓄，总资产不变。</p>
+    `,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount));
+      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      const acc = getAccount(d.accountId);
+      if(!acc){ toast('账户不存在'); return false; }
+      if(round2(Number(acc.balance)||0) < amount){ toast('该账户余额不足'); return false; }
+
+      acc.balance = round2((Number(acc.balance)||0) - amount);
+      g.saved = round2((Number(g.saved)||0) + amount);
+
+      state.transactions.push({
+        id: uid(), type: 'goal_deposit', amount,
+        date: d.date || todayStr(), accountId: acc.id, goalId: g.id,
+        category: '储蓄', note: '', createdAt: Date.now()
+      });
+      afterChange();
+      toast('已存入储蓄目标');
+      return true;
+    }
+  });
+}
+
+function openGoalWithdraw(goalId){
+  const g = getGoal(goalId);
+  if(!g) return;
+  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+  const saved = round2(Number(g.saved)||0);
+  if(saved <= 0){ toast('该目标还没有可取出的资金'); return; }
+
+  openSheet({
+    title: '从储蓄目标取出',
+    submitText: '确认取出',
+    body: `
+      <label class="field">
+        <span class="field-label">金额</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">转入账户</span>
+        <select name="accountId">${accountOptions()}</select>
+      </label>
+      <label class="field">
+        <span class="field-label">日期</span>
+        <input name="date" type="date" value="${todayStr()}" required>
+      </label>
+      <p class="hint">该目标当前锁定：${money(saved)}</p>
+    `,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount));
+      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      const acc = getAccount(d.accountId);
+      if(!acc){ toast('账户不存在'); return false; }
+      if(amount > round2(Number(g.saved)||0) + 0.001){ toast('超出该目标已储蓄金额'); return false; }
+
+      g.saved = round2((Number(g.saved)||0) - amount);
+      acc.balance = round2((Number(acc.balance)||0) + amount);
+
+      state.transactions.push({
+        id: uid(), type: 'goal_withdraw', amount,
+        date: d.date || todayStr(), accountId: acc.id, goalId: g.id,
+        category: '储蓄', note: '', createdAt: Date.now()
+      });
+      afterChange();
+      toast('已转回可用余额');
+      return true;
+    }
+  });
+}
+
+function cancelGoal(id){
+  const g = getGoal(id);
+  if(!g) return;
+  const saved = round2(Number(g.saved)||0);
+
+  if(saved <= 0){
+    confirmDialog('确定取消该储蓄目标？', () => {
+      state.goals = state.goals.filter(x => x.id !== id);
+      afterChange();
+      toast('目标已取消');
+    });
+    return;
+  }
+
+  if(!state.accounts.length){ toast('请先创建一个账户以接收退款'); return; }
+
+  openSheet({
+    title: '取消目标',
+    submitText: '确认取消',
+    body: `
+      <p class="hint" style="margin-bottom:14px">目标内锁定的 <b>${money(saved)}</b> 将全额退回所选账户，不会凭空消失。</p>
+      <label class="field">
+        <span class="field-label">退回账户</span>
+        <select name="accountId">${accountOptions()}</select>
+      </label>
+    `,
+    onSubmit(d){
+      const acc = getAccount(d.accountId);
+      if(!acc){ toast('账户不存在'); return false; }
+
+      acc.balance = round2((Number(acc.balance)||0) + saved);
+
+      state.transactions.push({
+        id: uid(), type: 'goal_withdraw', amount: saved,
+        date: todayStr(), accountId: acc.id, goalId: g.id,
+        category: '储蓄', note: '取消目标退回', createdAt: Date.now()
+      });
+
+      state.goals = state.goals.filter(x => x.id !== id);
+      afterChange();
+      toast('目标已取消，资金已退回');
+      return true;
+    }
+  });
+}
+
+/* =========================================================================
+   资产回本
+   ========================================================================= */
+function openAssetForm(){
+  openSheet({
+    title: '添加资产',
+    submitText: '添加资产',
+    body: `
+      <label class="field">
+        <span class="field-label">资产名称</span>
+        <input name="name" type="text" required maxlength="24" placeholder="例如：笔记本电脑">
+      </label>
+      <label class="field">
+        <span class="field-label">购买价格</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="price" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">购买日期</span>
+        <input name="purchaseDate" type="date" value="${todayStr()}" required>
+      </label>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">预计使用（年）</span>
+          <input name="years" type="number" min="0" step="1" value="1" inputmode="numeric">
+        </label>
+        <label class="field">
+          <span class="field-label">预计使用（月）</span>
+          <input name="months" type="number" min="0" max="11" step="1" value="0" inputmode="numeric">
+        </label>
+      </div>
+      <label class="field">
+        <span class="field-label">备注（可选）</span>
+        <input name="note" type="text" maxlength="60" placeholder="例如：工作用主力机">
+      </label>
+      <p class="hint">系统按「购买价格 ÷ 预计使用总天数」计算每日价值，并随时间自动累计回本金额。</p>
+    `,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      const price = round2(parseFloat(d.price));
+      const years = Math.max(0, parseInt(d.years, 10) || 0);
+      const months = Math.max(0, parseInt(d.months, 10) || 0);
+      if(!name){ toast('请输入资产名称'); return false; }
+      if(!(price > 0)){ toast('请输入有效购买价格'); return false; }
+      if(years * 365 + months * 30 <= 0){ toast('预计使用期限必须大于 0'); return false; }
+
+      state.assets.push({
+        id: uid(), name, price,
+        purchaseDate: d.purchaseDate || todayStr(),
+        expectedYears: years, expectedMonths: months,
+        endDate: null, status: 'active',
+        manualValue: null, manualNote: '',
+        note: (d.note || '').trim(),
+        createdAt: Date.now()
+      });
+      afterChange();
+      toast('资产已添加');
+      return true;
+    }
+  });
+}
+
+function assetMenu(id){
+  const a = getAsset(id);
+  if(!a) return;
+  openActionSheet(a.name, [
+    { label:'编辑资产信息', icon:'✏️', onClick: () => editAsset(id) },
+    { label:'删除资产', icon:'🗑', danger:true, onClick: () => {
+        confirmDialog('确定删除该资产及其回本记录？', () => {
+          state.assets = state.assets.filter(x => x.id !== id);
+          afterChange();
+          toast('资产已删除');
+        });
+      } }
+  ]);
+}
+
+function editAsset(id){
+  const a = getAsset(id);
+  if(!a) return;
+  openSheet({
+    title: '编辑资产',
+    body: `
+      <label class="field"><span class="field-label">资产名称</span>
+        <input name="name" type="text" required maxlength="24" value="${esc(a.name)}"></label>
+      <label class="field"><span class="field-label">购买价格</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="price" type="number" step="0.01" min="0.01" required value="${a.price}"></div></label>
+      <label class="field"><span class="field-label">购买日期</span>
+        <input name="purchaseDate" type="date" value="${a.purchaseDate}" required></label>
+      <div class="two-col">
+        <label class="field"><span class="field-label">预计使用（年）</span>
+          <input name="years" type="number" min="0" step="1" value="${a.expectedYears||0}" inputmode="numeric"></label>
+        <label class="field"><span class="field-label">预计使用（月）</span>
+          <input name="months" type="number" min="0" max="11" step="1" value="${a.expectedMonths||0}" inputmode="numeric"></label>
+      </div>
+      <label class="field"><span class="field-label">备注</span>
+        <input name="note" type="text" maxlength="60" value="${esc(a.note||'')}"></label>
+    `,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      const price = round2(parseFloat(d.price));
+      const years = Math.max(0, parseInt(d.years, 10) || 0);
+      const months = Math.max(0, parseInt(d.months, 10) || 0);
+      if(!name || !(price > 0)){ toast('请填写完整信息'); return false; }
+      if(years * 365 + months * 30 <= 0){ toast('预计使用期限必须大于 0'); return false; }
+      a.name = name; a.price = price;
+      a.purchaseDate = d.purchaseDate || a.purchaseDate;
+      a.expectedYears = years; a.expectedMonths = months;
+      a.note = (d.note || '').trim();
+      afterChange();
+      toast('已更新');
+      return true;
+    }
+  });
+}
+
+function openAssetAdjust(id){
+  const a = getAsset(id);
+  if(!a) return;
+  const c = assetCalc(a);
+  openSheet({
+    title: '手动调整使用价值',
+    submitText: '保存调整',
+    body: `
+      <div class="asset-rows" style="margin-bottom:16px">
+        <div class="ar"><span>系统计算回本</span><b>${money(c.systemValue)}</b></div>
+        <div class="ar"><span>购买价格</span><b>${money(c.price)}</b></div>
+      </div>
+      <label class="field">
+        <span class="field-label">实际使用价值（RM）</span>
+        <div class="input-wrap"><span class="prefix">RM</span>
+          <input name="manualValue" type="number" step="0.01" min="0" placeholder="留空则恢复系统计算"
+                 value="${c.hasManual ? a.manualValue : ''}" inputmode="decimal"></div>
+      </label>
+      <label class="field">
+        <span class="field-label">调整原因（可选）</span>
+        <input name="manualNote" type="text" maxlength="60" placeholder="例如：实际状况良好 / 市场贬值" value="${esc(a.manualNote||'')}">
+      </label>
+      <p class="hint">用户调整值会与系统计算值分开显示，不会覆盖原始数据。</p>
+    `,
+    onSubmit(d){
+      const raw = String(d.manualValue || '').trim();
+      if(raw === ''){
+        a.manualValue = null;
+      }else{
+        const v = round2(parseFloat(raw));
+        if(!(v >= 0)){ toast('请输入有效金额'); return false; }
+        if(v > a.price){ toast('调整值不能超过购买价格'); return false; }
+        a.manualValue = v;
+      }
+      a.manualNote = (d.manualNote || '').trim();
+      afterChange();
+      toast('已保存调整');
+      return true;
+    }
+  });
+}
+
+function openAssetEnd(id){
+  const a = getAsset(id);
+  if(!a) return;
+  const c = assetCalc(a);
+  openSheet({
+    title: '结束回本计算',
+    submitText: '确认结束',
+    body: `
+      <div class="asset-rows" style="margin-bottom:16px">
+        <div class="ar"><span>当前系统计算回本</span><b>${money(c.systemValue)}</b></div>
+        <div class="ar"><span>已使用天数</span><b>${c.usedDays.toFixed(1)} 天</b></div>
+      </div>
+      <label class="field">
+        <span class="field-label">结束原因</span>
+        <select name="status">
+          <option value="completed">✅ 已完成（正常用满期限）</option>
+          <option value="ended">⏹ 提前结束</option>
+          <option value="damaged">💥 已损坏</option>
+          <option value="lost">🔍 已遗失</option>
+          <option value="sold">💰 已出售</option>
+          <option value="stopped">🚫 停止使用</option>
+        </select>
+      </label>
+      <label class="field">
+        <span class="field-label">结束日期</span>
+        <input name="endDate" type="date" value="${todayStr()}" required>
+      </label>
+      <p class="hint">结束后该资产不再自动累计回本金额，实际使用时间与未回本金额将被冻结记录。</p>
+    `,
+    onSubmit(d){
+      const endDate = d.endDate || todayStr();
+      if(parseDate(endDate) < parseDate(a.purchaseDate)){ toast('结束日期不能早于购买日期'); return false; }
+      a.endDate = endDate;
+      a.status = d.status || 'ended';
+      afterChange();
+      toast('回本计算已结束');
+      return true;
+    }
+  });
+}
+
+/* =========================================================================
+   启动
+   ========================================================================= */
+(function boot(){
+  // 修复历史数据浮点误差
+  state.accounts.forEach(a => { a.balance = round2(Number(a.balance) || 0); });
+  state.goals.forEach(g => {
+    g.saved = round2(Number(g.saved) || 0);
+    g.targetAmount = round2(Number(g.targetAmount) || 0);
+  });
+
+  saveState();
+  checkAchievements();
+
+  // 锁屏初始化
+  if(lockRecord && lockRecord.hash && state.settings.appLockEnabled){
+    isUnlocked = false;
+    lockUI.mode = 'unlock';
+  }else if(lockRecord && lockRecord.hash){
+    isUnlocked = false;
+    lockUI.mode = 'unlock';
+  }else{
+    isUnlocked = false;
+    lockUI.mode = 'create';
+  }
+  renderLock();
+  render({ top:true });
+})();
+
+// 跨标签同步
+window.addEventListener('storage', e => {
+  if(e.key === STORAGE_KEY){
+    state = loadState();
+    if(isUnlocked) render();
+  }
+  if(e.key === LOCK_KEY){
+    lockRecord = loadLock();
+    if(!lockRecord) { isUnlocked = true; renderLock(); render({ top:true }); }
+  }
+});
+</script>
+</body>
+</html>
