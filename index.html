@@ -61,7 +61,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .c-muted{color:var(--muted)!important;}
 .c-amber{color:var(--amber)!important;}
 
-/* ---------- Product Notice — V1.06 prominent, not tiny ---------- */
+/* ---------- Product Notice — V1.07 prominent, not tiny ---------- */
 .product-notice{
   background:linear-gradient(135deg,#fff 0%,#f5f6ff 100%);
   border:2.5px solid var(--brand);
@@ -92,7 +92,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 }
 .product-notice .pn-text b{color:var(--brand);font-weight:800;}
 
-/* ---------- Lock screen (V1.06: fixed-viewport, no scroll) ---------- */
+/* ---------- Lock screen (V1.07: input area on TOP, notice scrollable below) ---------- */
 .lock-screen{
   position:fixed;inset:0;z-index:500;
   background:linear-gradient(160deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);
@@ -109,27 +109,11 @@ section{display:flex;flex-direction:column;gap:10px;}
 .lock-logo{font-size:20px;font-weight:800;letter-spacing:-.5px;margin-bottom:1px;}
 .lock-sub{font-size:10.5px;opacity:.9;line-height:1.35;}
 
-/* V1.06: prominent 3-language notice on lock screen — but not scroll-forcing */
-.lock-notice-strip{
-  position:relative;z-index:2;flex:0 0 auto;
-  background:rgba(0,0,0,.24);border-radius:12px;padding:8px 10px;margin-bottom:8px;
-  border:1.5px solid rgba(255,255,255,.28);
-}
-.lock-notice-strip .ln-row{
-  display:flex;align-items:flex-start;gap:7px;font-size:11px;line-height:1.45;
-}
-.lock-notice-strip .ln-row+.ln-row{margin-top:5px;padding-top:5px;border-top:1px dashed rgba(255,255,255,.22);}
-.lock-notice-strip .ln-flag{
-  font-size:9.5px;font-weight:800;color:#fff;background:rgba(255,255,255,.22);
-  padding:2px 6px;border-radius:5px;letter-spacing:.4px;flex:0 0 auto;margin-top:1px;min-width:28px;text-align:center;
-}
-.lock-notice-strip .ln-text{flex:1;opacity:.97;font-weight:500;}
-
-/* Middle area: everything between notice and footer. Flex layout, no scrolling needed */
+/* V1.07: Input area FIRST */
 .lock-mid{
   position:relative;z-index:2;flex:1 1 auto;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:0;padding:4px 0;
+  min-height:0;padding:8px 0;
 }
 
 .lock-title{font-size:15px;font-weight:700;margin-bottom:10px;text-align:center;}
@@ -143,14 +127,14 @@ section{display:flex;flex-direction:column;gap:10px;}
   display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;max-width:270px;
 }
 .key{
-  height:48px;border-radius:15px;border:none;background:rgba(255,255,255,.16);
-  color:#fff;font-size:20px;font-weight:600;cursor:pointer;transition:background .1s,transform .1s;
+  height:46px;border-radius:14px;border:none;background:rgba(255,255,255,.16);
+  color:#fff;font-size:19px;font-weight:600;cursor:pointer;transition:background .1s,transform .1s;
   -webkit-user-select:none;user-select:none;touch-action:manipulation;
 }
 .key:active{transform:scale(.94);background:rgba(255,255,255,.30);}
-.key.fn{font-size:12.5px;font-weight:700;background:transparent;}
+.key.fn{font-size:12px;font-weight:700;background:transparent;}
 .key.fn:active{background:rgba(255,255,255,.14);}
-.key.enter{background:rgba(255,255,255,.95);color:var(--brand);font-size:13.5px;font-weight:800;}
+.key.enter{background:rgba(255,255,255,.95);color:var(--brand);font-size:13px;font-weight:800;}
 .key.enter:active{background:#fff;}
 
 .lock-input-wrap{width:100%;max-width:270px;margin:0 auto;}
@@ -163,9 +147,34 @@ section{display:flex;flex-direction:column;gap:10px;}
 .lock-input:focus{border-color:#fff;background:rgba(255,255,255,.20);}
 .lock-ok-btn{
   width:100%;max-width:270px;margin-top:10px;background:rgba(255,255,255,.95);color:var(--brand);
-  border:none;padding:12px;border-radius:14px;font-size:15px;font-weight:800;cursor:pointer;
+  border:none;padding:11px;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;
 }
 .lock-ok-btn:active{background:#fff;}
+
+/* V1.07: scrollable prominent notice BELOW the input area */
+.lock-notice-scroll{
+  position:relative;z-index:2;flex:0 1 auto;
+  background:rgba(0,0,0,.26);border-radius:14px;
+  border:1.5px solid rgba(255,255,255,.30);
+  max-height:34vh;min-height:120px;
+  overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  margin-top:8px;
+  padding:10px 12px;
+}
+.lock-notice-scroll .ln-title{
+  font-size:11px;font-weight:800;letter-spacing:.5px;opacity:.9;margin-bottom:6px;text-transform:uppercase;
+}
+.lock-notice-scroll .ln-row{
+  display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.5;
+}
+.lock-notice-scroll .ln-row+.ln-row{margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.25);}
+.lock-notice-scroll .ln-flag{
+  font-size:10px;font-weight:800;color:#fff;background:rgba(255,255,255,.25);
+  padding:2px 7px;border-radius:5px;letter-spacing:.4px;flex:0 0 auto;margin-top:1px;min-width:30px;text-align:center;
+}
+.lock-notice-scroll .ln-text{flex:1;opacity:.98;font-weight:500;}
 
 .lock-footer{
   position:relative;z-index:2;flex:0 0 auto;margin-top:8px;
@@ -198,13 +207,11 @@ section{display:flex;flex-direction:column;gap:10px;}
 .split-item b{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .split-div{width:1px;background:rgba(255,255,255,.22);margin:0 12px;}
 
-/* ---------- Mini cards ---------- */
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .mini span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
 .mini b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;word-break:break-all;}
 
-/* ---------- Quick actions ---------- */
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .quick button{
   background:#fff;border:none;border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;
@@ -214,7 +221,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .quick button:active{transform:scale(.94);}
 .quick .qi{font-size:17px;line-height:1;}
 
-/* ---------- Rows ---------- */
 .row{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .12s;}
 .row:active{background:#fafbfd;}
 .row-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
@@ -224,7 +230,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
 
-/* ---------- Empty ---------- */
 .empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px;}
 .empty p{margin:0 0 10px;}
 .empty.big{padding:40px 20px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);}
@@ -232,7 +237,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .empty.big p{font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:4px;}
 .empty.big span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:16px;}
 
-/* ---------- Buttons ---------- */
 .btn{border:none;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;}
 .btn:active{transform:scale(.97);}
 .btn.primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(79,70,229,.28);}
@@ -242,17 +246,14 @@ section{display:flex;flex-direction:column;gap:10px;}
 .btn.sm{padding:9px 16px;font-size:13.5px;}
 .btn.block{width:100%;}
 
-/* ---------- Segmented ---------- */
 .seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;}
 .seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;}
 .seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(79,70,229,.25);}
 
-/* ---------- Day groups ---------- */
 .day-group{display:flex;flex-direction:column;gap:8px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
 .day-head i{font-style:normal;font-weight:700;}
 
-/* ---------- Summary / cards ---------- */
 .summary-strip{
   background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);
   display:flex;gap:16px;
@@ -276,7 +277,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .goal-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;}
 .goal-acts,.asset-acts,.debt-acts{display:flex;gap:8px;margin-top:2px;flex-wrap:wrap;}
 
-/* ---------- Badges ---------- */
 .badge{font-size:10.5px;padding:3px 8px;border-radius:7px;font-weight:700;white-space:nowrap;}
 .st-active{background:#eef2ff;color:var(--brand);}
 .st-done{background:#e7f8f1;color:var(--green);}
@@ -295,7 +295,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .ar span{color:var(--muted);}
 .ar b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;}
 
-/* ---------- Stats ---------- */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .stat-box{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .stat-box span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
@@ -314,7 +313,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .trend-lbl{font-size:11px;color:var(--muted);font-weight:600;}
 .trend-val{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;}
 
-/* ---------- Settings ---------- */
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;}
 .set-row+.set-row{border-top:1px solid var(--line);}
 .set-title{font-size:14.5px;font-weight:600;}
@@ -329,7 +327,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .switch.on i{transform:translateX(20px);}
 .about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;}
 
-/* ---------- Achievements ---------- */
 .ach-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .ach{background:#fff;border-radius:var(--r-lg);padding:16px 12px;text-align:center;box-shadow:var(--shadow);opacity:.55;transition:opacity .2s;position:relative;}
 .ach.got{opacity:1;background:linear-gradient(160deg,#fff,#f7f7ff);border:1.5px solid #c7d2fe;}
@@ -338,7 +335,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .ach-status{font-size:11px;font-weight:700;color:var(--green);margin-top:2px;}
 .ach-status.locked{color:var(--muted);font-weight:600;}
 
-/* ---------- Tabbar ---------- */
 .tabbar{
   position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;z-index:50;
   background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
@@ -354,7 +350,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .tabbar button.on{color:var(--brand);}
 .tabbar button.on .ti{transform:translateY(-1px) scale(1.06);}
 
-/* ---------- Sheet ---------- */
 #sheet-root{position:fixed;inset:0;z-index:100;pointer-events:none;}
 #sheet-root.show{pointer-events:auto;}
 #sheet-root .mask{position:absolute;inset:0;background:rgba(15,23,42,.45);opacity:0;transition:opacity .26s;}
@@ -405,7 +400,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .confirm-btns{display:flex;gap:10px;padding:0 2px 8px;}
 .confirm-btns .btn{flex:1;}
 
-/* ---------- Category chips ---------- */
 .chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
 .chip{
   border:none;background:#f2f3f7;color:var(--text);font-size:12.5px;font-weight:600;
@@ -414,10 +408,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .chip:active{transform:scale(.95);}
 .chip.on{background:var(--brand);color:#fff;}
 
-/* Grouped option list for select (datalist style) */
-.opt-group{
-  display:flex;flex-direction:column;gap:2px;
-}
+.opt-group{display:flex;flex-direction:column;gap:2px;}
 .opt-item{
   border:none;background:#f7f8fc;color:var(--text);font-size:13.5px;font-weight:500;
   padding:10px 12px;border-radius:10px;text-align:left;cursor:pointer;transition:background .12s;
@@ -429,7 +420,6 @@ section{display:flex;flex-direction:column;gap:10px;}
   text-transform:uppercase;letter-spacing:.4px;padding:10px 2px 4px;
 }
 
-/* ---------- Toast ---------- */
 #toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;}
 .toast{
   background:rgba(15,23,42,.92);color:#fff;font-size:13.5px;font-weight:600;
@@ -439,7 +429,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 }
 .toast.in{opacity:1;transform:translateY(0);}
 
-/* ---------- Search ---------- */
 .search-bar{display:flex;gap:8px;}
 .search-input{
   flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;
@@ -458,18 +447,18 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   SaveWise v1.06
+   SaveWise v1.07
    Personal Financial Record & Management Software
    -----------------------------------------------------------------------
    - Records real-world money. Does NOT hold or handle money.
    - Single source of truth. No fabricated amounts.
    - App Version and Data Version are separate.
    - Updates preserve user data. Migration is safe.
-   - v1.06: Fixed notice sizing, lock screen no-scroll, translated changelog,
-            detailed categories, custom category persistence.
+   - v1.07: Lock screen input-first layout, scrollable notice, working
+            custom password, context-aware delete dialogs.
    ========================================================================= */
 
-const APP_VERSION_FALLBACK  = '1.06';
+const APP_VERSION_FALLBACK  = '1.07';
 const DATA_VERSION_FALLBACK = 1;
 
 const STORAGE_KEY       = 'savewise_state_v1';
@@ -482,16 +471,16 @@ const CHANGELOG_KEY     = 'savewise_changelog_v1';
 /* ============================ 永久产品性质声明 ============================ */
 const PRODUCT_NOTICE_LANGS = [
   {
-    code: 'ZH', label: '简体中文',
-    text: 'SaveWise 是<b>个人财务记录、整理、计算与分析软件</b>，用于记录现实中的现金、银行账户、电子钱包、收入、支出、储蓄目标与个人资产。SaveWise <b>不是银行、电子钱包、支付工具、汇款服务或金融机构</b>，<b>不接收、不保管、不托管，也不实际转移</b>用户的现实资金。SaveWise 中显示的金额只是<b>用户输入或系统根据记录计算出的财务记录</b>，<b>不代表这些钱存放在 SaveWise 里面</b>。'
+    code: 'EN',
+    text: 'SAVEWISE RECORDS YOUR REAL-WORLD MONEY. IT DOES NOT HOLD OR HANDLE YOUR MONEY. It is a personal financial recording, organization, calculation and analysis software. It is NOT a bank, e-wallet, payment instrument, remittance service, or financial institution, and does not receive, hold, custody, or actually transfer the user\'s real-world money. Any amount shown is a financial record entered by the user or calculated from records.'
   },
   {
-    code: 'EN', label: 'English',
-    text: 'SaveWise is a <b>personal financial recording, organization, calculation and analysis software</b>. It records real-world cash, bank accounts, e-wallets, income, expenses, savings goals and personal assets. SaveWise is <b>NOT a bank, e-wallet, payment instrument, remittance service, or financial institution</b>, and it <b>does not receive, hold, custody, or actually transfer</b> the user\'s real-world money. Any amount shown is a <b>financial record entered by the user or calculated from records</b>, and <b>does not mean the money is held by SaveWise</b>.'
+    code: 'ZH',
+    text: 'SaveWise 记录现实中的钱，但不持有或处理你的钱。它是个人财务记录、整理、计算与分析软件，不是银行、电子钱包、支付工具、汇款服务或金融机构，不接收、不保管、不托管，也不实际转移用户的现实资金。SaveWise 中显示的金额只是用户输入或系统根据记录计算出的财务记录。'
   },
   {
-    code: 'BM', label: 'Bahasa Melayu',
-    text: 'SaveWise ialah <b>perisian merekod, menyusun, mengira dan menganalisis kewangan peribadi</b>. Ia merekod wang tunai, akaun bank, e-dompet, pendapatan, perbelanjaan, matlamat simpanan dan aset peribadi. SaveWise <b>BUKAN bank, e-dompet, instrumen pembayaran, perkhidmatan kiriman wang atau institusi kewangan</b>, dan <b>tidak menerima, menyimpan, menjaga atau memindahkan</b> wang sebenar pengguna. Jumlah yang dipaparkan ialah <b>rekod kewangan yang dimasukkan atau dikira daripada rekod</b>, dan <b>tidak bermakna wang disimpan oleh SaveWise</b>.'
+    code: 'BM',
+    text: 'SaveWise MEREKODKAN WANG SEBENAR ANDA, BUKAN MEMEGANG ATAU MENGENDALIKAN WANG ANDA. Ia ialah perisian merekod, menyusun, mengira dan menganalisis kewangan peribadi. Ia BUKAN bank, e-dompet, instrumen pembayaran, perkhidmatan kiriman wang atau institusi kewangan, dan tidak menerima, menyimpan, menjaga atau memindahkan wang sebenar pengguna. Jumlah yang dipaparkan ialah rekod kewangan yang dimasukkan atau dikira daripada rekod.'
   }
 ];
 
@@ -511,10 +500,7 @@ function renderProductNotice(){
   </div>`;
 }
 
-/* ============================ Categories (V1.06: ID-based) ============================ */
-/* Internal data uses stable IDs. Display strings are in i18n and can change without
-   affecting saved data. Custom user text is stored raw and never translated. */
-
+/* ============================ Categories (ID-based) ============================ */
 const INCOME_GROUPS = [
   { group:'work', items:['salary','part_time','freelance','temp_work','bonus','allowance'] },
   { group:'personal', items:['pocket_money','family_give','angpao','gift_income','living_allowance','other_family_income'] },
@@ -551,7 +537,6 @@ const MG_PURPOSE_GROUPS = [
   { group:'other_mg', items:['living_support','emergency_support','other_mg'] }
 ];
 
-/* Transfer method groups — the "how the money was given" */
 const MG_METHOD_GROUPS = [
   { group:'cash_method', items:['cash','cash_handover','other_cash'] },
   { group:'ewallet_method', items:['tng','grabpay','boost','mae','shopeepay','other_ewallet'] },
@@ -569,6 +554,7 @@ const I18N = {
     lockCreatePin:'创建 6 位数字 PIN',
     lockConfirmPin:'请再次输入确认',
     lockEnterPin:'输入 PIN 解锁',
+    lockEnterPassword:'输入密码解锁',
     lockChangeOld:'请输入当前 PIN',
     lockChangeNew:'设置新的 6 位 PIN',
     lockChangeConfirm:'再次输入新 PIN',
@@ -602,12 +588,37 @@ const I18N = {
     lockBioSub:'V2.0 将支持，当前设备暂不可用',
     lockHashNote:'密码经过哈希后保存，不会以明文形式存储。忘记密码将无法恢复，请务必牢记。',
     lockDataPreserved:'检测到现有的 SaveWise 数据，已保留原账户、余额、交易、目标、资产与设置。',
+    lockNoticeTitle:'产品性质声明 · Product Identity · Identiti Produk',
+    // lock settings (V1.07)
+    lockSettingsTitle:'App Lock',
+    lockModeLabel:'锁定方式',
+    lockModePIN:'数字 PIN（6 位）',
+    lockModePassword:'自定义密码',
+    lockModePINSub:'使用 6 位数字解锁',
+    lockModePasswordSub:'使用自定义密码解锁',
+    lockSetPIN:'设置 / 更改 PIN',
+    lockSetPassword:'设置 / 更改自定义密码',
+    lockCurrentPIN:'当前 PIN',
+    lockNewPIN:'新 6 位 PIN',
+    lockConfirmPIN:'确认新 PIN',
+    lockCurrentPassword:'当前密码',
+    lockNewPassword:'新密码',
+    lockConfirmPassword:'确认新密码',
+    lockVerifyFirst:'请先输入当前密码以验证身份',
+    lockSetPasswordTitle:'设置自定义密码',
+    lockChangePasswordTitle:'更改自定义密码',
+    lockSetPINTitle:'设置 6 位 PIN',
+    lockChangePINTitle:'更改 6 位 PIN',
+    lockPasswordSet:'自定义密码已设置',
+    lockPINSet:'PIN 已更新',
+    lockVerifyFailed:'当前密码不正确',
+    lockPasswordLength:'密码至少 4 个字符',
+    lockModeChanged:'锁定方式已切换',
     // common
     cancel:'取消', confirm:'确认', save:'保存', delete:'删除', edit:'编辑', add:'添加',
     back:'返回', close:'关闭', search:'搜索', all:'全部', none:'无', ok:'好的',
     yes:'是', no:'否', optional:'可选',
     tabHome:'首页', tabRecords:'交易', tabGoals:'储蓄', tabAssets:'资产', tabStats:'统计', tabSettings:'设置',
-    // home
     totalAssets:'记录中的总资产',
     totalAssetsSub:'用户记录的现实资产总额，不代表 SaveWise 持有',
     availableBalance:'可用余额',
@@ -633,13 +644,12 @@ const I18N = {
     renameAccount:'重命名资金账户',
     deleteAccount:'删除资金账户',
     accountHasBalance:'该账户仍有余额，请先转出或消费',
-    accountDeleteConfirm:'确定删除该资金账户？',
+    accountDeleteConfirm:'确定要删除这个资金账户吗？',
     accountDeleteUsed:'该账户已有历史记录，删除后记录会保留但账户显示为「—」。确定删除？',
     accountDeleted:'资金账户已删除',
     accountUpdated:'已更新',
     totalAvailable:'总可用余额',
     accountDeleteHint:'账户余额会随收入、支出、转账、储蓄和他人资金记录实时更新。删除前需先清空余额。',
-    // tx types
     income:'收入', expense:'支出', transfer:'账户转移',
     goalDeposit:'储蓄存入', goalWithdraw:'储蓄取出',
     moneyGiven:'转给他人', debtBorrow:'我欠别人', debtLend:'别人欠我',
@@ -667,7 +677,6 @@ const I18N = {
     recurringNo:'否，仅记录这一次',
     recurringYes:'是，固定 / 周期性（预留）',
     initialBalanceNote:'初始余额',
-    // goals
     goalNew:'新建储蓄目标', goalEdit:'修改目标',
     goalName:'目标名称', goalNamePlaceholder:'例如：买新手机',
     goalTarget:'目标金额', goalDeadline:'期限（可选）', goalIcon:'图标（可选）',
@@ -695,14 +704,15 @@ const I18N = {
     goalReturnAccount:'退回账户',
     goalDeleteCustomHint:'确定删除自定义分类「{name}」？已存在的交易记录不受影响。',
     goalIconNone:'不选择',
-    // assets
+    goalDeleteConfirm:'确定要删除这个储蓄目标吗？',
+    goalDeleted:'储蓄目标已删除',
     assetNew:'添加资产', assetEdit:'编辑资产',
     assetName:'资产名称', assetNamePlaceholder:'例如：笔记本电脑',
     assetPrice:'购买价格', assetPurchaseDate:'购买日期',
     assetYears:'预计使用（年）', assetMonths:'预计使用（月）',
     assetNote:'备注（可选）', assetNotePlaceholder:'例如：工作用主力机',
     assetAdd:'添加资产', assetAdded:'资产已添加',
-    assetDelete:'删除资产', assetDeleteConfirm:'确定删除该资产及其回本记录？',
+    assetDelete:'删除资产', assetDeleteConfirm:'确定要删除这项资产记录吗？',
     assetDeleted:'资产已删除', assetUpdated:'已更新',
     assetDailyValue:'每日理论价值', assetUsedDays:'已使用', assetTotalDays:'预计使用天数',
     assetSystemValue:'系统理论计算值', assetManualValue:'用户调整值',
@@ -732,7 +742,6 @@ const I18N = {
     assetValidName:'请输入资产名称',
     assetValidPrice:'请输入有效购买价格',
     assetValidPeriod:'预计使用期限必须大于 0',
-    // debts
     debtTitle:'欠款记录',
     debtSub:'记录我欠别人 / 别人欠我，只记录不执行转账',
     debtIOwe:'我欠别人', debtOweMe:'别人欠我', debtAll:'全部',
@@ -741,8 +750,7 @@ const I18N = {
     debtAmount:'欠款金额', debtDate:'开始日期', debtTime:'开始时间',
     debtDueDate:'到期日期（可选）',
     debtReason:'欠款原因 / 备注（可选）', debtReasonPlaceholder:'例如：借用买书',
-    debtPurpose:'欠款用途',
-    debtPurposeCustom:'自定义用途',
+    debtPurpose:'欠款用途', debtPurposeCustom:'自定义用途',
     debtDirection:'方向',
     debtDirIOwe:'我欠对方（我需还钱）',
     debtDirOweMe:'对方欠我（对方需还钱）',
@@ -755,7 +763,7 @@ const I18N = {
     debtRepayBtn:'确认还款', debtRepayRecorded:'还款已记录',
     debtNoRecords:'还没有欠款记录', debtNoRecordsSub:'记录你与亲友之间的借贷往来',
     debtCreated:'欠款记录已创建', debtUpdated:'欠款记录已更新',
-    debtDeleted:'欠款记录已删除', debtDeleteConfirm:'确定删除该欠款记录？',
+    debtDeleted:'欠款记录已删除', debtDeleteConfirm:'确定要删除这笔欠款记录吗？',
     debtCancel:'标记为已取消', debtCancelConfirm:'确定标记为已取消？此记录将不再计入欠款总额。',
     debtCancelled:'已标记为取消',
     debtSettle:'标记为已还清', debtSettleConfirm:'确定标记为已还清？', debtSettled:'已标记为还清',
@@ -764,7 +772,6 @@ const I18N = {
     debtRepayHint:'如实际收款/付款已发生，请另外使用「收入」「支出」或「转给他人」记录资金变化。',
     debtOverdue:'已到期', debtDueToday:'今天到期', debtDueIn:'还剩 {n} 天',
     debtExceed:'超出剩余欠款金额',
-    // money given
     mgTitle:'转给他人 / 赠与记录',
     mgSub:'记录现实中已发生的资金转出，例如赠与、给家人、给朋友、归还',
     mgNew:'记录转给他人', mgEdit:'编辑记录',
@@ -772,21 +779,18 @@ const I18N = {
     mgAmount:'金额', mgDate:'日期', mgTime:'时间',
     mgFromAccount:'资金来源账户',
     mgFromAccountHint:'这笔钱原本记录在哪一个 SaveWise 账户？',
-    mgPurpose:'用途 / 类型',
-    mgPurposeCustom:'自定义用途',
-    mgMethod:'转账方式',
-    mgMethodCustom:'自定义方式',
+    mgPurpose:'用途 / 类型', mgPurposeCustom:'自定义用途',
+    mgMethod:'转账方式', mgMethodCustom:'自定义方式',
     mgMethodHint:'现实中你用什么方式把钱给出去？',
     mgType:'类型（旧字段，保留兼容）',
     mgTypeGift:'赠与', mgTypeFamily:'给家人', mgTypeFriend:'给朋友', mgTypeRepay:'归还', mgTypeOther:'其他',
     mgNote:'备注（可选）',
     mgSave:'确认记录', mgCreated:'已记录转给他人',
     mgUpdated:'已更新', mgDeleted:'已删除',
-    mgDeleteConfirm:'确定删除该记录？对应账户余额会自动还原。',
+    mgDeleteConfirm:'确定要删除这笔转给他人记录吗？对应账户余额会自动还原。',
     mgNoRecords:'还没有转给他人的记录', mgNoRecordsSub:'记录你现实中转给别人的钱',
     mgTotal:'累计转出',
     mgImportantNote:'SaveWise 只记录这次现实资金变化，不实际执行转账。',
-    // stats
     statsMonth:'本月', statsAll:'全部时间',
     statsWeek:'本周', statsYear:'本年', statsToday:'今日',
     statsIncome:'收入', statsExpense:'支出', statsNet:'净储蓄', statsLocked:'储蓄分配',
@@ -799,7 +803,6 @@ const I18N = {
     statsNoExpense:'暂无支出数据', statsNoIncome:'暂无收入数据',
     statsAvailable:'可用',
     statsTransferNote:'账户转移、储蓄操作、欠款记录与转给他人记录不计入收入或支出统计。',
-    // achievements
     achTitle:'我的成就',
     achUnlocked:'已解锁', achLocked:'未解锁',
     achList:[
@@ -819,7 +822,6 @@ const I18N = {
       { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎' }
     ],
     achUnlockToast:'🏆 解锁成就：{name}',
-    // settings
     setTitle:'设置',
     setHideBalance:'金额隐藏模式', setHideBalanceSub:'所有金额显示为 RM****（不影响产品性质声明）',
     setCurrency:'货币显示', setCurrencySub:'当前货币单位',
@@ -843,7 +845,6 @@ const I18N = {
     setSystemInfo:'系统信息 / System Information',
     setSystemInfoSub:'App、数据版本与存储状态',
     setIdentity:'产品性质声明', setIdentitySub:'三语完整版本',
-    // categories
     catIncome:'收入分类', catExpense:'支出分类', catAdd:'＋ 新增',
     catCustomIncome:'自定义收入分类', catCustomExpense:'自定义支出分类',
     catAddIncome:'新增收入分类', catAddExpense:'新增支出分类',
@@ -857,11 +858,9 @@ const I18N = {
     catOtherLabel:'其他 / 自定义…',
     catDebtCustomIncome:'自定义收入分类（会被保存）',
     catDebtCustomExpense:'自定义支出分类（会被保存）',
-    // transfer method / purpose pickers
     pickTitle:'选择', pickCustom:'自定义',
     pickPurpose:'选择用途', pickMethod:'选择方式',
     pickOther:'其他…',
-    // export/import
     exportDone:'JSON 已导出', exportCsvDone:'CSV 已导出', exportFail:'导出失败',
     importTitle:'导入 / 恢复数据', importBtn:'选择文件并导入',
     importHint:'导入会覆盖当前所有数据，建议先导出备份。',
@@ -888,7 +887,11 @@ const I18N = {
     sysInfoTitle:'系统信息',
     storageLocal:'本地存储',
     lastUpdated:'最后更新',
-    // category display names
+    // delete confirmations — context aware
+    delTxTitle:'确定要删除这笔交易记录吗？',
+    delTransferTitle:'确定要删除这笔账户转移记录吗？',
+    delGoalDepositTitle:'确定要删除这笔储蓄存入记录吗？',
+    delGoalWithdrawTitle:'确定要删除这笔储蓄取出记录吗？',
     incomeCatNames:{
       salary:'工资 / 薪金', part_time:'兼职收入', freelance:'自由职业 / 接案',
       temp_work:'临时工作', bonus:'奖金', allowance:'津贴',
@@ -899,9 +902,7 @@ const I18N = {
       interest:'利息收入', cashback:'Cashback / 现金回赠', refund:'退款',
       sale_proceeds:'出售物品所得', other_income:'其他收入'
     },
-    incomeGroupNames:{
-      work:'工作与劳动', personal:'家庭与个人', study:'学习', finance:'金融与其他'
-    },
+    incomeGroupNames:{ work:'工作与劳动', personal:'家庭与个人', study:'学习', finance:'金融与其他' },
     expenseCatNames:{
       breakfast:'早餐', lunch:'午餐', dinner:'晚餐', supper:'宵夜',
       drinks:'饮料', snacks:'零食', restaurant:'餐厅', takeaway:'外卖',
@@ -995,6 +996,7 @@ const I18N = {
     lockCreatePin:'Create 6-digit PIN',
     lockConfirmPin:'Enter again to confirm',
     lockEnterPin:'Enter PIN to unlock',
+    lockEnterPassword:'Enter password to unlock',
     lockChangeOld:'Enter current PIN',
     lockChangeNew:'Set new 6-digit PIN',
     lockChangeConfirm:'Enter new PIN again',
@@ -1026,6 +1028,31 @@ const I18N = {
     lockBioSub:'Coming in V2.0, not available yet',
     lockHashNote:'Password is hashed, never stored as plain text. If forgotten, it cannot be recovered.',
     lockDataPreserved:'Existing SaveWise data detected. Accounts, balances, transactions, goals, assets and settings preserved.',
+    lockNoticeTitle:'Product Identity · 产品性质声明 · Identiti Produk',
+    lockSettingsTitle:'App Lock',
+    lockModeLabel:'Lock Method',
+    lockModePIN:'Numeric PIN (6 digits)',
+    lockModePassword:'Custom Password',
+    lockModePINSub:'Unlock with 6-digit PIN',
+    lockModePasswordSub:'Unlock with custom password',
+    lockSetPIN:'Set / Change PIN',
+    lockSetPassword:'Set / Change Custom Password',
+    lockCurrentPIN:'Current PIN',
+    lockNewPIN:'New 6-digit PIN',
+    lockConfirmPIN:'Confirm New PIN',
+    lockCurrentPassword:'Current Password',
+    lockNewPassword:'New Password',
+    lockConfirmPassword:'Confirm New Password',
+    lockVerifyFirst:'Please enter your current password to verify',
+    lockSetPasswordTitle:'Set Custom Password',
+    lockChangePasswordTitle:'Change Custom Password',
+    lockSetPINTitle:'Set 6-digit PIN',
+    lockChangePINTitle:'Change 6-digit PIN',
+    lockPasswordSet:'Custom password set',
+    lockPINSet:'PIN updated',
+    lockVerifyFailed:'Current password is incorrect',
+    lockPasswordLength:'Password must be at least 4 characters',
+    lockModeChanged:'Lock method changed',
     cancel:'Cancel', confirm:'Confirm', save:'Save', delete:'Delete', edit:'Edit', add:'Add',
     back:'Back', close:'Close', search:'Search', all:'All', none:'None', ok:'OK',
     yes:'Yes', no:'No', optional:'optional',
@@ -1055,7 +1082,7 @@ const I18N = {
     renameAccount:'Rename Money Account',
     deleteAccount:'Delete Money Account',
     accountHasBalance:'This account still has balance, please transfer out first',
-    accountDeleteConfirm:'Delete this money account?',
+    accountDeleteConfirm:'Are you sure you want to delete this money account?',
     accountDeleteUsed:'This account has history. Records will remain but show "—". Delete?',
     accountDeleted:'Money account deleted',
     accountUpdated:'Updated',
@@ -1115,13 +1142,15 @@ const I18N = {
     goalReturnAccount:'Return to Account',
     goalDeleteCustomHint:'Delete custom category "{name}"? Existing records are not affected.',
     goalIconNone:'None',
+    goalDeleteConfirm:'Are you sure you want to delete this savings goal?',
+    goalDeleted:'Savings goal deleted',
     assetNew:'Add Asset', assetEdit:'Edit Asset',
     assetName:'Asset Name', assetNamePlaceholder:'e.g. Laptop',
     assetPrice:'Purchase Price', assetPurchaseDate:'Purchase Date',
     assetYears:'Expected Use (years)', assetMonths:'Expected Use (months)',
     assetNote:'Note (optional)', assetNotePlaceholder:'e.g. Main work device',
     assetAdd:'Add Asset', assetAdded:'Asset added',
-    assetDelete:'Delete Asset', assetDeleteConfirm:'Delete this asset and its recovery records?',
+    assetDelete:'Delete Asset', assetDeleteConfirm:'Are you sure you want to delete this asset record?',
     assetDeleted:'Asset deleted', assetUpdated:'Updated',
     assetDailyValue:'Theoretical Daily Value', assetUsedDays:'Used', assetTotalDays:'Expected Days',
     assetSystemValue:'System Theoretical Value', assetManualValue:'Manual Value',
@@ -1159,8 +1188,7 @@ const I18N = {
     debtAmount:'Amount', debtDate:'Start Date', debtTime:'Start Time',
     debtDueDate:'Due Date (optional)',
     debtReason:'Reason / Note (optional)', debtReasonPlaceholder:'e.g. Borrowed for a book',
-    debtPurpose:'Purpose',
-    debtPurposeCustom:'Custom purpose',
+    debtPurpose:'Purpose', debtPurposeCustom:'Custom purpose',
     debtDirection:'Direction',
     debtDirIOwe:'I owe them (I need to pay)',
     debtDirOweMe:'They owe me (they need to pay)',
@@ -1173,7 +1201,7 @@ const I18N = {
     debtRepayBtn:'Confirm Repayment', debtRepayRecorded:'Repayment recorded',
     debtNoRecords:'No debt records yet', debtNoRecordsSub:'Record lending between you and friends/family',
     debtCreated:'Debt record created', debtUpdated:'Debt record updated',
-    debtDeleted:'Debt record deleted', debtDeleteConfirm:'Delete this debt record?',
+    debtDeleted:'Debt record deleted', debtDeleteConfirm:'Are you sure you want to delete this debt record?',
     debtCancel:'Mark as Cancelled', debtCancelConfirm:'Mark as cancelled? This record will not count in debt totals.',
     debtCancelled:'Marked as cancelled',
     debtSettle:'Mark as Paid', debtSettleConfirm:'Mark as fully paid?', debtSettled:'Marked as paid',
@@ -1189,17 +1217,15 @@ const I18N = {
     mgAmount:'Amount', mgDate:'Date', mgTime:'Time',
     mgFromAccount:'Source Account',
     mgFromAccountHint:'Which SaveWise account was this money originally recorded in?',
-    mgPurpose:'Purpose / Type',
-    mgPurposeCustom:'Custom purpose',
-    mgMethod:'Transfer Method',
-    mgMethodCustom:'Custom method',
+    mgPurpose:'Purpose / Type', mgPurposeCustom:'Custom purpose',
+    mgMethod:'Transfer Method', mgMethodCustom:'Custom method',
     mgMethodHint:'How did you give the money in the real world?',
     mgType:'Type (legacy, kept for compatibility)',
     mgTypeGift:'Gift', mgTypeFamily:'Family', mgTypeFriend:'Friend', mgTypeRepay:'Repayment', mgTypeOther:'Other',
     mgNote:'Note (optional)',
     mgSave:'Confirm Record', mgCreated:'Recorded money given',
     mgUpdated:'Updated', mgDeleted:'Deleted',
-    mgDeleteConfirm:'Delete this record? Corresponding account balance will be restored.',
+    mgDeleteConfirm:'Are you sure you want to delete this money-given record? Corresponding account balance will be restored.',
     mgNoRecords:'No money-given records yet', mgNoRecordsSub:'Record money you have given in real life',
     mgTotal:'Total Given',
     mgImportantNote:'SaveWise only records this real-world fund change. It does not execute any transfer.',
@@ -1299,6 +1325,10 @@ const I18N = {
     sysInfoTitle:'System Information',
     storageLocal:'Local storage',
     lastUpdated:'Last updated',
+    delTxTitle:'Are you sure you want to delete this transaction?',
+    delTransferTitle:'Are you sure you want to delete this account transfer record?',
+    delGoalDepositTitle:'Are you sure you want to delete this savings deposit record?',
+    delGoalWithdrawTitle:'Are you sure you want to delete this savings withdrawal record?',
     incomeCatNames:{
       salary:'Salary / Wages', part_time:'Part-time Income', freelance:'Freelance / Gig',
       temp_work:'Temp Work', bonus:'Bonus', allowance:'Allowance',
@@ -1309,9 +1339,7 @@ const I18N = {
       interest:'Interest Income', cashback:'Cashback', refund:'Refund',
       sale_proceeds:'Proceeds from Sale', other_income:'Other Income'
     },
-    incomeGroupNames:{
-      work:'Work & Labor', personal:'Family & Personal', study:'Study', finance:'Finance & Other'
-    },
+    incomeGroupNames:{ work:'Work & Labor', personal:'Family & Personal', study:'Study', finance:'Finance & Other' },
     expenseCatNames:{
       breakfast:'Breakfast', lunch:'Lunch', dinner:'Dinner', supper:'Supper',
       drinks:'Drinks', snacks:'Snacks', restaurant:'Restaurant', takeaway:'Takeaway',
@@ -1405,6 +1433,7 @@ const I18N = {
     lockCreatePin:'Cipta PIN 6 digit',
     lockConfirmPin:'Masukkan semula untuk sahkan',
     lockEnterPin:'Masukkan PIN untuk buka',
+    lockEnterPassword:'Masukkan kata laluan untuk buka',
     lockChangeOld:'Masukkan PIN semasa',
     lockChangeNew:'Tetapkan PIN 6 digit baharu',
     lockChangeConfirm:'Masukkan PIN baharu semula',
@@ -1436,6 +1465,31 @@ const I18N = {
     lockBioSub:'Akan datang dalam V2.0',
     lockHashNote:'Kata laluan di-hash, tidak disimpan sebagai teks biasa. Jika terlupa, tidak boleh dipulihkan.',
     lockDataPreserved:'Data SaveWise sedia ada dikesan. Akaun, baki, transaksi, sasaran, aset dan tetapan dikekalkan.',
+    lockNoticeTitle:'Notis Identiti Produk · Product Identity · 产品性质声明',
+    lockSettingsTitle:'App Lock',
+    lockModeLabel:'Kaedah Kunci',
+    lockModePIN:'PIN Nombor (6 digit)',
+    lockModePassword:'Kata Laluan Tersuai',
+    lockModePINSub:'Buka dengan PIN 6 digit',
+    lockModePasswordSub:'Buka dengan kata laluan tersuai',
+    lockSetPIN:'Tetapkan / Tukar PIN',
+    lockSetPassword:'Tetapkan / Tukar Kata Laluan Tersuai',
+    lockCurrentPIN:'PIN Semasa',
+    lockNewPIN:'PIN 6 digit Baharu',
+    lockConfirmPIN:'Sahkan PIN Baharu',
+    lockCurrentPassword:'Kata Laluan Semasa',
+    lockNewPassword:'Kata Laluan Baharu',
+    lockConfirmPassword:'Sahkan Kata Laluan Baharu',
+    lockVerifyFirst:'Sila masukkan kata laluan semasa untuk pengesahan',
+    lockSetPasswordTitle:'Tetapkan Kata Laluan Tersuai',
+    lockChangePasswordTitle:'Tukar Kata Laluan Tersuai',
+    lockSetPINTitle:'Tetapkan PIN 6 digit',
+    lockChangePINTitle:'Tukar PIN 6 digit',
+    lockPasswordSet:'Kata laluan tersuai ditetapkan',
+    lockPINSet:'PIN dikemas kini',
+    lockVerifyFailed:'Kata laluan semasa tidak betul',
+    lockPasswordLength:'Kata laluan sekurang-kurangnya 4 aksara',
+    lockModeChanged:'Kaedah kunci ditukar',
     cancel:'Batal', confirm:'Sahkan', save:'Simpan', delete:'Padam', edit:'Edit', add:'Tambah',
     back:'Kembali', close:'Tutup', search:'Cari', all:'Semua', none:'Tiada', ok:'OK',
     yes:'Ya', no:'Tidak', optional:'pilihan',
@@ -1465,7 +1519,7 @@ const I18N = {
     renameAccount:'Namakan Semula Akaun Wang',
     deleteAccount:'Padam Akaun Wang',
     accountHasBalance:'Akaun masih ada baki, pindahkan dahulu',
-    accountDeleteConfirm:'Padam akaun wang ini?',
+    accountDeleteConfirm:'Adakah anda pasti mahu memadam akaun wang ini?',
     accountDeleteUsed:'Akaun ada sejarah. Rekod kekal tetapi tunjuk "—". Padam?',
     accountDeleted:'Akaun wang dipadam',
     accountUpdated:'Dikemas kini',
@@ -1525,13 +1579,15 @@ const I18N = {
     goalReturnAccount:'Pulangkan ke Akaun',
     goalDeleteCustomHint:'Padam kategori tersuai "{name}"? Rekod sedia ada tidak terjejas.',
     goalIconNone:'Tiada',
+    goalDeleteConfirm:'Adakah anda pasti mahu memadam sasaran simpanan ini?',
+    goalDeleted:'Sasaran simpanan dipadam',
     assetNew:'Tambah Aset', assetEdit:'Edit Aset',
     assetName:'Nama Aset', assetNamePlaceholder:'cth. Komputer Riba',
     assetPrice:'Harga Belian', assetPurchaseDate:'Tarikh Belian',
     assetYears:'Jangkaan Guna (tahun)', assetMonths:'Jangkaan Guna (bulan)',
     assetNote:'Nota (pilihan)', assetNotePlaceholder:'cth. Peranti kerja utama',
     assetAdd:'Tambah Aset', assetAdded:'Aset ditambah',
-    assetDelete:'Padam Aset', assetDeleteConfirm:'Padam aset ini dan rekod pemulihannya?',
+    assetDelete:'Padam Aset', assetDeleteConfirm:'Adakah anda pasti mahu memadam rekod aset ini?',
     assetDeleted:'Aset dipadam', assetUpdated:'Dikemas kini',
     assetDailyValue:'Nilai Harian Teori', assetUsedDays:'Telah Guna', assetTotalDays:'Jangkaan Hari',
     assetSystemValue:'Nilai Teori Sistem', assetManualValue:'Nilai Manual',
@@ -1569,8 +1625,7 @@ const I18N = {
     debtAmount:'Jumlah', debtDate:'Tarikh Mula', debtTime:'Masa Mula',
     debtDueDate:'Tarikh Akhir (pilihan)',
     debtReason:'Sebab / Nota (pilihan)', debtReasonPlaceholder:'cth. Pinjam beli buku',
-    debtPurpose:'Tujuan',
-    debtPurposeCustom:'Tujuan tersuai',
+    debtPurpose:'Tujuan', debtPurposeCustom:'Tujuan tersuai',
     debtDirection:'Arah',
     debtDirIOwe:'Saya berhutang (saya perlu bayar)',
     debtDirOweMe:'Dia berhutang (dia perlu bayar)',
@@ -1583,7 +1638,7 @@ const I18N = {
     debtRepayBtn:'Sahkan Bayaran', debtRepayRecorded:'Bayaran direkod',
     debtNoRecords:'Belum ada rekod hutang', debtNoRecordsSub:'Rekod pinjaman antara anda dan rakan/keluarga',
     debtCreated:'Rekod hutang dicipta', debtUpdated:'Rekod hutang dikemas kini',
-    debtDeleted:'Rekod hutang dipadam', debtDeleteConfirm:'Padam rekod hutang ini?',
+    debtDeleted:'Rekod hutang dipadam', debtDeleteConfirm:'Adakah anda pasti mahu memadam rekod hutang ini?',
     debtCancel:'Tanda Dibatalkan', debtCancelConfirm:'Tanda sebagai dibatalkan? Rekod ini tidak dikira dalam jumlah hutang.',
     debtCancelled:'Ditanda dibatalkan',
     debtSettle:'Tanda Selesai', debtSettleConfirm:'Tanda sebagai selesai dibayar?', debtSettled:'Ditanda selesai',
@@ -1599,17 +1654,15 @@ const I18N = {
     mgAmount:'Jumlah', mgDate:'Tarikh', mgTime:'Masa',
     mgFromAccount:'Akaun Sumber',
     mgFromAccountHint:'Wang ini asalnya direkod dalam akaun SaveWise yang mana?',
-    mgPurpose:'Tujuan / Jenis',
-    mgPurposeCustom:'Tujuan tersuai',
-    mgMethod:'Cara Pemindahan',
-    mgMethodCustom:'Cara tersuai',
+    mgPurpose:'Tujuan / Jenis', mgPurposeCustom:'Tujuan tersuai',
+    mgMethod:'Cara Pemindahan', mgMethodCustom:'Cara tersuai',
     mgMethodHint:'Bagaimana anda memberi wang ini dalam dunia sebenar?',
     mgType:'Jenis (lama, untuk keserasian)',
     mgTypeGift:'Hadiah', mgTypeFamily:'Keluarga', mgTypeFriend:'Rakan', mgTypeRepay:'Bayaran Balik', mgTypeOther:'Lain-lain',
     mgNote:'Nota (pilihan)',
     mgSave:'Sahkan Rekod', mgCreated:'Wang diberi direkod',
     mgUpdated:'Dikemas kini', mgDeleted:'Dipadam',
-    mgDeleteConfirm:'Padam rekod ini? Baki akaun berkenaan akan dipulihkan.',
+    mgDeleteConfirm:'Adakah anda pasti mahu memadam rekod wang diberi ini? Baki akaun berkenaan akan dipulihkan.',
     mgNoRecords:'Belum ada rekod wang diberi', mgNoRecordsSub:'Rekod wang yang anda beri dalam kehidupan sebenar',
     mgTotal:'Jumlah Diberi',
     mgImportantNote:'SaveWise hanya merekod perubahan dana sebenar ini. Ia tidak melaksanakan sebarang pemindahan.',
@@ -1709,6 +1762,10 @@ const I18N = {
     sysInfoTitle:'Maklumat Sistem',
     storageLocal:'Storan tempatan',
     lastUpdated:'Kemas kini terakhir',
+    delTxTitle:'Adakah anda pasti mahu memadam rekod transaksi ini?',
+    delTransferTitle:'Adakah anda pasti mahu memadam rekod pindahan akaun ini?',
+    delGoalDepositTitle:'Adakah anda pasti mahu memadam rekod simpanan ini?',
+    delGoalWithdrawTitle:'Adakah anda pasti mahu memadam rekod keluaran simpanan ini?',
     incomeCatNames:{
       salary:'Gaji / Upah', part_time:'Pendapatan Sambilan', freelance:'Bebas / Gig',
       temp_work:'Kerja Sementara', bonus:'Bonus', allowance:'Elaun',
@@ -1719,9 +1776,7 @@ const I18N = {
       interest:'Pendapatan Faedah', cashback:'Cashback', refund:'Bayaran Balik',
       sale_proceeds:'Hasil Jualan', other_income:'Pendapatan Lain'
     },
-    incomeGroupNames:{
-      work:'Kerja & Buruh', personal:'Keluarga & Peribadi', study:'Pembelajaran', finance:'Kewangan & Lain'
-    },
+    incomeGroupNames:{ work:'Kerja & Buruh', personal:'Keluarga & Peribadi', study:'Pembelajaran', finance:'Kewangan & Lain' },
     expenseCatNames:{
       breakfast:'Sarapan', lunch:'Makan Tengahari', dinner:'Makan Malam', supper:'Makan Lewat',
       drinks:'Minuman', snacks:'Snek', restaurant:'Restoran', takeaway:'Bawa Pulang',
@@ -1832,7 +1887,6 @@ function t(k, vars){
   }
   return s;
 }
-/* Category label lookups that fall back gracefully */
 function incomeCatLabel(id){
   const p = I18N[LANG] || I18N.zh;
   return (p.incomeCatNames && p.incomeCatNames[id]) || (I18N.zh.incomeCatNames[id]) || id;
@@ -1873,14 +1927,12 @@ function mgMethodGroupLabel(id){
   const p = I18N[LANG] || I18N.zh;
   return (p.mgMethodGroupNames && p.mgMethodGroupNames[id]) || (I18N.zh.mgMethodGroupNames[id]) || id;
 }
-/* Display label for a saved category value: if it's a known ID, translate.
-   If it's a custom string, show as-is (user's own text). */
 function incomeDisplayLabel(v){
   if(!v) return '';
   const p = I18N[LANG] || I18N.zh;
   if(p.incomeCatNames && p.incomeCatNames[v]) return p.incomeCatNames[v];
   if(I18N.zh.incomeCatNames[v]) return I18N.zh.incomeCatNames[v];
-  return v; // custom
+  return v;
 }
 function expenseDisplayLabel(v){
   if(!v) return '';
@@ -1910,14 +1962,11 @@ function mgMethodDisplay(v){
   if(I18N.zh.mgMethodNames[v]) return I18N.zh.mgMethodNames[v];
   return v;
 }
-/* Category icons keyed by ID (some legacy Chinese keys still work) */
 const CAT_ICON_BY_ID = {
-  // income
   salary:'💼', part_time:'⏰', freelance:'🧑‍💻', temp_work:'🕐', bonus:'🏆', allowance:'💼',
   pocket_money:'💰', family_give:'🏠', angpao:'🧧', gift_income:'🎀', living_allowance:'💰', other_family_income:'🏠',
   scholarship:'🎓', study_award:'🏅', competition_prize:'🥇', school_reward:'🎖️',
   interest:'🏦', cashback:'🎁', refund:'↩️', sale_proceeds:'🏷️', other_income:'📌',
-  // expense
   breakfast:'🌅', lunch:'🍱', dinner:'🍽️', supper:'🌙', drinks:'🥤', snacks:'🍿', restaurant:'🍽️', takeaway:'🥡',
   public_transport:'🚇', bus:'🚌', train:'🚆', taxi:'🚕', parking:'🅿️', fuel:'⛽', other_transport:'🚌',
   clothing:'👕', shoes:'👟', accessories:'👒', electronics:'📱', phone:'📱', computer:'💻',
@@ -1928,26 +1977,10 @@ const CAT_ICON_BY_ID = {
   phone_bill:'📞', internet:'🌐', bills:'🧾', service_fee:'🛎️', handling_fee:'💳', repairs:'🔧', other_living:'🧴',
   family_expenses:'🏡', gifts:'🎁', social:'🤝', gathering:'🎉', shared_expense:'🤝', donation_exp:'❤️', other_social:'🤝',
   medical:'💊', sports:'🏃', pets:'🐾', travel:'✈️', accommodation:'🏨', donations:'❤️', other_exp:'📌',
-  // legacy Chinese fallbacks
-  '工资 / 薪金':'💼','零用钱 / 津贴':'💰','红包 / 礼金':'🧧','奖学金':'🎓','兼职收入':'⏰',
-  '自由职业 / 接案':'🧑‍💻','奖金':'🏆','退款':'↩️','利息收入':'🏦','Cashback / 现金回赠':'🎁',
-  '出售物品所得':'🏷️','礼物':'🎀','家庭收入':'🏠','其他收入':'📌',
-  '餐饮':'🍚','早餐':'🌅','午餐':'🍱','晚餐':'🍽️','宵夜':'🌙','饮料':'🥤','零食':'🍿',
-  '交通':'🚌','公共交通':'🚇','打车 / 网约车':'🚕','购物':'🛍️','衣服 / 配饰':'👕',
-  '电子产品':'📱','游戏':'🎮','娱乐':'🎉','电影 / 影音':'🎬','订阅服务':'📺',
-  '学习 / 教育':'📚','书籍 / 文具':'📖','学校用品':'🎒','运动 / 健身':'🏃',
-  '医疗 / 健康':'💊','通讯 / 电话费':'📞','网络费':'🌐','生活用品':'🧴','人情':'🤝',
-  '旅行':'✈️','住宿':'🏨','账单':'🧾','服务费':'🛎️','手续费':'💳','维修':'🔧',
-  '宠物':'🐾','家庭支出':'🏡','捐款':'❤️','其他支出':'📌',
-  // English legacy
-  'Salary / Wages':'💼','Allowance / Pocket Money':'💰','Angpao / Gift Money':'🧧',
-  'Scholarship':'🎓','Part-time Income':'⏰','Freelance / Gig':'🧑‍💻','Bonus':'🏆',
-  'Interest Income':'🏦','Cashback':'🎁','Refund':'↩️','Proceeds from Sale':'🏷️',
-  'Gift':'🎀','Family Income':'🏠','Other Income':'📌','Food':'🍚','Drinks':'🥤','Snacks':'🍿'
+  '工资 / 薪金':'💼','餐饮':'🍚','交通':'🚌','购物':'🛍️','娱乐':'🎉','学习 / 教育':'📚','其他支出':'📌',
+  'Salary / Wages':'💼','Food':'🍚','Transport':'🚌','Shopping':'🛍️','Other Expenses':'📌'
 };
-function catIcon(v){
-  return CAT_ICON_BY_ID[v] || '📌';
-}
+function catIcon(v){ return CAT_ICON_BY_ID[v] || '📌'; }
 
 function setLang(l){
   if(!I18N[l]) return;
@@ -2013,6 +2046,44 @@ const CHANGELOG_SEED = [
     zh:['恢复产品性质声明醒目大小，不再缩小','App Lock 重新布局为无需滑动的固定视口，密码输入稳定','首页声明重新排版，核心财务信息自然可见','更新记录完整支持简体中文 / English / Bahasa Melayu','「系统信息」与「更新记录」保持为独立页面','欠款记录新增详细用途（日常生活 / 购物 / 学习 / 家庭 / 旅行 / 其他）','转给他人新增详细用途与「转账方式」','收入与支出分类扩展为大量预设 + 其他 / 自定义','自定义分类真正保存，可重复选择、编辑、删除','所有预设分类支持三语言，内部使用稳定 ID'],
     en:['Restored prominent product notice size (no longer shrunk)','App Lock re-laid out as fixed-viewport, no-scroll, stable PIN entry','Home notice re-laid out so core financial info remains visible','Changelog fully supports Chinese / English / Bahasa Melayu','System Information and Changelog kept as separate pages','Debt records now include detailed purposes (daily / shopping / study / family / travel / other)','Money Given now includes detailed purposes and Transfer Method','Income and Expense categories expanded to many presets + Other / Custom','Custom categories truly saved, reusable, editable, deletable','All preset categories support 3 languages; internal stable IDs'],
     ms:['Saiz notis identiti produk dipulihkan (tidak lagi dikecilkan)','App Lock disusun semula sebagai viewport tetap, tanpa skrol, kemasukan PIN stabil','Notis Utama disusun semula supaya maklumat kewangan utama kekal kelihatan','Sejarah kemas kini menyokong penuh Cina / Inggeris / Bahasa Melayu','Maklumat Sistem dan Sejarah Kemas Kini kekal sebagai halaman berasingan','Rekod hutang kini sertakan tujuan terperinci (harian / beli-belah / pembelajaran / keluarga / perjalanan / lain-lain)','Wang Diberi kini sertakan tujuan terperinci dan Cara Pemindahan','Kategori Pendapatan dan Perbelanjaan diperluas kepada banyak pratetap + Lain-lain / Tersuai','Kategori tersuai benar-benar disimpan, boleh guna semula, edit, padam','Semua kategori pratetap menyokong 3 bahasa; ID dalaman stabil']
+  }},
+  { version:'1.07', date:'2026-09-12', items:{
+    zh:[
+      'App Lock 页面重新布局：密码输入区在上方，产品声明在下方',
+      '产品声明改为可滚动的大尺寸区域，不再缩小字体',
+      '修复「自定义密码」完全无法使用的问题',
+      '新增明确的「设置 / 更改自定义密码」入口',
+      'PIN 与自定义密码拥有独立的输入与验证逻辑',
+      'App Lock 设置显示当前锁定方式',
+      '删除确认弹窗改为 Context-Aware：按实际对象显示正确提示',
+      '删除交易 / 账户 / 储蓄目标 / 资产 / 欠款 各自显示对应文案',
+      '删除确认弹窗完整支持三语言',
+      '不改变原有删除逻辑，只修正文案与对象识别'
+    ],
+    en:[
+      'App Lock re-laid out: password input on top, product notice below',
+      'Product notice now a larger scrollable area; font no longer shrunk',
+      'Fixed "Custom Password" being completely unusable',
+      'Added clear "Set / Change Custom Password" entry point',
+      'PIN and Custom Password now use separate input and verification logic',
+      'App Lock settings now show the current lock method',
+      'Delete confirmation dialogs are now context-aware',
+      'Transaction / Account / Goal / Asset / Debt deletions show their own messages',
+      'Delete confirmation dialogs fully support 3 languages',
+      'Original deletion logic unchanged; only wording and object detection fixed'
+    ],
+    ms:[
+      'App Lock disusun semula: medan kata laluan di atas, notis produk di bawah',
+      'Notis produk kini kawasan boleh skrol yang lebih besar; fon tidak lagi dikecilkan',
+      'Betulkan "Kata Laluan Tersuai" yang tidak boleh digunakan',
+      'Tambah pintu masuk jelas "Tetapkan / Tukar Kata Laluan Tersuai"',
+      'PIN dan Kata Laluan Tersuai kini guna logik input dan pengesahan berasingan',
+      'Tetapan App Lock menunjukkan kaedah kunci semasa',
+      'Dialog pengesahan padam kini Context-Aware',
+      'Padam Transaksi / Akaun / Sasaran / Aset / Hutang tunjuk mesej masing-masing',
+      'Dialog pengesahan padam menyokong penuh 3 bahasa',
+      'Logik padam asal tidak diubah; hanya teks dan pengesanan objek dibaiki'
+    ]
   }}
 ];
 
@@ -2026,7 +2097,6 @@ function loadChangelog(){
     CHANGELOG_SEED.forEach(c => {
       if(!seen.has(c.version)) arr.push(c);
       else {
-        // if stored entry has old string-array format but seed has i18n object, upgrade it
         const i = arr.findIndex(x => x.version === c.version);
         if(i >= 0 && Array.isArray(arr[i].items) && c.items && typeof c.items === 'object'){
           arr[i].items = c.items;
@@ -2074,13 +2144,11 @@ function migrate(p){
   const original = JSON.parse(JSON.stringify(p));
   let v = Number(p.dataVersion) || 1;
 
-  // v1 → v1.06: ensure new arrays exist, do not touch existing data
   if(!Array.isArray(p.debts)) p.debts = [];
   if(!Array.isArray(p.moneyGiven)) p.moneyGiven = [];
   if(!Array.isArray(p.customIncomeCats)) p.customIncomeCats = [];
   if(!Array.isArray(p.customExpenseCats)) p.customExpenseCats = [];
 
-  // Backfill new fields on debt / moneyGiven records without touching old ones
   p.debts.forEach(d => {
     if(!Array.isArray(d.payments)) d.payments = [];
     if(d.purpose === undefined) d.purpose = '';
@@ -2341,7 +2409,7 @@ function matchRange(iso, range){
   return true;
 }
 
-/* ============================ 分类 helpers (V1.06) ============================ */
+/* ============================ 分类 helpers ============================ */
 function allIncomeIds(){
   const ids = [];
   INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i)));
@@ -2411,7 +2479,7 @@ function afterChange(){
 }
 
 /* =========================================================================
-   锁屏（V1.06: 固定视口，不滚动，输入稳定）
+   锁屏（V1.07: 输入区在上，声明可滚动在下）
    ========================================================================= */
 let lockUI = {
   mode: 'unlock',
@@ -2422,13 +2490,18 @@ let lockUI = {
   error: false
 };
 
+function currentLockKind(){
+  if(lockRecord && lockRecord.type === 'text') return 'text';
+  return 'pin';
+}
+
 function renderLock(){
   const root = document.getElementById('lock-root');
   const hasLock = !!(lockRecord && lockRecord.hash);
   const hasData = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
   if(isUnlocked){ root.innerHTML = ''; return; }
 
-  let title = t('lockEnterPin');
+  let title = hasLock && currentLockKind() === 'text' ? t('lockEnterPassword') : t('lockEnterPin');
   if(lockUI.mode === 'create')        title = t('lockCreatePin');
   else if(lockUI.mode === 'confirm')  title = t('lockConfirmPin');
   else if(lockUI.mode === 'changeOld')title = t('lockChangeOld');
@@ -2436,8 +2509,12 @@ function renderLock(){
   else if(lockUI.mode === 'changeConfirm') title = t('lockChangeConfirm');
   if(!hasLock && lockUI.mode === 'unlock') lockUI.mode = 'create';
 
-  const infoText = (hasLock && hasData) ? t('lockDataPreserved') :
-                   (!hasLock && hasData) ? t('lockDataPreserved') : '';
+  // In create/confirm mode, default to PIN dots unless user has toggled.
+  // In unlock mode, respect the stored lock kind.
+  if(lockUI.mode === 'create' && !lockUI.useTextMode){ /* keep PIN by default */ }
+  else if(lockUI.mode === 'unlock'){ lockUI.useTextMode = (currentLockKind() === 'text'); }
+
+  const infoText = (hasLock && hasData) ? t('lockDataPreserved') : '';
 
   const pinLen = 6;
 
@@ -2448,7 +2525,14 @@ function renderLock(){
       <div class="lock-sub">${esc(t('slogan'))}</div>
     </div>
 
-    <div class="lock-notice-strip">
+    <div class="lock-mid">
+      <div class="lock-title">${esc(title)}</div>
+      ${infoText ? `<div class="lock-info">${esc(infoText)}</div>` : ''}
+      <div id="lock-dynamic"></div>
+    </div>
+
+    <div class="lock-notice-scroll" id="lock-notice-scroll">
+      <div class="ln-title">${esc(t('lockNoticeTitle'))}</div>
       ${PRODUCT_NOTICE_LANGS.map(l => `
         <div class="ln-row">
           <span class="ln-flag">${l.code}</span>
@@ -2457,23 +2541,17 @@ function renderLock(){
       `).join('')}
     </div>
 
-    <div class="lock-mid">
-      <div class="lock-title">${esc(title)}</div>
-      ${infoText ? `<div class="lock-info">${esc(infoText)}</div>` : ''}
-      <div id="lock-dynamic"></div>
-    </div>
-
     <div class="lock-footer">
-      ${ !lockUI.useTextMode
-        ? `<button type="button" id="lock-toggle-text">${esc(t('lockUseText'))}</button>`
-        : `<button type="button" id="lock-toggle-pin">${esc(t('lockUsePin'))}</button>` }
+      ${ (lockUI.mode === 'create' || lockUI.mode === 'confirm' || lockUI.mode === 'changeNew' || lockUI.mode === 'changeConfirm')
+          ? (!lockUI.useTextMode
+              ? `<button type="button" id="lock-toggle-text">${esc(t('lockUseText'))}</button>`
+              : `<button type="button" id="lock-toggle-pin">${esc(t('lockUsePin'))}</button>`)
+          : '' }
     </div>
   </div>`;
 
-  // Render dynamic inner content
   updateLockDynamic();
 
-  // Bind footer toggle
   const togglePin = $('#lock-toggle-pin');
   const toggleText = $('#lock-toggle-text');
   if(togglePin)  togglePin.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = false; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
@@ -2488,7 +2566,8 @@ function updateLockDynamic(){
     dyn.innerHTML = `
       <div class="lock-input-wrap">
         <input class="lock-input" id="lock-text" type="password" inputmode="text"
-               placeholder="${esc(t('lockTextPlaceholder'))}" value="${esc(lockUI.pin)}" maxlength="64">
+               placeholder="${esc(t('lockTextPlaceholder'))}" value="${esc(lockUI.pin)}" maxlength="64"
+               autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
       <div class="lock-msg" id="lock-msg-el">${esc(lockUI.msg)}</div>
       <button type="button" class="lock-ok-btn" id="lock-ok">${esc(t('lockOk'))}</button>`;
@@ -2580,7 +2659,7 @@ async function submitPin(){
   if(lockUI.mode === 'changeOld'){
     const hash = await sha256(pin);
     if(!lockRecord || hash !== lockRecord.hash){
-      lockUI.msg = t('lockErrWrong');
+      lockUI.msg = t('lockVerifyFailed');
       lockUI.error = true;
       lockUI.pin = '';
       updateLockDynamic();
@@ -2589,6 +2668,7 @@ async function submitPin(){
     lockUI.mode = 'changeNew';
     lockUI.pin = '';
     lockUI.msg = '';
+    lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
     renderLock();
     return;
   }
@@ -2687,7 +2767,7 @@ function renderTopbar(){
   if(ui.sub === 'settings')      return bar(t('setTitle'), true);
   if(ui.sub === 'achievements')  return bar(t('achTitle'), true);
   if(ui.sub === 'categories')    return bar(t('setCategories'), true);
-  if(ui.sub === 'lock-settings') return bar(t('setLock'), true);
+  if(ui.sub === 'lock-settings') return bar(t('lockSettingsTitle'), true);
   if(ui.sub === 'whats-new')     return bar(t('whatsNewTitle'), true);
   if(ui.sub === 'sys-info')      return bar(t('sysInfoTitle'), true);
   if(ui.sub === 'identity')      return bar(t('setIdentity'), true);
@@ -3374,8 +3454,6 @@ function viewStats(){
   const incCats = Object.entries(incMap).sort((a,b) => b[1] - a[1]);
   const maxInc = incCats.length ? incCats[0][1] : 0;
 
-  const accTotal = availableBalance();
-
   const months = last6Months().map(m => {
     const inc = state.transactions.filter(tx => tx.type === 'income'  && String(tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
     const exp = state.transactions.filter(tx => tx.type === 'expense' && String(tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
@@ -3680,8 +3758,12 @@ function viewSettings(){
   `;
 }
 
+/* =========================================================================
+   App Lock Settings (V1.07)
+   ========================================================================= */
 function viewLockSettings(){
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
+  const kind = currentLockKind();
   const opts = [
     { v:0, l:t('lockNever') },
     { v:1, l:'1 ' + t('lockMin') },
@@ -3697,6 +3779,35 @@ function viewLockSettings(){
       <button class="switch ${state.settings.appLockEnabled?'on':''}" onclick="toggleAppLock()"><i></i></button>
     </div>
     <div class="set-row">
+      <div><div class="set-title">${esc(t('lockModeLabel'))}</div>
+        <div class="set-sub">${kind === 'text' ? esc(t('lockModePasswordSub')) : esc(t('lockModePINSub'))}</div></div>
+      <span class="set-val">${kind === 'text' ? esc(t('lockModePassword')) : esc(t('lockModePIN'))}</span>
+    </div>
+    <div class="chip-row" style="margin:10px 0 0">
+      <button class="chip ${kind==='pin'?'on':''}" onclick="switchLockMode('pin')">${esc(t('lockModePIN'))}</button>
+      <button class="chip ${kind==='text'?'on':''}" onclick="switchLockMode('text')">${esc(t('lockModePassword'))}</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row tap" onclick="openSetPIN()">
+      <div><div class="set-title">🔢 ${esc(t('lockSetPIN'))}</div>
+        <div class="set-sub">${esc(t('lockModePINSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="openSetPassword()">
+      <div><div class="set-title">🔑 ${esc(t('lockSetPassword'))}</div>
+        <div class="set-sub">${esc(t('lockModePasswordSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="lockApp()">
+      <div><div class="set-title">🔒 ${esc(t('lockLockNow'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row">
       <div><div class="set-title">${esc(t('lockAutoLockLabel'))}</div>
         <div class="set-sub">${esc(t('lockAutoLockSub'))}</div></div>
       <span class="set-val">${autoLock <= 0 ? esc(t('lockNever')) : autoLock + ' ' + t('lockMin')}</span>
@@ -3704,22 +3815,6 @@ function viewLockSettings(){
     <div class="chip-row" style="margin:10px 0 0">
       ${ opts.map(o =>
         `<button class="chip ${autoLock===o.v?'on':''}" onclick="setAutoLock(${o.v})">${esc(o.l)}</button>`).join('') }
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="set-row tap" onclick="changePin()">
-      <div><div class="set-title">🔑 ${esc(t('lockChangePin'))}</div>
-        <div class="set-sub">${lockRecord && lockRecord.type === 'text' ? 'Custom password' : '6-digit PIN'}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="lockApp()">
-      <div><div class="set-title">🔒 ${esc(t('lockLockNow'))}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="disableLock()">
-      <div><div class="set-title danger">${esc(t('lockDisable'))}</div></div>
-      <span class="chev">›</span>
     </div>
   </div>
 
@@ -3733,6 +3828,104 @@ function viewLockSettings(){
 
   <p class="about">${esc(t('lockHashNote'))}</p>
   `;
+}
+
+/* V1.07: Set/Change PIN — always PIN mode */
+function openSetPIN(){
+  const hasLock = !!(lockRecord && lockRecord.hash);
+  const needVerify = hasLock;
+  openSheet({
+    title: hasLock ? t('lockChangePINTitle') : t('lockSetPINTitle'),
+    submitText: t('save'),
+    body: `
+      ${ needVerify ? `
+      <label class="field">
+        <span class="field-label">${esc(t('lockCurrentPIN'))}</span>
+        <input name="current" type="password" inputmode="numeric" maxlength="6" required>
+      </label>` : '' }
+      <label class="field">
+        <span class="field-label">${esc(t('lockNewPIN'))}</span>
+        <input name="newPin" type="password" inputmode="numeric" maxlength="6" required>
+      </label>
+      <label class="field">
+        <span class="field-label">${esc(t('lockConfirmPIN'))}</span>
+        <input name="confirmPin" type="password" inputmode="numeric" maxlength="6" required>
+      </label>
+      <p class="hint">${esc(t('lockHashNote'))}</p>
+    `,
+    onSubmit: async (d) => {
+      const newPin = String(d.newPin || '').trim();
+      const confirmPin = String(d.confirmPin || '').trim();
+      if(!/^\d{6}$/.test(newPin)){ toast(t('lockErrPin6')); return false; }
+      if(newPin !== confirmPin){ toast(t('lockErrMismatch')); return false; }
+      if(needVerify){
+        const curHash = await sha256(String(d.current || ''));
+        if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
+      }
+      const hash = await sha256(newPin);
+      lockRecord = { hash, type:'pin', createdAt: Date.now() };
+      saveLock(lockRecord);
+      toast(t('lockPINSet'));
+      render();
+      return true;
+    }
+  });
+}
+
+/* V1.07: Set/Change Custom Password — always text mode */
+function openSetPassword(){
+  const hasLock = !!(lockRecord && lockRecord.hash);
+  const needVerify = hasLock;
+  openSheet({
+    title: hasLock ? t('lockChangePasswordTitle') : t('lockSetPasswordTitle'),
+    submitText: t('save'),
+    body: `
+      ${ needVerify ? `
+      <label class="field">
+        <span class="field-label">${esc(t('lockCurrentPassword'))}</span>
+        <input name="current" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+      </label>` : '' }
+      <label class="field">
+        <span class="field-label">${esc(t('lockNewPassword'))}</span>
+        <input name="newPw" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+      </label>
+      <label class="field">
+        <span class="field-label">${esc(t('lockConfirmPassword'))}</span>
+        <input name="confirmPw" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required>
+      </label>
+      <p class="hint">${esc(t('lockHashNote'))}</p>
+    `,
+    onSubmit: async (d) => {
+      const newPw = String(d.newPw || '').trim();
+      const confirmPw = String(d.confirmPw || '').trim();
+      if(newPw.length < 4){ toast(t('lockPasswordLength')); return false; }
+      if(newPw !== confirmPw){ toast(t('lockErrMismatch')); return false; }
+      if(needVerify){
+        const curHash = await sha256(String(d.current || ''));
+        if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
+      }
+      const hash = await sha256(newPw);
+      lockRecord = { hash, type:'text', createdAt: Date.now() };
+      saveLock(lockRecord);
+      toast(t('lockPasswordSet'));
+      render();
+      return true;
+    }
+  });
+}
+
+function switchLockMode(kind){
+  // Change the "preferred" lock mode by re-verifying current password first.
+  const hasLock = !!(lockRecord && lockRecord.hash);
+  if(!hasLock){
+    // no lock yet — just open the corresponding setter
+    if(kind === 'text') openSetPassword(); else openSetPIN();
+    return;
+  }
+  // If same as current, do nothing (already on that mode)
+  if(kind === currentLockKind()) return;
+  // Open the setter for the target mode, which will require current password verification
+  if(kind === 'text') openSetPassword(); else openSetPIN();
 }
 
 /* =========================================================================
@@ -3806,28 +3999,6 @@ function toggleAppLock(){
 function setAutoLock(v){
   state.settings.autoLockMinutes = v;
   saveState(); render();
-}
-function changePin(){
-  lockUI.mode = 'changeOld';
-  lockUI.pin = '';
-  lockUI.msg = '';
-  lockUI.error = false;
-  lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
-  isUnlocked = false;
-  renderLock();
-}
-function disableLock(){
-  confirmDialog(t('lockDisableConfirm'), () => {
-    clearLock();
-    lockRecord = null;
-    state.settings.appLockEnabled = false;
-    saveState();
-    lockUI.mode = 'create';
-    lockUI.pin = '';
-    lockUI.msg = '';
-    render();
-    toast(t('lockDisabled'));
-  });
 }
 
 /* =========================================================================
@@ -3978,12 +4149,15 @@ function openSheet(opts){
   root.querySelector('.mask').addEventListener('click', closeSheet);
 
   const form = root.querySelector('#sheet-form');
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
     const data = {};
     new FormData(form).forEach((v,k) => { data[k] = v; });
     let ok = true;
-    if(opts.onSubmit) ok = opts.onSubmit(data, form);
+    if(opts.onSubmit){
+      try { ok = await opts.onSubmit(data, form); }
+      catch(err){ console.error(err); ok = false; }
+    }
     if(ok !== false) closeSheet();
   });
 
@@ -4065,12 +4239,9 @@ function toast(msg){
 }
 
 /* =========================================================================
-   Pickers: grouped option selector (used for purposes / methods / categories)
+   Pickers
    ========================================================================= */
 function openGroupedPicker(opts){
-  /* opts: { title, groups:[{ group, items:[...], labelFor(id), groupLabelFor(id), iconFor(id)? }],
-            value, allowCustom:bool, customValue, customPlaceholder,
-            onPick(id), onCustom(text) } */
   const root = document.getElementById('sheet-root');
   const labelFor = opts.labelFor || (id => id);
   const groupLabelFor = opts.groupLabelFor || (id => id);
@@ -4236,7 +4407,6 @@ function accountOptions(selected, excludeId){
     .join('');
 }
 
-/* Category picker button shown inside income/expense forms */
 function renderCatPickerButton(kind, currentId, currentLabel){
   return `
   <button type="button" id="cat-picker-btn" class="btn ghost block" style="text-align:left;font-weight:600">
@@ -4270,7 +4440,6 @@ function bindCatPicker(kind, root, onPick){
         updateCatPickerButton(root, id, id, kind);
       },
       onCustom: (text) => {
-        // persist custom category
         if(kind === 'income' && !state.customIncomeCats.includes(text)) state.customIncomeCats.push(text);
         if(kind === 'expense' && !state.customExpenseCats.includes(text)) state.customExpenseCats.push(text);
         saveState();
@@ -4900,7 +5069,7 @@ function openMGForm(presetId){
         editing.purposeCustom = (d.purposeCustom || '').trim();
         editing.method = (d.method || '').trim();
         editing.methodCustom = (d.methodCustom || '').trim();
-        editing.giftType = d.purpose || editing.giftType || 'gift'; // legacy
+        editing.giftType = d.purpose || editing.giftType || 'gift';
         editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
         editing.note = (d.note || '').trim();
         editing.updatedAt = Date.now();
@@ -4918,7 +5087,7 @@ function openMGForm(presetId){
           purposeCustom: (d.purposeCustom || '').trim(),
           method: (d.method || '').trim(),
           methodCustom: (d.methodCustom || '').trim(),
-          giftType: d.purpose || 'gift', // legacy compat
+          giftType: d.purpose || 'gift',
           date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
           note: (d.note || '').trim(),
           createdAt: Date.now(),
@@ -4970,7 +5139,7 @@ function mgCard(m){
 }
 
 /* =========================================================================
-   交易菜单 / 编辑 / 删除
+   交易菜单 / 编辑 / 删除（V1.07: context-aware delete)
    ========================================================================= */
 function openTxMenu(id){
   const tx = state.transactions.find(x => x.id === id);
@@ -4985,6 +5154,18 @@ function openTxMenu(id){
   }
   acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
   openActionSheet(labelMap[tx.type] || 'Record', acts);
+}
+
+/* V1.07: context-aware delete confirmation title */
+function deleteConfirmTitleFor(type){
+  switch(type){
+    case 'income':
+    case 'expense':      return t('delTxTitle');
+    case 'transfer':     return t('delTransferTitle');
+    case 'goal_deposit': return t('delGoalDepositTitle');
+    case 'goal_withdraw':return t('delGoalWithdrawTitle');
+    default:             return t('delTxTitle');
+  }
 }
 
 function editTransaction(id){
@@ -5078,7 +5259,7 @@ function deleteTransaction(id){
   const tx = state.transactions.find(x => x.id === id);
   if(!tx) return;
 
-  confirmDialog(t('clearTitle1'), () => {
+  confirmDialog(deleteConfirmTitleFor(tx.type), () => {
     try{
       switch(tx.type){
         case 'income': {
@@ -5326,10 +5507,10 @@ function cancelGoal(id){
   if(!g) return;
   const saved = round2(Number(g.saved)||0);
   if(saved <= 0){
-    confirmDialog(t('goalCancelTitle'), () => {
+    confirmDialog(t('goalDeleteConfirm'), () => {
       state.goals = state.goals.filter(x => x.id !== id);
       afterChange();
-      toast(t('goalCancelled'));
+      toast(t('goalDeleted'));
     });
     return;
   }
