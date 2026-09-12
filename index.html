@@ -12,21 +12,10 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
-  /* Jiheng brand palette — 积累 · 平衡 */
-  --brand:#5b4b8a;         /* deep plum — stability, balance */
-  --brand-2:#8a7bb8;       /* lighter plum */
-  --brand-3:#c9bfe8;       /* soft lavender */
-  --brand-soft:#f1eef9;    /* soft tint */
-  --accent:#c9a961;        /* warm gold — accumulation */
-  --accent-soft:#f7f1e2;
-  --bg:#f7f6fb;
-  --card:#fff;
-  --text:#1c1830;
-  --muted:#8a86a0;
-  --line:#ecebf4;
-  --green:#0e9b6b;
-  --red:#d9534f;
-  --amber:#c9914b;
+  --brand:#5b4b8a;--brand-2:#8a7bb8;--brand-3:#c9bfe8;--brand-soft:#f1eef9;
+  --accent:#c9a961;--accent-soft:#f7f1e2;
+  --bg:#f7f6fb;--card:#fff;--text:#1c1830;--muted:#8a86a0;--line:#ecebf4;
+  --green:#0e9b6b;--red:#d9534f;--amber:#c9914b;
   --r-lg:20px;--r-md:14px;--r-sm:10px;
   --shadow:0 2px 12px rgba(91,75,138,.06);
   --shadow-brand:0 10px 26px rgba(91,75,138,.24);
@@ -34,73 +23,37 @@
   --safe-t:env(safe-area-inset-top,0px);
 }
 html,body{margin:0;padding:0;height:100%;}
-body{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;
-  -webkit-font-smoothing:antialiased;overscroll-behavior-y:none;
-}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;overscroll-behavior-y:none;overflow-x:hidden;}
 body.no-scroll{overflow:hidden;}
 button{font-family:inherit;}
 input,select,textarea{font-family:inherit;}
-#app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:calc(92px + var(--safe-b));}
-
-/* ---------- Jiheng Wordmark ---------- */
-.jiheng-wordmark{
-  display:inline-flex;align-items:baseline;gap:8px;
-  font-weight:800;letter-spacing:-.5px;line-height:1;
-}
-.jiheng-wordmark .zh{
-  font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
-  font-size:24px;font-weight:900;letter-spacing:2px;
-  background:linear-gradient(135deg,#5b4b8a 0%,#8a7bb8 60%,#c9a961 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  position:relative;
-}
-.jiheng-wordmark .zh::after{
-  content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;
-  background:linear-gradient(90deg,#5b4b8a 0%,#c9a961 100%);opacity:.35;
-}
-.jiheng-wordmark .en{
-  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  color:var(--brand);opacity:.75;
-}
-.jiheng-wordmark.light .zh{
-  background:linear-gradient(135deg,#ffffff 0%,#e8e2f5 50%,#e6d3a8 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
+#app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:calc(92px + var(--safe-b));overflow-x:hidden;}
+.jiheng-wordmark{display:inline-flex;align-items:baseline;gap:8px;font-weight:800;letter-spacing:-.5px;line-height:1;}
+.jiheng-wordmark .zh{font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:24px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#5b4b8a 0%,#8a7bb8 60%,#c9a961 100%);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;}
+.jiheng-wordmark .zh::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;background:linear-gradient(90deg,#5b4b8a 0%,#c9a961 100%);opacity:.35;}
+.jiheng-wordmark .en{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--brand);opacity:.75;}
+.jiheng-wordmark.light .zh{background:linear-gradient(135deg,#ffffff 0%,#e8e2f5 50%,#e6d3a8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .jiheng-wordmark.light .zh::after{background:linear-gradient(90deg,#fff 0%,#e6d3a8 100%);opacity:.5;}
 .jiheng-wordmark.light .en{color:#fff;opacity:.85;}
-
-/* ---------- Topbar ---------- */
 .topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + var(--safe-t)) 16px 12px;background:rgba(247,246,251,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .topbar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;color:var(--brand);}
 .topbar.brand{padding-top:calc(10px + var(--safe-t));}
 .icon-btn{width:38px;height:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;display:grid;place-items:center;font-size:16px;color:var(--brand);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
 .icon-btn:active{transform:scale(.92);}
 .icon-btn.sm{width:30px;height:30px;font-size:14px;border-radius:10px;box-shadow:none;background:var(--brand-soft);}
-
-/* ---------- Layout ---------- */
 .view{padding:4px 16px 24px;display:flex;flex-direction:column;gap:14px;}
 section{display:flex;flex-direction:column;gap:10px;}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
 .section-head h3{font-size:15px;font-weight:700;margin:0;color:var(--brand);}
 .link{background:none;border:none;color:var(--brand);font-size:13px;font-weight:600;cursor:pointer;padding:2px 4px;}
-.card{background:var(--card);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);}
+.card{background:var(--card);border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);overflow-wrap:anywhere;word-break:break-word;}
 .list{background:var(--card);border-radius:var(--r-lg);box-shadow:var(--shadow);overflow:hidden;}
 .list .row+.row{border-top:1px solid var(--line);}
 .c-green{color:var(--green)!important;}
 .c-red{color:var(--red)!important;}
 .c-muted{color:var(--muted)!important;}
 .c-amber{color:var(--amber)!important;}
-
-/* ---------- Product Notice ---------- */
-.product-notice{
-  background:linear-gradient(135deg,#fff 0%,var(--brand-soft) 100%);
-  border:1.5px solid var(--brand-3);
-  border-radius:18px;padding:14px 14px 12px;
-  box-shadow:0 4px 16px rgba(91,75,138,.10);
-}
+.product-notice{background:linear-gradient(135deg,#fff 0%,var(--brand-soft) 100%);border:1.5px solid var(--brand-3);border-radius:18px;padding:14px 14px 12px;box-shadow:0 4px 16px rgba(91,75,138,.10);}
 .product-notice .pn-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .product-notice .pn-icon{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800;flex:0 0 auto;}
 .product-notice .pn-title{font-size:12px;font-weight:800;color:var(--brand);letter-spacing:.4px;text-transform:uppercase;}
@@ -109,15 +62,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .product-notice .pn-flag{font-size:10.5px;font-weight:800;color:#fff;background:var(--brand);padding:3px 7px;border-radius:6px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:34px;text-align:center;}
 .product-notice .pn-text{font-size:12.5px;line-height:1.55;color:var(--text);font-weight:500;flex:1;}
 .product-notice .pn-text b{color:var(--brand);font-weight:800;}
-
-/* ---------- Lock screen ---------- */
-.lock-screen{
-  position:fixed;inset:0;z-index:500;
-  background:linear-gradient(160deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);
-  display:flex;flex-direction:column;
-  padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));
-  color:#fff;overflow:hidden;height:100vh;height:100dvh;
-}
+.lock-screen{position:fixed;inset:0;z-index:500;background:linear-gradient(160deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);display:flex;flex-direction:column;padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));color:#fff;overflow:hidden;height:100vh;height:100dvh;}
 .lock-screen::before{content:'';position:absolute;width:280px;height:280px;border-radius:50%;background:rgba(201,169,97,.08);top:-120px;right:-100px;pointer-events:none;}
 .lock-screen::after{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04);bottom:-80px;left:-60px;pointer-events:none;}
 .lock-header{position:relative;z-index:2;text-align:center;flex:0 0 auto;padding:6px 0 8px;}
@@ -152,8 +97,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .lock-footer{position:relative;z-index:2;flex:0 0 auto;margin-top:8px;display:flex;flex-direction:column;gap:6px;width:100%;max-width:270px;align-self:center;}
 .lock-footer button{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12.5px;font-weight:600;padding:10px;border-radius:12px;cursor:pointer;transition:background .14s;-webkit-user-select:none;user-select:none;touch-action:manipulation;}
 .lock-footer button:active{background:rgba(255,255,255,.28);}
-
-/* ---------- Hero ---------- */
 .hero{position:relative;overflow:hidden;border-radius:24px;padding:22px 20px;background:linear-gradient(135deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);color:#fff;box-shadow:var(--shadow-brand);}
 .hero::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(201,169,97,.10);top:-120px;right:-80px;}
 .hero::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-90px;left:-40px;}
@@ -168,7 +111,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .split-item span{font-size:11.5px;opacity:.85;}
 .split-item b{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .split-div{width:1px;background:rgba(255,255,255,.22);margin:0 12px;}
-
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .mini span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
@@ -180,11 +122,11 @@ section{display:flex;flex-direction:column;gap:10px;}
 .row{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .12s;}
 .row:active{background:#fafbfd;}
 .row-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
-.row-main{flex:1;min-width:0;}
-.row-title{font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.row-sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
-.row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
-.tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.row-main{flex:1;min-width:0;overflow-wrap:anywhere;word-break:break-word;}
+.row-title{font-size:14.5px;font-weight:600;overflow-wrap:anywhere;word-break:break-word;}
+.row-sub{font-size:12px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;}
+.row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;}
+.tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;}
 .empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px;}
 .empty p{margin:0 0 10px;}
 .empty.big{padding:40px 20px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);}
@@ -199,8 +141,8 @@ section{display:flex;flex-direction:column;gap:10px;}
 .btn.soft{background:var(--brand-soft);color:var(--brand);font-size:13.5px;padding:10px 14px;flex:1;}
 .btn.sm{padding:9px 16px;font-size:13.5px;}
 .btn.block{width:100%;}
-.seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;}
-.seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;}
+.seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;min-width:60px;}
 .seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(91,75,138,.22);}
 .day-group{display:flex;flex-direction:column;gap:8px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
@@ -209,10 +151,10 @@ section{display:flex;flex-direction:column;gap:10px;}
 .summary-strip>div{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
 .summary-strip span{font-size:12px;color:var(--muted);}
 .summary-strip b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;}
-.goal-card,.asset-card,.debt-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;}
+.goal-card,.asset-card,.debt-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;overflow-wrap:anywhere;word-break:break-word;}
 .goal-top,.asset-top,.debt-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-.goal-name,.asset-name,.debt-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
-.goal-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.goal-name,.asset-name,.debt-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;overflow-wrap:anywhere;word-break:break-word;}
+.goal-sub{font-size:12px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;word-break:break-word;line-height:1.55;}
 .badge-done{font-size:10.5px;background:#e7f8f1;color:var(--green);padding:2px 7px;border-radius:6px;font-weight:700;}
 .goal-amt{font-variant-numeric:tabular-nums;}
 .goal-amt b{font-size:20px;font-weight:800;}
@@ -221,7 +163,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .bar-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));transition:width .4s cubic-bezier(.3,.8,.4,1);}
 .bar-fill.alt{background:linear-gradient(90deg,#0e9b6b,#34d399);}
 .bar-fill.debt{background:linear-gradient(90deg,var(--amber),#e0b76d);}
-.goal-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;}
+.goal-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;flex-wrap:wrap;gap:4px;}
 .goal-acts,.asset-acts,.debt-acts{display:flex;gap:8px;margin-top:2px;flex-wrap:wrap;}
 .badge{font-size:10.5px;padding:3px 8px;border-radius:7px;font-weight:700;white-space:nowrap;}
 .st-active{background:var(--brand-soft);color:var(--brand);}
@@ -232,21 +174,21 @@ section{display:flex;flex-direction:column;gap:10px;}
 .st-debt-oweme{background:#e7f8f1;color:var(--green);}
 .st-partial{background:#fff5e6;color:var(--amber);}
 .asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
-.asset-grid>div{display:flex;flex-direction:column;gap:2px;}
+.asset-grid>div{display:flex;flex-direction:column;gap:2px;min-width:0;}
 .asset-grid span{font-size:11.5px;color:var(--muted);}
-.asset-grid b{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;}
+.asset-grid b{font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere;}
 .asset-rows{display:flex;flex-direction:column;gap:6px;background:#fafbfd;border-radius:12px;padding:12px;}
-.ar{display:flex;justify-content:space-between;font-size:12.5px;gap:8px;}
-.ar span{color:var(--muted);}
-.ar b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;}
+.ar{display:flex;justify-content:space-between;font-size:12.5px;gap:8px;overflow-wrap:anywhere;word-break:break-word;}
+.ar span{color:var(--muted);flex:0 0 auto;}
+.ar b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;overflow-wrap:anywhere;word-break:break-word;}
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .stat-box{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .stat-box span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
 .stat-box b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;}
 .cat-row{display:flex;flex-direction:column;gap:6px;padding:11px 0;}
 .cat-row+.cat-row{border-top:1px solid var(--line);}
-.cat-head{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;gap:8px;}
-.cat-head span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap;}
+.cat-head{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;gap:8px;overflow-wrap:anywhere;word-break:break-word;}
+.cat-head span:last-child{font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;}
 .cat-bar{height:6px;background:#f0eff7;border-radius:99px;overflow:hidden;}
 .cat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));}
 .cat-bar i.inc{background:linear-gradient(90deg,#0e9b6b,#34d399);}
@@ -268,9 +210,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .switch i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
 .switch.on{background:var(--brand);}
 .switch.on i{transform:translateX(20px);}
-.about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;}
-
-/* Achievements */
+.about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;overflow-wrap:anywhere;}
 .ach-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 .ach{background:#fff;border-radius:var(--r-lg);padding:14px 16px;text-align:left;box-shadow:var(--shadow);opacity:.85;transition:opacity .2s;border:1.5px solid transparent;}
 .ach.got{opacity:1;background:linear-gradient(160deg,#fff,#f7f5fc);border-color:var(--brand-3);}
@@ -287,15 +227,11 @@ section{display:flex;flex-direction:column;gap:10px;}
 .ach-progress-text{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;}
 .ach-status{font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;}
 .ach-status.locked{color:var(--muted);font-weight:600;}
-
-/* Tabbar */
 .tabbar{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;padding:8px 4px calc(8px + var(--safe-b));}
 .tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:#9aa0b0;cursor:pointer;padding:4px 0;border-radius:12px;transition:color .16s;position:relative;}
 .tabbar button .ti{font-size:18px;line-height:1;transition:transform .18s;}
 .tabbar button.on{color:var(--brand);}
 .tabbar button.on .ti{transform:translateY(-1px) scale(1.06);}
-
-/* Sheet */
 #sheet-root{position:fixed;inset:0;z-index:100;pointer-events:none;}
 #sheet-root.show{pointer-events:auto;}
 #sheet-root .mask{position:absolute;inset:0;background:rgba(28,24,48,.45);opacity:0;transition:opacity .26s;}
@@ -312,8 +248,8 @@ section{display:flex;flex-direction:column;gap:10px;}
 .sheet-foot .btn{flex:1;}
 .field{display:block;margin-bottom:14px;}
 .field-label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;}
-.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);background:#fafbfc;border-radius:13px;padding:12px 14px;font-size:15px;color:var(--text);font-family:inherit;outline:none;transition:border-color .16s,background .16s;appearance:none;-webkit-appearance:none;}
-.field textarea{resize:vertical;min-height:64px;line-height:1.5;}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);background:#fafbfc;border-radius:13px;padding:12px 14px;font-size:15px;color:var(--text);font-family:inherit;outline:none;transition:border-color .16s,background .16s;appearance:none;-webkit-appearance:none;overflow-wrap:anywhere;}
+.field textarea{resize:vertical;min-height:80px;line-height:1.55;max-height:320px;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);background:#fff;}
 .field select{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a86a0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;}
 .input-wrap{position:relative;display:flex;align-items:center;}
@@ -322,48 +258,53 @@ section{display:flex;flex-direction:column;gap:10px;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .hint{font-size:11.5px;color:var(--muted);margin:-8px 0 14px;line-height:1.5;}
 .action-list{padding:0 14px 6px;display:flex;flex-direction:column;gap:6px;}
-.action-item{width:100%;border:none;background:#f7f8fc;border-radius:14px;padding:15px 16px;text-align:left;font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .14s,transform .12s;}
+.action-item{width:100%;border:none;background:#f7f8fc;border-radius:14px;padding:15px 16px;text-align:left;font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .14s,transform .12s;overflow-wrap:anywhere;}
 .action-item:active{transform:scale(.985);background:#eef0f7;}
 .action-item.danger{color:var(--red);}
-.confirm-msg{font-size:15px;line-height:1.6;padding:16px 4px 20px;margin:0;text-align:center;font-weight:600;}
+.confirm-msg{font-size:15px;line-height:1.6;padding:16px 4px 20px;margin:0;text-align:center;font-weight:600;overflow-wrap:anywhere;}
 .confirm-btns{display:flex;gap:10px;padding:0 2px 8px;}
 .confirm-btns .btn{flex:1;}
 .chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
-.chip{border:none;background:#f2f3f7;color:var(--text);font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:11px;cursor:pointer;transition:all .14s;}
+.chip{border:none;background:#f2f3f7;color:var(--text);font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:11px;cursor:pointer;transition:all .14s;max-width:100%;overflow-wrap:anywhere;}
 .chip:active{transform:scale(.95);}
 .chip.on{background:var(--brand);color:#fff;}
 .opt-group{display:flex;flex-direction:column;gap:2px;}
-.opt-item{border:none;background:#f7f8fc;color:var(--text);font-size:13.5px;font-weight:500;padding:10px 12px;border-radius:10px;text-align:left;cursor:pointer;transition:background .12s;}
+.opt-item{border:none;background:#f7f8fc;color:var(--text);font-size:13.5px;font-weight:500;padding:10px 12px;border-radius:10px;text-align:left;cursor:pointer;transition:background .12s;overflow-wrap:anywhere;}
 .opt-item:active{background:#eef0f7;}
 .opt-item.on{background:var(--brand);color:#fff;font-weight:600;}
 .opt-label{font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.4px;padding:10px 2px 4px;}
-
-/* Guide */
 .guide-item{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start;}
 .guide-icon{width:42px;height:42px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-size:20px;flex:0 0 auto;}
 .guide-body{flex:1;min-width:0;}
 .guide-title{font-size:14.5px;font-weight:700;color:var(--brand);margin-bottom:4px;}
-.guide-desc{font-size:13px;color:var(--text);line-height:1.6;}
-.guide-list{margin:6px 0 0;padding-left:18px;font-size:12.5px;color:var(--muted);line-height:1.7;}
-
-/* Version history */
+.guide-desc{font-size:13px;color:var(--text);line-height:1.6;overflow-wrap:anywhere;}
 .version-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);}
 .version-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;}
 .version-no{font-size:16px;font-weight:800;color:var(--brand);}
 .version-date{font-size:12px;color:var(--muted);}
 .version-title{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);}
-.version-list{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--text);}
-
-/* Toast */
+.version-list{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--text);overflow-wrap:anywhere;}
 #toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;}
-.toast{background:rgba(28,24,48,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:14px;max-width:88%;text-align:center;opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);box-shadow:0 8px 24px rgba(0,0,0,.22);}
+.toast{background:rgba(28,24,48,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:14px;max-width:88%;text-align:center;opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);box-shadow:0 8px 24px rgba(0,0,0,.22);overflow-wrap:anywhere;}
 .toast.in{opacity:1;transform:translateY(0);}
-
-/* Search */
-.search-bar{display:flex;gap:8px;}
-.search-input{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;outline:none;transition:border-color .16s;}
+.search-bar{display:flex;gap:8px;align-items:center;}
+.search-input{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;outline:none;transition:border-color .16s;min-width:0;}
 .search-input:focus{border-color:var(--brand);}
-
+.search-clear{width:38px;height:38px;border-radius:12px;border:none;background:#fff;box-shadow:var(--shadow);color:var(--brand);font-size:14px;cursor:pointer;flex:0 0 auto;display:grid;place-items:center;}
+.expandable{cursor:pointer;}
+.expandable .row-sub{transition:all .15s;}
+.records-row{display:flex;gap:10px;align-items:center;padding:14px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);cursor:pointer;overflow-wrap:anywhere;}
+.records-row .rr-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:0 0 auto;}
+.records-row .rr-main{flex:1;min-width:0;}
+.records-row .rr-title{font-size:15px;font-weight:700;}
+.records-row .rr-sub{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.5;}
+.records-row .rr-amt{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.note-full{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
+@media (max-width: 380px){
+  .hero-amount{font-size:28px;}
+  .quick button{font-size:10.5px;}
+  .row-amount,.tx-amt{font-size:13.5px;}
+}
 ::-webkit-scrollbar{width:0;height:0;}
 </style>
 </head>
@@ -375,31 +316,35 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   积衡 Jiheng v1.00
+   积衡 Jiheng v1.01
    记录现实中的钱，但不持有或处理你的钱。
    -----------------------------------------------------------------------
-   - 品牌全面升级：积衡 Jiheng
-   - 版本体系从 V1.00 重新开始
-   - 旧 Update History 从界面移除（用户数据完整保留）
-   - 新增 Product Guide（产品功能讲解）
-   - PIN / Custom Password / 所有用户数据 100% 保留
+   V1.01 修复重点：
+   - Debts / Money Given 真正持久化
+   - Records 独立系统
+   - 长备注完整保存与显示（不截断）
+   - 中文 / Unicode / 部分匹配搜索
+   - Search + Filter 组合
+   - Single Source of Truth
+   - 保留 V1.00 所有数据、PIN、分类、成就
    ========================================================================= */
 
-const APP_VERSION  = '1.00';
+const APP_VERSION  = '1.01';
 const DATA_VERSION = 1;
 
-const STORAGE_KEY       = 'jiheng_state_v1';        // 新品牌 key，但会迁移旧 key
-const LEGACY_KEYS       = ['savewise_state_v1'];
+/* 兼容旧 key —— 绝不删除用户数据 */
+const STORAGE_KEY       = 'jiheng_state_v1';
+const LEGACY_KEYS       = ['jiheng_state_v1','savewise_state_v1'];
 const LOCK_KEY          = 'jiheng_lock_v1';
-const LEGACY_LOCK_KEYS  = ['savewise_lock_v1'];
+const LEGACY_LOCK_KEYS  = ['jiheng_lock_v1','savewise_lock_v1'];
 const LANG_KEY          = 'jiheng_lang_v1';
-const LEGACY_LANG_KEYS  = ['savewise_lang_v1'];
+const LEGACY_LANG_KEYS  = ['jiheng_lang_v1','savewise_lang_v1'];
 const META_KEY          = 'jiheng_meta_v1';
-const LEGACY_META_KEYS  = ['savewise_meta_v1'];
+const LEGACY_META_KEYS  = ['jiheng_meta_v1','savewise_meta_v1'];
 const BACKUP_KEY        = 'jiheng_backup_v1';
 const CHANGELOG_KEY     = 'jiheng_changelog_v1';
 
-/* ============================ 品牌身份说明（三语） ============================ */
+/* ============================ 产品身份说明 ============================ */
 const PRODUCT_NOTICE_LANGS = [
   { code:'ZH', text:'积衡 Jiheng 记录现实中的钱，但不持有或处理你的钱。它是个人财务记录、整理、计算与分析软件，不是银行、电子钱包、支付工具、汇款服务或金融机构，不接收、不保管、不托管，也不实际转移用户的现实资金。积衡中显示的金额只是用户输入或系统根据记录计算出的财务记录。' },
   { code:'EN', text:'Jiheng records your real-world money. It does not hold or handle your money. It is a personal finance recording, organization, calculation and analysis software. It is NOT a bank, e-wallet, payment instrument, remittance service or financial institution, and does not receive, hold, custody, or actually transfer the user\'s real-world money. Any amount shown is a financial record entered by the user or calculated from records.' },
@@ -460,7 +405,6 @@ const I18N = {
   zh: {
     brand:'积衡', brandEn:'Jiheng', slogan:'积累，亦有衡。',
     brandTagline:'记录现实中的钱，但不持有或处理你的钱。',
-
     lockCreatePin:'创建 6 位数字 PIN', lockConfirmPin:'请再次输入确认',
     lockEnterPin:'输入 PIN 解锁', lockEnterPassword:'输入自定义密码解锁',
     lockChangeOld:'请输入当前 PIN', lockChangeNew:'设置新的 6 位 PIN', lockChangeConfirm:'再次输入新 PIN',
@@ -490,11 +434,9 @@ const I18N = {
     lockSetPINTitle:'设置 6 位 PIN', lockChangePINTitle:'更改 6 位 PIN',
     lockPasswordSet:'自定义密码已设置', lockPINSet:'PIN 已更新',
     lockVerifyFailed:'当前密码不正确', lockPasswordLength:'密码至少 4 个字符',
-
     cancel:'取消', confirm:'确认', save:'保存', delete:'删除', edit:'编辑', add:'添加',
     back:'返回', close:'关闭', search:'搜索', all:'全部', none:'无', ok:'好的', yes:'是', no:'否',
-    tabHome:'首页', tabRecords:'交易', tabGoals:'储蓄', tabAssets:'资产', tabStats:'统计', tabSettings:'设置',
-
+    tabHome:'首页', tabRecords:'记录', tabGoals:'储蓄', tabAssets:'资产', tabStats:'统计', tabSettings:'设置',
     totalAssets:'记录总资产', totalAssetsSub:'你在积衡中记录的全部资金与资产总额',
     availableBalance:'可用余额', lockedSaving:'储蓄目标分配',
     monthIncome:'本月收入', monthExpense:'本月支出',
@@ -504,7 +446,6 @@ const I18N = {
     noAccount:'还没有资金账户', addFirstAccount:'新增第一个资金账户',
     noTx:'还没有记录，开始添加第一笔收入吧',
     welcomeTitle:'欢迎使用积衡', welcomeSub:'记录现实中的钱，从创建一个资金账户开始',
-
     createAccount:'新增资金账户', accountName:'资金账户名称', accountType:'账户类型', initialBalance:'初始余额（可选）',
     accountNamePlaceholder:'例如：现金钱包',
     initialHint:'若填写初始余额，会自动生成一笔「初始余额」收入记录。',
@@ -514,11 +455,10 @@ const I18N = {
     accountDeleteUsed:'该账户已有历史记录，删除后记录会保留但账户显示为「—」。确定删除？',
     accountDeleted:'资金账户已删除', accountUpdated:'已更新', totalAvailable:'总可用余额',
     accountDeleteHint:'账户余额会随收入、支出、转账、储蓄和他人资金记录实时更新。删除前需先清空余额。',
-
     income:'收入', expense:'支出', transfer:'账户转移', goalDeposit:'储蓄存入', goalWithdraw:'储蓄取出',
     moneyGiven:'转给他人', debtBorrow:'我欠别人', debtLend:'别人欠我',
     recordIncome:'记录收入', recordExpense:'记录支出', recordTransfer:'记录账户转移',
-    amount:'金额', category:'分类', account:'账户', date:'日期', time:'时间', note:'备注', notePlaceholder:'可选备注',
+    amount:'金额', category:'分类', account:'账户', date:'日期', time:'时间', note:'备注', notePlaceholder:'可选备注（可输入任意长度）',
     method:'方式', methodCustom:'自定义方式',
     incomeMethod:'收款方式', expenseMethod:'付款方式', debtMethod:'欠款方式',
     fromAccount:'转出账户', toAccount:'转入账户',
@@ -530,11 +470,12 @@ const I18N = {
     invalidAmount:'请输入有效金额',
     filterAll:'全部', filterIncome:'收入', filterExpense:'支出', filterSaving:'转移/储蓄',
     filterIncomeTotal:'筛选收入', filterExpenseTotal:'筛选支出',
-    searchPlaceholder:'搜索备注或分类…', noFilterResult:'没有符合条件的记录', tryOtherKeyword:'换个关键词试试',
-    noRecords:'还没有交易记录', recordFirst:'＋ 记录第一笔', today:'今天', yesterday:'昨天',
+    searchPlaceholder:'搜索备注、分类、账户、人名、用途…',
+    noFilterResult:'没有找到相关记录', tryOtherKeyword:'换个关键词试试',
+    clearSearch:'清除搜索', resetFilters:'重置筛选', clearAll:'全部清除',
+    noRecords:'还没有记录', recordFirst:'＋ 记录第一笔', today:'今天', yesterday:'昨天',
     recurringLabel:'周期性收入？', recurringLabelExp:'周期性支出？',
     recurringNo:'否，仅记录这一次', recurringYes:'是，固定 / 周期性（预留）', initialBalanceNote:'初始余额',
-
     goalNew:'新建储蓄目标', goalEdit:'修改目标',
     goalName:'目标名称', goalNamePlaceholder:'例如：买新手机',
     goalTarget:'目标金额', goalDeadline:'期限（可选）', goalIcon:'图标（可选）',
@@ -557,7 +498,6 @@ const I18N = {
     goalNoGoals:'还没有储蓄目标', goalNoGoalsSub:'设定目标，把可用余额分配起来专门储蓄', goalNewBtn:'新建目标',
     goalReturnAccount:'退回账户', goalDeleteCustomHint:'确定删除自定义分类「{name}」？已存在的交易记录不受影响。',
     goalIconNone:'不选择', goalDeleteConfirm:'确定要删除这个储蓄目标吗？', goalDeleted:'储蓄目标已删除',
-
     assetNew:'添加资产', assetEdit:'编辑资产',
     assetName:'资产名称', assetNamePlaceholder:'例如：笔记本电脑',
     assetPrice:'购买价格', assetPurchaseDate:'购买日期',
@@ -588,12 +528,25 @@ const I18N = {
     assetRecoveryNote:'回本 / 使用价值是资产分析功能，不会产生现金，也不会增加任何账户余额。',
     assetValidName:'请输入资产名称', assetValidPrice:'请输入有效购买价格', assetValidPeriod:'预计使用期限必须大于 0',
 
+    /* Records */
+    recordsTitle:'记录',
+    recordsSubtitle:'记录不属于收入 / 支出的其他现实资金事件',
+    recordsDebtsTitle:'欠款记录 Debts',
+    recordsDebtsSub:'记录我欠别人 / 别人欠我',
+    recordsMoneyGivenTitle:'转给他人 Money Given',
+    recordsMoneyGivenSub:'记录现实中已经给出去的钱',
+    recordsDebtsCount:'欠款',
+    recordsMoneyGivenCount:'转给他人',
+    recordsNoData:'还没有记录',
+    recordsNoDataSub:'建立第一笔欠款或转给他人记录',
+
+    /* Debts */
     debtTitle:'欠款记录', debtSub:'记录我欠别人 / 别人欠我，只记录不执行转账',
     debtIOwe:'我欠别人', debtOweMe:'别人欠我', debtAll:'全部',
     debtNew:'新增欠款记录', debtEdit:'编辑欠款记录',
     debtPerson:'对方名称', debtPersonPlaceholder:'例如：小明',
     debtAmount:'欠款金额', debtDate:'开始日期', debtTime:'开始时间', debtDueDate:'到期日期（可选）',
-    debtReason:'欠款原因 / 备注（可选）', debtReasonPlaceholder:'例如：借用买书',
+    debtReason:'欠款原因 / 备注（可选）', debtReasonPlaceholder:'例如：借用买书，可以写很长',
     debtPurpose:'欠款用途', debtPurposeCustom:'自定义用途',
     debtDirection:'方向', debtDirIOwe:'我欠对方（我需还钱）', debtDirOweMe:'对方欠我（对方需还钱）',
     debtPaid:'已偿还', debtRemain:'剩余', debtDuration:'欠款持续', debtDays:'天',
@@ -758,25 +711,28 @@ const I18N = {
     },
     methodGroupNames:{ cash_method:'现金', ewallet_method:'电子钱包', bank_method:'银行 / 银行转账', card_method:'卡片', other_method:'其他' },
 
-    /* Product Guide */
     guideTitle:'产品功能讲解',
     guideIntro:'以下是积衡当前实际提供的功能。本页面跟随系统真实功能更新。',
     guideAccountsTitle:'账户管理',
-    guideAccountsDesc:'管理多个现实中的资金记录账户。',
+    guideAccountsDesc:'管理多个现实中的资金记录账户（现金、银行、TNG、GrabPay、Boost、MAE、ShopeePay、自定义等）。',
     guideTxTitle:'交易记录',
-    guideTxDesc:'记录你的收入与支出，包含金额、日期、时间、分类、账户、记录方式与备注。',
+    guideTxDesc:'记录你的收入与支出：金额、日期、时间、分类、账户、记录方式与备注。备注支持任意长度，完整保存与显示。',
     guideTransferTitle:'转账记录',
     guideTransferDesc:'记录现实中从账户 A 到账户 B 的资金转移。积衡只记录，不实际移动你的钱。',
+    guideRecordsTitle:'记录 Records（新）',
+    guideRecordsDesc:'独立记录不属于收入 / 支出的现实资金事件。V1.01 起包含欠款记录与转给他人。',
+    guideDebtsTitle:'欠款记录 Debts',
+    guideDebtsDesc:'记录你欠别人（I Owe）和别人欠你（Owed to Me）。可追踪还款进度、剩余金额、状态、到期日与备注。只记录，不实际付款。',
+    guideMoneyGivenTitle:'转给他人 Money Given',
+    guideMoneyGivenDesc:'记录现实中已经给出去的钱。可选择来源账户、用途与转账方式。会相应减少所选账户的记录余额。',
     guideGoalTitle:'储蓄目标',
     guideGoalDesc:'建立储蓄目标并分配可用余额。分配只是记录上的划分，积衡不会实际锁定资金。',
     guideAssetTitle:'资产记录',
     guideAssetDesc:'记录你拥有的现实资产，例如手机、电脑、相机等，并可按预计使用期限计算理论使用价值。',
-    guideDebtTitle:'欠款记录',
-    guideDebtDesc:'记录你欠别人和/或别人欠你的钱，包含还款进度、剩余金额、日期与备注。',
     guideStatsTitle:'统计',
     guideStatsDesc:'根据你的真实数据生成收入、支出、净储蓄、分类消费与月度趋势。没有数据时显示空状态。',
     guideSearchTitle:'搜索与筛选',
-    guideSearchDesc:'按日期、金额、分类、账户或关键词搜索与筛选交易。',
+    guideSearchDesc:'支持中文、英文、Unicode、Emoji、部分匹配搜索。可与类型 / 日期 / 账户 / 分类筛选组合使用。',
     guideAchTitle:'成就',
     guideAchDesc:'根据你真实使用情况解锁成就。每项成就都显示名称、说明、如何达到、进度与状态。',
     guideLockTitle:'应用锁',
@@ -793,7 +749,6 @@ const I18N = {
   en: {
     brand:'Jiheng', brandEn:'Jiheng', slogan:'Accumulate, and keep the balance.',
     brandTagline:'Records your real-world money. Does not hold or handle it.',
-
     lockCreatePin:'Create 6-digit PIN', lockConfirmPin:'Enter again to confirm',
     lockEnterPin:'Enter PIN to unlock', lockEnterPassword:'Enter custom password to unlock',
     lockChangeOld:'Enter current PIN', lockChangeNew:'Set new 6-digit PIN', lockChangeConfirm:'Enter new PIN again',
@@ -823,11 +778,9 @@ const I18N = {
     lockSetPINTitle:'Set 6-digit PIN', lockChangePINTitle:'Change 6-digit PIN',
     lockPasswordSet:'Custom password set', lockPINSet:'PIN updated',
     lockVerifyFailed:'Current password is incorrect', lockPasswordLength:'Password must be at least 4 characters',
-
     cancel:'Cancel', confirm:'Confirm', save:'Save', delete:'Delete', edit:'Edit', add:'Add',
     back:'Back', close:'Close', search:'Search', all:'All', none:'None', ok:'OK', yes:'Yes', no:'No',
     tabHome:'Home', tabRecords:'Records', tabGoals:'Goals', tabAssets:'Assets', tabStats:'Stats', tabSettings:'Settings',
-
     totalAssets:'Recorded Total Assets', totalAssetsSub:'All funds and assets you have recorded in Jiheng',
     availableBalance:'Available Balance', lockedSaving:'Goal Allocations',
     monthIncome:'Income this month', monthExpense:'Expense this month',
@@ -837,7 +790,6 @@ const I18N = {
     noAccount:'No money accounts yet', addFirstAccount:'Add your first money account',
     noTx:'No records yet, start by adding your first income',
     welcomeTitle:'Welcome to Jiheng', welcomeSub:'Record real-world money. Start by creating a money account.',
-
     createAccount:'Add Money Account', accountName:'Money Account Name', accountType:'Account Type', initialBalance:'Initial balance (optional)',
     accountNamePlaceholder:'e.g. Cash Wallet',
     initialHint:'If set, an "Initial balance" income record will be created automatically.',
@@ -847,11 +799,10 @@ const I18N = {
     accountDeleteUsed:'This account has history. Records will remain but show "—". Delete?',
     accountDeleted:'Money account deleted', accountUpdated:'Updated', totalAvailable:'Total Available',
     accountDeleteHint:'Balances update with income, expense, transfer, savings and money-given records. Clear balance before deleting.',
-
     income:'Income', expense:'Expense', transfer:'Transfer', goalDeposit:'Goal Deposit', goalWithdraw:'Goal Withdraw',
     moneyGiven:'Money Given', debtBorrow:'I Owe', debtLend:'Owed to Me',
     recordIncome:'Record Income', recordExpense:'Record Expense', recordTransfer:'Record Account Transfer',
-    amount:'Amount', category:'Category', account:'Account', date:'Date', time:'Time', note:'Note', notePlaceholder:'Optional note',
+    amount:'Amount', category:'Category', account:'Account', date:'Date', time:'Time', note:'Note', notePlaceholder:'Optional note (any length)',
     method:'Method', methodCustom:'Custom method',
     incomeMethod:'Income Method', expenseMethod:'Expense Method', debtMethod:'Debt Method',
     fromAccount:'From Account', toAccount:'To Account',
@@ -863,11 +814,12 @@ const I18N = {
     invalidAmount:'Please enter a valid amount',
     filterAll:'All', filterIncome:'Income', filterExpense:'Expense', filterSaving:'Transfer/Saving',
     filterIncomeTotal:'Filtered Income', filterExpenseTotal:'Filtered Expense',
-    searchPlaceholder:'Search notes or category…', noFilterResult:'No matching records', tryOtherKeyword:'Try another keyword',
+    searchPlaceholder:'Search notes, category, account, person, purpose…',
+    noFilterResult:'No matching records found', tryOtherKeyword:'Try another keyword',
+    clearSearch:'Clear search', resetFilters:'Reset filters', clearAll:'Clear all',
     noRecords:'No records yet', recordFirst:'＋ Record first', today:'Today', yesterday:'Yesterday',
     recurringLabel:'Recurring income?', recurringLabelExp:'Recurring expense?',
     recurringNo:'No, just once', recurringYes:'Yes, recurring (reserved)', initialBalanceNote:'Initial balance',
-
     goalNew:'New Savings Goal', goalEdit:'Edit Goal',
     goalName:'Goal Name', goalNamePlaceholder:'e.g. New Phone',
     goalTarget:'Target Amount', goalDeadline:'Deadline (optional)', goalIcon:'Icon (optional)',
@@ -890,7 +842,6 @@ const I18N = {
     goalNoGoals:'No savings goals yet', goalNoGoalsSub:'Set a goal and allocate part of your balance', goalNewBtn:'New Goal',
     goalReturnAccount:'Return to Account', goalDeleteCustomHint:'Delete custom category "{name}"? Existing records are not affected.',
     goalIconNone:'None', goalDeleteConfirm:'Are you sure you want to delete this savings goal?', goalDeleted:'Savings goal deleted',
-
     assetNew:'Add Asset', assetEdit:'Edit Asset',
     assetName:'Asset Name', assetNamePlaceholder:'e.g. Laptop',
     assetPrice:'Purchase Price', assetPurchaseDate:'Purchase Date',
@@ -921,12 +872,23 @@ const I18N = {
     assetRecoveryNote:'Recovery / use value is an analysis feature. It does not create cash and does not affect any account balance.',
     assetValidName:'Please enter asset name', assetValidPrice:'Please enter a valid price', assetValidPeriod:'Expected period must be greater than 0',
 
+    recordsTitle:'Records',
+    recordsSubtitle:'Record other real-world money events not covered by Income / Expense',
+    recordsDebtsTitle:'Debts',
+    recordsDebtsSub:'Record what I owe and what others owe me',
+    recordsMoneyGivenTitle:'Money Given',
+    recordsMoneyGivenSub:'Record money already given in the real world',
+    recordsDebtsCount:'Debts',
+    recordsMoneyGivenCount:'Money Given',
+    recordsNoData:'No records yet',
+    recordsNoDataSub:'Create your first Debt or Money Given entry',
+
     debtTitle:'Debt Records', debtSub:'Record what I owe and what others owe me',
     debtIOwe:'I Owe', debtOweMe:'Owed to Me', debtAll:'All',
     debtNew:'New Debt Record', debtEdit:'Edit Debt Record',
     debtPerson:'Person', debtPersonPlaceholder:'e.g. Alex',
     debtAmount:'Amount', debtDate:'Start Date', debtTime:'Start Time', debtDueDate:'Due Date (optional)',
-    debtReason:'Reason / Note (optional)', debtReasonPlaceholder:'e.g. Borrowed for a book',
+    debtReason:'Reason / Note (optional)', debtReasonPlaceholder:'e.g. Borrowed for a book — you can write a long note',
     debtPurpose:'Purpose', debtPurposeCustom:'Custom purpose',
     debtDirection:'Direction', debtDirIOwe:'I owe them (I need to pay)', debtDirOweMe:'They owe me (they need to pay)',
     debtPaid:'Repaid', debtRemain:'Remaining', debtDuration:'Duration', debtDays:'days',
@@ -1094,21 +1056,25 @@ const I18N = {
     guideTitle:'Product Guide',
     guideIntro:'Below are the features Jiheng actually provides today. This page stays in sync with the real system.',
     guideAccountsTitle:'Account Management',
-    guideAccountsDesc:'Manage multiple real-world money record accounts.',
+    guideAccountsDesc:'Manage multiple real-world money record accounts (Cash, Bank, TNG, GrabPay, Boost, MAE, ShopeePay, custom).',
     guideTxTitle:'Transaction Records',
-    guideTxDesc:'Record your income and expenses: amount, date, time, category, account, method, note.',
+    guideTxDesc:'Record income and expenses: amount, date, time, category, account, method, note. Notes support any length and are stored and displayed fully.',
     guideTransferTitle:'Transfer Records',
     guideTransferDesc:'Record real-world transfers from Account A to Account B. Jiheng only records; it does not move your money.',
+    guideRecordsTitle:'Records (New)',
+    guideRecordsDesc:'A dedicated section for real-world money events that are not Income or Expense. V1.01 includes Debt Records and Money Given.',
+    guideDebtsTitle:'Debt Records',
+    guideDebtsDesc:'Record what you owe (I Owe) and what others owe you (Owed to Me), with repayment progress, remaining amount, status, due date and note. Records only, no actual payments.',
+    guideMoneyGivenTitle:'Money Given',
+    guideMoneyGivenDesc:'Record money already given in the real world. Choose source account, purpose and transfer method. The selected account balance is reduced accordingly.',
     guideGoalTitle:'Savings Goals',
     guideGoalDesc:'Create savings goals and allocate available balance. Allocation is a record-level split; Jiheng does not actually lock funds.',
     guideAssetTitle:'Asset Records',
     guideAssetDesc:'Record real assets (phone, laptop, camera) and calculate theoretical use value over expected lifetime.',
-    guideDebtTitle:'Debt Records',
-    guideDebtDesc:'Record what you owe and what others owe you, with repayment progress, remaining amount, date and note.',
     guideStatsTitle:'Statistics',
     guideStatsDesc:'Income, expense, net savings, category breakdown and monthly trend based on your real records. Empty state when no data.',
     guideSearchTitle:'Search & Filter',
-    guideSearchDesc:'Search and filter transactions by date, amount, category, account or keyword.',
+    guideSearchDesc:'Supports Chinese, English, Unicode, Emoji, partial matching. Combines with type / date / account / category filters.',
     guideAchTitle:'Achievements',
     guideAchDesc:'Unlock achievements based on real usage. Each shows name, description, how-to-unlock, progress and status.',
     guideLockTitle:'App Lock',
@@ -1125,7 +1091,6 @@ const I18N = {
   ms: {
     brand:'Jiheng', brandEn:'Jiheng', slogan:'Kumpul, dan kekalkan keseimbangan.',
     brandTagline:'Merekodkan wang sebenar anda. Tidak memegang atau mengendalikannya.',
-
     lockCreatePin:'Cipta PIN 6 digit', lockConfirmPin:'Masukkan semula untuk sahkan',
     lockEnterPin:'Masukkan PIN untuk buka', lockEnterPassword:'Masukkan kata laluan tersuai untuk buka',
     lockChangeOld:'Masukkan PIN semasa', lockChangeNew:'Tetapkan PIN 6 digit baharu', lockChangeConfirm:'Masukkan PIN baharu semula',
@@ -1155,11 +1120,9 @@ const I18N = {
     lockSetPINTitle:'Tetapkan PIN 6 digit', lockChangePINTitle:'Tukar PIN 6 digit',
     lockPasswordSet:'Kata laluan tersuai ditetapkan', lockPINSet:'PIN dikemas kini',
     lockVerifyFailed:'Kata laluan semasa tidak betul', lockPasswordLength:'Kata laluan sekurang-kurangnya 4 aksara',
-
     cancel:'Batal', confirm:'Sahkan', save:'Simpan', delete:'Padam', edit:'Edit', add:'Tambah',
     back:'Kembali', close:'Tutup', search:'Cari', all:'Semua', none:'Tiada', ok:'OK', yes:'Ya', no:'Tidak',
     tabHome:'Utama', tabRecords:'Rekod', tabGoals:'Simpanan', tabAssets:'Aset', tabStats:'Statistik', tabSettings:'Tetapan',
-
     totalAssets:'Jumlah Aset Tercatat', totalAssetsSub:'Semua dana dan aset yang anda rekod dalam Jiheng',
     availableBalance:'Baki Boleh Guna', lockedSaving:'Peruntukan Sasaran',
     monthIncome:'Pendapatan bulan ini', monthExpense:'Perbelanjaan bulan ini',
@@ -1169,7 +1132,6 @@ const I18N = {
     noAccount:'Belum ada akaun wang', addFirstAccount:'Tambah akaun wang pertama',
     noTx:'Belum ada rekod, mula dengan menambah pendapatan pertama',
     welcomeTitle:'Selamat datang ke Jiheng', welcomeSub:'Rekod wang sebenar. Mulakan dengan mencipta akaun wang.',
-
     createAccount:'Tambah Akaun Wang', accountName:'Nama Akaun Wang', accountType:'Jenis Akaun', initialBalance:'Baki awal (pilihan)',
     accountNamePlaceholder:'cth. Wallet Tunai',
     initialHint:'Jika diisi, satu rekod "Baki awal" akan dicipta.',
@@ -1179,11 +1141,10 @@ const I18N = {
     accountDeleteUsed:'Akaun ada sejarah. Rekod kekal tetapi tunjuk "—". Padam?',
     accountDeleted:'Akaun wang dipadam', accountUpdated:'Dikemas kini', totalAvailable:'Jumlah Boleh Guna',
     accountDeleteHint:'Baki dikemas kini dengan pendapatan, perbelanjaan, pindahan, simpanan dan rekod wang diberi. Kosongkan baki sebelum padam.',
-
     income:'Pendapatan', expense:'Perbelanjaan', transfer:'Pindahan', goalDeposit:'Simpanan Sasaran', goalWithdraw:'Keluaran Sasaran',
     moneyGiven:'Wang Diberi', debtBorrow:'Saya Berhutang', debtLend:'Orang Berhutang',
     recordIncome:'Rekod Pendapatan', recordExpense:'Rekod Perbelanjaan', recordTransfer:'Rekod Pindahan Akaun',
-    amount:'Jumlah', category:'Kategori', account:'Akaun', date:'Tarikh', time:'Masa', note:'Nota', notePlaceholder:'Nota pilihan',
+    amount:'Jumlah', category:'Kategori', account:'Akaun', date:'Tarikh', time:'Masa', note:'Nota', notePlaceholder:'Nota pilihan (boleh panjang)',
     method:'Cara', methodCustom:'Cara tersuai',
     incomeMethod:'Cara Terima', expenseMethod:'Cara Bayar', debtMethod:'Cara Hutang',
     fromAccount:'Akaun Sumber', toAccount:'Akaun Tujuan',
@@ -1195,11 +1156,12 @@ const I18N = {
     invalidAmount:'Sila masukkan jumlah yang sah',
     filterAll:'Semua', filterIncome:'Pendapatan', filterExpense:'Perbelanjaan', filterSaving:'Pindahan/Simpanan',
     filterIncomeTotal:'Pendapatan Ditapis', filterExpenseTotal:'Perbelanjaan Ditapis',
-    searchPlaceholder:'Cari nota atau kategori…', noFilterResult:'Tiada rekod sepadan', tryOtherKeyword:'Cuba kata kunci lain',
+    searchPlaceholder:'Cari nota, kategori, akaun, nama, tujuan…',
+    noFilterResult:'Tiada rekod yang sepadan', tryOtherKeyword:'Cuba kata kunci lain',
+    clearSearch:'Kosongkan carian', resetFilters:'Reset penapis', clearAll:'Kosongkan semua',
     noRecords:'Belum ada rekod', recordFirst:'＋ Rekod pertama', today:'Hari ini', yesterday:'Semalam',
     recurringLabel:'Pendapatan berulang?', recurringLabelExp:'Perbelanjaan berulang?',
     recurringNo:'Tidak, sekali sahaja', recurringYes:'Ya, berulang (disediakan)', initialBalanceNote:'Baki awal',
-
     goalNew:'Sasaran Simpanan Baharu', goalEdit:'Edit Sasaran',
     goalName:'Nama Sasaran', goalNamePlaceholder:'cth. Telefon Baharu',
     goalTarget:'Jumlah Sasaran', goalDeadline:'Tarikh akhir (pilihan)', goalIcon:'Ikon (pilihan)',
@@ -1222,7 +1184,6 @@ const I18N = {
     goalNoGoals:'Belum ada sasaran simpanan', goalNoGoalsSub:'Tetapkan sasaran dan peruntukkan sebahagian baki', goalNewBtn:'Sasaran Baharu',
     goalReturnAccount:'Pulangkan ke Akaun', goalDeleteCustomHint:'Padam kategori tersuai "{name}"? Rekod sedia ada tidak terjejas.',
     goalIconNone:'Tiada', goalDeleteConfirm:'Adakah anda pasti mahu memadam sasaran simpanan ini?', goalDeleted:'Sasaran simpanan dipadam',
-
     assetNew:'Tambah Aset', assetEdit:'Edit Aset',
     assetName:'Nama Aset', assetNamePlaceholder:'cth. Komputer Riba',
     assetPrice:'Harga Belian', assetPurchaseDate:'Tarikh Belian',
@@ -1253,12 +1214,23 @@ const I18N = {
     assetRecoveryNote:'Pemulihan / nilai guna ialah ciri analisis. Ia tidak menghasilkan wang tunai dan tidak mengubah baki akaun.',
     assetValidName:'Sila masukkan nama aset', assetValidPrice:'Sila masukkan harga yang sah', assetValidPeriod:'Tempoh jangkaan mesti lebih daripada 0',
 
+    recordsTitle:'Rekod',
+    recordsSubtitle:'Rekod peristiwa wang sebenar selain Pendapatan / Perbelanjaan',
+    recordsDebtsTitle:'Rekod Hutang',
+    recordsDebtsSub:'Rekod hutang saya dan hutang orang kepada saya',
+    recordsMoneyGivenTitle:'Wang Diberi',
+    recordsMoneyGivenSub:'Rekod wang yang telah diberi dalam dunia sebenar',
+    recordsDebtsCount:'Hutang',
+    recordsMoneyGivenCount:'Wang Diberi',
+    recordsNoData:'Belum ada rekod',
+    recordsNoDataSub:'Cipta rekod hutang atau wang diberi pertama',
+
     debtTitle:'Rekod Hutang', debtSub:'Rekod hutang saya dan hutang orang kepada saya',
     debtIOwe:'Saya Berhutang', debtOweMe:'Orang Berhutang', debtAll:'Semua',
     debtNew:'Rekod Hutang Baharu', debtEdit:'Edit Rekod Hutang',
     debtPerson:'Nama Orang', debtPersonPlaceholder:'cth. Ali',
     debtAmount:'Jumlah', debtDate:'Tarikh Mula', debtTime:'Masa Mula', debtDueDate:'Tarikh Akhir (pilihan)',
-    debtReason:'Sebab / Nota (pilihan)', debtReasonPlaceholder:'cth. Pinjam beli buku',
+    debtReason:'Sebab / Nota (pilihan)', debtReasonPlaceholder:'cth. Pinjam beli buku — boleh tulis panjang',
     debtPurpose:'Tujuan', debtPurposeCustom:'Tujuan tersuai',
     debtDirection:'Arah', debtDirIOwe:'Saya berhutang (saya perlu bayar)', debtDirOweMe:'Dia berhutang (dia perlu bayar)',
     debtPaid:'Telah Dibayar', debtRemain:'Baki', debtDuration:'Tempoh', debtDays:'hari',
@@ -1426,21 +1398,25 @@ const I18N = {
     guideTitle:'Panduan Produk',
     guideIntro:'Berikut ialah ciri sebenar yang disediakan Jiheng pada masa ini. Halaman ini diselaraskan dengan sistem.',
     guideAccountsTitle:'Pengurusan Akaun',
-    guideAccountsDesc:'Urus berbilang akaun rekod wang dunia sebenar.',
+    guideAccountsDesc:'Urus berbilang akaun rekod wang dunia sebenar (Tunai, Bank, TNG, GrabPay, Boost, MAE, ShopeePay, tersuai).',
     guideTxTitle:'Rekod Transaksi',
-    guideTxDesc:'Rekod pendapatan dan perbelanjaan: jumlah, tarikh, masa, kategori, akaun, cara, nota.',
+    guideTxDesc:'Rekod pendapatan dan perbelanjaan: jumlah, tarikh, masa, kategori, akaun, cara, nota. Nota menyokong sebarang panjang dan disimpan serta dipaparkan sepenuhnya.',
     guideTransferTitle:'Rekod Pindahan',
     guideTransferDesc:'Rekod pindahan sebenar dari Akaun A ke Akaun B. Jiheng hanya merekod; ia tidak memindahkan wang anda.',
+    guideRecordsTitle:'Rekod (Baharu)',
+    guideRecordsDesc:'Seksyen khas untuk peristiwa wang sebenar selain Pendapatan / Perbelanjaan. V1.01 termasuk Rekod Hutang dan Wang Diberi.',
+    guideDebtsTitle:'Rekod Hutang',
+    guideDebtsDesc:'Rekod hutang anda (I Owe) dan hutang orang kepada anda (Owed to Me), dengan kemajuan bayaran, baki, status, tarikh akhir dan nota. Rekod sahaja, bukan pembayaran sebenar.',
+    guideMoneyGivenTitle:'Wang Diberi',
+    guideMoneyGivenDesc:'Rekod wang yang telah diberi dalam dunia sebenar. Pilih akaun sumber, tujuan dan cara pemindahan. Baki akaun berkenaan akan berkurang.',
     guideGoalTitle:'Sasaran Simpanan',
     guideGoalDesc:'Cipta sasaran simpanan dan peruntukkan baki boleh guna. Peruntukan ialah pembahagian rekod; Jiheng tidak mengunci dana sebenar.',
     guideAssetTitle:'Rekod Aset',
     guideAssetDesc:'Rekod aset sebenar (telefon, komputer riba, kamera) dan kira nilai guna teori sepanjang hayat jangkaan.',
-    guideDebtTitle:'Rekod Hutang',
-    guideDebtDesc:'Rekod hutang anda dan hutang orang kepada anda, dengan kemajuan bayaran, baki, tarikh dan nota.',
     guideStatsTitle:'Statistik',
     guideStatsDesc:'Pendapatan, perbelanjaan, simpanan bersih, pecahan kategori dan trend bulanan berdasarkan rekod sebenar.',
     guideSearchTitle:'Carian & Penapis',
-    guideSearchDesc:'Cari dan tapis transaksi mengikut tarikh, jumlah, kategori, akaun atau kata kunci.',
+    guideSearchDesc:'Menyokong Cina, Inggeris, Unicode, Emoji, padanan separa. Boleh digabung dengan penapis jenis / tarikh / akaun / kategori.',
     guideAchTitle:'Pencapaian',
     guideAchDesc:'Buka pencapaian berdasarkan penggunaan sebenar. Setiap satu tunjuk nama, penerangan, cara buka, kemajuan dan status.',
     guideLockTitle:'App Lock',
@@ -1458,10 +1434,8 @@ const I18N = {
 
 function detectLang(){
   try{
-    // 新品牌 key 优先
     const saved = localStorage.getItem(LANG_KEY);
     if(saved && I18N[saved]) return saved;
-    // 兼容旧 key
     for(const k of LEGACY_LANG_KEYS){
       const old = localStorage.getItem(k);
       if(old && I18N[old]) return old;
@@ -1524,7 +1498,7 @@ function setLang(l){
   toast(l === 'zh' ? '语言已切换为简体中文' : l === 'en' ? 'Language switched to English' : 'Bahasa ditukar ke Bahasa Melayu');
 }
 
-/* ============================ Metadata (兼容旧 key) ============================ */
+/* ============================ Metadata ============================ */
 function loadMeta(){
   try{
     const raw = localStorage.getItem(META_KEY) || (LEGACY_META_KEYS.map(k=>localStorage.getItem(k)).find(Boolean));
@@ -1542,52 +1516,79 @@ function loadMeta(){
 function saveMeta(m){ try{ localStorage.setItem(META_KEY, JSON.stringify(m)); }catch(e){} }
 let META = loadMeta();
 
-/* ============================ Changelog — 积衡 V1.00 起 ============================ */
+/* ============================ Changelog ============================ */
 const CHANGELOG_SEED = [
   {
     version:'1.00',
     date:'2026-09-12',
-    title:{
-      zh:'积衡 Jiheng — 初始发布',
-      en:'Jiheng — Initial Release',
-      ms:'Jiheng — Keluaran Awal'
-    },
+    title:{ zh:'积衡 Jiheng — 初始发布', en:'Jiheng — Initial Release', ms:'Jiheng — Keluaran Awal' },
+    items:{
+      zh:['品牌正式升级为「积衡 Jiheng」','产品定位：个人财务记录工具','保留并延续所有 V1.00 前的用户数据','首页、交易、储蓄、资产、统计、设置适配新品牌视觉','新增「产品功能讲解 Product Guide」'],
+      en:['Brand upgraded to Jiheng (积衡)','Positioning: Personal Finance Record Tool','All prior user data preserved','Home, Records, Goals, Assets, Stats, Settings redesigned around new brand','NEW: Product Guide'],
+      ms:['Jenama dinaik taraf kepada Jiheng (积衡)','Kedudukan: Alat Rekod Kewangan Peribadi','Semua data pengguna sebelumnya dikekalkan','Utama, Rekod, Sasaran, Aset, Statistik, Tetapan disesuaikan','BAHARU: Panduan Produk']
+    }
+  },
+  {
+    version:'1.01',
+    date:'2026-09-12',
+    title:{ zh:'积衡 Jiheng — Records & Search Improvements', en:'Jiheng — Records & Search Improvements', ms:'Jiheng — Penambahbaikan Rekod & Carian' },
     items:{
       zh:[
-        '品牌正式升级为「积衡 Jiheng」',
-        '产品定位：个人财务记录工具（Personal Finance Record Tool）',
-        '保留并延续用户所有账户、交易、储蓄、资产、欠款、转给他人记录',
-        '保留原有 PIN、自定义密码、应用锁、自动锁定设置',
-        '保留所有成就与自定义分类',
-        '首页、交易、储蓄、资产、统计、设置全部适配新品牌视觉',
-        '新增「产品功能讲解 Product Guide」，跟随系统实际功能更新',
-        '新增金额隐藏模式',
-        '本地优先（Local-first），数据保存在本机浏览器',
-        '产品身份说明三语同时显示'
+        '修复欠款记录无法真正保存的问题',
+        '修复转给他人无法真正保存的问题',
+        '新增独立的 Records / 记录页面',
+        '新增 Debts / 欠款记录（I Owe / Owed to Me）',
+        '新增 Money Given / 转给他人',
+        '新增欠款状态追踪：未偿还 / 部分偿还 / 已还清',
+        '改进数据持久化：所有记录立即写入本地存储',
+        '修复中文 / Unicode 搜索',
+        '搜索支持部分匹配',
+        '扩展可搜索字段：备注、分类、账户、人名、用途等',
+        '支持 Search + Filter 组合筛选',
+        '改进长备注显示：自动换行，完整显示，不截断',
+        '防止 Note 截断：前端与存储层使用一致的字段长度',
+        '改进响应式长文本布局',
+        '改进数据同步：所有页面使用同一数据源',
+        '更新 Product Guide',
+        '保留所有 V1.00 数据、PIN、自定义分类与成就'
       ],
       en:[
-        'Brand upgraded to Jiheng (积衡)',
-        'Positioning: Personal Finance Record Tool',
-        'All accounts, transactions, savings, assets, debts and money-given records preserved',
-        'PIN, Custom Password, App Lock and Auto-Lock preserved',
-        'All achievements and custom categories preserved',
-        'Home, Records, Goals, Assets, Stats, Settings redesigned around new brand',
-        'NEW: Product Guide stays in sync with the actual system',
-        'NEW: Hide Amount Mode',
-        'Local-first: data stored in the local browser',
-        'Product Identity Notice shown in 3 languages'
+        'Fixed Debt record persistence',
+        'Fixed Money Given persistence',
+        'Added dedicated Records section',
+        'Added Debts (I Owe / Owed to Me)',
+        'Added Money Given',
+        'Added Debt status tracking: Unpaid / Partially Paid / Paid',
+        'Improved data persistence: all records written to local storage immediately',
+        'Fixed Chinese / Unicode search',
+        'Search supports partial matching',
+        'Expanded searchable fields: note, category, account, person, purpose',
+        'Search + Filter combination',
+        'Improved long-note display: auto-wrap, fully visible, no truncation',
+        'Prevented Note truncation: consistent field length in UI and storage',
+        'Improved responsive long-text layout',
+        'Improved data synchronization: single source of truth',
+        'Updated Product Guide',
+        'All V1.00 data, PIN, custom categories and achievements preserved'
       ],
       ms:[
-        'Jenama dinaik taraf kepada Jiheng (积衡)',
-        'Kedudukan: Alat Rekod Kewangan Peribadi',
-        'Semua akaun, transaksi, simpanan, aset, hutang dan rekod wang diberi dikekalkan',
-        'PIN, Kata Laluan Tersuai, App Lock dan Kunci Automatik dikekalkan',
-        'Semua pencapaian dan kategori tersuai dikekalkan',
-        'Utama, Rekod, Sasaran, Aset, Statistik, Tetapan disesuaikan dengan jenama baharu',
-        'BAHARU: Panduan Produk selaras dengan sistem sebenar',
-        'BAHARU: Mod Sembunyi Jumlah',
-        'Local-first: data disimpan dalam pelayar setempat',
-        'Notis Identiti Produk dipaparkan dalam 3 bahasa'
+        'Betulkan rekod hutang tidak disimpan dengan betul',
+        'Betulkan rekod wang diberi tidak disimpan dengan betul',
+        'Tambah seksyen Rekod khas',
+        'Tambah Rekod Hutang (Saya Berhutang / Orang Berhutang)',
+        'Tambah Wang Diberi',
+        'Tambah penjejakan status hutang: Belum Bayar / Sebahagian / Selesai',
+        'Tambah baik persistensi data: semua rekod ditulis ke storan tempatan serta-merta',
+        'Betulkan carian Cina / Unicode',
+        'Carian menyokong padanan separa',
+        'Perluas medan carian: nota, kategori, akaun, nama, tujuan',
+        'Sokongan Carian + Penapis bersama',
+        'Tambah baik paparan nota panjang: auto-bungkus, penuh, tiada pemotongan',
+        'Cegah pemotongan Nota: panjang medan konsisten dalam UI dan storan',
+        'Tambah baik susun atur teks panjang responsif',
+        'Tambah baik penyelarasan data: satu sumber kebenaran',
+        'Kemas kini Panduan Produk',
+        'Semua data V1.00, PIN, kategori tersuai dan pencapaian dikekalkan'
       ]
     }
   }
@@ -1643,12 +1644,16 @@ function migrate(p){
     if(d.purposeCustom === undefined) d.purposeCustom = '';
     if(d.method === undefined) d.method = '';
     if(d.methodCustom === undefined) d.methodCustom = '';
+    if(d.reason === undefined) d.reason = '';
+    if(d.paid === undefined) d.paid = 0;
+    if(!d.status) d.status = 'unpaid';
   });
   p.moneyGiven.forEach(m => {
     if(m.purpose === undefined) m.purpose = m.giftType || '';
     if(m.purposeCustom === undefined) m.purposeCustom = '';
     if(m.method === undefined) m.method = '';
     if(m.methodCustom === undefined) m.methodCustom = '';
+    if(m.note === undefined) m.note = '';
   });
   p.dataVersion = DATA_VERSION;
   const checks = [
@@ -1660,14 +1665,12 @@ function migrate(p){
   return { ok:true, data:p };
 }
 
-/* 数据加载：优先读新 key，其次兼容旧 key，绝不重置 */
 function loadState(){
   const base = defaultState();
   try{
     let raw = localStorage.getItem(STORAGE_KEY);
     let cameFromLegacy = false;
     if(!raw){
-      // 兼容旧品牌 key
       for(const k of LEGACY_KEYS){
         const old = localStorage.getItem(k);
         if(old){ raw = old; cameFromLegacy = true; break; }
@@ -1693,11 +1696,9 @@ function loadState(){
       achievements: (r.data.achievements && typeof r.data.achievements === 'object') ? r.data.achievements : {},
       createdAt: r.data.createdAt || new Date().toISOString()
     };
-    // 立刻把合并后的数据写回新 key（不删除旧 key 作为兜底）
     try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(merged)); }catch(e){}
     return { state:merged, fresh:false, cameFromLegacy };
   }catch(e){
-    // JSON 损坏时：保留旧 raw，返回默认空状态，并提示用户
     console.error('[Jiheng loadState] error:', e);
     return { state:base, fresh:true, parseError:true };
   }
@@ -1752,10 +1753,8 @@ async function sha256(text){
   }
   return _syncHash(str);
 }
-
 function loadLock(){
   try{
-    // 新 key 优先
     let raw = localStorage.getItem(LOCK_KEY);
     let fromLegacy = false;
     if(!raw){
@@ -1767,22 +1766,12 @@ function loadLock(){
     if(!raw) return null;
     const obj = JSON.parse(raw);
     if(obj && obj.hash && !obj.type) obj.type = 'pin';
-    // 迁移到新 key（旧 key 保留作为兜底）
-    if(fromLegacy){
-      try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){}
-    }
+    if(fromLegacy){ try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){} }
     return obj;
-  }catch(e){
-    console.error('[Jiheng loadLock] failed:', e);
-    return null;
-  }
+  }catch(e){ console.error('[Jiheng loadLock] failed:', e); return null; }
 }
-function saveLock(obj){
-  try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }
-  catch(e){ console.error('[Jiheng saveLock] failed:', e); toast(t('saveFail')); }
-}
+function saveLock(obj){ try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){ console.error(e); toast(t('saveFail')); } }
 function clearLock(){ try{ localStorage.removeItem(LOCK_KEY); }catch(e){} }
-
 let lockRecord = loadLock();
 let isUnlocked  = false;
 let lastActivity = Date.now();
@@ -1792,7 +1781,14 @@ function markActivity(){ lastActivity = Date.now(); }
 let ui = {
   tab: 'home', sub: null,
   recordFilter: 'all', statsRange: 'month',
-  searchQuery: '', recordCat: '', recordAccount: '', currentAccountId: null, debtFilter: 'all'
+  searchQuery: '', recordCat: '', recordAccount: '',
+  currentAccountId: null, debtFilter: 'all',
+  recordsView: 'home',
+  recordsSearch: '',
+  recordsType: 'all',
+  recordsStatus: 'all',
+  recordsDate: 'all',
+  expandedNotes: {}
 };
 
 /* ============================ 工具函数 ============================ */
@@ -1856,15 +1852,38 @@ function inToday(iso){
   return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth() && d.getDate()===n.getDate();
 }
 
+/* ============================ V1.01 搜索归一化 ============================ */
+/* 只用于搜索匹配，不修改用户原始数据 */
+function normalizeSearchText(s){
+  if(s == null) return '';
+  let str = String(s);
+  // Unicode 归一化：NFKC 会统一全角/半角、常见兼容字符
+  try{ if(str.normalize) str = str.normalize('NFKC'); }catch(e){}
+  // 小写化
+  str = str.toLowerCase();
+  // 去掉零宽字符
+  str = str.replace(/[\u200B-\u200D\uFEFF]/g, '');
+  // 统一空白
+  str = str.replace(/\s+/g, ' ').trim();
+  return str;
+}
+/* 检查一条记录是否包含搜索关键词（多字段，部分匹配） */
+function recordMatchesSearch(record, qNorm, fields){
+  if(!qNorm) return true;
+  for(let i = 0; i < fields.length; i++){
+    const val = record[fields[i]];
+    if(val == null) continue;
+    const n = normalizeSearchText(val);
+    if(n.indexOf(qNorm) !== -1) return true;
+  }
+  return false;
+}
+
 /* ============================ 核心计算 ============================ */
 function availableBalance(){ return round2(state.accounts.reduce((s,a) => s + (Number(a.balance)||0), 0)); }
 function lockedBalance(){ return round2(state.goals.reduce((s,g) => s + (Number(g.saved)||0), 0)); }
 function totalAssets(){ return round2(availableBalance() + lockedBalance()); }
 function accountBalance(id){ const a = getAccount(id); return a ? round2(Number(a.balance)||0) : 0; }
-function accountIncome(id, range){ return state.transactions.filter(tx => tx.type === 'income' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
-function accountExpense(id, range){ return state.transactions.filter(tx => tx.type === 'expense' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
-function accountTransferIn(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.toAccountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
-function accountTransferOut(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
 function matchRange(iso, range){
   if(!range || range === 'all') return true;
   if(range === 'today') return inToday(iso);
@@ -1873,6 +1892,10 @@ function matchRange(iso, range){
   if(range === 'year')  return inThisYear(iso);
   return true;
 }
+function accountIncome(id, range){ return state.transactions.filter(tx => tx.type === 'income' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountExpense(id, range){ return state.transactions.filter(tx => tx.type === 'expense' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountTransferIn(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.toAccountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountTransferOut(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
 
 /* ============================ 分类 helpers ============================ */
 function allIncomeIds(){ const ids = []; INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
@@ -1959,7 +1982,6 @@ function shouldUseTextMode(){
   if(lockUI.mode === 'unlock') return currentLockKind() === 'text';
   return lockUI.useTextMode;
 }
-
 function renderLock(){
   const root = document.getElementById('lock-root');
   if(!root) return;
@@ -1967,7 +1989,6 @@ function renderLock(){
   const hasData = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
   if(isUnlocked){ root.innerHTML = ''; return; }
   if(lockUI.mode === 'unlock'){ lockUI.useTextMode = currentLockKind() === 'text'; }
-
   let title = shouldUseTextMode() ? t('lockEnterPassword') : t('lockEnterPin');
   if(lockUI.mode === 'create')        title = t('lockCreatePin');
   else if(lockUI.mode === 'confirm')  title = t('lockConfirmPin');
@@ -1975,10 +1996,8 @@ function renderLock(){
   else if(lockUI.mode === 'changeNew')title = t('lockChangeNew');
   else if(lockUI.mode === 'changeConfirm') title = t('lockChangeConfirm');
   if(!hasLock && lockUI.mode === 'unlock') lockUI.mode = 'create';
-
   const infoText = (hasLock && hasData) ? t('lockDataPreserved') : '';
   const showToggle = (lockUI.mode === 'create' || lockUI.mode === 'confirm' || lockUI.mode === 'changeNew' || lockUI.mode === 'changeConfirm');
-
   root.innerHTML = `
   <div class="lock-screen" id="lock-screen">
     <div class="lock-header">
@@ -2002,14 +2021,12 @@ function renderLock(){
           : '' }
     </div>
   </div>`;
-
   updateLockDynamic();
   const togglePin = document.getElementById('lock-toggle-pin');
   const toggleText = document.getElementById('lock-toggle-text');
   if(togglePin)  togglePin.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = false; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
   if(toggleText) toggleText.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = true; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
 }
-
 function updateLockDynamic(){
   const dyn = document.getElementById('lock-dynamic');
   if(!dyn) return;
@@ -2070,9 +2087,7 @@ async function submitPin(){
     const pin = String(lockUI.pin == null ? '' : lockUI.pin);
     const usingText = shouldUseTextMode();
     const hasLock = !!(lockRecord && lockRecord.hash);
-
     if(!pin){ lockUI.msg = t('lockErrEmpty'); lockUI.error = true; updateLockDynamic(); return; }
-
     if(lockUI.mode === 'create'){
       if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
       if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
@@ -2083,13 +2098,11 @@ async function submitPin(){
         lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'create'; renderLock(); return;
       }
       const hash = await sha256(pin);
-      if(!hash){ throw new Error('hash empty'); }
       lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
       saveLock(lockRecord);
       lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
       isUnlocked = true; markActivity(); renderLock(); render({ top:true });
-      toast(t('lockWelcome'));
-      return;
+      toast(t('lockWelcome')); return;
     }
     if(lockUI.mode === 'changeOld'){
       const hash = await sha256(pin);
@@ -2108,13 +2121,11 @@ async function submitPin(){
         lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'changeNew'; renderLock(); return;
       }
       const hash = await sha256(pin);
-      if(!hash){ throw new Error('hash empty'); }
       lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
       saveLock(lockRecord);
       lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
       renderLock(); toast(t('lockUpdated')); return;
     }
-
     if(!hasLock){ lockUI.mode = 'create'; renderLock(); return; }
     const hash = await sha256(pin);
     if(hash === lockRecord.hash){
@@ -2170,6 +2181,9 @@ function renderTopbar(){
   if(ui.sub === 'sys-info')      return bar(t('sysInfoTitle'), true);
   if(ui.sub === 'identity')      return bar(t('setIdentity'), true);
   if(ui.sub === 'account-detail')return bar(accountDetailTitle(), true);
+  if(ui.sub === 'debts')         return bar(t('debtTitle'), true);
+  if(ui.sub === 'money-given')   return bar(t('mgTitle'), true);
+  if(ui.sub === 'records')       return bar(t('recordsTitle'), true);
   const titles = { home:'', records:t('tabRecords'), goals:t('tabGoals'), assets:t('tabAssets'), stats:t('tabStats'), settings:t('setTitle') };
   if(ui.tab === 'home'){
     return `<header class="topbar brand">
@@ -2185,7 +2199,6 @@ function bar(title, back){
     <button class="icon-btn" onclick="lockApp()" title="${esc(t('lockLockNow'))}">🔒</button></header>`;
 }
 function accountDetailTitle(){ const a = getAccount(ui.currentAccountId); return a ? a.name : t('allAccounts'); }
-
 function renderTabbar(){
   const items = [
     { k:'home',    i:'🏠', l:t('tabHome') },
@@ -2211,6 +2224,9 @@ function renderView(){
   if(ui.sub === 'sys-info')      return viewSystemInfo();
   if(ui.sub === 'identity')      return viewIdentity();
   if(ui.sub === 'account-detail')return viewAccountDetail();
+  if(ui.sub === 'debts')         return viewDebtsPage();
+  if(ui.sub === 'money-given')   return viewMoneyGivenPage();
+  if(ui.sub === 'records')       return viewRecordsHub();
   switch(ui.tab){
     case 'home':     return viewHome();
     case 'records':  return viewRecords();
@@ -2238,7 +2254,6 @@ function viewHome(){
   const recent = sortedTx().slice(0,5);
   const goalsPreview = state.goals.filter(g => Number(g.saved) > 0 || Number(g.targetAmount) > 0).slice(0,2);
   const hasAny = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
-
   return `
   <div class="hero">
     <div class="hero-top">
@@ -2315,7 +2330,6 @@ const ACC_TYPES = {
   ewallet: { label:'E-Wallet / 电子钱包',icon:'👛', bg:'#e0f7fa', color:'#00838f' },
   other  : { label:'Other / 其他',       icon:'📦', bg:'#fce4ec', color:'#c2185b' }
 };
-
 function txRow(tx){
   let icon = '📌', title = '', sub = '', cls = '', sign = '';
   const acc = getAccount(tx.accountId);
@@ -2359,13 +2373,16 @@ function txRow(tx){
   const methodTag = (tx.method || tx.methodCustom) ? ' · ' + (tx.methodCustom || methodDisplay(tx.method)) : '';
   return `<div class="row" onclick="openTxMenu('${tx.id}')">
     <div class="row-icon" style="background:#f5f6fa">${icon}</div>
-    <div class="row-main"><div class="row-title">${esc(title)}</div><div class="row-sub">${esc(sub)}${esc(methodTag)}${recurring}</div></div>
+    <div class="row-main">
+      <div class="row-title">${esc(title)}</div>
+      <div class="row-sub">${esc(sub)}${esc(methodTag)}${recurring}</div>
+    </div>
     <div class="tx-amt ${cls}">${amountText}</div>
   </div>`;
 }
 
 /* =========================================================================
-   账户详情 / 交易 / 目标 / 资产 / 统计 / 设置
+   账户详情
    ========================================================================= */
 function viewAccountDetail(){
   if(!ui.currentAccountId) return viewAllAccountsDetail();
@@ -2427,37 +2444,35 @@ function viewAllAccountsDetail(){
 }
 function filterByAccount(id){ ui.recordAccount = id; ui.tab = 'records'; ui.sub = null; render({ top:true }); }
 
+/* =========================================================================
+   交易页面（保留原有）+ V1.01 搜索改进
+   ========================================================================= */
 function viewRecords(){
-  const f = ui.recordFilter;
-  const q = (ui.searchQuery || '').trim().toLowerCase();
-  const catFilter = ui.recordCat || '';
-  const accFilter = ui.recordAccount || '';
-  let list = sortedTx();
-  if(f === 'income')       list = list.filter(tx => tx.type === 'income');
-  else if(f === 'expense') list = list.filter(tx => tx.type === 'expense');
-  else if(f === 'saving')  list = list.filter(tx => tx.type === 'transfer' || tx.type === 'goal_deposit' || tx.type === 'goal_withdraw');
-  if(accFilter) list = list.filter(tx => tx.accountId === accFilter || tx.toAccountId === accFilter);
-  if(catFilter) list = list.filter(tx => tx.category === catFilter);
-  if(q) list = list.filter(tx => String(tx.note||'').toLowerCase().includes(q) || String(tx.category||'').toLowerCase().includes(q) || String(tx.subCategory||'').toLowerCase().includes(q));
-  const totalIn  = list.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
-  const totalOut = list.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
-  const groups = new Map();
-  list.forEach(tx => { const d = localDateStr(tx.date); if(!groups.has(d)) groups.set(d, []); groups.get(d).push(tx); });
-  const dates = Array.from(groups.keys()).sort().reverse();
-  const segs = [['all', t('filterAll')],['income', t('filterIncome')],['expense', t('filterExpense')],['saving', t('filterSaving')]];
-  const catSet = new Set();
-  state.transactions.forEach(tx => { if(tx.category) catSet.add(tx.category); });
-  const catList = Array.from(catSet).sort();
-  const accList = state.accounts;
   return `
   <div class="quick">
+    <button onclick="openSub('records')"><span class="qi">🗂</span>${esc(t('recordsTitle'))}</button>
     <button onclick="openDebtForm()"><span class="qi">🤝</span>${esc(t('debtTitle'))}</button>
     <button onclick="openMGForm()"><span class="qi">🎁</span>${esc(t('moneyGiven'))}</button>
     <button onclick="openIncomeForm()"><span class="qi">＋</span>${esc(t('quickIncome'))}</button>
-    <button onclick="openExpenseForm()"><span class="qi">－</span>${esc(t('quickExpense'))}</button>
   </div>
+  ${renderTxFilters()}
+  ${renderTxList()}`;
+}
+function renderTxFilters(){
+  const f = ui.recordFilter;
+  const q = ui.searchQuery || '';
+  const catFilter = ui.recordCat || '';
+  const accFilter = ui.recordAccount || '';
+  const segs = [['all', t('filterAll')],['income', t('filterIncome')],['expense', t('filterExpense')],['saving', t('filterSaving')]];
+  const accList = state.accounts;
+  const catSet = new Set();
+  state.transactions.forEach(tx => { if(tx.category) catSet.add(tx.category); });
+  const catList = Array.from(catSet).sort();
+  const hasFilter = f !== 'all' || catFilter || accFilter;
+  return `
   <div class="search-bar">
-    <input class="search-input" id="rec-search" type="search" placeholder="${esc(t('searchPlaceholder'))}" value="${esc(ui.searchQuery)}">
+    <input class="search-input" id="rec-search" type="search" placeholder="${esc(t('searchPlaceholder'))}" value="${esc(q)}">
+    <button class="search-clear" onclick="clearSearch()" title="${esc(t('clearSearch'))}">✕</button>
   </div>
   <div class="seg">${segs.map(([v,l]) => `<button class="${f===v?'on':''}" onclick="setFilter('${v}')">${esc(l)}</button>`).join('')}</div>
   ${ accList.length ? `<div class="seg">
@@ -2468,6 +2483,52 @@ function viewRecords(){
     <button class="${!catFilter?'on':''}" onclick="setRecordCat('')">${esc(t('all'))}</button>
     ${catList.slice(0,8).map(c => `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)}</button>`).join('')}
   </div>` : '' }
+  ${ hasFilter ? `<button class="btn ghost sm block" onclick="resetTxFilters()">${esc(t('resetFilters'))}</button>` : '' }`;
+}
+function renderTxList(){
+  const f = ui.recordFilter;
+  const qNorm = normalizeSearchText(ui.searchQuery || '');
+  const catFilter = ui.recordCat || '';
+  const accFilter = ui.recordAccount || '';
+  let list = sortedTx();
+  if(f === 'income')       list = list.filter(tx => tx.type === 'income');
+  else if(f === 'expense') list = list.filter(tx => tx.type === 'expense');
+  else if(f === 'saving')  list = list.filter(tx => tx.type === 'transfer' || tx.type === 'goal_deposit' || tx.type === 'goal_withdraw');
+  if(accFilter) list = list.filter(tx => tx.accountId === accFilter || tx.toAccountId === accFilter);
+  if(catFilter) list = list.filter(tx => tx.category === catFilter);
+  if(qNorm){
+    list = list.filter(tx => {
+      // 搜索字段：分类、子分类、备注、金额、日期、账户名、方式
+      const acc = getAccount(tx.accountId);
+      const to  = getAccount(tx.toAccountId);
+      const g   = tx.goalId ? getGoal(tx.goalId) : null;
+      const bag = [
+        tx.category,
+        tx.subCategory,
+        tx.note,
+        tx.method,
+        tx.methodCustom,
+        String(tx.amount),
+        tx.date,
+        acc ? acc.name : '',
+        to ? to.name : '',
+        g ? g.name : '',
+        tx.type
+      ];
+      for(let i = 0; i < bag.length; i++){
+        const val = bag[i];
+        if(val == null) continue;
+        if(normalizeSearchText(val).indexOf(qNorm) !== -1) return true;
+      }
+      return false;
+    });
+  }
+  const totalIn  = list.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const totalOut = list.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const groups = new Map();
+  list.forEach(tx => { const d = localDateStr(tx.date); if(!groups.has(d)) groups.set(d, []); groups.get(d).push(tx); });
+  const dates = Array.from(groups.keys()).sort().reverse();
+  return `
   <div class="stat-grid">
     <div class="stat-box"><span>${esc(t('filterIncomeTotal'))}</span><b class="c-green">${money(totalIn)}</b></div>
     <div class="stat-box"><span>${esc(t('filterExpenseTotal'))}</span><b class="c-red">${money(totalOut)}</b></div>
@@ -2483,16 +2544,19 @@ function viewRecords(){
         </div>`;
       }).join('')
     : `<div class="empty big">
-        <div class="empty-icon">🧾</div>
-        <p>${esc(q || catFilter || accFilter ? t('noFilterResult') : t('noRecords'))}</p>
-        <span>${esc(q || catFilter || accFilter ? t('tryOtherKeyword') : t('noTx'))}</span>
-        ${!q && !catFilter && !accFilter ? `<button class="btn primary sm" onclick="openIncomeForm()">${esc(t('recordFirst'))}</button>` : ''}
+        <div class="empty-icon">🔍</div>
+        <p>${esc(qNorm || catFilter || accFilter || f !== 'all' ? t('noFilterResult') : t('noRecords'))}</p>
+        <span>${esc(qNorm || catFilter || accFilter || f !== 'all' ? t('tryOtherKeyword') : t('noTx'))}</span>
+        ${!qNorm && !catFilter && !accFilter && f === 'all' ? `<button class="btn primary sm" onclick="openIncomeForm()">${esc(t('recordFirst'))}</button>` : ''}
       </div>` }`;
 }
 function setFilter(v){ ui.recordFilter = v; render(); }
 function setRecordCat(c){ ui.recordCat = c; render(); }
 function setRecordAccount(id){ ui.recordAccount = id; render(); }
+function clearSearch(){ ui.searchQuery = ''; render(); }
+function resetTxFilters(){ ui.recordFilter = 'all'; ui.recordCat = ''; ui.recordAccount = ''; render(); }
 
+/* 实时搜索：input 事件（V1.01 修复中文 IME 搜索） */
 document.addEventListener('input', e => {
   if(e.target && e.target.id === 'rec-search'){
     const v = e.target.value;
@@ -2503,11 +2567,141 @@ document.addEventListener('input', e => {
       const pos = el ? el.selectionStart : 0;
       render();
       const el2 = document.getElementById('rec-search');
-      if(el2){ el2.focus(); el2.setSelectionRange(pos,pos); }
-    }, 260);
+      if(el2){ el2.focus(); try{ el2.setSelectionRange(pos,pos); }catch(err){} }
+    }, 180);
+  }
+  if(e.target && e.target.id === 'records-search'){
+    const v = e.target.value;
+    clearTimeout(window.__recordsSearchTimer);
+    window.__recordsSearchTimer = setTimeout(() => {
+      ui.recordsSearch = v;
+      const el = document.getElementById('records-search');
+      const pos = el ? el.selectionStart : 0;
+      render();
+      const el2 = document.getElementById('records-search');
+      if(el2){ el2.focus(); try{ el2.setSelectionRange(pos,pos); }catch(err){} }
+    }, 180);
   }
 });
 
+/* =========================================================================
+   Records Hub（V1.01 新增）
+   ========================================================================= */
+function viewRecordsHub(){
+  return `
+  <p class="about" style="margin:0 0 4px">${esc(t('recordsSubtitle'))}</p>
+  <div class="records-row" onclick="openSub('debts')">
+    <div class="rr-icon" style="background:#fdecec;color:#d9534f">🤝</div>
+    <div class="rr-main">
+      <div class="rr-title">${esc(t('recordsDebtsTitle'))}</div>
+      <div class="rr-sub">${esc(t('recordsDebtsSub'))}</div>
+    </div>
+    <div class="rr-amt c-muted">${state.debts.length}</div>
+  </div>
+  <div class="records-row" onclick="openSub('money-given')">
+    <div class="rr-icon" style="background:#fff5e6;color:#c9914b">🎁</div>
+    <div class="rr-main">
+      <div class="rr-title">${esc(t('recordsMoneyGivenTitle'))}</div>
+      <div class="rr-sub">${esc(t('recordsMoneyGivenSub'))}</div>
+    </div>
+    <div class="rr-amt c-muted">${state.moneyGiven.length}</div>
+  </div>
+  ${ (!state.debts.length && !state.moneyGiven.length) ? `
+  <div class="empty big">
+    <div class="empty-icon">🗂</div>
+    <p>${esc(t('recordsNoData'))}</p>
+    <span>${esc(t('recordsNoDataSub'))}</span>
+    <div style="display:flex;gap:8px">
+      <button class="btn soft" onclick="openDebtForm()">＋ ${esc(t('debtNew'))}</button>
+      <button class="btn soft" onclick="openMGForm()">＋ ${esc(t('mgNew'))}</button>
+    </div>
+  </div>` : '' }`;
+}
+
+/* =========================================================================
+   Debts 页面（V1.01）
+   ========================================================================= */
+function viewDebtsPage(){
+  const qNorm = normalizeSearchText(ui.recordsSearch || '');
+  const f = ui.debtFilter || 'all';
+  let list = state.debts.slice().sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+  if(f === 'i_owe')  list = list.filter(d => d.direction === 'i_owe');
+  else if(f === 'owe_me') list = list.filter(d => d.direction === 'owe_me');
+  if(qNorm){
+    list = list.filter(d => {
+      const bag = [d.person, d.reason, d.purpose, d.purposeCustom, d.method, d.methodCustom, d.status, String(d.amount), d.date];
+      for(let i = 0; i < bag.length; i++){
+        if(bag[i] == null) continue;
+        if(normalizeSearchText(bag[i]).indexOf(qNorm) !== -1) return true;
+      }
+      return false;
+    });
+  }
+  const totalIOwe = state.debts.filter(d => d.direction === 'i_owe' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
+  const totalOweMe = state.debts.filter(d => d.direction === 'owe_me' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
+  return `
+  <div class="summary-strip">
+    <div><span>${esc(t('debtTotalIOwe'))}</span><b class="c-red">${money(totalIOwe)}</b></div>
+    <div><span>${esc(t('debtTotalOweMe'))}</span><b class="c-green">${money(totalOweMe)}</b></div>
+  </div>
+  <div class="search-bar">
+    <input class="search-input" id="records-search" type="search" placeholder="${esc(t('searchPlaceholder'))}" value="${esc(ui.recordsSearch||'')}">
+    <button class="search-clear" onclick="ui.recordsSearch=''; render()" title="${esc(t('clearSearch'))}">✕</button>
+  </div>
+  <div class="seg">
+    <button class="${f==='all'?'on':''}" onclick="ui.debtFilter='all';render()">${esc(t('debtAll'))}</button>
+    <button class="${f==='i_owe'?'on':''}" onclick="ui.debtFilter='i_owe';render()">${esc(t('debtIOwe'))}</button>
+    <button class="${f==='owe_me'?'on':''}" onclick="ui.debtFilter='owe_me';render()">${esc(t('debtOweMe'))}</button>
+  </div>
+  <button class="btn primary block" onclick="openDebtForm()">＋ ${esc(t('debtNew'))}</button>
+  ${ list.length
+    ? list.map(debtCard).join('')
+    : `<div class="empty big">
+        <div class="empty-icon">🤝</div>
+        <p>${esc(qNorm ? t('noFilterResult') : t('debtNoRecords'))}</p>
+        <span>${esc(qNorm ? t('tryOtherKeyword') : t('debtNoRecordsSub'))}</span>
+      </div>` }`;
+}
+
+/* =========================================================================
+   Money Given 页面（V1.01）
+   ========================================================================= */
+function viewMoneyGivenPage(){
+  const qNorm = normalizeSearchText(ui.recordsSearch || '');
+  let list = state.moneyGiven.slice().sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+  if(qNorm){
+    list = list.filter(m => {
+      const bag = [m.person, m.note, m.purpose, m.purposeCustom, m.method, m.methodCustom, String(m.amount), m.date];
+      for(let i = 0; i < bag.length; i++){
+        if(bag[i] == null) continue;
+        if(normalizeSearchText(bag[i]).indexOf(qNorm) !== -1) return true;
+      }
+      return false;
+    });
+  }
+  const total = state.moneyGiven.reduce((s,m) => s + Number(m.amount||0), 0);
+  return `
+  <div class="summary-strip">
+    <div><span>${esc(t('mgTitle'))}</span><b>${state.moneyGiven.length}</b></div>
+    <div><span>${esc(t('amount'))}</span><b class="c-red">-${money(total)}</b></div>
+  </div>
+  <div class="search-bar">
+    <input class="search-input" id="records-search" type="search" placeholder="${esc(t('searchPlaceholder'))}" value="${esc(ui.recordsSearch||'')}">
+    <button class="search-clear" onclick="ui.recordsSearch=''; render()" title="${esc(t('clearSearch'))}">✕</button>
+  </div>
+  <button class="btn primary block" onclick="openMGForm()">＋ ${esc(t('mgNew'))}</button>
+  ${ list.length
+    ? list.map(mgCard).join('')
+    : `<div class="empty big">
+        <div class="empty-icon">🎁</div>
+        <p>${esc(qNorm ? t('noFilterResult') : t('mgNoRecords'))}</p>
+        <span>${esc(qNorm ? t('tryOtherKeyword') : t('mgNoRecordsSub'))}</span>
+      </div>` }`;
+}
+
+/* =========================================================================
+   储蓄 / 资产 / 统计 / 设置
+   ========================================================================= */
 function viewGoals(){
   const goals = state.goals;
   const totalTarget = goals.reduce((s,g) => s + Number(g.targetAmount||0), 0);
@@ -2552,7 +2746,6 @@ function goalCard(g){
     </div>
   </div>`;
 }
-
 function assetCalc(a){
   const price    = Number(a.price) || 0;
   const totalDays = (Number(a.expectedYears)||0) * 365 + (Number(a.expectedMonths)||0) * 30;
@@ -2581,7 +2774,6 @@ const ASSET_STATUS = {
   stopped:   { key:'assetStatusStopped' }
 };
 function assetStatusLabel(s){ return t((ASSET_STATUS[s]||ASSET_STATUS.active).key); }
-
 function viewAssets(){
   const list = state.assets;
   const totalReturned = list.reduce((s,a) => s + assetCalc(a).actualValue, 0);
@@ -2642,7 +2834,6 @@ function assetCard(a){
     </div>
   </div>`;
 }
-
 function last6Months(){
   const arr = [];
   const now = new Date();
@@ -2713,7 +2904,6 @@ function viewStats(){
   ${ !hasData ? `<div class="empty big"><div class="empty-icon">📊</div><p>${esc(t('statsNoData'))}</p><span>${esc(t('statsNoDataSub'))}</span></div>` : '' }`;
 }
 function setStatsRange(v){ ui.statsRange = v; render(); }
-
 function viewAccounts(){
   return `
   <div class="card">
@@ -2735,7 +2925,6 @@ function viewAccounts(){
   <button class="btn primary block" onclick="openAccountForm()">＋ ${esc(t('createAccount'))}</button>
   <p class="about">${esc(t('accountDeleteHint'))}</p>`;
 }
-
 function viewCategories(){
   return `
   <div class="card">
@@ -2752,30 +2941,6 @@ function viewCategories(){
   </div>
   <p class="about">${esc(t('catHint'))}</p>`;
 }
-function addCustomCat(kind){
-  openSheet({
-    title: kind === 'income' ? t('catAddIncome') : t('catAddExpense'),
-    submitText: t('add'),
-    body: `<label class="field"><span class="field-label">${esc(t('catName'))}</span><input name="name" type="text" required maxlength="24" placeholder="${esc(t('catNamePlaceholder'))}"></label>`,
-    onSubmit(d){
-      const name = (d.name || '').trim();
-      if(!name){ toast(t('catEnterName')); return false; }
-      const all = kind === 'income' ? state.customIncomeCats.concat(allIncomeIds()) : state.customExpenseCats.concat(allExpenseIds());
-      if(all.includes(name)){ toast(t('catExists')); return false; }
-      if(kind === 'income') state.customIncomeCats.push(name);
-      else state.customExpenseCats.push(name);
-      afterChange(); toast(t('catAdded')); return true;
-    }
-  });
-}
-function removeCustomCat(kind, name){
-  confirmDialog(t('goalDeleteCustomHint', { name }), () => {
-    if(kind === 'income') state.customIncomeCats = state.customIncomeCats.filter(c => c !== name);
-    else state.customExpenseCats = state.customExpenseCats.filter(c => c !== name);
-    afterChange(); toast(t('catDeleted'));
-  });
-}
-
 function viewAchievements(){
   const list = I18N[LANG].achList || I18N.zh.achList;
   return `<div class="ach-grid">
@@ -2804,7 +2969,6 @@ function viewAchievements(){
     }).join('') }
   </div>`;
 }
-
 function viewSettings(){
   const unlockedCount = Object.keys(state.achievements).length;
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
@@ -2899,7 +3063,6 @@ function viewSettings(){
   </div>
   <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION })).replace(/\n/g,'<br>')}</p>`;
 }
-
 function viewLockSettings(){
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
   const kind = currentLockKind();
@@ -2949,72 +3112,6 @@ function viewLockSettings(){
   </div>
   <p class="about">${esc(t('lockHashNote'))}</p>`;
 }
-
-function openSetPIN(){
-  const hasLock = !!(lockRecord && lockRecord.hash);
-  const needVerify = hasLock;
-  openSheet({
-    title: hasLock ? t('lockChangePINTitle') : t('lockSetPINTitle'),
-    submitText: t('save'),
-    body: `
-      ${ needVerify ? `<label class="field"><span class="field-label">${esc(t('lockCurrentPIN'))}</span><input name="current" type="password" inputmode="numeric" maxlength="6" required></label>` : '' }
-      <label class="field"><span class="field-label">${esc(t('lockNewPIN'))}</span><input name="newPin" type="password" inputmode="numeric" maxlength="6" required></label>
-      <label class="field"><span class="field-label">${esc(t('lockConfirmPIN'))}</span><input name="confirmPin" type="password" inputmode="numeric" maxlength="6" required></label>
-      <p class="hint">${esc(t('lockHashNote'))}</p>`,
-    onSubmit: async (d) => {
-      try{
-        const newPin = String(d.newPin || '').trim();
-        const confirmPin = String(d.confirmPin || '').trim();
-        if(!/^\d{6}$/.test(newPin)){ toast(t('lockErrPin6')); return false; }
-        if(newPin !== confirmPin){ toast(t('lockErrMismatch')); return false; }
-        if(needVerify){
-          const curHash = await sha256(String(d.current || ''));
-          if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
-        }
-        const hash = await sha256(newPin);
-        lockRecord = { hash, type:'pin', createdAt: Date.now() };
-        saveLock(lockRecord);
-        toast(t('lockPINSet')); render(); return true;
-      }catch(err){
-        console.error('[Jiheng openSetPIN] error:', err);
-        toast(t('lockErrGeneric')); return false;
-      }
-    }
-  });
-}
-function openSetPassword(){
-  const hasLock = !!(lockRecord && lockRecord.hash);
-  const needVerify = hasLock;
-  openSheet({
-    title: hasLock ? t('lockChangePasswordTitle') : t('lockSetPasswordTitle'),
-    submitText: t('save'),
-    body: `
-      ${ needVerify ? `<label class="field"><span class="field-label">${esc(t('lockCurrentPassword'))}</span><input name="current" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>` : '' }
-      <label class="field"><span class="field-label">${esc(t('lockNewPassword'))}</span><input name="newPw" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>
-      <label class="field"><span class="field-label">${esc(t('lockConfirmPassword'))}</span><input name="confirmPw" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>
-      <p class="hint">${esc(t('lockHashNote'))}</p>`,
-    onSubmit: async (d) => {
-      try{
-        const newPw = String(d.newPw == null ? '' : d.newPw);
-        const confirmPw = String(d.confirmPw == null ? '' : d.confirmPw);
-        if(newPw.length < 4){ toast(t('lockPasswordLength')); return false; }
-        if(newPw !== confirmPw){ toast(t('lockErrMismatch')); return false; }
-        if(needVerify){
-          const curHash = await sha256(String(d.current == null ? '' : d.current));
-          if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
-        }
-        const hash = await sha256(newPw);
-        lockRecord = { hash, type:'text', createdAt: Date.now() };
-        saveLock(lockRecord);
-        toast(t('lockPasswordSet')); render(); return true;
-      }catch(err){
-        console.error('[Jiheng openSetPassword] error:', err);
-        toast(t('lockErrGeneric')); return false;
-      }
-    }
-  });
-}
-
 function viewSystemInfo(){
   const transferCount = state.transactions.filter(tx => tx.type === 'transfer').length;
   const lockKind = currentLockKind();
@@ -3051,18 +3148,16 @@ function viewIdentity(){
     积衡 Jiheng is not a bank, e-wallet, payment, or remittance service.
   </div></div>`;
 }
-
-/* =========================================================================
-   Product Guide
-   ========================================================================= */
 function viewProductGuide(){
   const items = [
     { icon:'🏛️', title:t('guideAccountsTitle'), desc:t('guideAccountsDesc') },
     { icon:'🧾', title:t('guideTxTitle'),       desc:t('guideTxDesc') },
     { icon:'⇄',  title:t('guideTransferTitle'), desc:t('guideTransferDesc') },
+    { icon:'🗂', title:t('guideRecordsTitle'), desc:t('guideRecordsDesc') },
+    { icon:'🤝', title:t('guideDebtsTitle'),   desc:t('guideDebtsDesc') },
+    { icon:'🎁', title:t('guideMoneyGivenTitle'), desc:t('guideMoneyGivenDesc') },
     { icon:'🎯', title:t('guideGoalTitle'),     desc:t('guideGoalDesc') },
     { icon:'📦', title:t('guideAssetTitle'),    desc:t('guideAssetDesc') },
-    { icon:'🤝', title:t('guideDebtTitle'),     desc:t('guideDebtDesc') },
     { icon:'📊', title:t('guideStatsTitle'),    desc:t('guideStatsDesc') },
     { icon:'🔎', title:t('guideSearchTitle'),   desc:t('guideSearchDesc') },
     { icon:'🏆', title:t('guideAchTitle'),      desc:t('guideAchDesc') },
@@ -3085,10 +3180,6 @@ function viewProductGuide(){
   `).join('')}
   <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
 }
-
-/* =========================================================================
-   Update History (Jiheng V1.00 起)
-   ========================================================================= */
 function viewWhatsNew(){
   return `
   ${ CHANGELOG.slice().reverse().map(c => `
@@ -3181,7 +3272,7 @@ function triggerImport(){
             };
             LANG = state.settings.lang || LANG;
             saveState();
-            ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all' };
+            ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all', recordsView:'home', recordsSearch:'', recordsType:'all', recordsStatus:'all', recordsDate:'all', expandedNotes:{} };
             render({ top:true }); toast(t('importDone'));
           }catch(err){ toast(t('importFail')); }
         });
@@ -3198,7 +3289,7 @@ function clearData(){
       try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
       state = defaultState();
       saveState();
-      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all' };
+      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all', recordsView:'home', recordsSearch:'', recordsType:'all', recordsStatus:'all', recordsDate:'all', expandedNotes:{} };
       render({ top:true }); toast(t('clearDone'));
     });
   });
@@ -3345,7 +3436,7 @@ function openGroupedPicker(opts){
         ${ opts.allowCustom ? `
           <div class="opt-label">${esc(t('pickCustom'))}</div>
           <label class="field" style="margin-top:2px">
-            <input type="text" id="picker-custom-input" maxlength="30"
+            <input type="text" id="picker-custom-input" maxlength="60"
               placeholder="${esc(opts.customPlaceholder || t('catCustomPlaceholder'))}"
               value="${esc(opts.customValue || '')}">
           </label>
@@ -3404,7 +3495,7 @@ function openAccountForm(){
   openSheet({
     title: t('createAccount'), submitText: t('add'),
     body: `
-      <label class="field"><span class="field-label">${esc(t('accountName'))}</span><input name="name" type="text" required maxlength="24" placeholder="${esc(t('accountNamePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('accountName'))}</span><input name="name" type="text" required maxlength="80" placeholder="${esc(t('accountNamePlaceholder'))}"></label>
       <label class="field"><span class="field-label">${esc(t('accountType'))}</span>
         <select name="type">
           ${Object.entries(ACC_TYPES).map(([k,v]) => `<option value="${k}">${v.icon} ${esc(v.label)}</option>`).join('')}
@@ -3448,7 +3539,7 @@ function renameAccount(id){
   if(!a) return;
   openSheet({
     title: t('renameAccount'),
-    body: `<label class="field"><span class="field-label">${esc(t('accountName'))}</span><input name="name" type="text" required maxlength="24" value="${esc(a.name)}"></label>`,
+    body: `<label class="field"><span class="field-label">${esc(t('accountName'))}</span><input name="name" type="text" required maxlength="80" value="${esc(a.name)}"></label>`,
     onSubmit(d){ const name = (d.name || '').trim(); if(!name) return false; a.name = name; afterChange(); toast(t('accountUpdated')); return true; }
   });
 }
@@ -3598,7 +3689,7 @@ function openIncomeForm(presetAccountId){
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
         <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('note'))}</span><input name="note" type="text" maxlength="60" placeholder="${esc(t('notePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('notePlaceholder'))}"></textarea></label>
       <label class="field"><span class="field-label">${esc(t('recurringLabel'))}</span>
         <select name="recurring"><option value="">${esc(t('recurringNo'))}</option><option value="1">${esc(t('recurringYes'))}</option></select>
       </label>`,
@@ -3613,7 +3704,7 @@ function openIncomeForm(presetAccountId){
         date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
         category: d.category || initialCat,
         method: d.method || '', methodCustom: d.methodCustom || '',
-        accountId: acc.id, note: (d.note || '').trim(),
+        accountId: acc.id, note: (d.note || ''),
         recurring: !!d.recurring, createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('incomeSaved')); return true;
@@ -3621,7 +3712,6 @@ function openIncomeForm(presetAccountId){
     afterRender(root){ bindCategoryPicker(root, 'income'); bindMethodPicker(root); }
   });
 }
-
 function openExpenseForm(presetAccountId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const initialCat = allExpenseIds()[0];
@@ -3639,7 +3729,7 @@ function openExpenseForm(presetAccountId){
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
         <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('note'))}</span><input name="note" type="text" maxlength="60" placeholder="${esc(t('notePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('notePlaceholder'))}"></textarea></label>
       <label class="field"><span class="field-label">${esc(t('recurringLabelExp'))}</span>
         <select name="recurring"><option value="">${esc(t('recurringNo'))}</option><option value="1">${esc(t('recurringYes'))}</option></select>
       </label>`,
@@ -3656,7 +3746,7 @@ function openExpenseForm(presetAccountId){
         category: d.category || initialCat,
         subCategory: '',
         method: d.method || '', methodCustom: d.methodCustom || '',
-        accountId: acc.id, note: (d.note || '').trim(),
+        accountId: acc.id, note: (d.note || ''),
         recurring: !!d.recurring, createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('expenseSaved')); return true;
@@ -3664,7 +3754,6 @@ function openExpenseForm(presetAccountId){
     afterRender(root){ bindCategoryPicker(root, 'expense'); bindMethodPicker(root); }
   });
 }
-
 function openTransferForm(presetFrom){
   if(state.accounts.length < 2){ toast(t('needTwoAccounts')); return; }
   const toDefault = state.accounts.find(a => a.id !== presetFrom)?.id || state.accounts[1].id;
@@ -3680,7 +3769,7 @@ function openTransferForm(presetFrom){
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
         <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('note'))}</span><input name="note" type="text" maxlength="60" placeholder="${esc(t('notePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('notePlaceholder'))}"></textarea></label>
       <p class="hint">${esc(t('transferHint'))}</p>`,
     onSubmit(d){
       const amount = round2(parseFloat(d.amount));
@@ -3694,7 +3783,7 @@ function openTransferForm(presetFrom){
       state.transactions.push({
         id: uid(), type: 'transfer', amount,
         date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
-        accountId: from.id, toAccountId: to.id, note: (d.note || '').trim(),
+        accountId: from.id, toAccountId: to.id, note: (d.note || ''),
         createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('transferDone')); return true;
@@ -3702,6 +3791,9 @@ function openTransferForm(presetFrom){
   });
 }
 
+/* =========================================================================
+   Debt Form（V1.01 修复持久化）
+   ========================================================================= */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
   const initialPurpose = 'food_debt';
@@ -3716,7 +3808,7 @@ function openDebtForm(presetId){
           <option value="owe_me" ${editing && editing.direction==='owe_me'?'selected':''}>${esc(t('debtDirOweMe'))}</option>
         </select>
       </label>
-      <label class="field"><span class="field-label">${esc(t('debtPerson'))}</span><input name="person" type="text" required maxlength="40" placeholder="${esc(t('debtPersonPlaceholder'))}" value="${editing?esc(editing.person):''}"></label>
+      <label class="field"><span class="field-label">${esc(t('debtPerson'))}</span><input name="person" type="text" required maxlength="80" placeholder="${esc(t('debtPersonPlaceholder'))}" value="${editing?esc(editing.person):''}"></label>
       <label class="field"><span class="field-label">${esc(t('debtAmount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?editing.amount:''}"></div>
       </label>
@@ -3727,7 +3819,7 @@ function openDebtForm(presetId){
         <label class="field"><span class="field-label">${esc(t('debtTime'))}</span><input name="time" type="time" required value="${editing?localTimeStr(editing.date):nowLocalTime()}"></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('debtDueDate'))}</span><input name="dueDate" type="date" value="${editing && editing.dueDate ? esc(editing.dueDate) : ''}"></label>
-      <label class="field"><span class="field-label">${esc(t('debtReason'))}</span><textarea name="reason" maxlength="100" placeholder="${esc(t('debtReasonPlaceholder'))}">${editing?esc(editing.reason||''):''}</textarea></label>
+      <label class="field"><span class="field-label">${esc(t('debtReason'))}</span><textarea name="reason" maxlength="4000" placeholder="${esc(t('debtReasonPlaceholder'))}">${editing?esc(editing.reason||''):''}</textarea></label>
       <p class="hint">${esc(t('debtImportantNote'))}</p>`,
     onSubmit(d){
       const person = (d.person || '').trim();
@@ -3743,7 +3835,7 @@ function openDebtForm(presetId){
         editing.methodCustom = (d.methodCustom || '').trim();
         editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
         editing.dueDate = d.dueDate || '';
-        editing.reason = (d.reason || '').trim();
+        editing.reason = (d.reason || '');
         editing.updatedAt = Date.now();
         const paid = Number(editing.paid) || 0;
         if(paid >= amount && amount > 0) editing.status = 'paid';
@@ -3751,15 +3843,17 @@ function openDebtForm(presetId){
         else editing.status = 'unpaid';
         afterChange(); toast(t('debtUpdated'));
       }else{
-        state.debts.push({
+        const debt = {
           id: uid(), direction: d.direction || 'i_owe', person, amount,
           purpose: (d.purpose || '').trim(), purposeCustom: (d.purposeCustom || '').trim(),
           method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
           date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
-          dueDate: d.dueDate || '', reason: (d.reason || '').trim(),
+          dueDate: d.dueDate || '', reason: (d.reason || ''),
           paid: 0, payments: [], status: 'unpaid',
           createdAt: Date.now(), updatedAt: Date.now()
-        });
+        };
+        state.debts.push(debt);
+        saveState();   // V1.01: 立即持久化
         afterChange(); toast(t('debtCreated'));
       }
       return true;
@@ -3809,7 +3903,7 @@ function openDebtRepay(id){
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
         <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('debtRepayNote'))}</span><input name="note" type="text" maxlength="60"></label>
+      <label class="field"><span class="field-label">${esc(t('debtRepayNote'))}</span><textarea name="note" maxlength="4000"></textarea></label>
       <p class="hint">${esc(t('debtRepayHint'))}</p>`,
     onSubmit(dd){
       const amount = round2(parseFloat(dd.amount));
@@ -3819,7 +3913,7 @@ function openDebtRepay(id){
       d.payments.push({
         id: uid(), amount,
         date: combineDateTime(dd.date || nowLocalDate(), dd.time || nowLocalTime()),
-        note: (dd.note || '').trim(), createdAt: Date.now()
+        note: (dd.note || ''), createdAt: Date.now()
       });
       d.paid = round2(Number(d.paid||0) + amount);
       if(d.paid >= Number(d.amount) - 0.001){ d.status = 'paid'; d.paid = Number(d.amount); }
@@ -3851,16 +3945,17 @@ function debtCard(d){
   }
   const purposeText = d.purposeCustom ? d.purposeCustom : debtPurposeDisplay(d.purpose);
   const methodText = d.methodCustom ? d.methodCustom : methodDisplay(d.method);
+  const noteFull = d.reason || '';
   return `<div class="debt-card">
     <div class="debt-top">
-      <div>
+      <div style="min-width:0;flex:1">
         <div class="debt-name">${esc(d.person)}
           <span class="badge ${dirCls}">${esc(dirLabel)}</span>
           <span class="badge ${statusCls}">${esc(statusLabel)}</span>
         </div>
         <div class="goal-sub">${esc(localDateStr(d.date))}${dueText} · ${esc(durText)}</div>
         ${purposeText ? `<div class="goal-sub">${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">${esc(methodText)}</div>` : '')}
-        ${d.reason ? `<div class="goal-sub">${esc(d.reason)}</div>` : ''}
+        ${noteFull ? `<div class="goal-sub note-full">${esc(noteFull)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="debtMenu('${d.id}')">⋯</button>
     </div>
@@ -3875,6 +3970,9 @@ function debtCard(d){
   </div>`;
 }
 
+/* =========================================================================
+   Money Given Form（V1.01 修复持久化）
+   ========================================================================= */
 function openMGForm(presetId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const editing = presetId ? getMG(presetId) : null;
@@ -3884,7 +3982,7 @@ function openMGForm(presetId){
     title: editing ? t('mgEdit') : t('mgNew'),
     submitText: editing ? t('save') : t('mgSave'),
     body: `
-      <label class="field"><span class="field-label">${esc(t('mgPerson'))}</span><input name="person" type="text" required maxlength="40" placeholder="${esc(t('mgPersonPlaceholder'))}" value="${editing?esc(editing.person):''}"></label>
+      <label class="field"><span class="field-label">${esc(t('mgPerson'))}</span><input name="person" type="text" required maxlength="80" placeholder="${esc(t('mgPersonPlaceholder'))}" value="${editing?esc(editing.person):''}"></label>
       <label class="field"><span class="field-label">${esc(t('mgAmount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?editing.amount:''}"></div>
       </label>
@@ -3900,7 +3998,7 @@ function openMGForm(presetId){
         <label class="field"><span class="field-label">${esc(t('mgDate'))}</span><input name="date" type="date" required value="${editing?localDateStr(editing.date):nowLocalDate()}"></label>
         <label class="field"><span class="field-label">${esc(t('mgTime'))}</span><input name="time" type="time" required value="${editing?localTimeStr(editing.date):nowLocalTime()}"></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('mgNote'))}</span><input name="note" type="text" maxlength="60" value="${editing?esc(editing.note||''):''}"></label>
+      <label class="field"><span class="field-label">${esc(t('mgNote'))}</span><textarea name="note" maxlength="4000">${editing?esc(editing.note||''):''}</textarea></label>
       <p class="hint">${esc(t('mgImportantNote'))}</p>`,
     onSubmit(d){
       const person = (d.person || '').trim();
@@ -3924,13 +4022,13 @@ function openMGForm(presetId){
         editing.methodCustom = (d.methodCustom || '').trim();
         editing.giftType = d.purpose || editing.giftType || 'gift';
         editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
-        editing.note = (d.note || '').trim();
+        editing.note = (d.note || '');
         editing.updatedAt = Date.now();
         afterChange(); toast(t('mgUpdated'));
       }else{
         if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
         acc.balance = round2((Number(acc.balance)||0) - amount);
-        state.moneyGiven.push({
+        const mg = {
           id: uid(), person, amount, accountId: acc.id,
           purpose: (d.purpose || '').trim(),
           purposeCustom: (d.purposeCustom || '').trim(),
@@ -3938,9 +4036,11 @@ function openMGForm(presetId){
           methodCustom: (d.methodCustom || '').trim(),
           giftType: d.purpose || 'gift',
           date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
-          note: (d.note || '').trim(),
+          note: (d.note || ''),
           createdAt: Date.now(), updatedAt: Date.now()
-        });
+        };
+        state.moneyGiven.push(mg);
+        saveState();   // V1.01: 立即持久化
         afterChange(); toast(t('mgCreated'));
       }
       return true;
@@ -3969,11 +4069,11 @@ function mgCard(m){
   const methodText = m.methodCustom ? m.methodCustom : methodDisplay(m.method);
   return `<div class="debt-card">
     <div class="debt-top">
-      <div>
+      <div style="min-width:0;flex:1">
         <div class="debt-name">${esc(m.person)} <span class="badge st-bad">${esc(t('moneyGiven'))}</span></div>
         <div class="goal-sub">${esc(localDateStr(m.date))} ${esc(localTimeStr(m.date))} · ${esc(acc ? acc.name : '—')}</div>
         ${purposeText ? `<div class="goal-sub">📋 ${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">💳 ${esc(methodText)}</div>` : '')}
-        ${m.note ? `<div class="goal-sub">${esc(m.note)}</div>` : ''}
+        ${m.note ? `<div class="goal-sub note-full">${esc(m.note)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="mgMenu('${m.id}')">⋯</button>
     </div>
@@ -3981,6 +4081,9 @@ function mgCard(m){
   </div>`;
 }
 
+/* =========================================================================
+   交易菜单 / 编辑 / 删除
+   ========================================================================= */
 function openTxMenu(id){
   const tx = state.transactions.find(x => x.id === id);
   if(!tx) return;
@@ -4025,7 +4128,7 @@ function editTransaction(id){
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${localDateStr(tx.date)}" required></label>
         <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${localTimeStr(tx.date)}" required></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('note'))}</span><input name="note" type="text" maxlength="60" value="${esc(tx.note||'')}"></label>`,
+      <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000">${esc(tx.note||'')}</textarea></label>`,
     onSubmit(d){
       const newAmount = round2(parseFloat(d.amount));
       if(!(newAmount > 0)){ toast(t('invalidAmount')); return false; }
@@ -4051,7 +4154,7 @@ function editTransaction(id){
       tx.methodCustom = d.methodCustom || '';
       tx.accountId = newAcc.id;
       tx.date = combineDateTime(d.date || localDateStr(tx.date), d.time || localTimeStr(tx.date));
-      tx.note = (d.note || '').trim();
+      tx.note = (d.note || '');
       tx.updatedAt = Date.now();
       afterChange(); toast(t('accountUpdated')); return true;
     },
@@ -4092,11 +4195,14 @@ function deleteTransaction(id){
   });
 }
 
+/* =========================================================================
+   储蓄目标 / 资产
+   ========================================================================= */
 function openGoalForm(){
   openSheet({
     title: t('goalNew'), submitText: t('goalCreate'),
     body: `
-      <label class="field"><span class="field-label">${esc(t('goalName'))}</span><input name="name" type="text" required maxlength="24" placeholder="${esc(t('goalNamePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('goalName'))}</span><input name="name" type="text" required maxlength="80" placeholder="${esc(t('goalNamePlaceholder'))}"></label>
       <label class="field"><span class="field-label">${esc(t('goalTarget'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="target" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
@@ -4104,14 +4210,14 @@ function openGoalForm(){
       <label class="field"><span class="field-label">${esc(t('goalIcon'))}</span>
         <select name="icon"><option value="">${esc(t('goalIconNone'))}</option>${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i => `<option value="${i}">${i}</option>`).join('')}</select>
       </label>
-      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span><textarea name="note" maxlength="80" placeholder="${esc(t('goalNotePlaceholder'))}"></textarea></label>
+      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('goalNotePlaceholder'))}"></textarea></label>
       <p class="hint">${esc(t('goalDepositHint', { amt: money(availableBalance()) }))}</p>`,
     onSubmit(d){
       const name = (d.name || '').trim();
       const target = round2(parseFloat(d.target));
       if(!name){ toast(t('catEnterName')); return false; }
       if(!(target > 0)){ toast(t('invalidAmount')); return false; }
-      state.goals.push({ id: uid(), name, targetAmount: target, deadline: d.deadline || '', saved: 0, icon: d.icon || '', note: (d.note || '').trim(), status: 'active', createdAt: Date.now() });
+      state.goals.push({ id: uid(), name, targetAmount: target, deadline: d.deadline || '', saved: 0, icon: d.icon || '', note: (d.note || ''), status: 'active', createdAt: Date.now() });
       afterChange(); toast(t('goalCreated')); return true;
     }
   });
@@ -4130,7 +4236,7 @@ function editGoal(id){
   openSheet({
     title: t('goalEdit'),
     body: `
-      <label class="field"><span class="field-label">${esc(t('goalName'))}</span><input name="name" type="text" required maxlength="24" value="${esc(g.name)}"></label>
+      <label class="field"><span class="field-label">${esc(t('goalName'))}</span><input name="name" type="text" required maxlength="80" value="${esc(g.name)}"></label>
       <label class="field"><span class="field-label">${esc(t('goalTarget'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="target" type="number" step="0.01" min="0.01" required value="${g.targetAmount}"></div>
       </label>
@@ -4138,12 +4244,12 @@ function editGoal(id){
       <label class="field"><span class="field-label">${esc(t('goalIcon'))}</span>
         <select name="icon"><option value="">${esc(t('goalIconNone'))}</option>${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i => `<option value="${i}" ${g.icon===i?'selected':''}>${i}</option>`).join('')}</select>
       </label>
-      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span><textarea name="note" maxlength="80">${esc(g.note||'')}</textarea></label>`,
+      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span><textarea name="note" maxlength="4000">${esc(g.note||'')}</textarea></label>`,
     onSubmit(d){
       const name = (d.name || '').trim();
       const target = round2(parseFloat(d.target));
       if(!name || !(target > 0)){ toast(t('invalidAmount')); return false; }
-      g.name = name; g.targetAmount = target; g.deadline = d.deadline || ''; g.icon = d.icon || ''; g.note = (d.note || '').trim();
+      g.name = name; g.targetAmount = target; g.deadline = d.deadline || ''; g.icon = d.icon || ''; g.note = (d.note || '');
       afterChange(); toast(t('accountUpdated')); return true;
     }
   });
@@ -4249,12 +4355,11 @@ function cancelGoal(id){
     }
   });
 }
-
 function openAssetForm(){
   openSheet({
     title: t('assetNew'), submitText: t('assetAdd'),
     body: `
-      <label class="field"><span class="field-label">${esc(t('assetName'))}</span><input name="name" type="text" required maxlength="24" placeholder="${esc(t('assetNamePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('assetName'))}</span><input name="name" type="text" required maxlength="80" placeholder="${esc(t('assetNamePlaceholder'))}"></label>
       <label class="field"><span class="field-label">${esc(t('assetPrice'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="price" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
@@ -4263,7 +4368,7 @@ function openAssetForm(){
         <label class="field"><span class="field-label">${esc(t('assetYears'))}</span><input name="years" type="number" min="0" step="1" value="1" inputmode="numeric"></label>
         <label class="field"><span class="field-label">${esc(t('assetMonths'))}</span><input name="months" type="number" min="0" max="11" step="1" value="0" inputmode="numeric"></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span><input name="note" type="text" maxlength="60" placeholder="${esc(t('assetNotePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('assetNotePlaceholder'))}"></textarea></label>
       <p class="hint">${esc(t('assetHint'))}</p>`,
     onSubmit(d){
       const name = (d.name || '').trim();
@@ -4273,7 +4378,7 @@ function openAssetForm(){
       if(!name){ toast(t('assetValidName')); return false; }
       if(!(price > 0)){ toast(t('assetValidPrice')); return false; }
       if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
-      state.assets.push({ id: uid(), name, price, purchaseDate: d.purchaseDate || nowLocalDate(), expectedYears: years, expectedMonths: months, endDate: null, status: 'active', manualValue: null, manualNote: '', note: (d.note || '').trim(), createdAt: Date.now() });
+      state.assets.push({ id: uid(), name, price, purchaseDate: d.purchaseDate || nowLocalDate(), expectedYears: years, expectedMonths: months, endDate: null, status: 'active', manualValue: null, manualNote: '', note: (d.note || ''), createdAt: Date.now() });
       afterChange(); toast(t('assetAdded')); return true;
     }
   });
@@ -4297,7 +4402,7 @@ function editAsset(id){
   openSheet({
     title: t('assetEdit'),
     body: `
-      <label class="field"><span class="field-label">${esc(t('assetName'))}</span><input name="name" type="text" required maxlength="24" value="${esc(a.name)}"></label>
+      <label class="field"><span class="field-label">${esc(t('assetName'))}</span><input name="name" type="text" required maxlength="80" value="${esc(a.name)}"></label>
       <label class="field"><span class="field-label">${esc(t('assetPrice'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="price" type="number" step="0.01" min="0.01" required value="${a.price}"></div>
       </label>
@@ -4306,7 +4411,7 @@ function editAsset(id){
         <label class="field"><span class="field-label">${esc(t('assetYears'))}</span><input name="years" type="number" min="0" step="1" value="${a.expectedYears||0}" inputmode="numeric"></label>
         <label class="field"><span class="field-label">${esc(t('assetMonths'))}</span><input name="months" type="number" min="0" max="11" step="1" value="${a.expectedMonths||0}" inputmode="numeric"></label>
       </div>
-      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span><input name="note" type="text" maxlength="60" value="${esc(a.note||'')}"></label>`,
+      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span><textarea name="note" maxlength="4000">${esc(a.note||'')}</textarea></label>`,
     onSubmit(d){
       const name = (d.name || '').trim();
       const price = round2(parseFloat(d.price));
@@ -4315,7 +4420,7 @@ function editAsset(id){
       if(!name || !(price > 0)){ toast(t('assetValidPrice')); return false; }
       if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
       a.name = name; a.price = price; a.purchaseDate = d.purchaseDate || a.purchaseDate;
-      a.expectedYears = years; a.expectedMonths = months; a.note = (d.note || '').trim();
+      a.expectedYears = years; a.expectedMonths = months; a.note = (d.note || '');
       afterChange(); toast(t('assetUpdated')); return true;
     }
   });
@@ -4334,7 +4439,7 @@ function openAssetAdjust(id){
       <label class="field"><span class="field-label">${esc(t('assetAdjustValue'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="manualValue" type="number" step="0.01" min="0" placeholder="${esc(t('assetAdjustPlaceholder'))}" value="${c.hasManual ? a.manualValue : ''}" inputmode="decimal"></div>
       </label>
-      <label class="field"><span class="field-label">${esc(t('assetAdjustReason'))}</span><input name="manualNote" type="text" maxlength="60" value="${esc(a.manualNote||'')}"></label>
+      <label class="field"><span class="field-label">${esc(t('assetAdjustReason'))}</span><textarea name="manualNote" maxlength="4000">${esc(a.manualNote||'')}</textarea></label>
       <p class="hint">${esc(t('assetAdjustHint'))}</p>`,
     onSubmit(d){
       const raw = String(d.manualValue || '').trim();
@@ -4345,7 +4450,7 @@ function openAssetAdjust(id){
         if(v > a.price){ toast(t('assetAdjustExceed')); return false; }
         a.manualValue = v;
       }
-      a.manualNote = (d.manualNote || '').trim();
+      a.manualNote = (d.manualNote || '');
       afterChange(); toast(t('assetAdjusted')); return true;
     }
   });
@@ -4394,32 +4499,21 @@ function openAssetEnd(id){
     if(!Array.isArray(d.payments)) d.payments = [];
   });
   state.moneyGiven.forEach(m => { m.amount = round2(Number(m.amount)||0); });
-
-  if(lockRecord && lockRecord.hash && !lockRecord.type){
-    lockRecord.type = 'pin';
-    saveLock(lockRecord);
-  }
-
-  if(APP_VERSION && APP_VERSION > (META.appVersion || '0')){
-    META.appVersion = APP_VERSION;
-  }
+  if(lockRecord && lockRecord.hash && !lockRecord.type){ lockRecord.type = 'pin'; saveLock(lockRecord); }
+  if(APP_VERSION && APP_VERSION > (META.appVersion || '0')){ META.appVersion = APP_VERSION; }
   META.dataVersion = DATA_VERSION;
   META.lastUpdated = new Date().toISOString();
   saveMeta(META);
-
   if(loadResult.migrationFailed){ setTimeout(() => toast(t('migrationFailed')), 800); }
   if(loadResult.parseError){ setTimeout(() => toast(t('migrationFailed')), 800); }
-
   saveChangelog();
   saveState();
   checkAchievements();
-
   if(lockRecord && lockRecord.hash){ isUnlocked = false; lockUI.mode = 'unlock'; }
   else { isUnlocked = false; lockUI.mode = 'create'; }
   renderLock();
   render({ top:true });
-
-  console.log('[Jiheng] v' + APP_VERSION + ' ready. lockRecord:', lockRecord ? { type: lockRecord.type, hashPrefix: String(lockRecord.hash).slice(0,12) } : null);
+  console.log('[Jiheng] v' + APP_VERSION + ' ready.');
 })();
 
 window.addEventListener('storage', e => {
