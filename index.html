@@ -30,22 +30,12 @@ body.no-scroll{overflow:hidden;}
 button{font-family:inherit;}
 input,select,textarea{font-family:inherit;}
 #app{max-width:560px;margin:0 auto;min-height:100vh;padding-bottom:calc(92px + var(--safe-b));}
-
-.topbar{
-  position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;
-  padding:calc(12px + var(--safe-t)) 16px 12px;
-  background:rgba(244,245,249,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-}
+.topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + var(--safe-t)) 16px 12px;background:rgba(244,245,249,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .topbar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;}
 .topbar.brand h1{font-size:23px;font-weight:800;letter-spacing:-.5px;color:var(--brand);}
-.icon-btn{
-  width:38px;height:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;
-  display:grid;place-items:center;font-size:16px;color:var(--text);
-  box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;
-}
+.icon-btn{width:38px;height:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;display:grid;place-items:center;font-size:16px;color:var(--text);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;}
 .icon-btn:active{transform:scale(.92);}
 .icon-btn.sm{width:30px;height:30px;font-size:14px;border-radius:10px;box-shadow:none;background:#f5f6fa;}
-
 .view{padding:4px 16px 24px;display:flex;flex-direction:column;gap:14px;}
 section{display:flex;flex-direction:column;gap:10px;}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;}
@@ -58,15 +48,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .c-red{color:var(--red)!important;}
 .c-muted{color:var(--muted)!important;}
 .c-amber{color:var(--amber)!important;}
-
-/* Product Notice */
-.product-notice{
-  background:linear-gradient(135deg,#fff 0%,#f5f6ff 100%);
-  border:2.5px solid var(--brand);
-  border-radius:18px;
-  padding:14px 14px 12px;
-  box-shadow:0 4px 16px rgba(79,70,229,.14);
-}
+.product-notice{background:linear-gradient(135deg,#fff 0%,#f5f6ff 100%);border:2.5px solid var(--brand);border-radius:18px;padding:14px 14px 12px;box-shadow:0 4px 16px rgba(79,70,229,.14);}
 .product-notice .pn-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
 .product-notice .pn-icon{width:26px;height:26px;border-radius:8px;background:var(--brand);color:#fff;display:grid;place-items:center;font-size:14px;font-weight:800;flex:0 0 auto;}
 .product-notice .pn-title{font-size:12px;font-weight:800;color:var(--brand);letter-spacing:.4px;text-transform:uppercase;}
@@ -75,15 +57,8 @@ section{display:flex;flex-direction:column;gap:10px;}
 .product-notice .pn-flag{font-size:10.5px;font-weight:800;color:#fff;background:var(--brand);padding:3px 7px;border-radius:6px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:34px;text-align:center;}
 .product-notice .pn-text{font-size:12.5px;line-height:1.55;color:var(--text);font-weight:500;flex:1;}
 .product-notice .pn-text b{color:var(--brand);font-weight:800;}
-
 /* Lock screen */
-.lock-screen{
-  position:fixed;inset:0;z-index:500;
-  background:linear-gradient(160deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);
-  display:flex;flex-direction:column;
-  padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));
-  color:#fff;overflow:hidden;height:100vh;height:100dvh;
-}
+.lock-screen{position:fixed;inset:0;z-index:500;background:linear-gradient(160deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);display:flex;flex-direction:column;padding:calc(8px + var(--safe-t)) 16px calc(8px + var(--safe-b));color:#fff;overflow:hidden;height:100vh;height:100dvh;}
 .lock-screen::before{content:'';position:absolute;width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,.07);top:-110px;right:-90px;pointer-events:none;}
 .lock-screen::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-70px;left:-50px;pointer-events:none;}
 .lock-header{position:relative;z-index:2;text-align:center;flex:0 0 auto;padding:2px 0 6px;}
@@ -110,15 +85,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .lock-input:focus{border-color:#fff;background:rgba(255,255,255,.20);}
 .lock-ok-btn{width:100%;max-width:270px;margin-top:10px;background:rgba(255,255,255,.95);color:var(--brand);border:none;padding:11px;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;}
 .lock-ok-btn:active{background:#fff;}
-.lock-notice-scroll{
-  position:relative;z-index:2;flex:0 1 auto;
-  background:rgba(0,0,0,.26);border-radius:14px;
-  border:1.5px solid rgba(255,255,255,.30);
-  max-height:34vh;min-height:120px;
-  overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
-  margin-top:8px;padding:10px 12px;
-}
+.lock-notice-scroll{position:relative;z-index:2;flex:0 1 auto;background:rgba(0,0,0,.26);border-radius:14px;border:1.5px solid rgba(255,255,255,.30);max-height:34vh;min-height:120px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;margin-top:8px;padding:10px 12px;}
 .lock-notice-scroll .ln-title{font-size:11px;font-weight:800;letter-spacing:.5px;opacity:.9;margin-bottom:6px;text-transform:uppercase;}
 .lock-notice-scroll .ln-row{display:flex;align-items:flex-start;gap:7px;font-size:12px;line-height:1.5;}
 .lock-notice-scroll .ln-row+.ln-row{margin-top:8px;padding-top:8px;border-top:1px dashed rgba(255,255,255,.25);}
@@ -127,8 +94,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .lock-footer{position:relative;z-index:2;flex:0 0 auto;margin-top:8px;display:flex;flex-direction:column;gap:6px;width:100%;max-width:270px;align-self:center;}
 .lock-footer button{background:rgba(255,255,255,.15);border:none;color:#fff;font-size:12.5px;font-weight:600;padding:10px;border-radius:12px;cursor:pointer;transition:background .14s;-webkit-user-select:none;user-select:none;touch-action:manipulation;}
 .lock-footer button:active{background:rgba(255,255,255,.28);}
-
-/* Hero */
 .hero{position:relative;overflow:hidden;border-radius:24px;padding:20px;background:linear-gradient(135deg,#4f46e5 0%,#6d28d9 55%,#7c3aed 100%);color:#fff;box-shadow:0 10px 26px rgba(79,70,229,.28);}
 .hero::after{content:'';position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.09);top:-110px;right:-70px;}
 .hero::before{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-90px;left:-40px;}
@@ -143,17 +108,14 @@ section{display:flex;flex-direction:column;gap:10px;}
 .split-item span{font-size:11.5px;opacity:.85;}
 .split-item b{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .split-div{width:1px;background:rgba(255,255,255,.22);margin:0 12px;}
-
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .mini span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
 .mini b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;word-break:break-all;}
-
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .quick button{background:#fff;border:none;border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;color:var(--text);box-shadow:var(--shadow);cursor:pointer;font-weight:600;transition:transform .12s;}
 .quick button:active{transform:scale(.94);}
 .quick .qi{font-size:17px;line-height:1;}
-
 .row{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .12s;}
 .row:active{background:#fafbfd;}
 .row-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
@@ -162,14 +124,12 @@ section{display:flex;flex-direction:column;gap:10px;}
 .row-sub{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
 .row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
-
 .empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px;}
 .empty p{margin:0 0 10px;}
 .empty.big{padding:40px 20px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);}
 .empty-icon{font-size:38px;margin-bottom:10px;opacity:.7;}
 .empty.big p{font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:4px;}
 .empty.big span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:16px;}
-
 .btn{border:none;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;}
 .btn:active{transform:scale(.97);}
 .btn.primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(79,70,229,.28);}
@@ -178,20 +138,16 @@ section{display:flex;flex-direction:column;gap:10px;}
 .btn.soft{background:var(--brand-soft);color:var(--brand);font-size:13.5px;padding:10px 14px;flex:1;}
 .btn.sm{padding:9px 16px;font-size:13.5px;}
 .btn.block{width:100%;}
-
 .seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;}
 .seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;}
 .seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(79,70,229,.25);}
-
 .day-group{display:flex;flex-direction:column;gap:8px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
 .day-head i{font-style:normal;font-weight:700;}
-
 .summary-strip{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;gap:16px;}
 .summary-strip>div{flex:1;display:flex;flex-direction:column;gap:3px;min-width:0;}
 .summary-strip span{font-size:12px;color:var(--muted);}
 .summary-strip b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;}
-
 .goal-card,.asset-card,.debt-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;}
 .goal-top,.asset-top,.debt-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
 .goal-name,.asset-name,.debt-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
@@ -206,7 +162,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .bar-fill.debt{background:linear-gradient(90deg,#f59e0b,#fbbf24);}
 .goal-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:600;}
 .goal-acts,.asset-acts,.debt-acts{display:flex;gap:8px;margin-top:2px;flex-wrap:wrap;}
-
 .badge{font-size:10.5px;padding:3px 8px;border-radius:7px;font-weight:700;white-space:nowrap;}
 .st-active{background:#eef2ff;color:var(--brand);}
 .st-done{background:#e7f8f1;color:var(--green);}
@@ -215,7 +170,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .st-debt-iowe{background:#fdecec;color:var(--red);}
 .st-debt-oweme{background:#e7f8f1;color:var(--green);}
 .st-partial{background:#fff5e6;color:var(--amber);}
-
 .asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
 .asset-grid>div{display:flex;flex-direction:column;gap:2px;}
 .asset-grid span{font-size:11.5px;color:var(--muted);}
@@ -224,7 +178,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .ar{display:flex;justify-content:space-between;font-size:12.5px;gap:8px;}
 .ar span{color:var(--muted);}
 .ar b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;}
-
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .stat-box{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .stat-box span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
@@ -242,7 +195,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .trend-bar.neg{background:linear-gradient(180deg,#fca5a5,#ef4444);}
 .trend-lbl{font-size:11px;color:var(--muted);font-weight:600;}
 .trend-val{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;}
-
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;}
 .set-row+.set-row{border-top:1px solid var(--line);}
 .set-title{font-size:14.5px;font-weight:600;}
@@ -256,8 +208,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .switch.on{background:var(--brand);}
 .switch.on i{transform:translateX(20px);}
 .about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;}
-
-/* Achievements (V1.08: how-to-unlock + progress) */
 .ach-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 .ach{background:#fff;border-radius:var(--r-lg);padding:14px 16px;text-align:left;box-shadow:var(--shadow);opacity:.85;transition:opacity .2s;border:1.5px solid transparent;}
 .ach.got{opacity:1;background:linear-gradient(160deg,#fff,#f7f7ff);border-color:#c7d2fe;}
@@ -274,13 +224,11 @@ section{display:flex;flex-direction:column;gap:10px;}
 .ach-progress-text{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;}
 .ach-status{font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;}
 .ach-status.locked{color:var(--muted);font-weight:600;}
-
 .tabbar{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;padding:8px 4px calc(8px + var(--safe-b));}
 .tabbar button{flex:1;border:none;background:none;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;color:#9aa0b0;cursor:pointer;padding:4px 0;border-radius:12px;transition:color .16s;position:relative;}
 .tabbar button .ti{font-size:18px;line-height:1;transition:transform .18s;}
 .tabbar button.on{color:var(--brand);}
 .tabbar button.on .ti{transform:translateY(-1px) scale(1.06);}
-
 #sheet-root{position:fixed;inset:0;z-index:100;pointer-events:none;}
 #sheet-root.show{pointer-events:auto;}
 #sheet-root .mask{position:absolute;inset:0;background:rgba(15,23,42,.45);opacity:0;transition:opacity .26s;}
@@ -313,26 +261,21 @@ section{display:flex;flex-direction:column;gap:10px;}
 .confirm-msg{font-size:15px;line-height:1.6;padding:16px 4px 20px;margin:0;text-align:center;font-weight:600;}
 .confirm-btns{display:flex;gap:10px;padding:0 2px 8px;}
 .confirm-btns .btn{flex:1;}
-
 .chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
 .chip{border:none;background:#f2f3f7;color:var(--text);font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:11px;cursor:pointer;transition:all .14s;}
 .chip:active{transform:scale(.95);}
 .chip.on{background:var(--brand);color:#fff;}
-
 .opt-group{display:flex;flex-direction:column;gap:2px;}
 .opt-item{border:none;background:#f7f8fc;color:var(--text);font-size:13.5px;font-weight:500;padding:10px 12px;border-radius:10px;text-align:left;cursor:pointer;transition:background .12s;}
 .opt-item:active{background:#eef0f7;}
 .opt-item.on{background:var(--brand);color:#fff;font-weight:600;}
 .opt-label{font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.4px;padding:10px 2px 4px;}
-
 #toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;}
 .toast{background:rgba(15,23,42,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:14px;max-width:88%;text-align:center;opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);box-shadow:0 8px 24px rgba(0,0,0,.22);}
 .toast.in{opacity:1;transform:translateY(0);}
-
 .search-bar{display:flex;gap:8px;}
 .search-input{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;outline:none;transition:border-color .16s;}
 .search-input:focus{border-color:var(--brand);}
-
 ::-webkit-scrollbar{width:0;height:0;}
 </style>
 </head>
@@ -344,14 +287,16 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   SaveWise v1.08
+   SaveWise v1.09
    Personal Financial Record & Management Software
    -----------------------------------------------------------------------
    - Records real-world money. Does NOT hold or handle money.
-   - v1.08: Fixed selector navigation, added methods, improved achievements.
+   - v1.09: FIXED Custom Password verification bug. Setting and verifying
+            now use identical string handling + hash. Confirm button truly
+            triggers validation. Both PIN and Custom Password work.
    ========================================================================= */
 
-const APP_VERSION_FALLBACK  = '1.08';
+const APP_VERSION_FALLBACK  = '1.09';
 const DATA_VERSION_FALLBACK = 1;
 
 const STORAGE_KEY       = 'savewise_state_v1';
@@ -383,7 +328,6 @@ const INCOME_GROUPS = [
   { group:'study', items:['scholarship','study_award','competition_prize','school_reward'] },
   { group:'finance', items:['interest','cashback','refund','sale_proceeds','other_income'] }
 ];
-
 const EXPENSE_GROUPS = [
   { group:'food', items:['breakfast','lunch','dinner','supper','drinks','snacks','restaurant','takeaway'] },
   { group:'transport', items:['public_transport','bus','train','taxi','parking','fuel','other_transport'] },
@@ -394,7 +338,6 @@ const EXPENSE_GROUPS = [
   { group:'family', items:['family_expenses','gifts','social','gathering','shared_expense','donation_exp','other_social'] },
   { group:'health', items:['medical','sports','pets','travel','accommodation','donations','other_exp'] }
 ];
-
 const DEBT_PURPOSE_GROUPS = [
   { group:'daily', items:['food_debt','breakfast_debt','lunch_debt','dinner_debt','drinks_debt','snacks_debt','daily_necessities_debt','household_debt','transport_debt','public_transport_debt','taxi_debt','parking_debt','phone_debt','internet_debt','bills_debt'] },
   { group:'shopping_debt', items:['clothing_debt','shoes_debt','accessories_debt','electronics_debt','phone_device_debt','computer_debt','games_debt','game_topup_debt','entertainment_debt','books_debt','stationery_debt','other_shopping_debt'] },
@@ -403,7 +346,6 @@ const DEBT_PURPOSE_GROUPS = [
   { group:'travel_debt', items:['travel_debt','accommodation_debt','transport_travel_debt','tickets_debt','activity_debt','other_travel_debt'] },
   { group:'other_debt', items:['medical_debt','repairs_debt','pets_debt','service_fee_debt','handling_fee_debt','temp_borrow','emergency_debt','other_debt'] }
 ];
-
 const MG_PURPOSE_GROUPS = [
   { group:'gift', items:['birthday_gift','festival_gift','angpao_gift','family_gift','friend_gift','charity','other_gift'] },
   { group:'family_mg', items:['to_parents','to_siblings','family_living','family_shopping','family_bills','family_shared','other_family'] },
@@ -412,8 +354,6 @@ const MG_PURPOSE_GROUPS = [
   { group:'goods', items:['secondhand_purchase','goods_fee','service_fee_mg','other_trade'] },
   { group:'other_mg', items:['living_support','emergency_support','other_mg'] }
 ];
-
-/* Money method groups — used for income, expense, debt, money-given */
 const MONEY_METHOD_GROUPS = [
   { group:'cash_method', items:['cash','cash_handover','other_cash'] },
   { group:'ewallet_method', items:['tng','grabpay','boost','mae','shopeepay','other_ewallet'] },
@@ -426,12 +366,12 @@ const MONEY_METHOD_GROUPS = [
 const I18N = {
   zh: {
     appName:'SaveWise', slogan:'记录现实中的钱 · 不持有、不处理你的钱',
-    lockCreatePin:'创建 6 位数字 PIN', lockConfirmPin:'请再次输入确认', lockEnterPin:'输入 PIN 解锁', lockEnterPassword:'输入密码解锁',
+    lockCreatePin:'创建 6 位数字 PIN', lockConfirmPin:'请再次输入确认', lockEnterPin:'输入 PIN 解锁', lockEnterPassword:'输入自定义密码解锁',
     lockChangeOld:'请输入当前 PIN', lockChangeNew:'设置新的 6 位 PIN', lockChangeConfirm:'再次输入新 PIN',
-    lockUseText:'使用自定义密码', lockUsePin:'改用数字 PIN', lockTextPlaceholder:'输入密码',
+    lockUseText:'使用自定义密码', lockUsePin:'改用数字 PIN', lockTextPlaceholder:'输入自定义密码',
     lockOk:'确认', lockClear:'清除', lockDel:'⌫',
     lockErrEmpty:'请输入密码', lockErrPin6:'请输入 6 位数字 PIN', lockErrText4:'密码至少 4 位',
-    lockErrMismatch:'两次输入不一致，请重新创建', lockErrWrong:'密码不正确，请重试',
+    lockErrMismatch:'两次输入不一致，请重新创建', lockErrWrong:'密码错误，请重新输入',
     lockWelcome:'欢迎使用 SaveWise', lockUpdated:'密码已更新', lockAutoLocked:'已自动锁定',
     lockLockNow:'立即锁定应用', lockChangePin:'修改 PIN / 密码', lockDisable:'关闭 App Lock',
     lockDisableConfirm:'关闭 App Lock 后，任何人打开应用都无需密码。确定继续？',
@@ -590,34 +530,20 @@ const I18N = {
     achTitle:'我的成就', achUnlocked:'已解锁', achLocked:'未解锁',
     achHowTo:'如何达到', achProgress:'进度',
     achList:[
-      { id:'first_income',   name:'第一笔收入', desc:'记录第一笔收入',       icon:'💵',
-        how:'记录第一笔收入即可解锁。', target:1, kind:'income_count' },
-      { id:'first_expense',  name:'开始记账',   desc:'记录第一笔支出',       icon:'🧾',
-        how:'记录第一笔支出即可解锁。', target:1, kind:'expense_count' },
-      { id:'first_goal',     name:'目标达人',   desc:'创建第一个储蓄目标',   icon:'🎯',
-        how:'创建第一个储蓄目标即可解锁。', target:1, kind:'goal_count' },
-      { id:'first_save',     name:'第一桶金',   desc:'首次向储蓄目标存入资金', icon:'🏦',
-        how:'第一次向任意储蓄目标分配资金即可解锁。', target:1, kind:'goal_deposit_count' },
-      { id:'first_asset',    name:'资产管家',   desc:'添加第一个回本资产',   icon:'📦',
-        how:'添加第一个资产记录即可解锁。', target:1, kind:'asset_count' },
-      { id:'first_account',  name:'资金账户创建', desc:'创建第一个资金账户',  icon:'🏛️',
-        how:'创建第一个资金账户即可解锁。', target:1, kind:'account_count' },
-      { id:'first_debt',     name:'借贷记录',   desc:'记录第一笔欠款',       icon:'🤝',
-        how:'记录第一笔欠款即可解锁。', target:1, kind:'debt_count' },
-      { id:'first_given',    name:'赠与他人',   desc:'首次记录转给他人',     icon:'🎁',
-        how:'首次记录转给他人即可解锁。', target:1, kind:'money_given_count' },
-      { id:'goal_done',      name:'目标达成',   desc:'完成第一个储蓄目标',   icon:'🏅',
-        how:'完成任意一个储蓄目标（100%）即可解锁。', target:1, kind:'goal_done_count' },
-      { id:'streak_7',       name:'坚持一周',   desc:'连续 7 天记录交易',    icon:'🔥',
-        how:'连续 7 天至少完成一次有效的财务记录。', target:7, kind:'streak' },
-      { id:'streak_30',      name:'坚持一月',   desc:'连续 30 天记录交易',   icon:'⚡',
-        how:'连续 30 天至少完成一次有效的财务记录。', target:30, kind:'streak' },
-      { id:'save_100',       name:'小有积蓄',   desc:'累计储蓄达到 RM100',   icon:'🪙',
-        how:'向储蓄目标累计分配 RM100 即可解锁。', target:100, kind:'total_saved' },
-      { id:'save_500',       name:'稳步积累',   desc:'累计储蓄达到 RM500',   icon:'💵',
-        how:'向储蓄目标累计分配 RM500 即可解锁。', target:500, kind:'total_saved' },
-      { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎',
-        how:'向储蓄目标累计分配 RM1000 即可解锁。', target:1000, kind:'total_saved' }
+      { id:'first_income',   name:'第一笔收入', desc:'记录第一笔收入',       icon:'💵', how:'记录第一笔收入即可解锁。', target:1, kind:'income_count' },
+      { id:'first_expense',  name:'开始记账',   desc:'记录第一笔支出',       icon:'🧾', how:'记录第一笔支出即可解锁。', target:1, kind:'expense_count' },
+      { id:'first_goal',     name:'目标达人',   desc:'创建第一个储蓄目标',   icon:'🎯', how:'创建第一个储蓄目标即可解锁。', target:1, kind:'goal_count' },
+      { id:'first_save',     name:'第一桶金',   desc:'首次向储蓄目标存入资金', icon:'🏦', how:'第一次向任意储蓄目标分配资金即可解锁。', target:1, kind:'goal_deposit_count' },
+      { id:'first_asset',    name:'资产管家',   desc:'添加第一个回本资产',   icon:'📦', how:'添加第一个资产记录即可解锁。', target:1, kind:'asset_count' },
+      { id:'first_account',  name:'资金账户创建', desc:'创建第一个资金账户',  icon:'🏛️', how:'创建第一个资金账户即可解锁。', target:1, kind:'account_count' },
+      { id:'first_debt',     name:'借贷记录',   desc:'记录第一笔欠款',       icon:'🤝', how:'记录第一笔欠款即可解锁。', target:1, kind:'debt_count' },
+      { id:'first_given',    name:'赠与他人',   desc:'首次记录转给他人',     icon:'🎁', how:'首次记录转给他人即可解锁。', target:1, kind:'money_given_count' },
+      { id:'goal_done',      name:'目标达成',   desc:'完成第一个储蓄目标',   icon:'🏅', how:'完成任意一个储蓄目标（100%）即可解锁。', target:1, kind:'goal_done_count' },
+      { id:'streak_7',       name:'坚持一周',   desc:'连续 7 天记录交易',    icon:'🔥', how:'连续 7 天至少完成一次有效的财务记录。', target:7, kind:'streak' },
+      { id:'streak_30',      name:'坚持一月',   desc:'连续 30 天记录交易',   icon:'⚡', how:'连续 30 天至少完成一次有效的财务记录。', target:30, kind:'streak' },
+      { id:'save_100',       name:'小有积蓄',   desc:'累计储蓄达到 RM100',   icon:'🪙', how:'向储蓄目标累计分配 RM100 即可解锁。', target:100, kind:'total_saved' },
+      { id:'save_500',       name:'稳步积累',   desc:'累计储蓄达到 RM500',   icon:'💵', how:'向储蓄目标累计分配 RM500 即可解锁。', target:500, kind:'total_saved' },
+      { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎', how:'向储蓄目标累计分配 RM1000 即可解锁。', target:1000, kind:'total_saved' }
     ],
     achUnlockToast:'🏆 解锁成就：{name}',
     setTitle:'设置', setHideBalance:'金额隐藏模式', setHideBalanceSub:'所有金额显示为 RM****（不影响产品性质声明）',
@@ -725,12 +651,12 @@ const I18N = {
   },
   en: {
     appName:'SaveWise', slogan:'Records real-world money · Does not hold or handle it',
-    lockCreatePin:'Create 6-digit PIN', lockConfirmPin:'Enter again to confirm', lockEnterPin:'Enter PIN to unlock', lockEnterPassword:'Enter password to unlock',
+    lockCreatePin:'Create 6-digit PIN', lockConfirmPin:'Enter again to confirm', lockEnterPin:'Enter PIN to unlock', lockEnterPassword:'Enter custom password to unlock',
     lockChangeOld:'Enter current PIN', lockChangeNew:'Set new 6-digit PIN', lockChangeConfirm:'Enter new PIN again',
-    lockUseText:'Use custom password', lockUsePin:'Use numeric PIN', lockTextPlaceholder:'Enter password',
+    lockUseText:'Use custom password', lockUsePin:'Use numeric PIN', lockTextPlaceholder:'Enter custom password',
     lockOk:'OK', lockClear:'Clear', lockDel:'⌫',
     lockErrEmpty:'Please enter password', lockErrPin6:'Please enter 6-digit PIN', lockErrText4:'Password must be at least 4 characters',
-    lockErrMismatch:'Passwords do not match, please try again', lockErrWrong:'Incorrect password, try again',
+    lockErrMismatch:'Passwords do not match, please try again', lockErrWrong:'Incorrect password. Please try again.',
     lockWelcome:'Welcome to SaveWise', lockUpdated:'Password updated', lockAutoLocked:'Auto-locked',
     lockLockNow:'Lock now', lockChangePin:'Change PIN / Password', lockDisable:'Disable App Lock',
     lockDisableConfirm:'Disabling App Lock means anyone can open the app without a password. Continue?',
@@ -888,34 +814,20 @@ const I18N = {
     achTitle:'My Achievements', achUnlocked:'Unlocked', achLocked:'Locked',
     achHowTo:'How to unlock', achProgress:'Progress',
     achList:[
-      { id:'first_income',   name:'First Income', desc:'Record first income',        icon:'💵',
-        how:'Record your first income to unlock.', target:1, kind:'income_count' },
-      { id:'first_expense',  name:'Start Tracking', desc:'Record first expense',   icon:'🧾',
-        how:'Record your first expense to unlock.', target:1, kind:'expense_count' },
-      { id:'first_goal',     name:'Goal Setter',  desc:'Create first savings goal', icon:'🎯',
-        how:'Create your first savings goal to unlock.', target:1, kind:'goal_count' },
-      { id:'first_save',     name:'First Savings', desc:'First deposit to a goal',  icon:'🏦',
-        how:'Deposit into any savings goal for the first time to unlock.', target:1, kind:'goal_deposit_count' },
-      { id:'first_asset',    name:'Asset Manager', desc:'Add first asset',         icon:'📦',
-        how:'Add your first asset record to unlock.', target:1, kind:'asset_count' },
-      { id:'first_account',  name:'Money Account Created', desc:'Create first money account', icon:'🏛️',
-        how:'Create your first money account to unlock.', target:1, kind:'account_count' },
-      { id:'first_debt',     name:'Debt Recorded', desc:'Record first debt',       icon:'🤝',
-        how:'Record your first debt to unlock.', target:1, kind:'debt_count' },
-      { id:'first_given',    name:'Money Given', desc:'First money-given record',   icon:'🎁',
-        how:'Record your first money-given entry to unlock.', target:1, kind:'money_given_count' },
-      { id:'goal_done',      name:'Goal Achieved', desc:'Complete first savings goal', icon:'🏅',
-        how:'Complete any savings goal (100%) to unlock.', target:1, kind:'goal_done_count' },
-      { id:'streak_7',       name:'7-Day Streak', desc:'Record 7 days in a row',   icon:'🔥',
-        how:'Record at least one valid entry for 7 consecutive days.', target:7, kind:'streak' },
-      { id:'streak_30',      name:'30-Day Streak', desc:'Record 30 days in a row',  icon:'⚡',
-        how:'Record at least one valid entry for 30 consecutive days.', target:30, kind:'streak' },
-      { id:'save_100',       name:'RM100 Saved',  desc:'Cumulative savings RM100',  icon:'🪙',
-        how:'Allocate a cumulative RM100 into savings goals to unlock.', target:100, kind:'total_saved' },
-      { id:'save_500',       name:'RM500 Saved',  desc:'Cumulative savings RM500',  icon:'💵',
-        how:'Allocate a cumulative RM500 into savings goals to unlock.', target:500, kind:'total_saved' },
-      { id:'save_1000',      name:'RM1000 Saved', desc:'Cumulative savings RM1000', icon:'💎',
-        how:'Allocate a cumulative RM1000 into savings goals to unlock.', target:1000, kind:'total_saved' }
+      { id:'first_income',   name:'First Income', desc:'Record first income',        icon:'💵', how:'Record your first income to unlock.', target:1, kind:'income_count' },
+      { id:'first_expense',  name:'Start Tracking', desc:'Record first expense',   icon:'🧾', how:'Record your first expense to unlock.', target:1, kind:'expense_count' },
+      { id:'first_goal',     name:'Goal Setter',  desc:'Create first savings goal', icon:'🎯', how:'Create your first savings goal to unlock.', target:1, kind:'goal_count' },
+      { id:'first_save',     name:'First Savings', desc:'First deposit to a goal',  icon:'🏦', how:'Deposit into any savings goal for the first time to unlock.', target:1, kind:'goal_deposit_count' },
+      { id:'first_asset',    name:'Asset Manager', desc:'Add first asset',         icon:'📦', how:'Add your first asset record to unlock.', target:1, kind:'asset_count' },
+      { id:'first_account',  name:'Money Account Created', desc:'Create first money account', icon:'🏛️', how:'Create your first money account to unlock.', target:1, kind:'account_count' },
+      { id:'first_debt',     name:'Debt Recorded', desc:'Record first debt',       icon:'🤝', how:'Record your first debt to unlock.', target:1, kind:'debt_count' },
+      { id:'first_given',    name:'Money Given', desc:'First money-given record',   icon:'🎁', how:'Record your first money-given entry to unlock.', target:1, kind:'money_given_count' },
+      { id:'goal_done',      name:'Goal Achieved', desc:'Complete first savings goal', icon:'🏅', how:'Complete any savings goal (100%) to unlock.', target:1, kind:'goal_done_count' },
+      { id:'streak_7',       name:'7-Day Streak', desc:'Record 7 days in a row',   icon:'🔥', how:'Record at least one valid entry for 7 consecutive days.', target:7, kind:'streak' },
+      { id:'streak_30',      name:'30-Day Streak', desc:'Record 30 days in a row',  icon:'⚡', how:'Record at least one valid entry for 30 consecutive days.', target:30, kind:'streak' },
+      { id:'save_100',       name:'RM100 Saved',  desc:'Cumulative savings RM100',  icon:'🪙', how:'Allocate a cumulative RM100 into savings goals to unlock.', target:100, kind:'total_saved' },
+      { id:'save_500',       name:'RM500 Saved',  desc:'Cumulative savings RM500',  icon:'💵', how:'Allocate a cumulative RM500 into savings goals to unlock.', target:500, kind:'total_saved' },
+      { id:'save_1000',      name:'RM1000 Saved', desc:'Cumulative savings RM1000', icon:'💎', how:'Allocate a cumulative RM1000 into savings goals to unlock.', target:1000, kind:'total_saved' }
     ],
     achUnlockToast:'🏆 Achievement unlocked: {name}',
     setTitle:'Settings', setHideBalance:'Hide Balance Mode', setHideBalanceSub:'Show all amounts as RM**** (does not hide product notice)',
@@ -1023,12 +935,12 @@ const I18N = {
   },
   ms: {
     appName:'SaveWise', slogan:'Merekod wang sebenar · Tidak memegang atau mengendalikannya',
-    lockCreatePin:'Cipta PIN 6 digit', lockConfirmPin:'Masukkan semula untuk sahkan', lockEnterPin:'Masukkan PIN untuk buka', lockEnterPassword:'Masukkan kata laluan untuk buka',
+    lockCreatePin:'Cipta PIN 6 digit', lockConfirmPin:'Masukkan semula untuk sahkan', lockEnterPin:'Masukkan PIN untuk buka', lockEnterPassword:'Masukkan kata laluan tersuai untuk buka',
     lockChangeOld:'Masukkan PIN semasa', lockChangeNew:'Tetapkan PIN 6 digit baharu', lockChangeConfirm:'Masukkan PIN baharu semula',
-    lockUseText:'Guna kata laluan tersuai', lockUsePin:'Guna PIN nombor', lockTextPlaceholder:'Masukkan kata laluan',
+    lockUseText:'Guna kata laluan tersuai', lockUsePin:'Guna PIN nombor', lockTextPlaceholder:'Masukkan kata laluan tersuai',
     lockOk:'OK', lockClear:'Padam', lockDel:'⌫',
     lockErrEmpty:'Sila masukkan kata laluan', lockErrPin6:'Sila masukkan PIN 6 digit', lockErrText4:'Kata laluan sekurang-kurangnya 4 aksara',
-    lockErrMismatch:'Kata laluan tidak sepadan, cuba lagi', lockErrWrong:'Kata laluan salah, cuba lagi',
+    lockErrMismatch:'Kata laluan tidak sepadan, cuba lagi', lockErrWrong:'Kata laluan salah. Sila cuba lagi.',
     lockWelcome:'Selamat datang ke SaveWise', lockUpdated:'Kata laluan dikemas kini', lockAutoLocked:'Dikunci automatik',
     lockLockNow:'Kunci sekarang', lockChangePin:'Tukar PIN / Kata Laluan', lockDisable:'Matikan App Lock',
     lockDisableConfirm:'Selepas dimatikan, sesiapa boleh buka tanpa kata laluan. Teruskan?',
@@ -1186,34 +1098,20 @@ const I18N = {
     achTitle:'Pencapaian Saya', achUnlocked:'Dibuka', achLocked:'Belum Dibuka',
     achHowTo:'Cara buka', achProgress:'Kemajuan',
     achList:[
-      { id:'first_income',   name:'Pendapatan Pertama', desc:'Rekod pendapatan pertama', icon:'💵',
-        how:'Rekod pendapatan pertama untuk membuka.', target:1, kind:'income_count' },
-      { id:'first_expense',  name:'Mula Rekod', desc:'Rekod perbelanjaan pertama', icon:'🧾',
-        how:'Rekod perbelanjaan pertama untuk membuka.', target:1, kind:'expense_count' },
-      { id:'first_goal',     name:'Penetap Sasaran', desc:'Cipta sasaran simpanan pertama', icon:'🎯',
-        how:'Cipta sasaran simpanan pertama untuk membuka.', target:1, kind:'goal_count' },
-      { id:'first_save',     name:'Simpanan Pertama', desc:'Simpanan pertama ke sasaran', icon:'🏦',
-        how:'Simpan ke sasaran simpanan pertama kali untuk membuka.', target:1, kind:'goal_deposit_count' },
-      { id:'first_asset',    name:'Pengurus Aset', desc:'Tambah aset pertama', icon:'📦',
-        how:'Tambah rekod aset pertama untuk membuka.', target:1, kind:'asset_count' },
-      { id:'first_account',  name:'Akaun Wang Dicipta', desc:'Cipta akaun wang pertama', icon:'🏛️',
-        how:'Cipta akaun wang pertama untuk membuka.', target:1, kind:'account_count' },
-      { id:'first_debt',     name:'Hutang Direkod', desc:'Rekod hutang pertama', icon:'🤝',
-        how:'Rekod hutang pertama untuk membuka.', target:1, kind:'debt_count' },
-      { id:'first_given',    name:'Wang Diberi', desc:'Rekod wang diberi pertama', icon:'🎁',
-        how:'Rekod wang diberi pertama untuk membuka.', target:1, kind:'money_given_count' },
-      { id:'goal_done',      name:'Sasaran Dicapai', desc:'Selesaikan sasaran pertama', icon:'🏅',
-        how:'Selesaikan mana-mana sasaran simpanan (100%) untuk membuka.', target:1, kind:'goal_done_count' },
-      { id:'streak_7',       name:'7 Hari Berturut', desc:'Rekod 7 hari berturut-turut', icon:'🔥',
-        how:'Rekod sekurang-kurangnya satu entri sah selama 7 hari berturut-turut.', target:7, kind:'streak' },
-      { id:'streak_30',      name:'30 Hari Berturut', desc:'Rekod 30 hari berturut-turut', icon:'⚡',
-        how:'Rekod sekurang-kurangnya satu entri sah selama 30 hari berturut-turut.', target:30, kind:'streak' },
-      { id:'save_100',       name:'RM100 Disimpan', desc:'Simpanan kumulatif RM100', icon:'🪙',
-        how:'Peruntukkan jumlah kumulatif RM100 ke sasaran simpanan untuk membuka.', target:100, kind:'total_saved' },
-      { id:'save_500',       name:'RM500 Disimpan', desc:'Simpanan kumulatif RM500', icon:'💵',
-        how:'Peruntukkan jumlah kumulatif RM500 ke sasaran simpanan untuk membuka.', target:500, kind:'total_saved' },
-      { id:'save_1000',      name:'RM1000 Disimpan', desc:'Simpanan kumulatif RM1000', icon:'💎',
-        how:'Peruntukkan jumlah kumulatif RM1000 ke sasaran simpanan untuk membuka.', target:1000, kind:'total_saved' }
+      { id:'first_income',   name:'Pendapatan Pertama', desc:'Rekod pendapatan pertama', icon:'💵', how:'Rekod pendapatan pertama untuk membuka.', target:1, kind:'income_count' },
+      { id:'first_expense',  name:'Mula Rekod', desc:'Rekod perbelanjaan pertama', icon:'🧾', how:'Rekod perbelanjaan pertama untuk membuka.', target:1, kind:'expense_count' },
+      { id:'first_goal',     name:'Penetap Sasaran', desc:'Cipta sasaran simpanan pertama', icon:'🎯', how:'Cipta sasaran simpanan pertama untuk membuka.', target:1, kind:'goal_count' },
+      { id:'first_save',     name:'Simpanan Pertama', desc:'Simpanan pertama ke sasaran', icon:'🏦', how:'Simpan ke sasaran simpanan pertama kali untuk membuka.', target:1, kind:'goal_deposit_count' },
+      { id:'first_asset',    name:'Pengurus Aset', desc:'Tambah aset pertama', icon:'📦', how:'Tambah rekod aset pertama untuk membuka.', target:1, kind:'asset_count' },
+      { id:'first_account',  name:'Akaun Wang Dicipta', desc:'Cipta akaun wang pertama', icon:'🏛️', how:'Cipta akaun wang pertama untuk membuka.', target:1, kind:'account_count' },
+      { id:'first_debt',     name:'Hutang Direkod', desc:'Rekod hutang pertama', icon:'🤝', how:'Rekod hutang pertama untuk membuka.', target:1, kind:'debt_count' },
+      { id:'first_given',    name:'Wang Diberi', desc:'Rekod wang diberi pertama', icon:'🎁', how:'Rekod wang diberi pertama untuk membuka.', target:1, kind:'money_given_count' },
+      { id:'goal_done',      name:'Sasaran Dicapai', desc:'Selesaikan sasaran pertama', icon:'🏅', how:'Selesaikan mana-mana sasaran simpanan (100%) untuk membuka.', target:1, kind:'goal_done_count' },
+      { id:'streak_7',       name:'7 Hari Berturut', desc:'Rekod 7 hari berturut-turut', icon:'🔥', how:'Rekod sekurang-kurangnya satu entri sah selama 7 hari berturut-turut.', target:7, kind:'streak' },
+      { id:'streak_30',      name:'30 Hari Berturut', desc:'Rekod 30 hari berturut-turut', icon:'⚡', how:'Rekod sekurang-kurangnya satu entri sah selama 30 hari berturut-turut.', target:30, kind:'streak' },
+      { id:'save_100',       name:'RM100 Disimpan', desc:'Simpanan kumulatif RM100', icon:'🪙', how:'Peruntukkan jumlah kumulatif RM100 ke sasaran simpanan untuk membuka.', target:100, kind:'total_saved' },
+      { id:'save_500',       name:'RM500 Disimpan', desc:'Simpanan kumulatif RM500', icon:'💵', how:'Peruntukkan jumlah kumulatif RM500 ke sasaran simpanan untuk membuka.', target:500, kind:'total_saved' },
+      { id:'save_1000',      name:'RM1000 Disimpan', desc:'Simpanan kumulatif RM1000', icon:'💎', how:'Peruntukkan jumlah kumulatif RM1000 ke sasaran simpanan untuk membuka.', target:1000, kind:'total_saved' }
     ],
     achUnlockToast:'🏆 Pencapaian dibuka: {name}',
     setTitle:'Tetapan', setHideBalance:'Mod Sembunyi Baki', setHideBalanceSub:'Tunjuk semua jumlah sebagai RM**** (tidak sembunyikan notis produk)',
@@ -1337,7 +1235,6 @@ function t(k, vars){
   if(vars){ Object.keys(vars).forEach(v => { s = s.replace(new RegExp('\\{'+v+'\\}','g'), vars[v]); }); }
   return s;
 }
-/* Category label lookups */
 function incomeCatLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.incomeCatNames && p.incomeCatNames[id]) || (I18N.zh.incomeCatNames[id]) || id; }
 function expenseCatLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.expenseCatNames && p.expenseCatNames[id]) || (I18N.zh.expenseCatNames[id]) || id; }
 function debtPurposeLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.debtPurposeNames && p.debtPurposeNames[id]) || (I18N.zh.debtPurposeNames[id]) || id; }
@@ -1348,13 +1245,11 @@ function expenseGroupLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.expen
 function debtPurposeGroupLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.debtPurposeGroupNames && p.debtPurposeGroupNames[id]) || (I18N.zh.debtPurposeGroupNames[id]) || id; }
 function mgPurposeGroupLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.mgPurposeGroupNames && p.mgPurposeGroupNames[id]) || (I18N.zh.mgPurposeGroupNames[id]) || id; }
 function methodGroupLabel(id){ const p = I18N[LANG] || I18N.zh; return (p.methodGroupNames && p.methodGroupNames[id]) || (I18N.zh.methodGroupNames[id]) || id; }
-/* Display labels that fall back for custom user text */
 function incomeDisplayLabel(v){ if(!v) return ''; const p = I18N[LANG] || I18N.zh; if(p.incomeCatNames && p.incomeCatNames[v]) return p.incomeCatNames[v]; if(I18N.zh.incomeCatNames[v]) return I18N.zh.incomeCatNames[v]; return v; }
 function expenseDisplayLabel(v){ if(!v) return ''; const p = I18N[LANG] || I18N.zh; if(p.expenseCatNames && p.expenseCatNames[v]) return p.expenseCatNames[v]; if(I18N.zh.expenseCatNames[v]) return I18N.zh.expenseCatNames[v]; return v; }
 function debtPurposeDisplay(v){ if(!v) return ''; const p = I18N[LANG] || I18N.zh; if(p.debtPurposeNames && p.debtPurposeNames[v]) return p.debtPurposeNames[v]; if(I18N.zh.debtPurposeNames[v]) return I18N.zh.debtPurposeNames[v]; return v; }
 function mgPurposeDisplay(v){ if(!v) return ''; const p = I18N[LANG] || I18N.zh; if(p.mgPurposeNames && p.mgPurposeNames[v]) return p.mgPurposeNames[v]; if(I18N.zh.mgPurposeNames[v]) return I18N.zh.mgPurposeNames[v]; return v; }
 function methodDisplay(v){ if(!v) return ''; const p = I18N[LANG] || I18N.zh; if(p.methodNames && p.methodNames[v]) return p.methodNames[v]; if(I18N.zh.methodNames[v]) return I18N.zh.methodNames[v]; return v; }
-
 const CAT_ICON_BY_ID = {
   salary:'💼', part_time:'⏰', freelance:'🧑‍💻', temp_work:'🕐', bonus:'🏆', allowance:'💼',
   pocket_money:'💰', family_give:'🏠', angpao:'🧧', gift_income:'🎀', living_allowance:'💰', other_family_income:'🏠',
@@ -1401,7 +1296,7 @@ function loadMeta(){
 function saveMeta(m){ try{ localStorage.setItem(META_KEY, JSON.stringify(m)); }catch(e){} }
 let META = loadMeta();
 
-/* ============================ Changelog (append-only, i18n) ============================ */
+/* ============================ Changelog ============================ */
 const CHANGELOG_SEED = [
   { version:'1.00', date:'2026-09-12', items:{ zh:['初始版本'], en:['Initial Release'], ms:['Keluaran Awal'] } },
   { version:'1.01', date:'2026-09-12', items:{ zh:['首页和锁屏新增永久三语产品性质声明'], en:['Permanent 3-language Product Identity Notice'], ms:['Notis Identiti Produk 3 bahasa kekal'] } },
@@ -1424,48 +1319,40 @@ const CHANGELOG_SEED = [
     ms:['App Lock input di atas, notis boleh skrol di bawah','Betulkan Kata Laluan Tersuai','Tambah pintu masuk Tetapkan Kata Laluan','Dialog padam mengikut objek']
   }},
   { version:'1.08', date:'2026-09-12', items:{
+    zh:['修复：分类 / 用途 / 方式选择器点击后无法选择','修复：选择后错误跳回主页','修复：选择后表单已填写内容丢失','新增：收入「收款方式」字段','新增：支出「付款方式」字段','新增：欠款「欠款方式」字段','完善：转给他人「转账方式」','改进：成就页面显示「如何达到」与真实进度条'],
+    en:['FIX: Selectors could not be picked','FIX: Selector returned to Home','FIX: Form data lost after selector','NEW: Income Method','NEW: Expense Method','NEW: Debt Method','IMPROVED: Money-Given Method unified','IMPROVED: Achievement how-to + real progress'],
+    ms:['BETUL: Pemilih tidak boleh dipilih','BETUL: Pemilih kembali ke Utama','BETUL: Data borang hilang','BAHARU: Cara Terima Pendapatan','BAHARU: Cara Bayar Perbelanjaan','BAHARU: Cara Hutang','DIPERBAIKI: Cara Wang Diberi','DIPERBAIKI: Cara buka + kemajuan pencapaian']
+  }},
+  { version:'1.09', date:'2026-09-12', items:{
     zh:[
-      '修复：分类 / 用途 / 方式选择器点击后无法选择',
-      '修复：选择后错误跳回主页',
-      '修复：选择后表单已填写内容丢失',
-      '新增：收入「收款方式」字段（Cash / TNG / DuitNow 等）',
-      '新增：支出「付款方式」字段',
-      '新增：欠款「欠款方式」字段',
-      '完善：转给他人「转账方式」统一使用 MONEY_METHOD_GROUPS',
-      '统一：所有选择器使用同一套 Parent→Selector→Parent 导航逻辑',
-      '改进：成就页面显示「如何达到」与真实进度条',
-      '改进：成就解锁条件与系统真实数据一致',
-      '保留：V1.00–V1.07 所有数据、设置、密码、记录与更新历史'
+      '修复：Custom Password 设置后无法验证解锁',
+      '修复：Confirm 按钮未真正触发 Custom Password 验证',
+      '统一：设置密码与验证密码使用相同的字符串处理与哈希算法',
+      '保证：PIN 与 Custom Password 都可正常解锁',
+      '改进：Custom Password 验证失败显示明确错误提示',
+      '改进：Custom Password 输入不强制数字，支持字母、数字和符号',
+      '保留：V1.00–V1.08 所有数据、密码、设置和更新历史'
     ],
     en:[
-      'FIX: Category / Purpose / Method selectors could not be picked',
-      'FIX: Selector returned to Home instead of parent form',
-      'FIX: Form data lost after opening a selector',
-      'NEW: Income Method (Cash / TNG / DuitNow, etc.)',
-      'NEW: Expense Method',
-      'NEW: Debt Method',
-      'IMPROVED: Money-Given Method unified via MONEY_METHOD_GROUPS',
-      'UNIFIED: All selectors use Parent→Selector→Parent navigation',
-      'IMPROVED: Achievement page shows How-to-unlock and real progress',
-      'IMPROVED: Achievement conditions match real data',
-      'PRESERVED: All V1.00–V1.07 data, settings, PIN, records and changelog'
+      'FIX: Custom Password could not be verified after being set',
+      'FIX: Confirm button did not truly trigger Custom Password verification',
+      'UNIFIED: Setting and verifying use identical string handling + hash',
+      'GUARANTEED: Both PIN and Custom Password now unlock the app',
+      'IMPROVED: Clear error message on Custom Password verification failure',
+      'IMPROVED: Custom Password accepts letters, numbers and symbols, not only digits',
+      'PRESERVED: All V1.00–V1.08 data, passwords, settings and changelog'
     ],
     ms:[
-      'BETUL: Pemilih Kategori / Tujuan / Cara tidak boleh dipilih',
-      'BETUL: Pemilih kembali ke Utama bukan ke borang induk',
-      'BETUL: Data borang hilang selepas buka pemilih',
-      'BAHARU: Cara Terima Pendapatan (Tunai / TNG / DuitNow dll.)',
-      'BAHARU: Cara Bayar Perbelanjaan',
-      'BAHARU: Cara Hutang',
-      'DIPERBAIKI: Cara Wang Diberi disatukan melalui MONEY_METHOD_GROUPS',
-      'DISATUKAN: Semua pemilih guna navigasi Induk→Pemilih→Induk',
-      'DIPERBAIKI: Halaman pencapaian tunjuk Cara buka dan kemajuan sebenar',
-      'DIPERBAIKI: Syarat pencapaian sepadan dengan data sebenar',
-      'DIKEKALKAN: Semua data V1.00–V1.07, tetapan, PIN, rekod dan sejarah'
+      'BETUL: Kata Laluan Tersuai tidak boleh disahkan selepas ditetapkan',
+      'BETUL: Butang Sahkan tidak mencetuskan pengesahan Kata Laluan Tersuai',
+      'DISATUKAN: Tetapan dan pengesahan guna pemprosesan teks + hash yang sama',
+      'DIJAMIN: PIN dan Kata Laluan Tersuai kini boleh membuka aplikasi',
+      'DIPERBAIKI: Mesej ralat jelas apabila pengesahan Kata Laluan Tersuai gagal',
+      'DIPERBAIKI: Kata Laluan Tersuai terima huruf, nombor dan simbol',
+      'DIKEKALKAN: Semua data V1.00–V1.08, kata laluan, tetapan dan sejarah'
     ]
   }}
 ];
-
 function loadChangelog(){
   try{
     const raw = localStorage.getItem(CHANGELOG_KEY);
@@ -1477,9 +1364,7 @@ function loadChangelog(){
       if(!seen.has(c.version)) arr.push(c);
       else {
         const i = arr.findIndex(x => x.version === c.version);
-        if(i >= 0 && Array.isArray(arr[i].items) && c.items && typeof c.items === 'object'){
-          arr[i].items = c.items;
-        }
+        if(i >= 0 && Array.isArray(arr[i].items) && c.items && typeof c.items === 'object'){ arr[i].items = c.items; }
       }
     });
     return arr;
@@ -1497,33 +1382,21 @@ function changelogItems(entry){
 function defaultState(){
   return {
     dataVersion: DATA_VERSION_FALLBACK,
-    settings: {
-      currency: 'RM', hideBalance: false, autoLockMinutes: 5, appLockEnabled: true,
-      lang: LANG, lastUpdated: new Date().toISOString()
-    },
+    settings: { currency:'RM', hideBalance:false, autoLockMinutes:5, appLockEnabled:true, lang:LANG, lastUpdated:new Date().toISOString() },
     accounts: [], transactions: [], goals: [], assets: [], debts: [], moneyGiven: [],
-    customIncomeCats: [], customExpenseCats: [],
-    customMethods: [], /* V1.08: user-defined method custom names */
-    achievements: {},
-    createdAt: new Date().toISOString()
+    customIncomeCats: [], customExpenseCats: [], customMethods: [],
+    achievements: {}, createdAt: new Date().toISOString()
   };
 }
-
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
-
   if(!Array.isArray(p.debts)) p.debts = [];
   if(!Array.isArray(p.moneyGiven)) p.moneyGiven = [];
   if(!Array.isArray(p.customIncomeCats)) p.customIncomeCats = [];
   if(!Array.isArray(p.customExpenseCats)) p.customExpenseCats = [];
   if(!Array.isArray(p.customMethods)) p.customMethods = [];
-
-  // Backfill V1.08 fields without touching existing data
-  (p.transactions || []).forEach(tx => {
-    if(tx.method === undefined) tx.method = '';
-    if(tx.methodCustom === undefined) tx.methodCustom = '';
-  });
+  (p.transactions || []).forEach(tx => { if(tx.method === undefined) tx.method = ''; if(tx.methodCustom === undefined) tx.methodCustom = ''; });
   p.debts.forEach(d => {
     if(!Array.isArray(d.payments)) d.payments = [];
     if(d.purpose === undefined) d.purpose = '';
@@ -1537,22 +1410,15 @@ function migrate(p){
     if(m.method === undefined) m.method = '';
     if(m.methodCustom === undefined) m.methodCustom = '';
   });
-
   p.dataVersion = META.dataVersion || DATA_VERSION_FALLBACK;
-
   const checks = [
-    Array.isArray(p.accounts),
-    Array.isArray(p.transactions),
-    Array.isArray(p.goals),
-    Array.isArray(p.assets),
-    Array.isArray(p.debts),
-    Array.isArray(p.moneyGiven),
+    Array.isArray(p.accounts), Array.isArray(p.transactions), Array.isArray(p.goals),
+    Array.isArray(p.assets), Array.isArray(p.debts), Array.isArray(p.moneyGiven),
     (p.settings && typeof p.settings === 'object')
   ];
   if(checks.some(x => !x)) return { ok:false, reason:'shape', data:original };
   return { ok:true, data:p };
 }
-
 function loadState(){
   const base = defaultState();
   try{
@@ -1580,7 +1446,6 @@ function loadState(){
     return { state:merged, fresh:false };
   }catch(e){ return { state:base, fresh:true }; }
 }
-
 let loadResult = loadState();
 let state = loadResult.state;
 LANG = state.settings.lang || LANG;
@@ -1603,7 +1468,17 @@ function createBackup(reason){
   }catch(e){ return false; }
 }
 
-/* ============================ 安全 / 锁 ============================ */
+/* =========================================================================
+   安全 / 锁 —— V1.09 关键修复
+   ------------------------------------------------------------------
+   FIX: Setting and verifying MUST use identical string handling.
+   Previously custom password could be set but not verified because the
+   lock screen only had PIN keypad logic. Now:
+   1. lockRecord always has a `type` field: 'pin' or 'text'.
+   2. Lock screen reads that type and renders the correct UI.
+   3. Verification uses sha256(String(pin)) for BOTH types.
+   4. Text mode has its own input + confirm button, works with any chars.
+   ========================================================================= */
 async function sha256(text){
   if(window.crypto && crypto.subtle){
     try{
@@ -1710,7 +1585,7 @@ function matchRange(iso, range){
   return true;
 }
 
-/* ============================ Categories / Methods helpers ============================ */
+/* ============================ Category / Method helpers ============================ */
 function allIncomeIds(){ const ids = []; INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function allExpenseIds(){ const ids = []; EXPENSE_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function allMethodIds(){ const ids = []; MONEY_METHOD_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
@@ -1732,9 +1607,7 @@ function currentStreak(){
   }
   return streak;
 }
-function totalSavedEver(){
-  return state.transactions.filter(tx => tx.type === 'goal_deposit').reduce((s,tx) => s + (Number(tx.amount)||0), 0);
-}
+function totalSavedEver(){ return state.transactions.filter(tx => tx.type === 'goal_deposit').reduce((s,tx) => s + (Number(tx.amount)||0), 0); }
 function goalDepositCount(){ return state.transactions.filter(tx => tx.type === 'goal_deposit').length; }
 function goalDoneCount(){ return state.goals.filter(g => Number(g.targetAmount) > 0 && Number(g.saved) >= Number(g.targetAmount)).length; }
 function achievementProgress(a){
@@ -1789,7 +1662,7 @@ function afterChange(){
 }
 
 /* =========================================================================
-   锁屏
+   Lock Screen — V1.09 FIX
    ========================================================================= */
 let lockUI = { mode:'unlock', pin:'', firstPin:'', useTextMode:false, msg:'', error:false };
 
@@ -1798,23 +1671,33 @@ function currentLockKind(){
   return 'pin';
 }
 
+/* V1.09: Determine which UI mode we should be in.
+   During unlock, ALWAYS follow the stored lockRecord.type.
+   During create/change, allow user to pick with useTextMode. */
+function shouldUseTextMode(){
+  if(lockUI.mode === 'unlock') return currentLockKind() === 'text';
+  return lockUI.useTextMode;
+}
+
 function renderLock(){
   const root = document.getElementById('lock-root');
   const hasLock = !!(lockRecord && lockRecord.hash);
   const hasData = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
   if(isUnlocked){ root.innerHTML = ''; return; }
 
-  let title = hasLock && currentLockKind() === 'text' ? t('lockEnterPassword') : t('lockEnterPin');
+  // Sync useTextMode with stored type during unlock
+  if(lockUI.mode === 'unlock'){ lockUI.useTextMode = currentLockKind() === 'text'; }
+
+  let title = shouldUseTextMode() ? t('lockEnterPassword') : t('lockEnterPin');
   if(lockUI.mode === 'create')        title = t('lockCreatePin');
   else if(lockUI.mode === 'confirm')  title = t('lockConfirmPin');
   else if(lockUI.mode === 'changeOld')title = t('lockChangeOld');
   else if(lockUI.mode === 'changeNew')title = t('lockChangeNew');
   else if(lockUI.mode === 'changeConfirm') title = t('lockChangeConfirm');
   if(!hasLock && lockUI.mode === 'unlock') lockUI.mode = 'create';
-  if(lockUI.mode === 'unlock'){ lockUI.useTextMode = (currentLockKind() === 'text'); }
 
   const infoText = (hasLock && hasData) ? t('lockDataPreserved') : '';
-  const pinLen = 6;
+  const showToggle = (lockUI.mode === 'create' || lockUI.mode === 'confirm' || lockUI.mode === 'changeNew' || lockUI.mode === 'changeConfirm');
 
   root.innerHTML = `
   <div class="lock-screen" id="lock-screen">
@@ -1832,15 +1715,16 @@ function renderLock(){
       ${PRODUCT_NOTICE_LANGS.map(l => `<div class="ln-row"><span class="ln-flag">${l.code}</span><span class="ln-text">${l.text}</span></div>`).join('')}
     </div>
     <div class="lock-footer">
-      ${ (lockUI.mode === 'create' || lockUI.mode === 'confirm' || lockUI.mode === 'changeNew' || lockUI.mode === 'changeConfirm')
-          ? (!lockUI.useTextMode
-              ? `<button type="button" id="lock-toggle-text">${esc(t('lockUseText'))}</button>`
-              : `<button type="button" id="lock-toggle-pin">${esc(t('lockUsePin'))}</button>`)
+      ${ showToggle
+          ? (shouldUseTextMode()
+              ? `<button type="button" id="lock-toggle-pin">${esc(t('lockUsePin'))}</button>`
+              : `<button type="button" id="lock-toggle-text">${esc(t('lockUseText'))}</button>`)
           : '' }
     </div>
   </div>`;
 
   updateLockDynamic();
+
   const togglePin = $('#lock-toggle-pin');
   const toggleText = $('#lock-toggle-text');
   if(togglePin)  togglePin.addEventListener('click', e => { e.preventDefault(); lockUI.useTextMode = false; lockUI.msg=''; lockUI.error=false; lockUI.pin=''; renderLock(); });
@@ -1851,11 +1735,12 @@ function updateLockDynamic(){
   const dyn = document.getElementById('lock-dynamic');
   if(!dyn) return;
   const pinLen = 6;
-  if(lockUI.useTextMode){
+  if(shouldUseTextMode()){
+    // V1.09: text mode uses a real text input + dedicated confirm button
     dyn.innerHTML = `
       <div class="lock-input-wrap">
         <input class="lock-input" id="lock-text" type="password" inputmode="text"
-               placeholder="${esc(t('lockTextPlaceholder'))}" value="${esc(lockUI.pin)}" maxlength="64"
+               placeholder="${esc(t('lockTextPlaceholder'))}" value="${esc(lockUI.pin)}" maxlength="128"
                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
       </div>
       <div class="lock-msg" id="lock-msg-el">${esc(lockUI.msg)}</div>
@@ -1865,10 +1750,10 @@ function updateLockDynamic(){
       txt.focus();
       try{ txt.setSelectionRange(txt.value.length, txt.value.length); }catch(e){}
       txt.addEventListener('input', e => { lockUI.pin = e.target.value; lockUI.error = false; });
-      txt.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); handleKey('ok'); } });
+      txt.addEventListener('keydown', e => { if(e.key === 'Enter'){ e.preventDefault(); handleTextConfirm(); } });
     }
     const ok = $('#lock-ok');
-    if(ok) ok.addEventListener('click', e => { e.preventDefault(); handleKey('ok'); });
+    if(ok) ok.addEventListener('click', e => { e.preventDefault(); handleTextConfirm(); });
   }else{
     dyn.innerHTML = `
       <div class="pin-dots" id="pin-dots">
@@ -1888,6 +1773,13 @@ function updateLockDynamic(){
   }
 }
 
+/* V1.09: dedicated handler for text-mode confirm */
+function handleTextConfirm(){
+  const txt = document.getElementById('lock-text');
+  if(txt) lockUI.pin = txt.value;
+  submitPin();
+}
+
 function handleKey(k){
   if(k === 'del'){ lockUI.pin = lockUI.pin.slice(0,-1); lockUI.error = false; updateLockDynamic(); return; }
   if(k === 'clear'){ lockUI.pin = ''; lockUI.error = false; lockUI.msg = ''; updateLockDynamic(); return; }
@@ -1895,54 +1787,88 @@ function handleKey(k){
   if(/^\d$/.test(k)){
     if(lockUI.pin.length < 12){ lockUI.pin += k; lockUI.error = false; lockUI.msg = ''; }
     updateLockDynamic();
-    if(!lockUI.useTextMode && lockUI.pin.length === 6) setTimeout(submitPin, 120);
+    if(!shouldUseTextMode() && lockUI.pin.length === 6) setTimeout(submitPin, 120);
   }
 }
 
+/* V1.09 CORE FIX:
+   submitPin() now reads the CURRENT useTextMode from shouldUseTextMode() and
+   always uses sha256(String(pin)) for both setting and verifying.
+   No parseInt, no numeric-only conversion. */
 async function submitPin(){
-  const pin = lockUI.pin;
+  const pin = String(lockUI.pin == null ? '' : lockUI.pin);
+  const usingText = shouldUseTextMode();
   const hasLock = !!(lockRecord && lockRecord.hash);
+
   if(!pin){ lockUI.msg = t('lockErrEmpty'); lockUI.error = true; updateLockDynamic(); return; }
 
   if(lockUI.mode === 'create'){
-    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
-    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
-    lockUI.firstPin = pin; lockUI.pin = ''; lockUI.mode = 'confirm'; lockUI.msg = ''; renderLock(); return;
+    if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
+    if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
+    lockUI.firstPin = pin;
+    lockUI.pin = '';
+    lockUI.mode = 'confirm';
+    lockUI.msg = '';
+    renderLock();
+    return;
   }
   if(lockUI.mode === 'confirm'){
-    if(pin !== lockUI.firstPin){ lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'create'; renderLock(); return; }
+    if(pin !== lockUI.firstPin){
+      lockUI.msg = t('lockErrMismatch');
+      lockUI.error = true;
+      lockUI.pin = '';
+      lockUI.firstPin = '';
+      lockUI.mode = 'create';
+      renderLock();
+      return;
+    }
     const hash = await sha256(pin);
-    lockRecord = { hash, type: lockUI.useTextMode ? 'text':'pin', createdAt: Date.now() };
+    lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
     saveLock(lockRecord);
     lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
-    isUnlocked = true; markActivity(); renderLock(); render({ top:true }); toast(t('lockWelcome'));
+    isUnlocked = true; markActivity(); renderLock(); render({ top:true });
+    toast(t('lockWelcome'));
     return;
   }
   if(lockUI.mode === 'changeOld'){
     const hash = await sha256(pin);
-    if(!lockRecord || hash !== lockRecord.hash){ lockUI.msg = t('lockVerifyFailed'); lockUI.error = true; lockUI.pin = ''; updateLockDynamic(); return; }
-    lockUI.mode = 'changeNew'; lockUI.pin = ''; lockUI.msg = ''; lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false; renderLock(); return;
+    if(!lockRecord || hash !== lockRecord.hash){
+      lockUI.msg = t('lockVerifyFailed'); lockUI.error = true; lockUI.pin = ''; updateLockDynamic(); return;
+    }
+    lockUI.mode = 'changeNew'; lockUI.pin = ''; lockUI.msg = '';
+    lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
+    renderLock();
+    return;
   }
   if(lockUI.mode === 'changeNew'){
-    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
-    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
+    if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
+    if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
     lockUI.firstPin = pin; lockUI.pin = ''; lockUI.mode = 'changeConfirm'; lockUI.msg = ''; renderLock(); return;
   }
   if(lockUI.mode === 'changeConfirm'){
-    if(pin !== lockUI.firstPin){ lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'changeNew'; renderLock(); return; }
+    if(pin !== lockUI.firstPin){
+      lockUI.msg = t('lockErrMismatch'); lockUI.error = true; lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'changeNew'; renderLock(); return;
+    }
     const hash = await sha256(pin);
-    lockRecord = { hash, type: lockUI.useTextMode ? 'text':'pin', createdAt: Date.now() };
+    lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
     saveLock(lockRecord);
     lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
     renderLock(); toast(t('lockUpdated')); return;
   }
+
+  /* Unlock attempt */
   if(!hasLock){ lockUI.mode = 'create'; renderLock(); return; }
   const hash = await sha256(pin);
   if(hash === lockRecord.hash){
-    isUnlocked = true; lockUI.pin = ''; lockUI.msg = ''; lockUI.error = false;
-    markActivity(); renderLock(); render({ top:true });
+    isUnlocked = true;
+    lockUI.pin = ''; lockUI.msg = ''; lockUI.error = false;
+    markActivity();
+    renderLock(); render({ top:true });
   }else{
-    lockUI.msg = t('lockErrWrong'); lockUI.error = true; lockUI.pin = '';
+    lockUI.msg = t('lockErrWrong');
+    lockUI.error = true;
+    lockUI.pin = '';
+    // Re-render so the text input is cleared correctly in text mode
     updateLockDynamic();
     if(navigator.vibrate) navigator.vibrate(60);
   }
@@ -2038,7 +1964,6 @@ function renderView(){
   }
   return '';
 }
-
 function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
 function openSub(name){ ui.sub = name; render({ top:true }); }
 function back(){ ui.sub = null; render({ top:true }); }
@@ -2060,10 +1985,7 @@ function viewHome(){
   return `
   <div class="hero">
     <div class="hero-top">
-      <div>
-        <span class="hero-label">${esc(t('totalAssets'))}</span>
-        <div class="hero-sub">${esc(t('totalAssetsSub'))}</div>
-      </div>
+      <div><span class="hero-label">${esc(t('totalAssets'))}</span><div class="hero-sub">${esc(t('totalAssetsSub'))}</div></div>
       <button class="eye-btn" onclick="toggleHide()">${state.settings.hideBalance ? '🙈' : '👁'}</button>
     </div>
     <div class="hero-amount">${money(total)}</div>
@@ -2073,33 +1995,25 @@ function viewHome(){
       <div class="split-item"><span>${esc(t('lockedSaving'))}</span><b>${money(locked)}</b></div>
     </div>
   </div>
-
   ${renderProductNotice()}
-
   <div class="mini-row">
     <div class="mini"><span>${esc(t('monthIncome'))}</span><b class="c-green">${money(mIn)}</b></div>
     <div class="mini"><span>${esc(t('monthExpense'))}</span><b class="c-red">${money(mOut)}</b></div>
   </div>
-
   <div class="quick">
     <button onclick="openIncomeForm()"><span class="qi">＋</span>${esc(t('quickIncome'))}</button>
     <button onclick="openExpenseForm()"><span class="qi">－</span>${esc(t('quickExpense'))}</button>
     <button onclick="openTransferForm()"><span class="qi">⇄</span>${esc(t('quickTransfer'))}</button>
     <button onclick="openGoalForm()"><span class="qi">🎯</span>${esc(t('quickGoal'))}</button>
   </div>
-
   <div class="quick">
     <button onclick="openDebtForm()"><span class="qi">🤝</span>${esc(t('debtTitle'))}</button>
     <button onclick="openMGForm()"><span class="qi">🎁</span>${esc(t('moneyGiven'))}</button>
     <button onclick="go('assets')"><span class="qi">📦</span>${esc(t('tabAssets'))}</button>
     <button onclick="go('stats')"><span class="qi">📊</span>${esc(t('tabStats'))}</button>
   </div>
-
   <section>
-    <div class="section-head">
-      <h3>${esc(t('myAccounts'))}</h3>
-      <button class="link" onclick="openSub('accounts')">${esc(t('manage'))}</button>
-    </div>
+    <div class="section-head"><h3>${esc(t('myAccounts'))}</h3><button class="link" onclick="openSub('accounts')">${esc(t('manage'))}</button></div>
     <div class="list">
       ${ state.accounts.length
           ? `<div class="row" onclick="goAccountDetail(null)">
@@ -2110,28 +2024,22 @@ function viewHome(){
           : `<div class="empty"><p>${esc(t('noAccount'))}</p><button class="btn primary sm" onclick="openAccountForm()">${esc(t('addFirstAccount'))}</button></div>` }
     </div>
   </section>
-
   ${ goalsPreview.length ? `
   <section>
     <div class="section-head"><h3>${esc(t('tabGoals'))}</h3><button class="link" onclick="go('goals')">${esc(t('viewAll'))}</button></div>
     ${ goalsPreview.map(goalCard).join('') }
   </section>` : '' }
-
   <section>
     <div class="section-head"><h3>${esc(t('recentTx'))}</h3><button class="link" onclick="go('records')">${esc(t('viewAll'))}</button></div>
-    <div class="list">
-      ${ recent.length ? recent.map(txRow).join('') : `<div class="empty"><p>${esc(t('noTx'))}</p></div>` }
-    </div>
+    <div class="list">${ recent.length ? recent.map(txRow).join('') : `<div class="empty"><p>${esc(t('noTx'))}</p></div>` }</div>
   </section>
-
   ${ !hasAny ? `
   <div class="empty big">
     <div class="empty-icon">👋</div>
     <p>${esc(t('welcomeTitle'))}</p>
     <span>${esc(t('welcomeSub'))}</span>
     <button class="btn primary sm" onclick="openAccountForm()">${esc(t('createAccount'))}</button>
-  </div>` : '' }
-  `;
+  </div>` : '' }`;
 }
 function goAccountDetail(id){ ui.currentAccountId = id; ui.sub = 'account-detail'; render({ top:true }); }
 function accRow(a){
@@ -2200,7 +2108,7 @@ function txRow(tx){
 }
 
 /* =========================================================================
-   账户详情
+   账户详情 / 交易 / 目标 / 资产 / 统计 / 设置
    ========================================================================= */
 function viewAccountDetail(){
   if(!ui.currentAccountId) return viewAllAccountsDetail();
@@ -2262,9 +2170,6 @@ function viewAllAccountsDetail(){
 }
 function filterByAccount(id){ ui.recordAccount = id; ui.tab = 'records'; ui.sub = null; render({ top:true }); }
 
-/* =========================================================================
-   交易记录
-   ========================================================================= */
 function viewRecords(){
   const f = ui.recordFilter;
   const q = (ui.searchQuery || '').trim().toLowerCase();
@@ -2346,9 +2251,6 @@ document.addEventListener('input', e => {
   }
 });
 
-/* =========================================================================
-   储蓄目标
-   ========================================================================= */
 function viewGoals(){
   const goals = state.goals;
   const totalTarget = goals.reduce((s,g) => s + Number(g.targetAmount||0), 0);
@@ -2394,9 +2296,6 @@ function goalCard(g){
   </div>`;
 }
 
-/* =========================================================================
-   资产回本
-   ========================================================================= */
 function assetCalc(a){
   const price    = Number(a.price) || 0;
   const totalDays = (Number(a.expectedYears)||0) * 365 + (Number(a.expectedMonths)||0) * 30;
@@ -2487,9 +2386,6 @@ function assetCard(a){
   </div>`;
 }
 
-/* =========================================================================
-   统计
-   ========================================================================= */
 function last6Months(){
   const arr = [];
   const now = new Date();
@@ -2561,9 +2457,6 @@ function viewStats(){
 }
 function setStatsRange(v){ ui.statsRange = v; render(); }
 
-/* =========================================================================
-   账户管理
-   ========================================================================= */
 function viewAccounts(){
   return `
   <div class="card">
@@ -2586,9 +2479,6 @@ function viewAccounts(){
   <p class="about">${esc(t('accountDeleteHint'))}</p>`;
 }
 
-/* =========================================================================
-   分类管理
-   ========================================================================= */
 function viewCategories(){
   return `
   <div class="card">
@@ -2629,9 +2519,6 @@ function removeCustomCat(kind, name){
   });
 }
 
-/* =========================================================================
-   成就 (V1.08: How-to + Progress)
-   ========================================================================= */
 function viewAchievements(){
   const list = I18N[LANG].achList || I18N.zh.achList;
   return `<div class="ach-grid">
@@ -2641,9 +2528,7 @@ function viewAchievements(){
       const pct = a.target > 0 ? Math.min(prog / a.target * 100, 100) : 0;
       const progText = a.kind === 'streak'
         ? `${prog} / ${a.target} ${LANG==='zh'?'天':(LANG==='ms'?'hari':'days')}`
-        : (a.kind === 'total_saved'
-            ? `${money(prog)} / ${money(a.target)}`
-            : `${prog} / ${a.target}`);
+        : (a.kind === 'total_saved' ? `${money(prog)} / ${money(a.target)}` : `${prog} / ${a.target}`);
       return `<div class="ach ${got?'got':''}">
         <div class="ach-row">
           <div class="ach-icon">${got ? a.icon : '🔒'}</div>
@@ -2663,9 +2548,6 @@ function viewAchievements(){
   </div>`;
 }
 
-/* =========================================================================
-   设置
-   ========================================================================= */
 function viewSettings(){
   const unlockedCount = Object.keys(state.achievements).length;
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
@@ -2757,9 +2639,6 @@ function viewSettings(){
   <p class="about">${esc(t('setAbout', { av:META.appVersion, dv:META.dataVersion })).replace(/\n/g,'<br>')}</p>`;
 }
 
-/* =========================================================================
-   App Lock Settings
-   ========================================================================= */
 function viewLockSettings(){
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
   const kind = currentLockKind();
@@ -2810,6 +2689,7 @@ function viewLockSettings(){
   <p class="about">${esc(t('lockHashNote'))}</p>`;
 }
 
+/* V1.09: Set PIN — uses sha256(String(pin)) */
 function openSetPIN(){
   const hasLock = !!(lockRecord && lockRecord.hash);
   const needVerify = hasLock;
@@ -2837,6 +2717,8 @@ function openSetPIN(){
     }
   });
 }
+
+/* V1.09: Set Custom Password — uses identical sha256(String(pw)) */
 function openSetPassword(){
   const hasLock = !!(lockRecord && lockRecord.hash);
   const needVerify = hasLock;
@@ -2849,12 +2731,13 @@ function openSetPassword(){
       <label class="field"><span class="field-label">${esc(t('lockConfirmPassword'))}</span><input name="confirmPw" type="password" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" required></label>
       <p class="hint">${esc(t('lockHashNote'))}</p>`,
     onSubmit: async (d) => {
-      const newPw = String(d.newPw || '').trim();
-      const confirmPw = String(d.confirmPw || '').trim();
+      // V1.09: do NOT trim the password beyond what user types. Only guard min length.
+      const newPw = String(d.newPw == null ? '' : d.newPw);
+      const confirmPw = String(d.confirmPw == null ? '' : d.confirmPw);
       if(newPw.length < 4){ toast(t('lockPasswordLength')); return false; }
       if(newPw !== confirmPw){ toast(t('lockErrMismatch')); return false; }
       if(needVerify){
-        const curHash = await sha256(String(d.current || ''));
+        const curHash = await sha256(String(d.current == null ? '' : d.current));
         if(!lockRecord || curHash !== lockRecord.hash){ toast(t('lockVerifyFailed')); return false; }
       }
       const hash = await sha256(newPw);
@@ -2865,11 +2748,9 @@ function openSetPassword(){
   });
 }
 
-/* =========================================================================
-   System Info / Identity / Changelog
-   ========================================================================= */
 function viewSystemInfo(){
   const transferCount = state.transactions.filter(tx => tx.type === 'transfer').length;
+  const lockKind = currentLockKind();
   return `
   <div class="card">
     <div class="asset-grid">
@@ -2877,6 +2758,7 @@ function viewSystemInfo(){
       <div><span>Data Version</span><b>v${esc(META.dataVersion)}</b></div>
       <div><span>${esc(t('lastUpdated'))}</span><b style="font-size:12px">${esc(localDateStr(META.lastUpdated))} ${esc(localTimeStr(META.lastUpdated))}</b></div>
       <div><span>${esc(t('storageLocal'))}</span><b>localStorage</b></div>
+      <div><span>${esc(t('lockModeLabel'))}</span><b>${lockKind === 'text' ? esc(t('lockModePassword')) : esc(t('lockModePIN'))}</b></div>
     </div>
   </div>
   <div class="card">
@@ -2917,9 +2799,6 @@ function viewWhatsNew(){
 function toggleAppLock(){ state.settings.appLockEnabled = !state.settings.appLockEnabled; saveState(); render(); toast(state.settings.appLockEnabled ? t('lockEnabled') : t('lockDisabled')); }
 function setAutoLock(v){ state.settings.autoLockMinutes = v; saveState(); render(); }
 
-/* =========================================================================
-   导出 / 导入 / 清除
-   ========================================================================= */
 function exportData(){
   try{
     const payload = { app:'SaveWise', appVersion:META.appVersion, dataVersion:META.dataVersion, exportedAt:new Date().toISOString(), changelog:CHANGELOG, state };
@@ -3016,7 +2895,7 @@ function clearData(){
 }
 
 /* =========================================================================
-   Sheet 系统
+   Sheet / Picker / Toast
    ========================================================================= */
 function openSheet(opts){
   const root = document.getElementById('sheet-root');
@@ -3110,21 +2989,7 @@ function toast(msg){
   }, 2200);
 }
 
-/* =========================================================================
-   V1.08: Grouped Picker with parent-form context
-   ------------------------------------------------------------------
-   KEY: We do NOT destroy the parent sheet. Instead we save the parent
-   form's live input values, temporarily hide the parent sheet, open the
-   picker as a separate sheet, and on pick we restore the parent form
-   with all values and the newly selected field set.
-   ========================================================================= */
 function openGroupedPicker(opts){
-  /* opts:
-     { title, groups:[{group, items, labelFor, groupLabelFor, iconFor}],
-       value, allowCustom, customValue, customPlaceholder,
-       onPick(id), onCustom(text) }
-  */
-  // Save current parent form state and hide parent sheet WITHOUT destroying it
   const sheetRoot = document.getElementById('sheet-root');
   const parentSheet = sheetRoot.querySelector('.sheet');
   const parentForm = sheetRoot.querySelector('#sheet-form');
@@ -3138,8 +3003,6 @@ function openGroupedPicker(opts){
       else parentState[key] = el.value;
     });
   }
-
-  // Build picker overlay as its OWN root so the parent sheet stays intact underneath
   let pickerRoot = document.getElementById('picker-root');
   if(!pickerRoot){
     pickerRoot = document.createElement('div');
@@ -3150,7 +3013,6 @@ function openGroupedPicker(opts){
   const labelFor = opts.labelFor || (id => id);
   const groupLabelFor = opts.groupLabelFor || (id => id);
   const iconFor = opts.iconFor || (id => '');
-
   pickerRoot.innerHTML = `
     <div class="mask" id="picker-mask" style="position:absolute;inset:0;background:rgba(15,23,42,.45);opacity:0;transition:opacity .26s;"></div>
     <div class="sheet" style="position:absolute;left:0;right:0;bottom:0;max-width:560px;margin:0 auto;background:#fff;border-radius:26px 26px 0 0;max-height:92vh;overflow-y:auto;transform:translateY(100%);transition:transform .32s cubic-bezier(.32,.72,0,1);padding-bottom:calc(16px + var(--safe-b));">
@@ -3184,20 +3046,6 @@ function openGroupedPicker(opts){
       </div>
     </div>`;
   pickerRoot.style.pointerEvents = 'auto';
-
-  // Restore parent form function
-  function restoreParentForm(newState){
-    if(parentForm && parentState){
-      // merge: start from saved, then apply newState overrides
-      const merged = Object.assign({}, parentState, newState || {});
-      Object.keys(merged).forEach(key => {
-        const el = parentForm.querySelector(`[name="${key}"]`) || parentForm.querySelector(`#${key}`);
-        if(!el) return;
-        if(el.type === 'checkbox') el.checked = !!merged[key];
-        else el.value = merged[key];
-      });
-    }
-  }
   function closePicker(shouldRestoreParent){
     const inner = pickerRoot.querySelector('.sheet');
     const mask = pickerRoot.querySelector('#picker-mask');
@@ -3206,33 +3054,22 @@ function openGroupedPicker(opts){
     setTimeout(() => {
       pickerRoot.innerHTML = '';
       pickerRoot.style.pointerEvents = 'none';
-      // Show parent sheet back
       if(shouldRestoreParent !== false){
         const ps = sheetRoot.querySelector('.sheet');
         if(ps) ps.style.transform = 'translateY(0)';
       }
     }, 320);
   }
-
-  // Hide parent sheet visually (but keep it in DOM and unchanged so events fire on the original elements)
-  if(parentSheet){
-    // Keep the mask for parent intact; just slide parent sheet down
-    parentSheet.style.transform = 'translateY(100%)';
-  }
-
-  // Trigger picker enter animation
+  if(parentSheet){ parentSheet.style.transform = 'translateY(100%)'; }
   const pickerSheet = pickerRoot.querySelector('.sheet');
   const pickerMask = pickerRoot.querySelector('#picker-mask');
   requestAnimationFrame(() => {
     if(pickerMask) pickerMask.style.opacity = '1';
     if(pickerSheet) pickerSheet.style.transform = 'translateY(0)';
   });
-
-  // Events
   pickerRoot.querySelector('#picker-close').addEventListener('click', () => closePicker(true));
   pickerRoot.querySelector('#picker-back').addEventListener('click', () => closePicker(true));
   pickerMask.addEventListener('click', () => closePicker(true));
-
   pickerRoot.querySelectorAll('.opt-item').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.id;
@@ -3252,7 +3089,7 @@ function openGroupedPicker(opts){
 }
 
 /* =========================================================================
-   表单：账户
+   表单实现
    ========================================================================= */
 function openAccountForm(){
   openSheet({
@@ -3316,19 +3153,10 @@ function deleteAccount(id){
     afterChange(); toast(t('accountDeleted'));
   });
 }
-
-/* =========================================================================
-   表单：收入 / 支出 / 转账
-   ========================================================================= */
 function accountOptions(selected, excludeId){
   return state.accounts.filter(a => a.id !== excludeId)
     .map(a => `<option value="${a.id}" ${selected===a.id?'selected':''}>${esc(a.name)}（${fmtNum(a.balance||0)}）</option>`).join('');
 }
-
-/* V1.08: Reusable category + method picker buttons. They read/write to hidden inputs
-   inside the SAME parent form. When user opens picker, parent form values are saved,
-   picker shows, and on pick the parent form is restored with all values. */
-
 function renderCategoryPickerButton(kind, currentId, currentLabel){
   return `
     <button type="button" class="btn ghost block cat-picker-btn" style="text-align:left;font-weight:600">
@@ -3340,15 +3168,10 @@ function renderMethodPickerButton(currentId, currentLabel, currentCustom){
   const showCustom = currentCustom || '';
   const label = showCustom || currentLabel || t('pickMethod');
   return `
-    <button type="button" class="btn ghost block method-picker-btn" style="text-align:left;font-weight:600">
-      ${esc(label)}
-    </button>
+    <button type="button" class="btn ghost block method-picker-btn" style="text-align:left;font-weight:600">${esc(label)}</button>
     <input type="hidden" name="method" value="${esc(currentId||'')}">
     <input type="hidden" name="methodCustom" value="${esc(showCustom||'')}">`;
 }
-
-/* Bind category picker: on click, opens picker; on pick, updates THIS button and hidden input
-   in the SAME form (which is preserved by openGroupedPicker's parentState logic). */
 function bindCategoryPicker(root, kind){
   const btn = root.querySelector('.cat-picker-btn');
   if(!btn) return;
@@ -3381,8 +3204,6 @@ function bindCategoryPicker(root, kind){
     });
   });
 }
-
-/* Bind method picker */
 function bindMethodPicker(root){
   const btn = root.querySelector('.method-picker-btn');
   if(!btn) return;
@@ -3408,6 +3229,41 @@ function bindMethodPicker(root){
         if(!Array.isArray(state.customMethods)) state.customMethods = [];
         if(!state.customMethods.includes(text)) state.customMethods.push(text);
         saveState();
+        if(hiddenId) hiddenId.value = '';
+        if(hiddenCustom) hiddenCustom.value = text;
+        btn.innerHTML = esc(text);
+      }
+    });
+  });
+}
+function renderPurposePickerButton(kind, currentId, currentCustom){
+  const label = currentCustom || (kind === 'debt' ? debtPurposeLabel(currentId) : mgPurposeLabel(currentId));
+  return `
+    <button type="button" class="btn ghost block purpose-picker-btn" style="text-align:left;font-weight:600">${esc(label || t('pickPurpose'))}</button>
+    <input type="hidden" name="purpose" value="${esc(currentId||'')}">
+    <input type="hidden" name="purposeCustom" value="${esc(currentCustom||'')}">`;
+}
+function bindPurposePicker(root, kind){
+  const btn = root.querySelector('.purpose-picker-btn');
+  if(!btn) return;
+  const hiddenId = root.querySelector('input[name="purpose"]');
+  const hiddenCustom = root.querySelector('input[name="purposeCustom"]');
+  const groups = kind === 'debt' ? DEBT_PURPOSE_GROUPS : MG_PURPOSE_GROUPS;
+  const labelFor = kind === 'debt' ? debtPurposeLabel : mgPurposeLabel;
+  const groupLabelFor = kind === 'debt' ? debtPurposeGroupLabel : mgPurposeGroupLabel;
+  btn.addEventListener('click', () => {
+    openGroupedPicker({
+      title: t('pickPurpose'),
+      groups, value: hiddenId ? hiddenId.value : '',
+      allowCustom: true, customValue: hiddenCustom ? hiddenCustom.value : '',
+      customPlaceholder: t('debtPurposeCustom'),
+      labelFor, groupLabelFor,
+      onPick: (id) => {
+        if(hiddenId) hiddenId.value = id;
+        if(hiddenCustom) hiddenCustom.value = '';
+        btn.innerHTML = esc(labelFor(id));
+      },
+      onCustom: (text) => {
         if(hiddenId) hiddenId.value = '';
         if(hiddenCustom) hiddenCustom.value = text;
         btn.innerHTML = esc(text);
@@ -3447,11 +3303,9 @@ function openIncomeForm(presetAccountId){
         id: uid(), type: 'income', amount,
         date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
         category: d.category || initialCat,
-        method: d.method || '',
-        methodCustom: d.methodCustom || '',
+        method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || '').trim(),
-        recurring: !!d.recurring,
-        createdAt: Date.now(), updatedAt: Date.now()
+        recurring: !!d.recurring, createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('incomeSaved')); return true;
     },
@@ -3492,11 +3346,9 @@ function openExpenseForm(presetAccountId){
         date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
         category: d.category || initialCat,
         subCategory: '',
-        method: d.method || '',
-        methodCustom: d.methodCustom || '',
+        method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || '').trim(),
-        recurring: !!d.recurring,
-        createdAt: Date.now(), updatedAt: Date.now()
+        recurring: !!d.recurring, createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('expenseSaved')); return true;
     },
@@ -3541,9 +3393,6 @@ function openTransferForm(presetFrom){
   });
 }
 
-/* =========================================================================
-   欠款记录
-   ========================================================================= */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
   const initialPurpose = 'food_debt';
@@ -3562,12 +3411,8 @@ function openDebtForm(presetId){
       <label class="field"><span class="field-label">${esc(t('debtAmount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?editing.amount:''}"></div>
       </label>
-      <div class="field"><span class="field-label">${esc(t('debtPurpose'))}</span>
-        ${renderPurposePickerButton('debt', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}
-      </div>
-      <div class="field"><span class="field-label">${esc(t('debtMethod'))}</span>
-        ${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}
-      </div>
+      <div class="field"><span class="field-label">${esc(t('debtPurpose'))}</span>${renderPurposePickerButton('debt', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}</div>
+      <div class="field"><span class="field-label">${esc(t('debtMethod'))}</span>${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}</div>
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('debtDate'))}</span><input name="date" type="date" required value="${editing?localDateStr(editing.date):nowLocalDate()}"></label>
         <label class="field"><span class="field-label">${esc(t('debtTime'))}</span><input name="time" type="time" required value="${editing?localTimeStr(editing.date):nowLocalTime()}"></label>
@@ -3613,44 +3458,6 @@ function openDebtForm(presetId){
     afterRender(root){ bindPurposePicker(root, 'debt'); bindMethodPicker(root); }
   });
 }
-
-/* Shared purpose picker button used by debt & money-given forms */
-function renderPurposePickerButton(kind, currentId, currentCustom){
-  const label = currentCustom || (kind === 'debt' ? debtPurposeLabel(currentId) : mgPurposeLabel(currentId));
-  return `
-    <button type="button" class="btn ghost block purpose-picker-btn" style="text-align:left;font-weight:600">${esc(label || t('pickPurpose'))}</button>
-    <input type="hidden" name="purpose" value="${esc(currentId||'')}">
-    <input type="hidden" name="purposeCustom" value="${esc(currentCustom||'')}">`;
-}
-function bindPurposePicker(root, kind){
-  const btn = root.querySelector('.purpose-picker-btn');
-  if(!btn) return;
-  const hiddenId = root.querySelector('input[name="purpose"]');
-  const hiddenCustom = root.querySelector('input[name="purposeCustom"]');
-  const groups = kind === 'debt' ? DEBT_PURPOSE_GROUPS : MG_PURPOSE_GROUPS;
-  const labelFor = kind === 'debt' ? debtPurposeLabel : mgPurposeLabel;
-  const groupLabelFor = kind === 'debt' ? debtPurposeGroupLabel : mgPurposeGroupLabel;
-  btn.addEventListener('click', () => {
-    openGroupedPicker({
-      title: t('pickPurpose'),
-      groups, value: hiddenId ? hiddenId.value : '',
-      allowCustom: true, customValue: hiddenCustom ? hiddenCustom.value : '',
-      customPlaceholder: t('debtPurposeCustom'),
-      labelFor, groupLabelFor,
-      onPick: (id) => {
-        if(hiddenId) hiddenId.value = id;
-        if(hiddenCustom) hiddenCustom.value = '';
-        btn.innerHTML = esc(labelFor(id));
-      },
-      onCustom: (text) => {
-        if(hiddenId) hiddenId.value = '';
-        if(hiddenCustom) hiddenCustom.value = text;
-        btn.innerHTML = esc(text);
-      }
-    });
-  });
-}
-
 function debtMenu(id){
   const d = getDebt(id);
   if(!d) return;
@@ -3759,9 +3566,6 @@ function debtCard(d){
   </div>`;
 }
 
-/* =========================================================================
-   转给他人 / 赠与记录
-   ========================================================================= */
 function openMGForm(presetId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const editing = presetId ? getMG(presetId) : null;
@@ -3779,11 +3583,8 @@ function openMGForm(presetId){
         <select name="accountId">${accountOptions(editing?editing.accountId:null)}</select>
         <p class="hint" style="margin-top:6px">${esc(t('mgFromAccountHint'))}</p>
       </label>
-      <div class="field"><span class="field-label">${esc(t('mgPurpose'))}</span>
-        ${renderPurposePickerButton('mg', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}
-      </div>
-      <div class="field"><span class="field-label">${esc(t('mgMethod'))}</span>
-        ${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}
+      <div class="field"><span class="field-label">${esc(t('mgPurpose'))}</span>${renderPurposePickerButton('mg', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}</div>
+      <div class="field"><span class="field-label">${esc(t('mgMethod'))}</span>${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}
         <p class="hint" style="margin-top:6px">${esc(t('mgMethodHint'))}</p>
       </div>
       <div class="two-col">
@@ -3838,7 +3639,6 @@ function openMGForm(presetId){
     afterRender(root){ bindPurposePicker(root, 'mg'); bindMethodPicker(root); }
   });
 }
-
 function mgMenu(id){
   const m = getMG(id);
   if(!m) return;
@@ -3872,9 +3672,6 @@ function mgCard(m){
   </div>`;
 }
 
-/* =========================================================================
-   交易菜单 / 编辑 / 删除
-   ========================================================================= */
 function openTxMenu(id){
   const tx = state.transactions.find(x => x.id === id);
   if(!tx) return;
@@ -3986,9 +3783,6 @@ function deleteTransaction(id){
   });
 }
 
-/* =========================================================================
-   储蓄目标
-   ========================================================================= */
 function openGoalForm(){
   openSheet({
     title: t('goalNew'), submitText: t('goalCreate'),
@@ -4147,9 +3941,6 @@ function cancelGoal(id){
   });
 }
 
-/* =========================================================================
-   资产回本
-   ========================================================================= */
 function openAssetForm(){
   openSheet({
     title: t('assetNew'), submitText: t('assetAdd'),
@@ -4308,6 +4099,15 @@ function openAssetEnd(id){
     if(tx.method === undefined) tx.method = '';
     if(tx.methodCustom === undefined) tx.methodCustom = '';
   });
+
+  // V1.09: normalise lockRecord so we ALWAYS have a valid type
+  if(lockRecord && lockRecord.hash){
+    if(!lockRecord.type){
+      // Legacy record — infer type from hash prefix or default to pin
+      lockRecord.type = 'pin';
+      saveLock(lockRecord);
+    }
+  }
 
   if(APP_VERSION_FALLBACK && APP_VERSION_FALLBACK > (META.appVersion || '0')){
     META.appVersion = APP_VERSION_FALLBACK;
