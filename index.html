@@ -372,22 +372,836 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   SaveWise v1.0
-   单页应用 · 本地持久化 · 统一数据源 · App Lock
+   SaveWise v1.0.0
+   Single-file web app · Local-first · Unified state · App Lock · i18n
+   Data Version: 1
    ========================================================================= */
 
+const APP_VERSION  = '1.0.0';
+const DATA_VERSION = 1;
 const STORAGE_KEY  = 'savewise_state_v1';
 const LOCK_KEY     = 'savewise_lock_v1';
+const LANG_KEY     = 'savewise_lang_v1';
+const BACKUP_KEY   = 'savewise_backup_v1';
+
+/* ============================ i18n ============================ */
+const I18N = {
+  zh: {
+    appName:'SaveWise',
+    slogan:'安全 · 清晰 · 真实记录你的每一笔钱',
+    // lock
+    lockCreatePin:'创建 6 位数字 PIN',
+    lockConfirmPin:'请再次输入确认',
+    lockEnterPin:'输入 PIN 解锁',
+    lockChangeOld:'请输入当前 PIN',
+    lockChangeNew:'设置新的 6 位 PIN',
+    lockChangeConfirm:'再次输入新 PIN',
+    lockUseText:'使用自定义密码',
+    lockUsePin:'改用数字 PIN',
+    lockTextPlaceholder:'输入密码',
+    lockOk:'确认',
+    lockClear:'清除',
+    lockDel:'⌫',
+    lockBio:'生物识别（即将推出）',
+    lockErrEmpty:'请输入密码',
+    lockErrPin6:'请输入 6 位数字 PIN',
+    lockErrText4:'密码至少 4 位',
+    lockErrMismatch:'两次输入不一致，请重新创建',
+    lockErrWrong:'密码不正确，请重试',
+    lockWelcome:'欢迎使用 SaveWise',
+    lockUpdated:'密码已更新',
+    lockAutoLocked:'已自动锁定',
+    lockLockNow:'立即锁定应用',
+    lockChangePin:'修改 PIN / 密码',
+    lockDisable:'关闭 App Lock',
+    lockDisableConfirm:'关闭 App Lock 后，任何人打开应用都无需密码。确定继续？',
+    lockDisabled:'App Lock 已关闭',
+    lockEnabled:'App Lock 已开启',
+    lockEnable:'启用 App Lock',
+    lockEnableSub:'打开应用时需要输入密码',
+    lockAutoLockLabel:'自动锁定',
+    lockAutoLockSub:'离开应用一段时间后自动锁定',
+    lockNever:'不自动锁定',
+    lockMin:'分钟',
+    lockBioTitle:'生物识别（Face ID / 指纹）',
+    lockBioSub:'V2.0 将支持，当前设备暂不可用',
+    lockHashNote:'密码经过 SHA-256 哈希后保存，不会以明文形式存储。忘记密码将无法恢复，请务必牢记。',
+    // common
+    cancel:'取消', confirm:'确认', save:'保存', delete:'删除', edit:'编辑', add:'添加',
+    back:'返回', close:'关闭', search:'搜索', all:'全部', none:'无', ok:'好的',
+    yes:'是', no:'否', optional:'可选',
+    // tabs
+    tabHome:'首页', tabRecords:'交易', tabGoals:'储蓄', tabAssets:'资产', tabStats:'统计', tabSettings:'设置',
+    // home
+    totalAssets:'总资产',
+    availableBalance:'可用余额',
+    lockedSaving:'储蓄目标锁定',
+    monthIncome:'本月收入',
+    monthExpense:'本月支出',
+    myAccounts:'我的账户',
+    allAccounts:'全部账户',
+    manage:'管理',
+    recentTx:'最近交易',
+    viewAll:'查看全部',
+    quickIncome:'收入', quickExpense:'支出', quickTransfer:'转账', quickGoal:'目标',
+    noAccount:'还没有账户',
+    addFirstAccount:'添加第一个账户',
+    noTx:'还没有记录，开始添加第一笔收入吧',
+    welcomeTitle:'欢迎使用 SaveWise',
+    welcomeSub:'从创建一个账户开始，然后记录你的第一笔收入',
+    createAccount:'创建账户',
+    allAccountsOverview:'全部账户总览',
+    // accounts
+    accountName:'账户名称', accountType:'账户类型', initialBalance:'初始余额（可选）',
+    accountNamePlaceholder:'例如：现金钱包',
+    initialHint:'若填写初始余额，会自动生成一笔「初始余额」收入记录。',
+    accountCreated:'账户已创建',
+    renameAccount:'重命名账户',
+    deleteAccount:'删除账户',
+    accountHasBalance:'该账户仍有余额，请先转出或消费',
+    accountDeleteConfirm:'确定删除该账户？',
+    accountDeleteUsed:'该账户已有历史记录，删除后记录会保留但账户显示为「—」。确定删除？',
+    accountDeleted:'账户已删除',
+    accountUpdated:'已更新',
+    totalAvailable:'总可用余额',
+    accountDeleteHint:'账户余额会随收入、支出、转账和储蓄操作实时更新。删除账户前需先清空余额。',
+    // tx types
+    income:'收入', expense:'支出', transfer:'转账',
+    goalDeposit:'储蓄存入', goalWithdraw:'储蓄取出',
+    // records
+    recordIncome:'记录收入', recordExpense:'记录支出', recordTransfer:'账户转账',
+    amount:'金额', category:'分类', account:'账户', date:'日期', time:'时间',
+    note:'备注', notePlaceholder:'可选备注',
+    fromAccount:'转出账户', toAccount:'转入账户',
+    saveIncome:'保存收入', saveExpense:'保存支出', saveTransfer:'确认转账',
+    incomeSaved:'收入已记录', expenseSaved:'支出已记录', transferDone:'转账完成',
+    insufficientBalance:'该账户余额不足',
+    sameAccount:'转出与转入账户不能相同',
+    noAccountWarn:'请先创建一个账户',
+    needTwoAccounts:'至少需要两个账户才能转账',
+    transferHint:'转账不会计入收入或支出，仅调整账户余额。',
+    invalidAmount:'请输入有效金额',
+    filterAll:'全部', filterIncome:'收入', filterExpense:'支出', filterSaving:'转账/储蓄',
+    filterIncomeTotal:'筛选收入', filterExpenseTotal:'筛选支出',
+    searchPlaceholder:'搜索备注或分类…',
+    noFilterResult:'没有符合条件的记录',
+    tryOtherKeyword:'换个关键词试试',
+    noRecords:'还没有交易记录',
+    recordFirst:'＋ 记录第一笔',
+    today:'今天', yesterday:'昨天',
+    recurringLabel:'周期性收入？', recurringLabelExp:'周期性支出？',
+    recurringNo:'否，仅记录这一次',
+    recurringYes:'是，固定 / 周期性（预留）',
+    initialBalanceNote:'初始余额',
+    // goals
+    goalNew:'新建储蓄目标', goalEdit:'修改目标',
+    goalName:'目标名称', goalNamePlaceholder:'例如：买新手机',
+    goalTarget:'目标金额', goalDeadline:'期限（可选）', goalIcon:'图标（可选）',
+    goalNote:'备注（可选）', goalNotePlaceholder:'为什么想存这笔钱？',
+    goalCreate:'创建目标', goalCreated:'储蓄目标已创建',
+    goalSaved:'已储蓄', goalRemain:'还差', goalProgress:'进度',
+    goalDeposit:'存入', goalWithdraw:'取出', goalCancel:'取消目标',
+    goalDepositTitle:'存入储蓄目标', goalWithdrawTitle:'从储蓄目标取出',
+    goalDepositBtn:'确认存入', goalWithdrawBtn:'确认取出',
+    goalDeposited:'已存入储蓄目标', goalWithdrew:'已转回可用余额',
+    goalDepositHint:'可用余额：{amt} · 存入后从可用余额转入锁定储蓄，总资产不变。',
+    goalWithdrawHint:'该目标当前锁定：{amt}',
+    goalExceed:'超出该目标已储蓄金额',
+    goalNoMoney:'该目标还没有可取出的资金',
+    goalCancelTitle:'取消目标', goalCancelBtn:'确认取消',
+    goalCancelHint:'目标内锁定的 {amt} 将全额退回所选账户，不会凭空消失。',
+    goalCancelled:'目标已取消，资金已退回',
+    goalDeadlineNone:'未设置期限', goalDaysLeft:'还剩 {n} 天',
+    goalDueToday:'今天到期', goalOverdue:'已逾期 {n} 天',
+    goalDone:'已达成',
+    lockedSavingAmount:'锁定储蓄金额', goalTotal:'目标总额',
+    goalNoGoals:'还没有储蓄目标',
+    goalNoGoalsSub:'设定目标，把可用余额锁定起来专门储蓄',
+    goalNewBtn:'新建目标',
+    goalReturnAccount:'退回账户',
+    goalDeleteCustomHint:'确定删除自定义分类「{name}」？已存在的交易记录不受影响。',
+    goalIconNone:'不选择',
+    // assets
+    assetNew:'添加资产', assetEdit:'编辑资产',
+    assetName:'资产名称', assetNamePlaceholder:'例如：笔记本电脑',
+    assetPrice:'购买价格', assetPurchaseDate:'购买日期',
+    assetYears:'预计使用（年）', assetMonths:'预计使用（月）',
+    assetNote:'备注（可选）', assetNotePlaceholder:'例如：工作用主力机',
+    assetAdd:'添加资产', assetAdded:'资产已添加',
+    assetDelete:'删除资产', assetDeleteConfirm:'确定删除该资产及其回本记录？',
+    assetDeleted:'资产已删除', assetUpdated:'已更新',
+    assetDailyValue:'每日价值', assetUsedDays:'已使用', assetTotalDays:'预计使用',
+    assetSystemValue:'系统计算回本', assetManualValue:'用户调整值',
+    assetActualValue:'实际已回本', assetUnreturned:'未回本金额', assetRate:'回本率',
+    assetEnd:'结束回本', assetAdjust:'调整价值', assetMore:'更多',
+    assetEndTitle:'结束回本计算', assetEndBtn:'确认结束',
+    assetEndReason:'结束原因', assetEndDate:'结束日期',
+    assetEndHint:'结束后该资产不再自动累计回本金额，实际使用时间与未回本金额将被冻结记录。',
+    assetEnded:'回本计算已结束',
+    assetEndBeforeBuy:'结束日期不能早于购买日期',
+    assetAdjustTitle:'手动调整使用价值', assetAdjustBtn:'保存调整',
+    assetAdjustValue:'实际使用价值（RM）', assetAdjustPlaceholder:'留空则恢复系统计算',
+    assetAdjustReason:'调整原因（可选）',
+    assetAdjustHint:'用户调整值会与系统计算值分开显示，不会覆盖原始数据。',
+    assetAdjusted:'已保存调整',
+    assetAdjustExceed:'调整值不能超过购买价格',
+    assetNoAssets:'还没有记录资产',
+    assetNoAssetsSub:'记录购买物品，按预计使用期限计算每日价值与回本进度',
+    assetAddBtn:'添加资产',
+    assetTotal:'资产总数', assetActive:'回本中',
+    assetReturnedTotal:'累计已回本', assetUnreturnedTotal:'未回本总额',
+    assetStatusActive:'回本中', assetStatusCompleted:'已完成',
+    assetStatusEnded:'提前结束', assetStatusDamaged:'已损坏',
+    assetStatusLost:'已遗失', assetStatusSold:'已出售', assetStatusStopped:'停止使用',
+    assetHint:'系统按「购买价格 ÷ 预计使用总天数」计算每日价值，并随时间自动累计回本金额。',
+    assetValidName:'请输入资产名称',
+    assetValidPrice:'请输入有效购买价格',
+    assetValidPeriod:'预计使用期限必须大于 0',
+    // stats
+    statsMonth:'本月', statsAll:'全部时间',
+    statsIncome:'收入', statsExpense:'支出', statsNet:'净储蓄', statsLocked:'锁定储蓄',
+    statsCumulative:'累计数据（全部时间）',
+    statsCumIncome:'累计收入', statsCumExpense:'累计支出', statsCumNet:'累计净储蓄',
+    statsExpenseCat:'支出分类', statsIncomeCat:'收入分类',
+    statsAccDist:'账户余额分布', statsGoalProgress:'储蓄目标进度',
+    statsTrend:'月度趋势', statsTrendSub:'近 6 个月净储蓄',
+    statsNoData:'还没有统计数据', statsNoDataSub:'记录收支后这里会自动生成分析',
+    statsNoExpense:'暂无支出数据', statsNoIncome:'暂无收入数据',
+    statsAvailable:'可用',
+    // achievements
+    achTitle:'我的成就', achUnlocked:'已解锁', achUnlockedDate:'{m}/{d} 解锁',
+    achList:[
+      { id:'first_income',   name:'第一笔收入', desc:'记录第一笔收入',       icon:'💵' },
+      { id:'first_expense',  name:'开始记账',   desc:'记录第一笔支出',       icon:'🧾' },
+      { id:'first_goal',     name:'目标达人',   desc:'创建第一个储蓄目标',   icon:'🎯' },
+      { id:'first_save',     name:'第一桶金',   desc:'首次向储蓄目标存入资金', icon:'🏦' },
+      { id:'first_asset',    name:'资产管家',   desc:'添加第一个回本资产',   icon:'📦' },
+      { id:'first_account',  name:'账户创建',   desc:'创建第一个账户',       icon:'🏛️' },
+      { id:'goal_done',      name:'目标达成',   desc:'完成第一个储蓄目标',   icon:'🏅' },
+      { id:'streak_7',       name:'坚持一周',   desc:'连续 7 天记录交易',    icon:'🔥' },
+      { id:'streak_30',      name:'坚持一月',   desc:'连续 30 天记录交易',   icon:'⚡' },
+      { id:'save_100',       name:'小有积蓄',   desc:'累计储蓄达到 RM100',   icon:'🪙' },
+      { id:'save_500',       name:'稳步积累',   desc:'累计储蓄达到 RM500',   icon:'💵' },
+      { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎' }
+    ],
+    achUnlockToast:'🏆 解锁成就：{name}',
+    // settings
+    setTitle:'设置',
+    setHideBalance:'金额隐藏模式', setHideBalanceSub:'所有金额显示为 RM****',
+    setCurrency:'货币显示', setCurrencySub:'当前货币单位',
+    setLock:'App Lock', setLockSubOn:'已开启', setLockSubOff:'已关闭',
+    setCategories:'分类管理', setCategoriesSub:'自定义收入与支出分类',
+    setAccounts:'账户管理', setAccountsSub:'{n} 个账户',
+    setAchievements:'我的成就', setAchievementsSub:'已解锁 {a} / {b}',
+    setExportJson:'导出数据 (JSON)', setExportJsonSub:'下载完整备份文件',
+    setExportCsv:'导出交易 (CSV)', setExportCsvSub:'适合 Excel / 表格查看',
+    setImport:'导入 / 恢复数据', setImportSub:'从 JSON 备份恢复',
+    setDataStorage:'数据存储', setDataStorageSub:'本地 localStorage',
+    setTxCount:'{n} 笔交易',
+    setClearData:'清除所有数据', setClearDataSub:'不可恢复，请谨慎操作',
+    setAbout:'SaveWise v{av} · 数据版本 v{dv} · 本地优先\n数据保存在本机浏览器，建议定期导出备份。\n已为云端同步、账号系统、生物识别与 AI 分析预留扩展空间。',
+    setLanguage:'语言 / Language', setLanguageSub:'切换应用显示语言',
+    setVersion:'App 版本', setDataVersion:'数据版本', setLastUpdate:'最后更新',
+    setDataStats:'数据统计',
+    setStatTx:'交易数量', setStatAcc:'账户数量', setStatGoal:'储蓄目标', setStatAsset:'资产数量',
+    setWhatsNew:'更新记录',
+    setWhatsNewSub:'查看版本更新内容',
+    // categories
+    catIncome:'收入分类', catExpense:'支出分类', catAdd:'＋ 新增',
+    catCustomIncome:'自定义收入分类', catCustomExpense:'自定义支出分类',
+    catAddIncome:'新增收入分类', catAddExpense:'新增支出分类',
+    catName:'分类名称', catNamePlaceholder:'例如：投资收入',
+    catAdded:'分类已添加', catDeleted:'分类已删除',
+    catExists:'该分类已存在',
+    catHint:'自定义分类会出现在记录收入 / 支出时的分类选择中。',
+    catEnterName:'请输入分类名称',
+    // export/import
+    exportDone:'JSON 已导出', exportCsvDone:'CSV 已导出', exportFail:'导出失败',
+    importTitle:'导入 / 恢复数据', importBtn:'选择文件并导入',
+    importHint:'导入会覆盖当前所有数据，建议先导出备份。',
+    importInvalid:'文件格式无效',
+    importVersionFail:'数据版本不兼容，无法导入',
+    importConfirm:'导入将覆盖当前所有账户、交易、储蓄目标、资产和设置。确定继续？',
+    importDone:'数据已导入并恢复',
+    importFail:'导入失败，原数据未改变',
+    // clear
+    clearTitle1:'将清除所有账户、交易、储蓄目标、资产与成就数据，且不可恢复。建议先导出备份。确定继续？',
+    clearTitle2:'再次确认：所有财务数据将被永久删除。真的要清除吗？',
+    clearDone:'所有数据已清除',
+    // errors / toasts
+    saveFail:'保存失败：存储空间不足',
+    accountNotExist:'账户不存在',
+    goalNotExist:'目标不存在',
+    assetNotExist:'资产不存在',
+    amountPositive:'金额必须大于 0',
+    invalidNumber:'请输入有效的数字',
+    // what's new
+    whatsNewTitle:'更新记录',
+    changelog:[
+      { version:'1.0.0', date:'2026-09-12', items:[
+        '首个正式版本发布',
+        '支持无限账户与全部账户总览',
+        '支持收入 / 支出 / 转账完整记账',
+        '支持储蓄目标与锁定资金',
+        '支持资产回本 / 使用价值计算',
+        '支持统计、搜索、筛选、成就',
+        '支持 App Lock 与密码哈希',
+        '支持简体中文 / Bahasa Melayu / English',
+        '支持本地持久化、导出与恢复',
+        '支持数据版本管理与更新记录'
+      ]}
+    ],
+    dataVersionNote:'数据版本 v{dv} · App 版本 v{av}',
+    // categories names (Chinese display)
+    incomeCatsDisplay:['工资 / 薪金','零用钱 / 津贴','红包 / 礼金','奖学金','兼职收入','自由职业 / 接案','奖金','利息收入','Cashback / 现金回赠','退款','出售物品所得','礼物','家庭收入','其他收入'],
+    expenseCatsDisplay:['餐饮','早餐','午餐','晚餐','宵夜','饮料','零食','交通','公共交通','打车 / 网约车','购物','衣服 / 配饰','电子产品','游戏','娱乐','电影 / 影音','订阅服务','学习 / 教育','书籍 / 文具','学校用品','运动 / 健身','医疗 / 健康','通讯 / 电话费','网络费','生活用品','礼物','人情','旅行','住宿','账单','服务费','手续费','维修','宠物','家庭支出','捐款','其他支出'],
+    mealSubs:['早餐','午餐','晚餐','宵夜','快餐','咖啡']
+  },
+  en: {
+    appName:'SaveWise',
+    slogan:'Secure · Clear · Track every cent truthfully',
+    lockCreatePin:'Create 6-digit PIN',
+    lockConfirmPin:'Enter again to confirm',
+    lockEnterPin:'Enter PIN to unlock',
+    lockChangeOld:'Enter current PIN',
+    lockChangeNew:'Set new 6-digit PIN',
+    lockChangeConfirm:'Enter new PIN again',
+    lockUseText:'Use custom password',
+    lockUsePin:'Use numeric PIN',
+    lockTextPlaceholder:'Enter password',
+    lockOk:'OK', lockClear:'Clear', lockDel:'⌫',
+    lockBio:'Biometrics (coming soon)',
+    lockErrEmpty:'Please enter password',
+    lockErrPin6:'Please enter 6-digit PIN',
+    lockErrText4:'Password must be at least 4 characters',
+    lockErrMismatch:'Passwords do not match, please try again',
+    lockErrWrong:'Incorrect password, try again',
+    lockWelcome:'Welcome to SaveWise',
+    lockUpdated:'Password updated',
+    lockAutoLocked:'Auto-locked',
+    lockLockNow:'Lock now',
+    lockChangePin:'Change PIN / Password',
+    lockDisable:'Disable App Lock',
+    lockDisableConfirm:'Disabling App Lock means anyone can open the app without a password. Continue?',
+    lockDisabled:'App Lock disabled',
+    lockEnabled:'App Lock enabled',
+    lockEnable:'Enable App Lock',
+    lockEnableSub:'Require password to open the app',
+    lockAutoLockLabel:'Auto-lock',
+    lockAutoLockSub:'Lock after leaving the app',
+    lockNever:'Never',
+    lockMin:'min',
+    lockBioTitle:'Biometrics (Face ID / Fingerprint)',
+    lockBioSub:'Coming in V2.0, not available yet',
+    lockHashNote:'Password is hashed with SHA-256, never stored as plain text. If forgotten, it cannot be recovered.',
+    cancel:'Cancel', confirm:'Confirm', save:'Save', delete:'Delete', edit:'Edit', add:'Add',
+    back:'Back', close:'Close', search:'Search', all:'All', none:'None', ok:'OK',
+    yes:'Yes', no:'No', optional:'optional',
+    tabHome:'Home', tabRecords:'Records', tabGoals:'Goals', tabAssets:'Assets', tabStats:'Stats', tabSettings:'Settings',
+    totalAssets:'Total Assets',
+    availableBalance:'Available Balance',
+    lockedSaving:'Locked Savings',
+    monthIncome:'Income this month',
+    monthExpense:'Expense this month',
+    myAccounts:'My Accounts',
+    allAccounts:'All Accounts',
+    manage:'Manage',
+    recentTx:'Recent Transactions',
+    viewAll:'View all',
+    quickIncome:'Income', quickExpense:'Expense', quickTransfer:'Transfer', quickGoal:'Goal',
+    noAccount:'No accounts yet',
+    addFirstAccount:'Add your first account',
+    noTx:'No records yet, add your first income',
+    welcomeTitle:'Welcome to SaveWise',
+    welcomeSub:'Start by creating an account, then record your first income',
+    createAccount:'Create Account',
+    allAccountsOverview:'All Accounts Overview',
+    accountName:'Account Name', accountType:'Account Type', initialBalance:'Initial balance (optional)',
+    accountNamePlaceholder:'e.g. Cash Wallet',
+    initialHint:'If set, an "Initial balance" income record will be created automatically.',
+    accountCreated:'Account created',
+    renameAccount:'Rename Account',
+    deleteAccount:'Delete Account',
+    accountHasBalance:'This account still has balance, please transfer out first',
+    accountDeleteConfirm:'Delete this account?',
+    accountDeleteUsed:'This account has history. Records will remain but show "—". Delete?',
+    accountDeleted:'Account deleted',
+    accountUpdated:'Updated',
+    totalAvailable:'Total Available',
+    accountDeleteHint:'Balances update with income, expense, transfer and savings. Clear balance before deleting.',
+    income:'Income', expense:'Expense', transfer:'Transfer',
+    goalDeposit:'Goal Deposit', goalWithdraw:'Goal Withdraw',
+    recordIncome:'Record Income', recordExpense:'Record Expense', recordTransfer:'Transfer',
+    amount:'Amount', category:'Category', account:'Account', date:'Date', time:'Time',
+    note:'Note', notePlaceholder:'Optional note',
+    fromAccount:'From Account', toAccount:'To Account',
+    saveIncome:'Save Income', saveExpense:'Save Expense', saveTransfer:'Confirm Transfer',
+    incomeSaved:'Income recorded', expenseSaved:'Expense recorded', transferDone:'Transfer done',
+    insufficientBalance:'Insufficient balance',
+    sameAccount:'From and To accounts must differ',
+    noAccountWarn:'Please create an account first',
+    needTwoAccounts:'At least two accounts required',
+    transferHint:'Transfer is not counted as income or expense.',
+    invalidAmount:'Please enter a valid amount',
+    filterAll:'All', filterIncome:'Income', filterExpense:'Expense', filterSaving:'Transfer/Saving',
+    filterIncomeTotal:'Filtered Income', filterExpenseTotal:'Filtered Expense',
+    searchPlaceholder:'Search notes or category…',
+    noFilterResult:'No matching records',
+    tryOtherKeyword:'Try another keyword',
+    noRecords:'No records yet',
+    recordFirst:'＋ Record first',
+    today:'Today', yesterday:'Yesterday',
+    recurringLabel:'Recurring income?', recurringLabelExp:'Recurring expense?',
+    recurringNo:'No, just once',
+    recurringYes:'Yes, recurring (reserved)',
+    initialBalanceNote:'Initial balance',
+    goalNew:'New Savings Goal', goalEdit:'Edit Goal',
+    goalName:'Goal Name', goalNamePlaceholder:'e.g. New Phone',
+    goalTarget:'Target Amount', goalDeadline:'Deadline (optional)', goalIcon:'Icon (optional)',
+    goalNote:'Note (optional)', goalNotePlaceholder:'Why do you want to save?',
+    goalCreate:'Create Goal', goalCreated:'Savings goal created',
+    goalSaved:'Saved', goalRemain:'Remaining', goalProgress:'Progress',
+    goalDeposit:'Deposit', goalWithdraw:'Withdraw', goalCancel:'Cancel Goal',
+    goalDepositTitle:'Deposit to Goal', goalWithdrawTitle:'Withdraw from Goal',
+    goalDepositBtn:'Confirm Deposit', goalWithdrawBtn:'Confirm Withdraw',
+    goalDeposited:'Deposited to goal', goalWithdrew:'Returned to available balance',
+    goalDepositHint:'Available: {amt} · Moves money from available to locked savings, total unchanged.',
+    goalWithdrawHint:'Currently locked: {amt}',
+    goalExceed:'Exceeds saved amount',
+    goalNoMoney:'No money to withdraw',
+    goalCancelTitle:'Cancel Goal', goalCancelBtn:'Confirm Cancel',
+    goalCancelHint:'Locked {amt} will be fully returned to the selected account.',
+    goalCancelled:'Goal cancelled, funds returned',
+    goalDeadlineNone:'No deadline', goalDaysLeft:'{n} days left',
+    goalDueToday:'Due today', goalOverdue:'Overdue {n} days',
+    goalDone:'Achieved',
+    lockedSavingAmount:'Locked Savings', goalTotal:'Total Target',
+    goalNoGoals:'No savings goals yet',
+    goalNoGoalsSub:'Set a goal and lock part of your balance',
+    goalNewBtn:'New Goal',
+    goalReturnAccount:'Return to Account',
+    goalDeleteCustomHint:'Delete custom category "{name}"? Existing records are not affected.',
+    goalIconNone:'None',
+    assetNew:'Add Asset', assetEdit:'Edit Asset',
+    assetName:'Asset Name', assetNamePlaceholder:'e.g. Laptop',
+    assetPrice:'Purchase Price', assetPurchaseDate:'Purchase Date',
+    assetYears:'Expected Use (years)', assetMonths:'Expected Use (months)',
+    assetNote:'Note (optional)', assetNotePlaceholder:'e.g. Main work device',
+    assetAdd:'Add Asset', assetAdded:'Asset added',
+    assetDelete:'Delete Asset', assetDeleteConfirm:'Delete this asset and its payback records?',
+    assetDeleted:'Asset deleted', assetUpdated:'Updated',
+    assetDailyValue:'Daily Value', assetUsedDays:'Used', assetTotalDays:'Expected Days',
+    assetSystemValue:'System Value', assetManualValue:'Manual Value',
+    assetActualValue:'Actual Value', assetUnreturned:'Unreturned', assetRate:'Rate',
+    assetEnd:'End Payback', assetAdjust:'Adjust Value', assetMore:'More',
+    assetEndTitle:'End Payback Calculation', assetEndBtn:'Confirm End',
+    assetEndReason:'Reason', assetEndDate:'End Date',
+    assetEndHint:'After ending, this asset will no longer auto-accumulate value.',
+    assetEnded:'Payback calculation ended',
+    assetEndBeforeBuy:'End date cannot be before purchase date',
+    assetAdjustTitle:'Manually Adjust Use Value', assetAdjustBtn:'Save Adjustment',
+    assetAdjustValue:'Actual Use Value (RM)', assetAdjustPlaceholder:'Leave empty to restore system value',
+    assetAdjustReason:'Reason (optional)',
+    assetAdjustHint:'Manual value is displayed separately from system value.',
+    assetAdjusted:'Adjustment saved',
+    assetAdjustExceed:'Value cannot exceed purchase price',
+    assetNoAssets:'No assets yet',
+    assetNoAssetsSub:'Record purchases and calculate daily use value over time',
+    assetAddBtn:'Add Asset',
+    assetTotal:'Total Assets', assetActive:'Active',
+    assetReturnedTotal:'Total Returned', assetUnreturnedTotal:'Total Unreturned',
+    assetStatusActive:'Active', assetStatusCompleted:'Completed',
+    assetStatusEnded:'Ended Early', assetStatusDamaged:'Damaged',
+    assetStatusLost:'Lost', assetStatusSold:'Sold', assetStatusStopped:'Stopped',
+    assetHint:'Daily value = Price ÷ Expected days, auto-accumulated over time.',
+    assetValidName:'Please enter asset name',
+    assetValidPrice:'Please enter a valid price',
+    assetValidPeriod:'Expected period must be greater than 0',
+    statsMonth:'This Month', statsAll:'All Time',
+    statsIncome:'Income', statsExpense:'Expense', statsNet:'Net Savings', statsLocked:'Locked',
+    statsCumulative:'Cumulative (All Time)',
+    statsCumIncome:'Total Income', statsCumExpense:'Total Expense', statsCumNet:'Total Net',
+    statsExpenseCat:'Expense Categories', statsIncomeCat:'Income Categories',
+    statsAccDist:'Account Distribution', statsGoalProgress:'Goal Progress',
+    statsTrend:'Monthly Trend', statsTrendSub:'Last 6 months net savings',
+    statsNoData:'No statistics yet', statsNoDataSub:'Record transactions to generate analysis',
+    statsNoExpense:'No expense data', statsNoIncome:'No income data',
+    statsAvailable:'Available',
+    achTitle:'My Achievements', achUnlocked:'Unlocked', achUnlockedDate:'{m}/{d} unlocked',
+    achList:[
+      { id:'first_income',   name:'First Income', desc:'Record first income',        icon:'💵' },
+      { id:'first_expense',  name:'Start Tracking', desc:'Record first expense',   icon:'🧾' },
+      { id:'first_goal',     name:'Goal Setter',  desc:'Create first savings goal', icon:'🎯' },
+      { id:'first_save',     name:'First Savings', desc:'First deposit to a goal',  icon:'🏦' },
+      { id:'first_asset',    name:'Asset Manager', desc:'Add first asset',         icon:'📦' },
+      { id:'first_account',  name:'Account Created', desc:'Create first account',  icon:'🏛️' },
+      { id:'goal_done',      name:'Goal Achieved', desc:'Complete first savings goal', icon:'🏅' },
+      { id:'streak_7',       name:'7-Day Streak', desc:'Record 7 days in a row',   icon:'🔥' },
+      { id:'streak_30',      name:'30-Day Streak', desc:'Record 30 days in a row',  icon:'⚡' },
+      { id:'save_100',       name:'RM100 Saved',  desc:'Cumulative savings RM100',  icon:'🪙' },
+      { id:'save_500',       name:'RM500 Saved',  desc:'Cumulative savings RM500',  icon:'💵' },
+      { id:'save_1000',      name:'RM1000 Saved', desc:'Cumulative savings RM1000', icon:'💎' }
+    ],
+    achUnlockToast:'🏆 Achievement unlocked: {name}',
+    setTitle:'Settings',
+    setHideBalance:'Hide Balance Mode', setHideBalanceSub:'Show all amounts as RM****',
+    setCurrency:'Currency', setCurrencySub:'Current currency',
+    setLock:'App Lock', setLockSubOn:'Enabled', setLockSubOff:'Disabled',
+    setCategories:'Category Management', setCategoriesSub:'Custom income & expense categories',
+    setAccounts:'Account Management', setAccountsSub:'{n} accounts',
+    setAchievements:'My Achievements', setAchievementsSub:'{a} / {b} unlocked',
+    setExportJson:'Export Data (JSON)', setExportJsonSub:'Download full backup',
+    setExportCsv:'Export Transactions (CSV)', setExportCsvSub:'For Excel / spreadsheets',
+    setImport:'Import / Restore', setImportSub:'Restore from JSON backup',
+    setDataStorage:'Data Storage', setDataStorageSub:'Local localStorage',
+    setTxCount:'{n} transactions',
+    setClearData:'Clear All Data', setClearDataSub:'Irreversible, be careful',
+    setAbout:'SaveWise v{av} · Data v{dv} · Local-first\nData is stored in this browser, export backups regularly.\nExtensible for cloud sync, accounts, biometrics and AI.',
+    setLanguage:'Language / 语言', setLanguageSub:'Switch app display language',
+    setVersion:'App Version', setDataVersion:'Data Version', setLastUpdate:'Last Update',
+    setDataStats:'Data Statistics',
+    setStatTx:'Transactions', setStatAcc:'Accounts', setStatGoal:'Goals', setStatAsset:'Assets',
+    setWhatsNew:'Changelog',
+    setWhatsNewSub:'View version updates',
+    catIncome:'Income Categories', catExpense:'Expense Categories', catAdd:'＋ Add',
+    catCustomIncome:'Custom Income Categories', catCustomExpense:'Custom Expense Categories',
+    catAddIncome:'Add Income Category', catAddExpense:'Add Expense Category',
+    catName:'Category Name', catNamePlaceholder:'e.g. Investment Income',
+    catAdded:'Category added', catDeleted:'Category deleted',
+    catExists:'Category already exists',
+    catHint:'Custom categories appear in income/expense forms.',
+    catEnterName:'Please enter a category name',
+    exportDone:'JSON exported', exportCsvDone:'CSV exported', exportFail:'Export failed',
+    importTitle:'Import / Restore', importBtn:'Choose file and import',
+    importHint:'Import will overwrite current data. Export a backup first.',
+    importInvalid:'Invalid file format',
+    importVersionFail:'Incompatible data version',
+    importConfirm:'Import will overwrite all accounts, transactions, goals, assets and settings. Continue?',
+    importDone:'Data imported successfully',
+    importFail:'Import failed, original data preserved',
+    clearTitle1:'This will clear all accounts, transactions, goals, assets and achievements. Export a backup first. Continue?',
+    clearTitle2:'Confirm again: all financial data will be permanently deleted. Are you sure?',
+    clearDone:'All data cleared',
+    saveFail:'Save failed: storage full',
+    accountNotExist:'Account does not exist',
+    goalNotExist:'Goal does not exist',
+    assetNotExist:'Asset does not exist',
+    amountPositive:'Amount must be greater than 0',
+    invalidNumber:'Please enter a valid number',
+    whatsNewTitle:'Changelog',
+    changelog:[
+      { version:'1.0.0', date:'2026-09-12', items:[
+        'First official release',
+        'Unlimited accounts with All Accounts overview',
+        'Full income / expense / transfer recording',
+        'Savings goals with locked funds',
+        'Asset payback / use-value calculation',
+        'Statistics, search, filter, achievements',
+        'App Lock with password hashing',
+        'Simplified Chinese / Bahasa Melayu / English',
+        'Local persistence, export and restore',
+        'Data version management and changelog'
+      ]}
+    ],
+    dataVersionNote:'Data v{dv} · App v{av}',
+    incomeCatsDisplay:['Salary / Wages','Allowance / Pocket Money','Angpao / Gift Money','Scholarship','Part-time Income','Freelance / Gig','Bonus','Interest Income','Cashback','Refund','Proceeds from Sale','Gift','Family Income','Other Income'],
+    expenseCatsDisplay:['Food','Breakfast','Lunch','Dinner','Supper','Drinks','Snacks','Transport','Public Transport','Taxi / Ride-hailing','Shopping','Clothing / Accessories','Electronics','Games','Entertainment','Movies / Streaming','Subscriptions','Education / Learning','Books / Stationery','School Supplies','Sports / Fitness','Medical / Health','Phone / Telecom','Internet','Daily Necessities','Gifts','Social / Favors','Travel','Accommodation','Bills','Service Fees','Handling Fees','Repairs','Pets','Family Expenses','Donations','Other Expenses'],
+    mealSubs:['Breakfast','Lunch','Dinner','Supper','Fast Food','Coffee']
+  },
+  ms: {
+    appName:'SaveWise',
+    slogan:'Selamat · Jelas · Rekod setiap sen dengan jujur',
+    lockCreatePin:'Cipta PIN 6 digit',
+    lockConfirmPin:'Masukkan semula untuk sahkan',
+    lockEnterPin:'Masukkan PIN untuk buka',
+    lockChangeOld:'Masukkan PIN semasa',
+    lockChangeNew:'Tetapkan PIN 6 digit baharu',
+    lockChangeConfirm:'Masukkan PIN baharu semula',
+    lockUseText:'Guna kata laluan tersuai',
+    lockUsePin:'Guna PIN nombor',
+    lockTextPlaceholder:'Masukkan kata laluan',
+    lockOk:'OK', lockClear:'Padam', lockDel:'⌫',
+    lockBio:'Biometrik (akan datang)',
+    lockErrEmpty:'Sila masukkan kata laluan',
+    lockErrPin6:'Sila masukkan PIN 6 digit',
+    lockErrText4:'Kata laluan sekurang-kurangnya 4 aksara',
+    lockErrMismatch:'Kata laluan tidak sepadan, cuba lagi',
+    lockErrWrong:'Kata laluan salah, cuba lagi',
+    lockWelcome:'Selamat datang ke SaveWise',
+    lockUpdated:'Kata laluan dikemas kini',
+    lockAutoLocked:'Dikunci automatik',
+    lockLockNow:'Kunci sekarang',
+    lockChangePin:'Tukar PIN / Kata Laluan',
+    lockDisable:'Matikan App Lock',
+    lockDisableConfirm:'Selepas dimatikan, sesiapa boleh buka tanpa kata laluan. Teruskan?',
+    lockDisabled:'App Lock dimatikan',
+    lockEnabled:'App Lock dihidupkan',
+    lockEnable:'Hidupkan App Lock',
+    lockEnableSub:'Perlu kata laluan untuk buka aplikasi',
+    lockAutoLockLabel:'Kunci automatik',
+    lockAutoLockSub:'Kunci selepas meninggalkan aplikasi',
+    lockNever:'Tidak pernah',
+    lockMin:'min',
+    lockBioTitle:'Biometrik (Face ID / Cap jari)',
+    lockBioSub:'Akan datang dalam V2.0',
+    lockHashNote:'Kata laluan di-hash dengan SHA-256, tidak disimpan sebagai teks biasa. Jika terlupa, tidak boleh dipulihkan.',
+    cancel:'Batal', confirm:'Sahkan', save:'Simpan', delete:'Padam', edit:'Edit', add:'Tambah',
+    back:'Kembali', close:'Tutup', search:'Cari', all:'Semua', none:'Tiada', ok:'OK',
+    yes:'Ya', no:'Tidak', optional:'pilihan',
+    tabHome:'Utama', tabRecords:'Rekod', tabGoals:'Simpanan', tabAssets:'Aset', tabStats:'Statistik', tabSettings:'Tetapan',
+    totalAssets:'Jumlah Aset',
+    availableBalance:'Baki Boleh Guna',
+    lockedSaving:'Simpanan Terkunci',
+    monthIncome:'Pendapatan bulan ini',
+    monthExpense:'Perbelanjaan bulan ini',
+    myAccounts:'Akaun Saya',
+    allAccounts:'Semua Akaun',
+    manage:'Urus',
+    recentTx:'Transaksi Terkini',
+    viewAll:'Lihat semua',
+    quickIncome:'Pendapatan', quickExpense:'Perbelanjaan', quickTransfer:'Pindah', quickGoal:'Sasaran',
+    noAccount:'Belum ada akaun',
+    addFirstAccount:'Tambah akaun pertama',
+    noTx:'Belum ada rekod, tambah pendapatan pertama',
+    welcomeTitle:'Selamat datang ke SaveWise',
+    welcomeSub:'Mulakan dengan mencipta akaun, kemudian rekod pendapatan pertama',
+    createAccount:'Cipta Akaun',
+    allAccountsOverview:'Gambaran Semua Akaun',
+    accountName:'Nama Akaun', accountType:'Jenis Akaun', initialBalance:'Baki awal (pilihan)',
+    accountNamePlaceholder:'cth. Wallet Tunai',
+    initialHint:'Jika diisi, satu rekod "Baki awal" akan dicipta.',
+    accountCreated:'Akaun dicipta',
+    renameAccount:'Namakan Semula Akaun',
+    deleteAccount:'Padam Akaun',
+    accountHasBalance:'Akaun masih ada baki, pindahkan dahulu',
+    accountDeleteConfirm:'Padam akaun ini?',
+    accountDeleteUsed:'Akaun ada sejarah. Rekod kekal tetapi tunjuk "—". Padam?',
+    accountDeleted:'Akaun dipadam',
+    accountUpdated:'Dikemas kini',
+    totalAvailable:'Jumlah Boleh Guna',
+    accountDeleteHint:'Baki dikemas kini dengan pendapatan, perbelanjaan, pindahan dan simpanan. Kosongkan baki sebelum padam.',
+    income:'Pendapatan', expense:'Perbelanjaan', transfer:'Pindahan',
+    goalDeposit:'Simpanan Sasaran', goalWithdraw:'Keluaran Sasaran',
+    recordIncome:'Rekod Pendapatan', recordExpense:'Rekod Perbelanjaan', recordTransfer:'Pindahan Akaun',
+    amount:'Jumlah', category:'Kategori', account:'Akaun', date:'Tarikh', time:'Masa',
+    note:'Nota', notePlaceholder:'Nota pilihan',
+    fromAccount:'Akaun Sumber', toAccount:'Akaun Tujuan',
+    saveIncome:'Simpan Pendapatan', saveExpense:'Simpan Perbelanjaan', saveTransfer:'Sahkan Pindahan',
+    incomeSaved:'Pendapatan direkod', expenseSaved:'Perbelanjaan direkod', transferDone:'Pindahan selesai',
+    insufficientBalance:'Baki tidak mencukupi',
+    sameAccount:'Akaun sumber dan tujuan mesti berbeza',
+    noAccountWarn:'Sila cipta akaun dahulu',
+    needTwoAccounts:'Perlu sekurang-kurangnya dua akaun',
+    transferHint:'Pindahan tidak dikira sebagai pendapatan atau perbelanjaan.',
+    invalidAmount:'Sila masukkan jumlah yang sah',
+    filterAll:'Semua', filterIncome:'Pendapatan', filterExpense:'Perbelanjaan', filterSaving:'Pindahan/Simpanan',
+    filterIncomeTotal:'Pendapatan Ditapis', filterExpenseTotal:'Perbelanjaan Ditapis',
+    searchPlaceholder:'Cari nota atau kategori…',
+    noFilterResult:'Tiada rekod sepadan',
+    tryOtherKeyword:'Cuba kata kunci lain',
+    noRecords:'Belum ada rekod',
+    recordFirst:'＋ Rekod pertama',
+    today:'Hari ini', yesterday:'Semalam',
+    recurringLabel:'Pendapatan berulang?', recurringLabelExp:'Perbelanjaan berulang?',
+    recurringNo:'Tidak, sekali sahaja',
+    recurringYes:'Ya, berulang (disediakan)',
+    initialBalanceNote:'Baki awal',
+    goalNew:'Sasaran Simpanan Baharu', goalEdit:'Edit Sasaran',
+    goalName:'Nama Sasaran', goalNamePlaceholder:'cth. Telefon Baharu',
+    goalTarget:'Jumlah Sasaran', goalDeadline:'Tarikh akhir (pilihan)', goalIcon:'Ikon (pilihan)',
+    goalNote:'Nota (pilihan)', goalNotePlaceholder:'Mengapa anda mahu simpan?',
+    goalCreate:'Cipta Sasaran', goalCreated:'Sasaran simpanan dicipta',
+    goalSaved:'Disimpan', goalRemain:'Baki', goalProgress:'Kemajuan',
+    goalDeposit:'Simpan', goalWithdraw:'Keluarkan', goalCancel:'Batal Sasaran',
+    goalDepositTitle:'Simpan ke Sasaran', goalWithdrawTitle:'Keluarkan dari Sasaran',
+    goalDepositBtn:'Sahkan Simpanan', goalWithdrawBtn:'Sahkan Keluaran',
+    goalDeposited:'Disimpan ke sasaran', goalWithdrew:'Dipulangkan ke baki boleh guna',
+    goalDepositHint:'Baki boleh guna: {amt} · Pindah dari baki ke simpanan terkunci, jumlah tidak berubah.',
+    goalWithdrawHint:'Sedang terkunci: {amt}',
+    goalExceed:'Melebihi jumlah disimpan',
+    goalNoMoney:'Tiada wang untuk dikeluarkan',
+    goalCancelTitle:'Batal Sasaran', goalCancelBtn:'Sahkan Batal',
+    goalCancelHint:'{amt} terkunci akan dipulangkan sepenuhnya ke akaun dipilih.',
+    goalCancelled:'Sasaran dibatalkan, dana dipulangkan',
+    goalDeadlineNone:'Tiada tarikh akhir', goalDaysLeft:'{n} hari lagi',
+    goalDueToday:'Tamat hari ini', goalOverdue:'Lewat {n} hari',
+    goalDone:'Dicapai',
+    lockedSavingAmount:'Simpanan Terkunci', goalTotal:'Jumlah Sasaran',
+    goalNoGoals:'Belum ada sasaran simpanan',
+    goalNoGoalsSub:'Tetapkan sasaran dan kunci sebahagian baki',
+    goalNewBtn:'Sasaran Baharu',
+    goalReturnAccount:'Pulangkan ke Akaun',
+    goalDeleteCustomHint:'Padam kategori tersuai "{name}"? Rekod sedia ada tidak terjejas.',
+    goalIconNone:'Tiada',
+    assetNew:'Tambah Aset', assetEdit:'Edit Aset',
+    assetName:'Nama Aset', assetNamePlaceholder:'cth. Komputer Riba',
+    assetPrice:'Harga Belian', assetPurchaseDate:'Tarikh Belian',
+    assetYears:'Jangkaan Guna (tahun)', assetMonths:'Jangkaan Guna (bulan)',
+    assetNote:'Nota (pilihan)', assetNotePlaceholder:'cth. Peranti kerja utama',
+    assetAdd:'Tambah Aset', assetAdded:'Aset ditambah',
+    assetDelete:'Padam Aset', assetDeleteConfirm:'Padam aset ini dan rekod pulangannya?',
+    assetDeleted:'Aset dipadam', assetUpdated:'Dikemas kini',
+    assetDailyValue:'Nilai Harian', assetUsedDays:'Telah Guna', assetTotalDays:'Jangkaan Hari',
+    assetSystemValue:'Nilai Sistem', assetManualValue:'Nilai Manual',
+    assetActualValue:'Nilai Sebenar', assetUnreturned:'Belum Pulang', assetRate:'Kadar',
+    assetEnd:'Tamat Pulangan', assetAdjust:'Laraskan Nilai', assetMore:'Lagi',
+    assetEndTitle:'Tamat Pengiraan Pulangan', assetEndBtn:'Sahkan Tamat',
+    assetEndReason:'Sebab', assetEndDate:'Tarikh Tamat',
+    assetEndHint:'Selepas tamat, aset tidak lagi menambah nilai secara automatik.',
+    assetEnded:'Pengiraan pulangan tamat',
+    assetEndBeforeBuy:'Tarikh tamat tidak boleh sebelum tarikh belian',
+    assetAdjustTitle:'Laraskan Nilai Guna', assetAdjustBtn:'Simpan Pelarasan',
+    assetAdjustValue:'Nilai Guna Sebenar (RM)', assetAdjustPlaceholder:'Biarkan kosong untuk nilai sistem',
+    assetAdjustReason:'Sebab (pilihan)',
+    assetAdjustHint:'Nilai manual dipaparkan berasingan daripada nilai sistem.',
+    assetAdjusted:'Pelarasan disimpan',
+    assetAdjustExceed:'Nilai tidak boleh melebihi harga belian',
+    assetNoAssets:'Belum ada aset',
+    assetNoAssetsSub:'Rekod pembelian dan kira nilai guna harian',
+    assetAddBtn:'Tambah Aset',
+    assetTotal:'Jumlah Aset', assetActive:'Aktif',
+    assetReturnedTotal:'Jumlah Dipulangkan', assetUnreturnedTotal:'Jumlah Belum Pulang',
+    assetStatusActive:'Aktif', assetStatusCompleted:'Selesai',
+    assetStatusEnded:'Tamat Awal', assetStatusDamaged:'Rosak',
+    assetStatusLost:'Hilang', assetStatusSold:'Dijual', assetStatusStopped:'Berhenti',
+    assetHint:'Nilai harian = Harga ÷ Jangkaan hari, terkumpul secara automatik.',
+    assetValidName:'Sila masukkan nama aset',
+    assetValidPrice:'Sila masukkan harga yang sah',
+    assetValidPeriod:'Tempoh jangkaan mesti lebih daripada 0',
+    statsMonth:'Bulan Ini', statsAll:'Semua Masa',
+    statsIncome:'Pendapatan', statsExpense:'Perbelanjaan', statsNet:'Simpanan Bersih', statsLocked:'Terkunci',
+    statsCumulative:'Kumulatif (Semua Masa)',
+    statsCumIncome:'Jumlah Pendapatan', statsCumExpense:'Jumlah Perbelanjaan', statsCumNet:'Jumlah Bersih',
+    statsExpenseCat:'Kategori Perbelanjaan', statsIncomeCat:'Kategori Pendapatan',
+    statsAccDist:'Taburan Akaun', statsGoalProgress:'Kemajuan Sasaran',
+    statsTrend:'Trend Bulanan', statsTrendSub:'Simpanan bersih 6 bulan',
+    statsNoData:'Belum ada statistik', statsNoDataSub:'Rekod transaksi untuk jana analisis',
+    statsNoExpense:'Tiada data perbelanjaan', statsNoIncome:'Tiada data pendapatan',
+    statsAvailable:'Boleh Guna',
+    achTitle:'Pencapaian Saya', achUnlocked:'Dibuka', achUnlockedDate:'{m}/{d} dibuka',
+    achList:[
+      { id:'first_income',   name:'Pendapatan Pertama', desc:'Rekod pendapatan pertama', icon:'💵' },
+      { id:'first_expense',  name:'Mula Rekod', desc:'Rekod perbelanjaan pertama',       icon:'🧾' },
+      { id:'first_goal',     name:'Penetap Sasaran', desc:'Cipta sasaran simpanan pertama', icon:'🎯' },
+      { id:'first_save',     name:'Simpanan Pertama', desc:'Simpanan pertama ke sasaran',   icon:'🏦' },
+      { id:'first_asset',    name:'Pengurus Aset', desc:'Tambah aset pertama',            icon:'📦' },
+      { id:'first_account',  name:'Akaun Dicipta', desc:'Cipta akaun pertama',            icon:'🏛️' },
+      { id:'goal_done',      name:'Sasaran Dicapai', desc:'Selesaikan sasaran pertama',   icon:'🏅' },
+      { id:'streak_7',       name:'7 Hari Berturut', desc:'Rekod 7 hari berturut-turut',  icon:'🔥' },
+      { id:'streak_30',      name:'30 Hari Berturut', desc:'Rekod 30 hari berturut-turut', icon:'⚡' },
+      { id:'save_100',       name:'RM100 Disimpan',  desc:'Simpanan kumulatif RM100',     icon:'🪙' },
+      { id:'save_500',       name:'RM500 Disimpan',  desc:'Simpanan kumulatif RM500',     icon:'💵' },
+      { id:'save_1000',      name:'RM1000 Disimpan', desc:'Simpanan kumulatif RM1000',    icon:'💎' }
+    ],
+    achUnlockToast:'🏆 Pencapaian dibuka: {name}',
+    setTitle:'Tetapan',
+    setHideBalance:'Mod Sembunyi Baki', setHideBalanceSub:'Tunjuk semua jumlah sebagai RM****',
+    setCurrency:'Mata Wang', setCurrencySub:'Mata wang semasa',
+    setLock:'App Lock', setLockSubOn:'Dihidupkan', setLockSubOff:'Dimatikan',
+    setCategories:'Pengurusan Kategori', setCategoriesSub:'Kategori pendapatan & perbelanjaan tersuai',
+    setAccounts:'Pengurusan Akaun', setAccountsSub:'{n} akaun',
+    setAchievements:'Pencapaian Saya', setAchievementsSub:'{a} / {b} dibuka',
+    setExportJson:'Eksport Data (JSON)', setExportJsonSub:'Muat turun sandaran penuh',
+    setExportCsv:'Eksport Transaksi (CSV)', setExportCsvSub:'Untuk Excel / spreadsheet',
+    setImport:'Import / Pulih', setImportSub:'Pulih dari sandaran JSON',
+    setDataStorage:'Storan Data', setDataStorageSub:'localStorage tempatan',
+    setTxCount:'{n} transaksi',
+    setClearData:'Padam Semua Data', setClearDataSub:'Tidak boleh dipulihkan',
+    setAbout:'SaveWise v{av} · Data v{dv} · Tempatan dahulu\nData disimpan dalam pelayar ini, eksport sandaran secara berkala.\nSedia untuk sync awan, akaun, biometrik dan AI.',
+    setLanguage:'Bahasa / Language', setLanguageSub:'Tukar bahasa paparan',
+    setVersion:'Versi App', setDataVersion:'Versi Data', setLastUpdate:'Kemas Kini Terakhir',
+    setDataStats:'Statistik Data',
+    setStatTx:'Transaksi', setStatAcc:'Akaun', setStatGoal:'Sasaran', setStatAsset:'Aset',
+    setWhatsNew:'Sejarah Kemas Kini',
+    setWhatsNewSub:'Lihat kandungan kemas kini',
+    catIncome:'Kategori Pendapatan', catExpense:'Kategori Perbelanjaan', catAdd:'＋ Tambah',
+    catCustomIncome:'Kategori Pendapatan Tersuai', catCustomExpense:'Kategori Perbelanjaan Tersuai',
+    catAddIncome:'Tambah Kategori Pendapatan', catAddExpense:'Tambah Kategori Perbelanjaan',
+    catName:'Nama Kategori', catNamePlaceholder:'cth. Pendapatan Pelaburan',
+    catAdded:'Kategori ditambah', catDeleted:'Kategori dipadam',
+    catExists:'Kategori sudah wujud',
+    catHint:'Kategori tersuai muncul dalam borang pendapatan/perbelanjaan.',
+    catEnterName:'Sila masukkan nama kategori',
+    exportDone:'JSON dieksport', exportCsvDone:'CSV dieksport', exportFail:'Eksport gagal',
+    importTitle:'Import / Pulih', importBtn:'Pilih fail dan import',
+    importHint:'Import akan menimpa data semasa. Eksport sandaran dahulu.',
+    importInvalid:'Format fail tidak sah',
+    importVersionFail:'Versi data tidak serasi',
+    importConfirm:'Import akan menimpa semua akaun, transaksi, sasaran, aset dan tetapan. Teruskan?',
+    importDone:'Data berjaya diimport',
+    importFail:'Import gagal, data asal dipelihara',
+    clearTitle1:'Ini akan memadam semua akaun, transaksi, sasaran, aset dan pencapaian. Eksport sandaran dahulu. Teruskan?',
+    clearTitle2:'Sahkan sekali lagi: semua data kewangan akan dipadam secara kekal. Anda pasti?',
+    clearDone:'Semua data dipadam',
+    saveFail:'Gagal simpan: storan penuh',
+    accountNotExist:'Akaun tidak wujud',
+    goalNotExist:'Sasaran tidak wujud',
+    assetNotExist:'Aset tidak wujud',
+    amountPositive:'Jumlah mesti lebih daripada 0',
+    invalidNumber:'Sila masukkan nombor yang sah',
+    whatsNewTitle:'Sejarah Kemas Kini',
+    changelog:[
+      { version:'1.0.0', date:'2026-09-12', items:[
+        'Versi rasmi pertama',
+        'Akaun tanpa had dengan gambaran semua akaun',
+        'Rekod pendapatan / perbelanjaan / pindahan penuh',
+        'Sasaran simpanan dengan dana terkunci',
+        'Pengiraan pulangan / nilai guna aset',
+        'Statistik, carian, penapis, pencapaian',
+        'App Lock dengan hashing kata laluan',
+        'Cina Ringkas / Bahasa Melayu / English',
+        'Persistensi tempatan, eksport dan pulih',
+        'Pengurusan versi data dan sejarah kemas kini'
+      ]}
+    ],
+    dataVersionNote:'Data v{dv} · App v{av}',
+    incomeCatsDisplay:['Gaji / Upah','Elaun / Duit Poket','Angpao / Duit Hadiah','Biasiswa','Pendapatan Sambilan','Bebas / Gig','Bonus','Pendapatan Faedah','Cashback','Bayaran Balik','Hasil Jualan','Hadiah','Pendapatan Keluarga','Pendapatan Lain'],
+    expenseCatsDisplay:['Makanan','Sarapan','Makan Tengahari','Makan Malam','Makan Lewat','Minuman','Snek','Pengangkutan','Pengangkutan Awam','Teksi / E-hailing','Beli-belah','Pakaian / Aksesori','Elektronik','Permainan','Hiburan','Filem / Strim','Langganan','Pendidikan / Pembelajaran','Buku / Alat Tulis','Alat Sekolah','Sukan / Kecergasan','Perubatan / Kesihatan','Telefon / Telekomunikasi','Internet','Keperluan Harian','Hadiah','Sosial / Ihsan','Perjalanan','Penginapan','Bil','Yuran Perkhidmatan','Yuran Urusniaga','Pembaikan','Haiwan Peliharaan','Perbelanjaan Keluarga','Derma','Perbelanjaan Lain'],
+    mealSubs:['Sarapan','Makan Tengahari','Makan Malam','Makan Lewat','Makanan Segera','Kopi']
+  }
+};
+
+/* 语言 */
+function detectLang(){
+  try{
+    const saved = localStorage.getItem(LANG_KEY);
+    if(saved && I18N[saved]) return saved;
+  }catch(e){}
+  const nav = (navigator.language || 'zh').toLowerCase();
+  if(nav.startsWith('ms')) return 'ms';
+  if(nav.startsWith('en')) return 'en';
+  return 'zh';
+}
+let LANG = detectLang();
+function t(k, vars){
+  const pack = I18N[LANG] || I18N.zh;
+  let s = pack[k];
+  if(s === undefined) s = I18N.zh[k] !== undefined ? I18N.zh[k] : k;
+  if(typeof s !== 'string') return s;
+  if(vars){
+    Object.keys(vars).forEach(v => { s = s.replace(new RegExp('\\{'+v+'\\}','g'), vars[v]); });
+  }
+  return s;
+}
+function setLang(l){
+  if(!I18N[l]) return;
+  LANG = l;
+  try{ localStorage.setItem(LANG_KEY, l); }catch(e){}
+  render();
+  toast(l === 'zh' ? '语言已切换为简体中文' : l === 'en' ? 'Language switched to English' : 'Bahasa ditukar ke Bahasa Melayu');
+}
 
 /* ============================ 数据层 ============================ */
 function defaultState(){
   return {
-    version: 1,
+    dataVersion: DATA_VERSION,
     settings: {
       currency: 'RM',
       hideBalance: false,
       autoLockMinutes: 5,
-      appLockEnabled: true
+      appLockEnabled: true,
+      lang: LANG,
+      lastUpdated: new Date().toISOString()
     },
     accounts: [],
     transactions: [],
@@ -396,8 +1210,18 @@ function defaultState(){
     customIncomeCats: [],
     customExpenseCats: [],
     achievements: {},
-    createdAt: Date.now()
+    createdAt: new Date().toISOString()
   };
+}
+
+/* 迁移：未来版本在此处扩展 */
+function migrate(p){
+  if(!p || typeof p !== 'object') return defaultState();
+  let v = Number(p.dataVersion) || 1;
+  // v1 -> v2 可在此处扩展
+  // if(v < 2){ ...; v = 2; }
+  p.dataVersion = DATA_VERSION;
+  return p;
 }
 
 function loadState(){
@@ -405,9 +1229,11 @@ function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return base;
-    const p = JSON.parse(raw) || {};
+    let p = JSON.parse(raw) || {};
+    if(p && p.state && p.state.accounts) p = p.state; // 兼容导出格式
+    p = migrate(p);
     return {
-      version: 1,
+      dataVersion: DATA_VERSION,
       settings: Object.assign({}, base.settings, p.settings || {}),
       accounts: Array.isArray(p.accounts) ? p.accounts : [],
       transactions: Array.isArray(p.transactions) ? p.transactions : [],
@@ -416,7 +1242,7 @@ function loadState(){
       customIncomeCats: Array.isArray(p.customIncomeCats) ? p.customIncomeCats : [],
       customExpenseCats: Array.isArray(p.customExpenseCats) ? p.customExpenseCats : [],
       achievements: (p.achievements && typeof p.achievements === 'object') ? p.achievements : {},
-      createdAt: p.createdAt || Date.now()
+      createdAt: p.createdAt || new Date().toISOString()
     };
   }catch(e){
     return base;
@@ -424,10 +1250,26 @@ function loadState(){
 }
 
 let state = loadState();
+LANG = state.settings.lang || LANG;
 
 function saveState(){
-  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch(e){ toast('保存失败：存储空间不足'); }
+  try{
+    state.settings.lang = LANG;
+    state.settings.lastUpdated = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }catch(e){
+    toast(t('saveFail'));
+  }
+}
+
+/* 备份（迁移前） */
+function createBackup(reason){
+  try{
+    const payload = { app:'SaveWise', appVersion:APP_VERSION, dataVersion:state.dataVersion,
+      exportedAt:new Date().toISOString(), reason:reason||'auto', state };
+    localStorage.setItem(BACKUP_KEY, JSON.stringify(payload));
+    return true;
+  }catch(e){ return false; }
 }
 
 /* ============================ 安全 / 锁 ============================ */
@@ -438,7 +1280,6 @@ async function sha256(text){
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
     }catch(e){ /* fallthrough */ }
   }
-  // 降级：简单哈希（仅当无 crypto.subtle 时使用）
   let h = 5381;
   for(let i=0;i<text.length;i++) h = ((h<<5)+h+text.charCodeAt(i))|0;
   return 'fb' + Math.abs(h).toString(16) + text.length.toString(16);
@@ -451,9 +1292,7 @@ function loadLock(){
     return JSON.parse(raw);
   }catch(e){ return null; }
 }
-function saveLock(obj){
-  try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){}
-}
+function saveLock(obj){ try{ localStorage.setItem(LOCK_KEY, JSON.stringify(obj)); }catch(e){} }
 function clearLock(){ try{ localStorage.removeItem(LOCK_KEY); }catch(e){} }
 
 let lockRecord = loadLock();
@@ -468,13 +1307,15 @@ let ui = {
   sub: null,
   recordFilter: 'all',
   statsRange: 'month',
+  statsCustomFrom: '',
+  statsCustomTo: '',
   searchQuery: '',
-  recordCat: ''
+  recordCat: '',
+  recordAccount: '',
+  currentAccountId: null
 };
 
 /* ============================ 工具函数 ============================ */
-const $ = (s, r) => (r||document).querySelector(s);
-
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
 function round2(n){ return Math.round((Number(n) + Number.EPSILON) * 100) / 100; }
 function esc(s){
@@ -490,26 +1331,48 @@ function money(n){
   const neg = Number(n) < -0.004;
   return (neg ? '-' : '') + state.settings.currency + fmtNum(n);
 }
-function todayStr(){
+function nowISO(){ return new Date().toISOString(); }
+function nowLocalDate(){
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function toDateStr(d){
+function nowLocalTime(){
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+function dateFromISO(iso){
+  try{
+    const d = new Date(iso);
+    if(isNaN(d.getTime())) return new Date();
+    return d;
+  }catch(e){ return new Date(); }
+}
+function localDateStr(iso){
+  const d = dateFromISO(iso);
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
 }
-function parseDate(s){
-  const [y,m,d] = String(s).split('-').map(Number);
-  return new Date(y||1970, (m||1)-1, d||1);
+function localTimeStr(iso){
+  const d = dateFromISO(iso);
+  return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
 }
-function fmtDateLabel(ds){
-  const today = todayStr();
-  const y = new Date(); y.setDate(y.getDate()-1);
-  if(ds === today) return '今天';
-  if(ds === toDateStr(y)) return '昨天';
-  const d = parseDate(ds);
-  if(isNaN(d.getTime())) return ds;
+function combineDateTime(dateStr, timeStr){
+  const [y,m,d] = String(dateStr).split('-').map(Number);
+  const [hh,mm] = String(timeStr||'00:00').split(':').map(Number);
+  const dt = new Date(y, (m||1)-1, d||1, hh||0, mm||0, 0);
+  if(isNaN(dt.getTime())) return nowISO();
+  return dt.toISOString();
+}
+function fmtDateLabel(iso){
+  if(!iso) return '';
+  const d = dateFromISO(iso);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const that = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const diff = Math.round((today - that)/86400000);
+  if(diff === 0) return t('today');
+  if(diff === 1) return t('yesterday');
   const w = ['日','一','二','三','四','五','六'][d.getDay()];
-  return `${d.getMonth()+1}月${d.getDate()}日 周${w}`;
+  const langW = LANG === 'zh' ? ` 周${w}` : '';
+  return `${d.getMonth()+1}月${d.getDate()}日${langW}`;
 }
 function getAccount(id){ return state.accounts.find(a => a.id === id) || null; }
 function getGoal(id){ return state.goals.find(g => g.id === id) || null; }
@@ -520,9 +1383,24 @@ function sortedTx(){
     (b.createdAt||0) - (a.createdAt||0)
   );
 }
-function monthKey(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
-function inThisMonth(ds){
-  return String(ds||'').startsWith(monthKey(new Date()));
+function monthKeyFromISO(iso){
+  const d = dateFromISO(iso);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+function inThisMonth(iso){ return monthKeyFromISO(iso) === monthKeyFromISO(nowISO()); }
+function inThisYear(iso){ return dateFromISO(iso).getFullYear() === new Date().getFullYear(); }
+function inThisWeek(iso){
+  const d = dateFromISO(iso);
+  const now = new Date();
+  const day = (now.getDay() + 6) % 7; // Monday = 0
+  const monday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - day);
+  monday.setHours(0,0,0,0);
+  return d >= monday;
+}
+function inToday(iso){
+  const d = dateFromISO(iso);
+  const n = new Date();
+  return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth() && d.getDate()===n.getDate();
 }
 
 /* ============================ 核心计算 ============================ */
@@ -535,77 +1413,112 @@ function lockedBalance(){
 function totalAssets(){
   return round2(availableBalance() + lockedBalance());
 }
+function accountBalance(id){
+  const a = getAccount(id);
+  return a ? round2(Number(a.balance)||0) : 0;
+}
+function accountIncome(id, range){
+  return state.transactions
+    .filter(tx => tx.type === 'income' && tx.accountId === id && matchRange(tx.date, range))
+    .reduce((s,tx) => s + Number(tx.amount||0), 0);
+}
+function accountExpense(id, range){
+  return state.transactions
+    .filter(tx => tx.type === 'expense' && tx.accountId === id && matchRange(tx.date, range))
+    .reduce((s,tx) => s + Number(tx.amount||0), 0);
+}
+function accountTransferIn(id, range){
+  return state.transactions
+    .filter(tx => tx.type === 'transfer' && tx.toAccountId === id && matchRange(tx.date, range))
+    .reduce((s,tx) => s + Number(tx.amount||0), 0);
+}
+function accountTransferOut(id, range){
+  return state.transactions
+    .filter(tx => tx.type === 'transfer' && tx.accountId === id && matchRange(tx.date, range))
+    .reduce((s,tx) => s + Number(tx.amount||0), 0);
+}
+function matchRange(iso, range){
+  if(!range || range === 'all') return true;
+  if(range === 'today') return inToday(iso);
+  if(range === 'week')  return inThisWeek(iso);
+  if(range === 'month') return inThisMonth(iso);
+  if(range === 'year')  return inThisYear(iso);
+  if(range === 'custom'){
+    if(ui.statsCustomFrom && localDateStr(iso) < ui.statsCustomFrom) return false;
+    if(ui.statsCustomTo && localDateStr(iso) > ui.statsCustomTo) return false;
+    return true;
+  }
+  return true;
+}
 
-/* ============================ 常量 ============================ */
-const ACC_TYPES = {
-  cash  : { label:'现金',          icon:'💵', bg:'#e8f5e9', color:'#2e7d32' },
-  tng   : { label:'TNG eWallet',   icon:'📱', bg:'#e3f2fd', color:'#1565c0' },
-  bank  : { label:'银行账户',      icon:'🏦', bg:'#ede7f6', color:'#5e35b1' },
-  saving: { label:'储蓄账户',      icon:'🐖', bg:'#fff3e0', color:'#ef6c00' },
-  ewallet:{ label:'电子钱包',      icon:'👛', bg:'#e0f7fa', color:'#00838f' },
-  other : { label:'其他账户',      icon:'📦', bg:'#fce4ec', color:'#c2185b' }
-};
+/* ============================ 分类 ============================ */
+function incomeCats(){
+  const base = I18N[LANG].incomeCatsDisplay || I18N.zh.incomeCatsDisplay;
+  return base.concat(state.customIncomeCats);
+}
+function expenseCats(){
+  const base = I18N[LANG].expenseCatsDisplay || I18N.zh.expenseCatsDisplay;
+  return base.concat(state.customExpenseCats);
+}
+function mealSubs(){ return I18N[LANG].mealSubs || I18N.zh.mealSubs; }
 
-const DEFAULT_INCOME_CATS = [
-  '工资 / 薪金','零用钱 / 津贴','红包 / 礼金','奖学金','兼职收入',
-  '自由职业 / 接案','奖金','退款','利息收入','现金回赠',
-  '出售物品所得','礼物','家庭收入','其他收入'
-];
-const DEFAULT_EXPENSE_CATS = [
-  '餐饮','饮料','零食','交通','公共交通','打车 / 网约车',
-  '购物','衣服 / 配饰','电子产品','游戏','娱乐','电影 / 影音','订阅服务',
-  '学习 / 教育','书籍 / 文具','学校用品','运动 / 健身','医疗 / 健康',
-  '通讯 / 电话费','网络费','生活用品','礼物','人情','旅行','住宿',
-  '账单','服务费','手续费','维修','宠物','家庭支出','捐款','其他支出'
-];
-
-const INCOME_ICONS = {
-  '工资 / 薪金':'💼','零用钱 / 津贴':'💰','红包 / 礼金':'🧧','奖学金':'🎓',
-  '兼职收入':'⏰','自由职业 / 接案':'🧑‍💻','奖金':'🏆','退款':'↩️',
-  '利息收入':'🏦','现金回赠':'🎁','出售物品所得':'🏷️','礼物':'🎀',
-  '家庭收入':'🏠','其他收入':'📌'
-};
-const EXPENSE_ICONS = {
-  '餐饮':'🍚','饮料':'🥤','零食':'🍿','交通':'🚌','公共交通':'🚇',
-  '打车 / 网约车':'🚕','购物':'🛍️','衣服 / 配饰':'👕','电子产品':'📱',
-  '游戏':'🎮','娱乐':'🎉','电影 / 影音':'🎬','订阅服务':'📺',
-  '学习 / 教育':'📚','书籍 / 文具':'📖','学校用品':'🎒','运动 / 健身':'🏃',
-  '医疗 / 健康':'💊','通讯 / 电话费':'📞','网络费':'🌐','生活用品':'🧴',
-  '礼物':'🎁','人情':'🤝','旅行':'✈️','住宿':'🏨','账单':'🧾',
-  '服务费':'🛎️','手续费':'💳','维修':'🔧','宠物':'🐾','家庭支出':'🏡',
-  '捐款':'❤️','其他支出':'📌'
-};
-const MEAL_SUBS = ['早餐','午餐','晚餐','宵夜','快餐','咖啡'];
-
-function incomeCats(){ return DEFAULT_INCOME_CATS.concat(state.customIncomeCats.filter(c => !DEFAULT_INCOME_CATS.includes(c))); }
-function expenseCats(){ return DEFAULT_EXPENSE_CATS.concat(state.customExpenseCats.filter(c => !DEFAULT_EXPENSE_CATS.includes(c))); }
 function catIcon(name){
-  return INCOME_ICONS[name] || EXPENSE_ICONS[name] || '📌';
+  const map = {
+    // 中文
+    '工资 / 薪金':'💼','零用钱 / 津贴':'💰','红包 / 礼金':'🧧','奖学金':'🎓',
+    '兼职收入':'⏰','自由职业 / 接案':'🧑‍💻','奖金':'🏆','退款':'↩️',
+    '利息收入':'🏦','Cashback / 现金回赠':'🎁','出售物品所得':'🏷️','礼物':'🎀',
+    '家庭收入':'🏠','其他收入':'📌',
+    '餐饮':'🍚','早餐':'🌅','午餐':'🍱','晚餐':'🍽️','宵夜':'🌙','饮料':'🥤','零食':'🍿',
+    '交通':'🚌','公共交通':'🚇','打车 / 网约车':'🚕','购物':'🛍️','衣服 / 配饰':'👕',
+    '电子产品':'📱','游戏':'🎮','娱乐':'🎉','电影 / 影音':'🎬','订阅服务':'📺',
+    '学习 / 教育':'📚','书籍 / 文具':'📖','学校用品':'🎒','运动 / 健身':'🏃',
+    '医疗 / 健康':'💊','通讯 / 电话费':'📞','网络费':'🌐','生活用品':'🧴',
+    '人情':'🤝','旅行':'✈️','住宿':'🏨','账单':'🧾','服务费':'🛎️','手续费':'💳',
+    '维修':'🔧','宠物':'🐾','家庭支出':'🏡','捐款':'❤️','其他支出':'📌',
+    // English
+    'Salary / Wages':'💼','Allowance / Pocket Money':'💰','Angpao / Gift Money':'🧧',
+    'Scholarship':'🎓','Part-time Income':'⏰','Freelance / Gig':'🧑‍💻','Bonus':'🏆',
+    'Interest Income':'🏦','Cashback':'🎁','Refund':'↩️','Proceeds from Sale':'🏷️',
+    'Gift':'🎀','Family Income':'🏠','Other Income':'📌',
+    'Food':'🍚','Breakfast':'🌅','Lunch':'🍱','Dinner':'🍽️','Supper':'🌙',
+    'Drinks':'🥤','Snacks':'🍿','Transport':'🚌','Public Transport':'🚇',
+    'Taxi / Ride-hailing':'🚕','Shopping':'🛍️','Clothing / Accessories':'👕',
+    'Electronics':'📱','Games':'🎮','Entertainment':'🎉','Movies / Streaming':'🎬',
+    'Subscriptions':'📺','Education / Learning':'📚','Books / Stationery':'📖',
+    'School Supplies':'🎒','Sports / Fitness':'🏃','Medical / Health':'💊',
+    'Phone / Telecom':'📞','Internet':'🌐','Daily Necessities':'🧴','Gifts':'🎁',
+    'Social / Favors':'🤝','Travel':'✈️','Accommodation':'🏨','Bills':'🧾',
+    'Service Fees':'🛎️','Handling Fees':'💳','Repairs':'🔧','Pets':'🐾',
+    'Family Expenses':'🏡','Donations':'❤️','Other Expenses':'📌',
+    // Bahasa
+    'Gaji / Upah':'💼','Elaun / Duit Poket':'💰','Angpao / Duit Hadiah':'🧧',
+    'Biasiswa':'🎓','Pendapatan Sambilan':'⏰','Bebas / Gig':'🧑‍💻','Bonus':'🏆',
+    'Pendapatan Faedah':'🏦','Bayaran Balik':'↩️','Hasil Jualan':'🏷️',
+    'Hadiah':'🎀','Pendapatan Keluarga':'🏠','Pendapatan Lain':'📌',
+    'Makanan':'🍚','Sarapan':'🌅','Makan Tengahari':'🍱','Makan Malam':'🍽️',
+    'Makan Lewat':'🌙','Minuman':'🥤','Snek':'🍿','Pengangkutan':'🚌',
+    'Pengangkutan Awam':'🚇','Teksi / E-hailing':'🚕','Beli-belah':'🛍️',
+    'Pakaian / Aksesori':'👕','Elektronik':'📱','Permainan':'🎮','Hiburan':'🎉',
+    'Filem / Strim':'🎬','Langganan':'📺','Pendidikan / Pembelajaran':'📚',
+    'Buku / Alat Tulis':'📖','Alat Sekolah':'🎒','Sukan / Kecergasan':'🏃',
+    'Perubatan / Kesihatan':'💊','Telefon / Telekomunikasi':'📞','Internet':'🌐',
+    'Keperluan Harian':'🧴','Sosial / Ihsan':'🤝','Perjalanan':'✈️',
+    'Penginapan':'🏨','Bil':'🧾','Yuran Perkhidmatan':'🛎️','Yuran Urusniaga':'💳',
+    'Pembaikan':'🔧','Haiwan Peliharaan':'🐾','Perbelanjaan Keluarga':'🏡',
+    'Derma':'❤️','Perbelanjaan Lain':'📌'
+  };
+  return map[name] || '📌';
 }
 
 /* ============================ 成就 ============================ */
-const ACHIEVEMENTS = [
-  { id:'first_income',   name:'第一笔收入', desc:'记录第一笔收入',       icon:'💵' },
-  { id:'first_expense',  name:'开始记账',   desc:'记录第一笔支出',       icon:'🧾' },
-  { id:'first_goal',     name:'目标达人',   desc:'创建第一个储蓄目标',   icon:'🎯' },
-  { id:'first_save',     name:'第一桶金',   desc:'首次向储蓄目标存入资金', icon:'🏦' },
-  { id:'first_asset',    name:'资产管家',   desc:'添加第一个回本资产',   icon:'📦' },
-  { id:'first_account',  name:'账户创建',   desc:'创建第一个账户',       icon:'🏛️' },
-  { id:'goal_done',      name:'目标达成',   desc:'完成第一个储蓄目标',   icon:'🏅' },
-  { id:'streak_7',       name:'坚持一周',   desc:'连续 7 天记录交易',    icon:'🔥' },
-  { id:'streak_30',      name:'坚持一月',   desc:'连续 30 天记录交易',   icon:'⚡' },
-  { id:'save_100',       name:'小有积蓄',   desc:'累计储蓄达到 RM100',   icon:'🪙' },
-  { id:'save_500',       name:'稳步积累',   desc:'累计储蓄达到 RM500',   icon:'💵' },
-  { id:'save_1000',      name:'千元储蓄',   desc:'累计储蓄达到 RM1000',  icon:'💎' }
-];
-
 function currentStreak(){
-  const days = new Set(state.transactions.map(t => t.date));
+  const days = new Set(state.transactions.map(tx => localDateStr(tx.date)));
   if(!days.size) return 0;
   let streak = 0;
   let d = new Date();
-  if(!days.has(toDateStr(d))) d.setDate(d.getDate() - 1);
-  while(days.has(toDateStr(d))){
+  if(!days.has(nowLocalDate())) d.setDate(d.getDate() - 1);
+  while(days.has(`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`)){
     streak++;
     d.setDate(d.getDate() - 1);
     if(streak > 3650) break;
@@ -615,25 +1528,26 @@ function currentStreak(){
 
 function totalSavedEver(){
   return state.transactions
-    .filter(t => t.type === 'goal_deposit')
-    .reduce((s,t) => s + (Number(t.amount)||0), 0);
+    .filter(tx => tx.type === 'goal_deposit')
+    .reduce((s,tx) => s + (Number(tx.amount)||0), 0);
 }
 
 function checkAchievements(){
+  const list = I18N[LANG].achList || I18N.zh.achList;
   const newly = [];
   const unlock = (id) => {
     if(!state.achievements[id]){
       state.achievements[id] = Date.now();
-      const a = ACHIEVEMENTS.find(x => x.id === id);
+      const a = list.find(x => x.id === id);
       if(a) newly.push(a);
     }
   };
   if(state.accounts.length > 0) unlock('first_account');
-  if(state.transactions.some(t => t.type === 'income'))  unlock('first_income');
-  if(state.transactions.some(t => t.type === 'expense')) unlock('first_expense');
+  if(state.transactions.some(tx => tx.type === 'income'))  unlock('first_income');
+  if(state.transactions.some(tx => tx.type === 'expense')) unlock('first_expense');
   if(state.goals.length > 0) unlock('first_goal');
   if(state.assets.length > 0) unlock('first_asset');
-  if(state.transactions.some(t => t.type === 'goal_deposit')) unlock('first_save');
+  if(state.transactions.some(tx => tx.type === 'goal_deposit')) unlock('first_save');
   if(state.goals.some(g => Number(g.targetAmount) > 0 && Number(g.saved) >= Number(g.targetAmount))) unlock('goal_done');
   if(currentStreak() >= 7)  unlock('streak_7');
   if(currentStreak() >= 30) unlock('streak_30');
@@ -649,14 +1563,14 @@ function afterChange(){
   saveState();
   const unlocked = checkAchievements();
   render();
-  unlocked.forEach((a,i) => setTimeout(() => toast('🏆 解锁成就：' + a.name), 300 + i*900));
+  unlocked.forEach((a,i) => setTimeout(() => toast(t('achUnlockToast', { name:a.name })), 300 + i*900));
 }
 
 /* =========================================================================
-   锁屏（App Lock）
+   锁屏
    ========================================================================= */
 let lockUI = {
-  mode: 'unlock',   // unlock | create | confirm | changeOld | changeNew | changeConfirm
+  mode: 'unlock',
   pin: '',
   firstPin: '',
   useTextMode: false,
@@ -667,29 +1581,27 @@ let lockUI = {
 function renderLock(){
   const root = document.getElementById('lock-root');
   const hasLock = !!(lockRecord && lockRecord.hash);
-
   if(isUnlocked){ root.innerHTML = ''; return; }
 
-  let title = '输入 PIN 解锁';
-  if(lockUI.mode === 'create')        title = '创建 6 位数字 PIN';
-  else if(lockUI.mode === 'confirm')  title = '请再次输入确认';
-  else if(lockUI.mode === 'changeOld')title = '请输入当前 PIN';
-  else if(lockUI.mode === 'changeNew')title = '设置新的 6 位 PIN';
-  else if(lockUI.mode === 'changeConfirm') title = '再次输入新 PIN';
+  let title = t('lockEnterPin');
+  if(lockUI.mode === 'create')        title = t('lockCreatePin');
+  else if(lockUI.mode === 'confirm')  title = t('lockConfirmPin');
+  else if(lockUI.mode === 'changeOld')title = t('lockChangeOld');
+  else if(lockUI.mode === 'changeNew')title = t('lockChangeNew');
+  else if(lockUI.mode === 'changeConfirm') title = t('lockChangeConfirm');
+  if(!hasLock && lockUI.mode === 'unlock') lockUI.mode = 'create';
 
-  if(!hasLock && (lockUI.mode === 'unlock')) lockUI.mode = 'create';
-
-  const pinLen = lockUI.mode === 'create' || lockUI.mode === 'changeNew' ? 6 : 6;
+  const pinLen = 6;
 
   root.innerHTML = `
   <div class="lock-screen">
     <div class="lock-logo">SaveWise</div>
-    <div class="lock-sub">安全 · 清晰 · 真实记录你的每一笔钱</div>
+    <div class="lock-sub">${esc(t('slogan'))}</div>
     <div class="lock-title">${esc(title)}</div>
     ${ lockUI.useTextMode
       ? `<div class="lock-input-wrap">
            <input class="lock-input plain" id="lock-text" type="password" inputmode="text"
-                  placeholder="输入密码" value="${esc(lockUI.pin)}" maxlength="64">
+                  placeholder="${esc(t('lockTextPlaceholder'))}" value="${esc(lockUI.pin)}" maxlength="64">
          </div>
          <div class="lock-msg">${esc(lockUI.msg)}</div>`
       : `<div class="pin-dots" id="pin-dots">
@@ -701,24 +1613,20 @@ function renderLock(){
     ${ !lockUI.useTextMode ? `
     <div class="keypad" id="keypad">
       ${[1,2,3,4,5,6,7,8,9].map(n => `<button class="key" data-k="${n}">${n}</button>`).join('')}
-      <button class="key fn" data-k="clear">清除</button>
+      <button class="key fn" data-k="clear">${esc(t('lockClear'))}</button>
       <button class="key" data-k="0">0</button>
-      <button class="key fn" data-k="del">⌫</button>
-      <button class="key enter" data-k="ok" style="grid-column:span 3">确认</button>
+      <button class="key fn" data-k="del">${esc(t('lockDel'))}</button>
+      <button class="key enter" data-k="ok" style="grid-column:span 3">${esc(t('lockOk'))}</button>
     </div>` : `
     <div class="lock-alt">
-      <button id="lock-ok">确认</button>
+      <button id="lock-ok">${esc(t('lockOk'))}</button>
     </div>` }
     <div class="lock-alt">
-      ${ !lockUI.useTextMode ? `<button id="lock-toggle-text">使用自定义密码</button>`
-                             : `<button id="lock-toggle-pin">改用数字 PIN</button>` }
-      ${ hasLock && lockUI.mode === 'unlock' ? `<button id="lock-bio" class="bio-btn disabled" title="未来版本支持">
-        <span>🧬</span> 生物识别（即将推出）
-      </button>` : '' }
+      ${ !lockUI.useTextMode ? `<button id="lock-toggle-text">${esc(t('lockUseText'))}</button>`
+                             : `<button id="lock-toggle-pin">${esc(t('lockUsePin'))}</button>` }
     </div>
   </div>`;
 
-  // 事件
   root.querySelectorAll('#keypad .key').forEach(btn => {
     btn.addEventListener('click', () => handleKey(btn.dataset.k));
   });
@@ -744,7 +1652,6 @@ function handleKey(k){
   if(/^\d$/.test(k)){
     if(lockUI.pin.length < 12){ lockUI.pin += k; lockUI.error = false; lockUI.msg = ''; }
     renderLock();
-    // 6 位时自动提交（仅 PIN 模式）
     if(!lockUI.useTextMode && lockUI.pin.length === 6){
       setTimeout(submitPin, 120);
     }
@@ -755,12 +1662,11 @@ async function submitPin(){
   const pin = lockUI.pin;
   const hasLock = !!(lockRecord && lockRecord.hash);
 
-  if(!pin){ lockUI.msg = '请输入密码'; lockUI.error = true; renderLock(); return; }
+  if(!pin){ lockUI.msg = t('lockErrEmpty'); lockUI.error = true; renderLock(); return; }
 
-  // 创建流程
   if(lockUI.mode === 'create'){
-    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = '请输入 6 位数字 PIN'; lockUI.error = true; renderLock(); return; }
-    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = '密码至少 4 位'; lockUI.error = true; renderLock(); return; }
+    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; renderLock(); return; }
+    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; renderLock(); return; }
     lockUI.firstPin = pin;
     lockUI.pin = '';
     lockUI.mode = 'confirm';
@@ -770,7 +1676,7 @@ async function submitPin(){
   }
   if(lockUI.mode === 'confirm'){
     if(pin !== lockUI.firstPin){
-      lockUI.msg = '两次输入不一致，请重新创建';
+      lockUI.msg = t('lockErrMismatch');
       lockUI.error = true;
       lockUI.pin = '';
       lockUI.firstPin = '';
@@ -790,15 +1696,14 @@ async function submitPin(){
     markActivity();
     renderLock();
     render({ top:true });
-    toast('欢迎使用 SaveWise');
+    toast(t('lockWelcome'));
     return;
   }
 
-  // 修改流程
   if(lockUI.mode === 'changeOld'){
     const hash = await sha256(pin);
     if(!lockRecord || hash !== lockRecord.hash){
-      lockUI.msg = '当前密码不正确';
+      lockUI.msg = t('lockErrWrong');
       lockUI.error = true;
       lockUI.pin = '';
       renderLock();
@@ -811,8 +1716,8 @@ async function submitPin(){
     return;
   }
   if(lockUI.mode === 'changeNew'){
-    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = '请输入 6 位数字 PIN'; lockUI.error = true; renderLock(); return; }
-    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = '密码至少 4 位'; lockUI.error = true; renderLock(); return; }
+    if(!lockUI.useTextMode && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; renderLock(); return; }
+    if(lockUI.useTextMode && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; renderLock(); return; }
     lockUI.firstPin = pin;
     lockUI.pin = '';
     lockUI.mode = 'changeConfirm';
@@ -822,7 +1727,7 @@ async function submitPin(){
   }
   if(lockUI.mode === 'changeConfirm'){
     if(pin !== lockUI.firstPin){
-      lockUI.msg = '两次输入不一致，请重新设置';
+      lockUI.msg = t('lockErrMismatch');
       lockUI.error = true;
       lockUI.pin = '';
       lockUI.firstPin = '';
@@ -839,16 +1744,11 @@ async function submitPin(){
     lockUI.msg = '';
     lockUI.error = false;
     renderLock();
-    toast('密码已更新');
+    toast(t('lockUpdated'));
     return;
   }
 
-  // 解锁
-  if(!hasLock){
-    lockUI.mode = 'create';
-    renderLock();
-    return;
-  }
+  if(!hasLock){ lockUI.mode = 'create'; renderLock(); return; }
   const hash = await sha256(pin);
   if(hash === lockRecord.hash){
     isUnlocked = true;
@@ -859,35 +1759,31 @@ async function submitPin(){
     renderLock();
     render({ top:true });
   }else{
-    lockUI.msg = '密码不正确，请重试';
+    lockUI.msg = t('lockErrWrong');
     lockUI.error = true;
     lockUI.pin = '';
     renderLock();
-    // 震动反馈（如果支持）
     if(navigator.vibrate) navigator.vibrate(60);
   }
 }
 
-function lockApp(showMsg){
+function lockApp(msg){
   isUnlocked = false;
   lockUI.mode = 'unlock';
   lockUI.pin = '';
   lockUI.firstPin = '';
-  lockUI.msg = showMsg || '';
+  lockUI.msg = msg || '';
   lockUI.error = false;
   lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
   renderLock();
 }
 
-/* 自动锁定 */
 setInterval(() => {
   if(!isUnlocked) return;
   if(!state.settings.appLockEnabled) return;
   const mins = Number(state.settings.autoLockMinutes) || 0;
   if(mins <= 0) return;
-  if(Date.now() - lastActivity > mins * 60000){
-    lockApp('已自动锁定');
-  }
+  if(Date.now() - lastActivity > mins * 60000) lockApp(t('lockAutoLocked'));
 }, 5000);
 ['click','touchstart','keydown','scroll'].forEach(ev => {
   window.addEventListener(ev, markActivity, { passive:true });
@@ -902,7 +1798,6 @@ document.addEventListener('visibilitychange', () => {
 function render(opts){
   opts = opts || {};
   if(!isUnlocked){ renderLock(); document.getElementById('app').innerHTML = ''; return; }
-
   const root = document.getElementById('app');
   const sy = opts.top ? 0 : window.scrollY;
   root.innerHTML = renderTopbar() + '<main class="view">' + renderView() + '</main>' + renderTabbar();
@@ -911,13 +1806,15 @@ function render(opts){
 }
 
 function renderTopbar(){
-  if(ui.sub === 'accounts')     return bar('账户管理', true);
-  if(ui.sub === 'settings')     return bar('设置', true);
-  if(ui.sub === 'achievements') return bar('我的成就', true);
-  if(ui.sub === 'categories')   return bar('分类管理', true);
-  if(ui.sub === 'lock-settings')return bar('App Lock', true);
+  if(ui.sub === 'accounts')      return bar(t('setAccounts'), true);
+  if(ui.sub === 'settings')      return bar(t('setTitle'), true);
+  if(ui.sub === 'achievements')  return bar(t('achTitle'), true);
+  if(ui.sub === 'categories')    return bar(t('setCategories'), true);
+  if(ui.sub === 'lock-settings') return bar(t('setLock'), true);
+  if(ui.sub === 'whats-new')     return bar(t('whatsNewTitle'), true);
+  if(ui.sub === 'account-detail') return bar(accountDetailTitle(), true);
 
-  const titles = { home:'', records:'交易记录', goals:'储蓄目标', assets:'资产回本', stats:'统计' };
+  const titles = { home:'', records:t('tabRecords'), goals:t('tabGoals'), assets:t('tabAssets'), stats:t('tabStats'), settings:t('setTitle') };
   if(ui.tab === 'home'){
     return `<header class="topbar brand"><h1>SaveWise</h1>
       <button class="icon-btn" onclick="openSub('settings')">⚙</button></header>`;
@@ -928,21 +1825,25 @@ function renderTopbar(){
 function bar(title, back){
   return `<header class="topbar">${back ? '<button class="icon-btn" onclick="back()">←</button>' : '<span style="width:38px"></span>'}
     <h1>${esc(title)}</h1>
-    <button class="icon-btn" onclick="lockApp()" title="锁定">🔒</button></header>`;
+    <button class="icon-btn" onclick="lockApp()" title="${esc(t('lockLockNow'))}">🔒</button></header>`;
+}
+function accountDetailTitle(){
+  const a = getAccount(ui.currentAccountId);
+  return a ? a.name : t('allAccounts');
 }
 
 function renderTabbar(){
   const items = [
-    { k:'home',    i:'🏠', l:'首页' },
-    { k:'records', i:'🧾', l:'交易' },
-    { k:'goals',   i:'🎯', l:'储蓄' },
-    { k:'assets',  i:'📦', l:'资产' },
-    { k:'stats',   i:'📊', l:'统计' },
-    { k:'settings',i:'⚙️', l:'设置' }
+    { k:'home',    i:'🏠', l:t('tabHome') },
+    { k:'records', i:'🧾', l:t('tabRecords') },
+    { k:'goals',   i:'🎯', l:t('tabGoals') },
+    { k:'assets',  i:'📦', l:t('tabAssets') },
+    { k:'stats',   i:'📊', l:t('tabStats') },
+    { k:'settings',i:'⚙️', l:t('tabSettings') }
   ];
   return `<nav class="tabbar">${items.map(it =>
     `<button class="${ui.tab===it.k && !ui.sub ? 'on':''}" onclick="go('${it.k}')">
-      <span class="ti">${it.i}</span><span>${it.l}</span></button>`
+      <span class="ti">${it.i}</span><span>${esc(it.l)}</span></button>`
   ).join('')}</nav>`;
 }
 
@@ -952,6 +1853,8 @@ function renderView(){
   if(ui.sub === 'achievements')  return viewAchievements();
   if(ui.sub === 'categories')    return viewCategories();
   if(ui.sub === 'lock-settings') return viewLockSettings();
+  if(ui.sub === 'whats-new')     return viewWhatsNew();
+  if(ui.sub === 'account-detail')return viewAccountDetail();
   switch(ui.tab){
     case 'home':     return viewHome();
     case 'records':  return viewRecords();
@@ -963,7 +1866,6 @@ function renderView(){
   return '';
 }
 
-/* ---------------- 导航 ---------------- */
 function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
 function openSub(name){ ui.sub = name; render({ top:true }); }
 function back(){ ui.sub = null; render({ top:true }); }
@@ -981,145 +1883,164 @@ function viewHome(){
   const locked = lockedBalance();
 
   const mIn = state.transactions
-    .filter(t => t.type === 'income' && inThisMonth(t.date))
-    .reduce((s,t) => s + Number(t.amount||0), 0);
+    .filter(tx => tx.type === 'income' && inThisMonth(tx.date))
+    .reduce((s,tx) => s + Number(tx.amount||0), 0);
   const mOut = state.transactions
-    .filter(t => t.type === 'expense' && inThisMonth(t.date))
-    .reduce((s,t) => s + Number(t.amount||0), 0);
+    .filter(tx => tx.type === 'expense' && inThisMonth(tx.date))
+    .reduce((s,tx) => s + Number(tx.amount||0), 0);
 
   const recent = sortedTx().slice(0,5);
   const goalsPreview = state.goals.filter(g => Number(g.saved) > 0 || Number(g.targetAmount) > 0).slice(0,2);
-
   const hasAny = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length;
 
   return `
   <div class="hero">
     <div class="hero-top">
-      <span class="hero-label">总资产</span>
+      <span class="hero-label">${esc(t('totalAssets'))}</span>
       <button class="eye-btn" onclick="toggleHide()">${state.settings.hideBalance ? '🙈' : '👁'}</button>
     </div>
     <div class="hero-amount">${money(total)}</div>
     <div class="hero-split">
-      <div class="split-item"><span>可用余额</span><b>${money(avail)}</b></div>
+      <div class="split-item"><span>${esc(t('availableBalance'))}</span><b>${money(avail)}</b></div>
       <div class="split-div"></div>
-      <div class="split-item"><span>储蓄目标锁定</span><b>${money(locked)}</b></div>
+      <div class="split-item"><span>${esc(t('lockedSaving'))}</span><b>${money(locked)}</b></div>
     </div>
   </div>
 
   <div class="mini-row">
-    <div class="mini"><span>本月收入</span><b class="c-green">${money(mIn)}</b></div>
-    <div class="mini"><span>本月支出</span><b class="c-red">${money(mOut)}</b></div>
+    <div class="mini"><span>${esc(t('monthIncome'))}</span><b class="c-green">${money(mIn)}</b></div>
+    <div class="mini"><span>${esc(t('monthExpense'))}</span><b class="c-red">${money(mOut)}</b></div>
   </div>
 
   <div class="quick">
-    <button onclick="openIncomeForm()"><span class="qi">＋</span>收入</button>
-    <button onclick="openExpenseForm()"><span class="qi">－</span>支出</button>
-    <button onclick="openTransferForm()"><span class="qi">⇄</span>转账</button>
-    <button onclick="openGoalForm()"><span class="qi">🎯</span>目标</button>
+    <button onclick="openIncomeForm()"><span class="qi">＋</span>${esc(t('quickIncome'))}</button>
+    <button onclick="openExpenseForm()"><span class="qi">－</span>${esc(t('quickExpense'))}</button>
+    <button onclick="openTransferForm()"><span class="qi">⇄</span>${esc(t('quickTransfer'))}</button>
+    <button onclick="openGoalForm()"><span class="qi">🎯</span>${esc(t('quickGoal'))}</button>
   </div>
 
   <section>
     <div class="section-head">
-      <h3>我的账户</h3>
-      <button class="link" onclick="openSub('accounts')">管理</button>
+      <h3>${esc(t('myAccounts'))}</h3>
+      <button class="link" onclick="openSub('accounts')">${esc(t('manage'))}</button>
     </div>
     <div class="list">
       ${ state.accounts.length
-          ? state.accounts.map(accRow).join('')
-          : `<div class="empty"><p>还没有账户</p>
-             <button class="btn primary sm" onclick="openAccountForm()">添加第一个账户</button></div>` }
+          ? `<div class="row" onclick="goAccountDetail(null)">
+              <div class="row-icon" style="background:#eef2ff;color:#4f46e5">∑</div>
+              <div class="row-main">
+                <div class="row-title">${esc(t('allAccounts'))}</div>
+                <div class="row-sub">${state.accounts.length} ${esc(t('setStatAcc'))}</div>
+              </div>
+              <div class="row-amount">${money(availableBalance())}</div>
+            </div>` + state.accounts.map(accRow).join('')
+          : `<div class="empty"><p>${esc(t('noAccount'))}</p>
+             <button class="btn primary sm" onclick="openAccountForm()">${esc(t('addFirstAccount'))}</button></div>` }
     </div>
   </section>
 
   ${ goalsPreview.length ? `
   <section>
     <div class="section-head">
-      <h3>储蓄目标</h3>
-      <button class="link" onclick="go('goals')">查看全部</button>
+      <h3>${esc(t('tabGoals'))}</h3>
+      <button class="link" onclick="go('goals')">${esc(t('viewAll'))}</button>
     </div>
     ${ goalsPreview.map(goalCard).join('') }
   </section>` : '' }
 
   <section>
     <div class="section-head">
-      <h3>最近交易</h3>
-      <button class="link" onclick="go('records')">查看全部</button>
+      <h3>${esc(t('recentTx'))}</h3>
+      <button class="link" onclick="go('records')">${esc(t('viewAll'))}</button>
     </div>
     <div class="list">
       ${ recent.length
           ? recent.map(txRow).join('')
-          : `<div class="empty"><p>还没有记录，开始添加第一笔收入吧</p></div>` }
+          : `<div class="empty"><p>${esc(t('noTx'))}</p></div>` }
     </div>
   </section>
 
   ${ !hasAny ? `
   <div class="empty big">
     <div class="empty-icon">👋</div>
-    <p>欢迎使用 SaveWise</p>
-    <span>从创建一个账户开始，然后记录你的第一笔收入</span>
-    <button class="btn primary sm" onclick="openAccountForm()">创建账户</button>
+    <p>${esc(t('welcomeTitle'))}</p>
+    <span>${esc(t('welcomeSub'))}</span>
+    <button class="btn primary sm" onclick="openAccountForm()">${esc(t('createAccount'))}</button>
   </div>` : '' }
   `;
 }
 
+function goAccountDetail(id){
+  ui.currentAccountId = id;
+  ui.sub = 'account-detail';
+  render({ top:true });
+}
+
 function accRow(a){
   const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
-  return `<div class="row" onclick="openAccountMenu('${a.id}')">
-    <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${meta.icon}</div>
+  return `<div class="row" onclick="goAccountDetail('${a.id}')">
+    <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${a.icon || meta.icon}</div>
     <div class="row-main">
       <div class="row-title">${esc(a.name)}</div>
-      <div class="row-sub">${meta.label}</div>
+      <div class="row-sub">${esc(meta.label)}</div>
     </div>
     <div class="row-amount">${money(a.balance || 0)}</div>
   </div>`;
 }
 
-function txRow(t){
-  let icon = '📌', title = '', sub = '', cls = '', sign = '';
-  const acc = getAccount(t.accountId);
+const ACC_TYPES = {
+  cash  : { label:'Cash',        icon:'💵', bg:'#e8f5e9', color:'#2e7d32' },
+  tng   : { label:'TNG eWallet', icon:'📱', bg:'#e3f2fd', color:'#1565c0' },
+  bank  : { label:'Bank',        icon:'🏦', bg:'#ede7f6', color:'#5e35b1' },
+  saving: { label:'Savings',     icon:'🐖', bg:'#fff3e0', color:'#ef6c00' },
+  ewallet:{ label:'E-Wallet',   icon:'👛', bg:'#e0f7fa', color:'#00838f' },
+  other : { label:'Other',       icon:'📦', bg:'#fce4ec', color:'#c2185b' }
+};
 
-  switch(t.type){
+function txRow(tx){
+  let icon = '📌', title = '', sub = '', cls = '', sign = '';
+  const acc = getAccount(tx.accountId);
+
+  switch(tx.type){
     case 'income':
-      icon = catIcon(t.category);
-      title = t.category || '收入';
-      sub = (acc ? acc.name : '—') + (t.note ? ' · ' + t.note : '');
+      icon = catIcon(tx.category);
+      title = tx.category || t('income');
+      sub = (acc ? acc.name : '—') + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-green'; sign = '+';
       break;
     case 'expense':
-      icon = catIcon(t.category);
-      title = t.subCategory ? `${t.category} · ${t.subCategory}` : (t.category || '支出');
-      sub = (acc ? acc.name : '—') + (t.note ? ' · ' + t.note : '');
+      icon = catIcon(tx.category);
+      title = tx.subCategory ? `${tx.category} · ${tx.subCategory}` : (tx.category || t('expense'));
+      sub = (acc ? acc.name : '—') + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-red'; sign = '-';
       break;
     case 'transfer': {
-      const to = getAccount(t.toAccountId);
-      icon = '⇄'; title = '账户转账';
-      sub = (acc ? acc.name : '—') + ' → ' + (to ? to.name : '—') + (t.note ? ' · ' + t.note : '');
+      const to = getAccount(tx.toAccountId);
+      icon = '⇄'; title = t('transfer');
+      sub = (acc ? acc.name : '—') + ' → ' + (to ? to.name : '—') + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-muted'; sign = '';
       break;
     }
     case 'goal_deposit': {
-      const g = getGoal(t.goalId);
-      icon = '🎯'; title = '存入储蓄目标';
-      sub = (acc ? acc.name : '—') + ' → ' + (g ? g.name : '目标');
+      const g = getGoal(tx.goalId);
+      icon = '🎯'; title = t('goalDeposit');
+      sub = (acc ? acc.name : '—') + ' → ' + (g ? g.name : '—');
       cls = 'c-amber'; sign = '';
       break;
     }
     case 'goal_withdraw': {
-      const g2 = getGoal(t.goalId);
-      icon = '🎯'; title = '从储蓄目标取出';
-      sub = (g2 ? g2.name : '目标') + ' → ' + (acc ? acc.name : '—');
+      const g2 = getGoal(tx.goalId);
+      icon = '🎯'; title = t('goalWithdraw');
+      sub = (g2 ? g2.name : '—') + ' → ' + (acc ? acc.name : '—');
       cls = 'c-green'; sign = '+';
       break;
     }
-    default:
-      icon = '📌'; title = '记录'; sub = t.note || '';
   }
 
-  const amountText = sign ? sign + money(t.amount) : money(t.amount);
-  const recurring = t.recurring ? ' · 🔁' : '';
+  const amountText = sign ? sign + money(tx.amount) : money(tx.amount);
+  const recurring = tx.recurring ? ' · 🔁' : '';
 
-  return `<div class="row" onclick="openTxMenu('${t.id}')">
+  return `<div class="row" onclick="openTxMenu('${tx.id}')">
     <div class="row-icon" style="background:#f5f6fa">${icon}</div>
     <div class="row-main">
       <div class="row-title">${esc(title)}</div>
@@ -1130,78 +2051,177 @@ function txRow(t){
 }
 
 /* =========================================================================
-   交易记录页
+   账户详情页
+   ========================================================================= */
+function viewAccountDetail(){
+  if(!ui.currentAccountId) return viewAllAccountsDetail();
+  const a = getAccount(ui.currentAccountId);
+  if(!a) return viewAllAccountsDetail();
+  const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
+  const bal = accountBalance(a.id);
+  const inSum  = accountIncome(a.id, 'all');
+  const outSum = accountExpense(a.id, 'all');
+  const tIn    = accountTransferIn(a.id, 'all');
+  const tOut   = accountTransferOut(a.id, 'all');
+  const list = sortedTx().filter(tx =>
+    tx.accountId === a.id || tx.toAccountId === a.id
+  );
+
+  return `
+  <div class="hero" style="background:linear-gradient(135deg,${meta.color} 0%,#4f46e5 100%)">
+    <div class="hero-top">
+      <span class="hero-label">${esc(meta.label)} · ${esc(a.name)}</span>
+      <button class="eye-btn" onclick="toggleHide()">${state.settings.hideBalance ? '🙈' : '👁'}</button>
+    </div>
+    <div class="hero-amount">${money(bal)}</div>
+    <div class="hero-split">
+      <div class="split-item"><span>${esc(t('income'))}</span><b>${money(inSum)}</b></div>
+      <div class="split-div"></div>
+      <div class="split-item"><span>${esc(t('expense'))}</span><b>${money(outSum)}</b></div>
+    </div>
+  </div>
+
+  <div class="summary-strip">
+    <div><span>转入</span><b class="c-green">${money(tIn)}</b></div>
+    <div><span>转出</span><b class="c-red">${money(tOut)}</b></div>
+  </div>
+
+  <div class="quick">
+    <button onclick="openIncomeForm('${a.id}')"><span class="qi">＋</span>${esc(t('quickIncome'))}</button>
+    <button onclick="openExpenseForm('${a.id}')"><span class="qi">－</span>${esc(t('quickExpense'))}</button>
+    <button onclick="openTransferForm('${a.id}')"><span class="qi">⇄</span>${esc(t('quickTransfer'))}</button>
+    <button onclick="openAccountMenu('${a.id}')"><span class="qi">⚙</span>${esc(t('manage'))}</button>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <h3>${esc(t('recentTx'))}</h3>
+      <button class="link" onclick="filterByAccount('${a.id}')">${esc(t('viewAll'))}</button>
+    </div>
+    <div class="list">
+      ${ list.length
+          ? list.slice(0,20).map(txRow).join('')
+          : `<div class="empty"><p>${esc(t('noTx'))}</p></div>` }
+    </div>
+  </section>
+  `;
+}
+
+function viewAllAccountsDetail(){
+  const total = availableBalance();
+  const list = state.accounts;
+  return `
+  <div class="hero">
+    <div class="hero-top">
+      <span class="hero-label">${esc(t('allAccountsOverview'))}</span>
+      <button class="eye-btn" onclick="toggleHide()">${state.settings.hideBalance ? '🙈' : '👁'}</button>
+    </div>
+    <div class="hero-amount">${money(total)}</div>
+    <div class="hero-split">
+      <div class="split-item"><span>${esc(t('totalAssets'))}</span><b>${money(totalAssets())}</b></div>
+      <div class="split-div"></div>
+      <div class="split-item"><span>${esc(t('lockedSaving'))}</span><b>${money(lockedBalance())}</b></div>
+    </div>
+  </div>
+
+  <div class="list">
+    ${ list.length
+      ? list.map(accRow).join('')
+      : `<div class="empty"><p>${esc(t('noAccount'))}</p></div>` }
+  </div>
+  <button class="btn primary block" onclick="openAccountForm()">＋ ${esc(t('createAccount'))}</button>
+  `;
+}
+
+function filterByAccount(id){
+  ui.recordAccount = id;
+  ui.tab = 'records';
+  ui.sub = null;
+  render({ top:true });
+}
+
+/* =========================================================================
+   交易记录
    ========================================================================= */
 function viewRecords(){
   const f = ui.recordFilter;
   const q = (ui.searchQuery || '').trim().toLowerCase();
   const catFilter = ui.recordCat || '';
+  const accFilter = ui.recordAccount || '';
 
   let list = sortedTx();
 
-  if(f === 'income')       list = list.filter(t => t.type === 'income');
-  else if(f === 'expense') list = list.filter(t => t.type === 'expense');
-  else if(f === 'saving')  list = list.filter(t =>
-    t.type === 'transfer' || t.type === 'goal_deposit' || t.type === 'goal_withdraw');
+  if(f === 'income')       list = list.filter(tx => tx.type === 'income');
+  else if(f === 'expense') list = list.filter(tx => tx.type === 'expense');
+  else if(f === 'saving')  list = list.filter(tx =>
+    tx.type === 'transfer' || tx.type === 'goal_deposit' || tx.type === 'goal_withdraw');
 
-  if(catFilter){
-    list = list.filter(t => t.category === catFilter);
-  }
+  if(accFilter) list = list.filter(tx => tx.accountId === accFilter || tx.toAccountId === accFilter);
+  if(catFilter) list = list.filter(tx => tx.category === catFilter);
   if(q){
-    list = list.filter(t =>
-      String(t.note||'').toLowerCase().includes(q) ||
-      String(t.category||'').toLowerCase().includes(q) ||
-      String(t.subCategory||'').toLowerCase().includes(q)
+    list = list.filter(tx =>
+      String(tx.note||'').toLowerCase().includes(q) ||
+      String(tx.category||'').toLowerCase().includes(q) ||
+      String(tx.subCategory||'').toLowerCase().includes(q)
     );
   }
 
-  // 汇总
-  const totalIn  = list.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
-  const totalOut = list.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+  const totalIn  = list.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const totalOut = list.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
 
   const groups = new Map();
-  list.forEach(t => {
-    if(!groups.has(t.date)) groups.set(t.date, []);
-    groups.get(t.date).push(t);
+  list.forEach(tx => {
+    const d = localDateStr(tx.date);
+    if(!groups.has(d)) groups.set(d, []);
+    groups.get(d).push(tx);
   });
   const dates = Array.from(groups.keys()).sort().reverse();
 
   const segs = [
-    ['all','全部'],['income','收入'],['expense','支出'],['saving','转账/储蓄']
+    ['all', t('filterAll')],['income', t('filterIncome')],
+    ['expense', t('filterExpense')],['saving', t('filterSaving')]
   ];
 
-  // 分类筛选选项
   const catSet = new Set();
-  state.transactions.forEach(t => { if(t.category) catSet.add(t.category); });
+  state.transactions.forEach(tx => { if(tx.category) catSet.add(tx.category); });
   const catList = Array.from(catSet).sort();
+
+  const accList = state.accounts;
 
   return `
   <div class="search-bar">
-    <input class="search-input" id="rec-search" type="search" placeholder="搜索备注或分类…"
+    <input class="search-input" id="rec-search" type="search" placeholder="${esc(t('searchPlaceholder'))}"
            value="${esc(ui.searchQuery)}">
   </div>
   <div class="seg">
     ${segs.map(([v,l]) =>
-      `<button class="${f===v?'on':''}" onclick="setFilter('${v}')">${l}</button>`).join('')}
+      `<button class="${f===v?'on':''}" onclick="setFilter('${v}')">${esc(l)}</button>`).join('')}
   </div>
+  ${ accList.length ? `
+  <div class="seg">
+    <button class="${!accFilter?'on':''}" onclick="setRecordAccount('')">${esc(t('allAccounts'))}</button>
+    ${accList.slice(0,6).map(a =>
+      `<button class="${accFilter===a.id?'on':''}" onclick="setRecordAccount('${a.id}')">${esc(a.name)}</button>`
+    ).join('')}
+  </div>` : '' }
   ${ catList.length ? `
   <div class="seg">
-    <button class="${!catFilter?'on':''}" onclick="setRecordCat('')">全部分类</button>
+    <button class="${!catFilter?'on':''}" onclick="setRecordCat('')">${esc(t('all'))}</button>
     ${catList.slice(0,8).map(c =>
       `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)}</button>`
     ).join('')}
   </div>` : '' }
 
   <div class="stat-grid">
-    <div class="stat-box"><span>筛选收入</span><b class="c-green">${money(totalIn)}</b></div>
-    <div class="stat-box"><span>筛选支出</span><b class="c-red">${money(totalOut)}</b></div>
+    <div class="stat-box"><span>${esc(t('filterIncomeTotal'))}</span><b class="c-green">${money(totalIn)}</b></div>
+    <div class="stat-box"><span>${esc(t('filterExpenseTotal'))}</span><b class="c-red">${money(totalOut)}</b></div>
   </div>
 
   ${ dates.length
     ? dates.map(d => {
         const items = groups.get(d);
-        const dayIn  = items.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
-        const dayOut = items.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+        const dayIn  = items.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
+        const dayOut = items.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
         return `<div class="day-group">
           <div class="day-head">
             <span>${fmtDateLabel(d)}</span>
@@ -1212,17 +2232,16 @@ function viewRecords(){
       }).join('')
     : `<div class="empty big">
         <div class="empty-icon">🧾</div>
-        <p>${q || catFilter ? '没有符合条件的记录' : '还没有交易记录'}</p>
-        <span>${q || catFilter ? '换个关键词试试' : '记录你的第一笔收入或支出'}</span>
-        ${!q && !catFilter ? `<button class="btn primary sm" onclick="openIncomeForm()">＋ 记录第一笔</button>` : ''}
+        <p>${esc(q || catFilter || accFilter ? t('noFilterResult') : t('noRecords'))}</p>
+        <span>${esc(q || catFilter || accFilter ? t('tryOtherKeyword') : t('noTx'))}</span>
+        ${!q && !catFilter && !accFilter ? `<button class="btn primary sm" onclick="openIncomeForm()">${esc(t('recordFirst'))}</button>` : ''}
       </div>` }
   `;
 }
-
 function setFilter(v){ ui.recordFilter = v; render(); }
 function setRecordCat(c){ ui.recordCat = c; render(); }
+function setRecordAccount(id){ ui.recordAccount = id; render(); }
 
-// 搜索输入（防抖）
 document.addEventListener('input', e => {
   if(e.target && e.target.id === 'rec-search'){
     const v = e.target.value;
@@ -1244,19 +2263,18 @@ document.addEventListener('input', e => {
 function viewGoals(){
   const goals = state.goals;
   const totalTarget = goals.reduce((s,g) => s + Number(g.targetAmount||0), 0);
-
   return `
   <div class="summary-strip">
-    <div><span>锁定储蓄金额</span><b>${money(lockedBalance())}</b></div>
-    <div><span>目标总额</span><b>${money(totalTarget)}</b></div>
+    <div><span>${esc(t('lockedSavingAmount'))}</span><b>${money(lockedBalance())}</b></div>
+    <div><span>${esc(t('goalTotal'))}</span><b>${money(totalTarget)}</b></div>
   </div>
   ${ goals.length
-    ? goals.map(goalCard).join('') + `<button class="btn primary block" onclick="openGoalForm()">＋ 新建储蓄目标</button>`
+    ? goals.map(goalCard).join('') + `<button class="btn primary block" onclick="openGoalForm()">＋ ${esc(t('goalNew'))}</button>`
     : `<div class="empty big">
         <div class="empty-icon">🎯</div>
-        <p>还没有储蓄目标</p>
-        <span>设定目标，把可用余额锁定起来专门储蓄</span>
-        <button class="btn primary sm" onclick="openGoalForm()">新建目标</button>
+        <p>${esc(t('goalNoGoals'))}</p>
+        <span>${esc(t('goalNoGoalsSub'))}</span>
+        <button class="btn primary sm" onclick="openGoalForm()">${esc(t('goalNewBtn'))}</button>
       </div>` }
   `;
 }
@@ -1268,30 +2286,30 @@ function goalCard(g){
   const remain = Math.max(target - saved, 0);
   const done   = target > 0 && saved >= target;
 
-  let dl = '未设置期限';
+  let dl = t('goalDeadlineNone');
   if(g.deadline){
-    const days = Math.ceil((parseDate(g.deadline) - new Date()) / 86400000);
-    if(days > 0) dl = `还剩 ${days} 天`;
-    else if(days === 0) dl = '今天到期';
-    else dl = `已逾期 ${-days} 天`;
+    const days = Math.ceil((new Date(g.deadline) - new Date()) / 86400000);
+    if(days > 0) dl = t('goalDaysLeft', { n: days });
+    else if(days === 0) dl = t('goalDueToday');
+    else dl = t('goalOverdue', { n: -days });
   }
 
   return `<div class="goal-card">
     <div class="goal-top">
       <div>
-        <div class="goal-name">${g.icon ? g.icon + ' ' : ''}${esc(g.name)}${done ? '<span class="badge-done">已达成</span>' : ''}</div>
-        <div class="goal-sub">期限：${g.deadline ? esc(g.deadline) : '未设置'} · ${dl}</div>
-        ${g.note ? `<div class="goal-sub">备注：${esc(g.note)}</div>` : ''}
+        <div class="goal-name">${g.icon ? g.icon + ' ' : ''}${esc(g.name)}${done ? `<span class="badge-done">${esc(t('goalDone'))}</span>` : ''}</div>
+        <div class="goal-sub">${esc(dl)}</div>
+        ${g.note ? `<div class="goal-sub">${esc(g.note)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="goalMenu('${g.id}')">⋯</button>
     </div>
     <div class="goal-amt"><b>${money(saved)}</b><span> / ${money(target)}</span></div>
     <div class="bar-track"><div class="bar-fill ${done?'alt':''}" style="width:${pct.toFixed(1)}%"></div></div>
-    <div class="goal-foot"><span>${pct.toFixed(1)}%</span><span>还差 ${money(remain)}</span></div>
+    <div class="goal-foot"><span>${pct.toFixed(1)}%</span><span>${esc(t('goalRemain'))} ${money(remain)}</span></div>
     <div class="goal-acts">
-      <button class="btn soft" onclick="openGoalDeposit('${g.id}')">存入</button>
-      <button class="btn soft" onclick="openGoalWithdraw('${g.id}')">取出</button>
-      <button class="btn soft" onclick="editGoal('${g.id}')">编辑</button>
+      <button class="btn soft" onclick="openGoalDeposit('${g.id}')">${esc(t('goalDeposit'))}</button>
+      <button class="btn soft" onclick="openGoalWithdraw('${g.id}')">${esc(t('goalWithdraw'))}</button>
+      <button class="btn soft" onclick="editGoal('${g.id}')">${esc(t('edit'))}</button>
     </div>
   </div>`;
 }
@@ -1304,8 +2322,8 @@ function assetCalc(a){
   const totalDays = (Number(a.expectedYears)||0) * 365 + (Number(a.expectedMonths)||0) * 30;
   const dailyValue = totalDays > 0 ? price / totalDays : 0;
 
-  const start = parseDate(a.purchaseDate);
-  const end   = a.endDate ? parseDate(a.endDate) : new Date();
+  const start = new Date(a.purchaseDate);
+  const end   = a.endDate ? new Date(a.endDate) : new Date();
   let usedMs  = end.getTime() - start.getTime();
   if(!isFinite(usedMs) || usedMs < 0) usedMs = 0;
   const usedDays = usedMs / 86400000;
@@ -1324,14 +2342,15 @@ function assetCalc(a){
 }
 
 const ASSET_STATUS = {
-  active:    { label:'回本中',   cls:'st-active' },
-  completed: { label:'已完成',   cls:'st-done' },
-  ended:     { label:'提前结束', cls:'st-end' },
-  damaged:   { label:'已损坏',   cls:'st-bad' },
-  lost:      { label:'已遗失',   cls:'st-bad' },
-  sold:      { label:'已出售',   cls:'st-done' },
-  stopped:   { label:'停止使用', cls:'st-end' }
+  active:    { key:'assetStatusActive' },
+  completed: { key:'assetStatusCompleted' },
+  ended:     { key:'assetStatusEnded' },
+  damaged:   { key:'assetStatusDamaged' },
+  lost:      { key:'assetStatusLost' },
+  sold:      { key:'assetStatusSold' },
+  stopped:   { key:'assetStatusStopped' }
 };
+function assetStatusLabel(s){ return t((ASSET_STATUS[s]||ASSET_STATUS.active).key); }
 
 function viewAssets(){
   const list = state.assets;
@@ -1341,62 +2360,62 @@ function viewAssets(){
 
   return `
   <div class="summary-strip">
-    <div><span>资产总数</span><b>${list.length} 项</b></div>
-    <div><span>回本中</span><b>${activeCount} 项</b></div>
+    <div><span>${esc(t('assetTotal'))}</span><b>${list.length}</b></div>
+    <div><span>${esc(t('assetActive'))}</span><b>${activeCount}</b></div>
   </div>
   ${ list.length
     ? list.map(assetCard).join('') +
       `<div class="summary-strip">
-        <div><span>累计已回本</span><b class="c-green">${money(totalReturned)}</b></div>
-        <div><span>未回本总额</span><b class="c-red">${money(totalUnreturned)}</b></div>
+        <div><span>${esc(t('assetReturnedTotal'))}</span><b class="c-green">${money(totalReturned)}</b></div>
+        <div><span>${esc(t('assetUnreturnedTotal'))}</span><b class="c-red">${money(totalUnreturned)}</b></div>
       </div>` +
-      `<button class="btn primary block" onclick="openAssetForm()">＋ 添加资产</button>`
+      `<button class="btn primary block" onclick="openAssetForm()">＋ ${esc(t('assetAdd'))}</button>`
     : `<div class="empty big">
         <div class="empty-icon">📦</div>
-        <p>还没有记录资产</p>
-        <span>记录购买物品，按预计使用期限计算每日价值与回本进度</span>
-        <button class="btn primary sm" onclick="openAssetForm()">添加资产</button>
+        <p>${esc(t('assetNoAssets'))}</p>
+        <span>${esc(t('assetNoAssetsSub'))}</span>
+        <button class="btn primary sm" onclick="openAssetForm()">${esc(t('assetAddBtn'))}</button>
       </div>` }
   `;
 }
 
 function assetCard(a){
   const c = assetCalc(a);
-  const st = ASSET_STATUS[a.status] || ASSET_STATUS.active;
   const pct = Math.min(c.rate * 100, 100);
   const isActive = a.status === 'active';
+  const cls = { active:'st-active', completed:'st-done', ended:'st-end', damaged:'st-bad', lost:'st-bad', sold:'st-done', stopped:'st-end' }[a.status] || 'st-active';
 
   return `<div class="asset-card">
     <div class="asset-top">
       <div>
         <div class="asset-name">${esc(a.name)}</div>
-        <div class="goal-sub">购买：${esc(a.purchaseDate)}${a.endDate ? ' · 结束：' + esc(a.endDate) : ''}</div>
+        <div class="goal-sub">${esc(a.purchaseDate)}${a.endDate ? ' · ' + esc(a.endDate) : ''}</div>
         ${a.note ? `<div class="goal-sub">${esc(a.note)}</div>` : ''}
       </div>
-      <span class="badge ${st.cls}">${st.label}</span>
+      <span class="badge ${cls}">${esc(assetStatusLabel(a.status))}</span>
     </div>
 
     <div class="asset-grid">
-      <div><span>购买价格</span><b>${money(c.price)}</b></div>
-      <div><span>每日价值</span><b>${money(c.dailyValue)}</b></div>
-      <div><span>已使用</span><b>${c.usedDays.toFixed(1)} 天</b></div>
-      <div><span>预计使用</span><b>${c.totalDays} 天</b></div>
+      <div><span>${esc(t('assetPrice'))}</span><b>${money(c.price)}</b></div>
+      <div><span>${esc(t('assetDailyValue'))}</span><b>${money(c.dailyValue)}</b></div>
+      <div><span>${esc(t('assetUsedDays'))}</span><b>${c.usedDays.toFixed(1)}</b></div>
+      <div><span>${esc(t('assetTotalDays'))}</span><b>${c.totalDays}</b></div>
     </div>
 
     <div class="bar-track"><div class="bar-fill alt" style="width:${pct.toFixed(1)}%"></div></div>
 
     <div class="asset-rows">
-      <div class="ar"><span>系统计算回本</span><b>${money(c.systemValue)}</b></div>
-      <div class="ar"><span>用户调整值</span><b>${c.hasManual ? money(c.manualValue) : '未设置'}</b></div>
-      <div class="ar"><span>实际已回本</span><b class="c-green">${money(c.actualValue)}</b></div>
-      <div class="ar"><span>未回本金额</span><b class="c-red">${money(c.unreturned)}</b></div>
-      <div class="ar"><span>回本率</span><b>${(c.rate * 100).toFixed(1)}%</b></div>
+      <div class="ar"><span>${esc(t('assetSystemValue'))}</span><b>${money(c.systemValue)}</b></div>
+      <div class="ar"><span>${esc(t('assetManualValue'))}</span><b>${c.hasManual ? money(c.manualValue) : '—'}</b></div>
+      <div class="ar"><span>${esc(t('assetActualValue'))}</span><b class="c-green">${money(c.actualValue)}</b></div>
+      <div class="ar"><span>${esc(t('assetUnreturned'))}</span><b class="c-red">${money(c.unreturned)}</b></div>
+      <div class="ar"><span>${esc(t('assetRate'))}</span><b>${(c.rate * 100).toFixed(1)}%</b></div>
     </div>
 
     <div class="asset-acts">
-      ${isActive ? `<button class="btn soft" onclick="openAssetEnd('${a.id}')">结束回本</button>` : ''}
-      <button class="btn soft" onclick="openAssetAdjust('${a.id}')">调整价值</button>
-      <button class="btn soft" onclick="assetMenu('${a.id}')">更多</button>
+      ${isActive ? `<button class="btn soft" onclick="openAssetEnd('${a.id}')">${esc(t('assetEnd'))}</button>` : ''}
+      <button class="btn soft" onclick="openAssetAdjust('${a.id}')">${esc(t('assetAdjust'))}</button>
+      <button class="btn soft" onclick="assetMenu('${a.id}')">${esc(t('assetMore'))}</button>
     </div>
   </div>`;
 }
@@ -1409,80 +2428,88 @@ function last6Months(){
   const now = new Date();
   for(let i = 5; i >= 0; i--){
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    arr.push({ key: monthKey(d), label: `${d.getMonth()+1}月` });
+    arr.push({ key: monthKeyFromISO(d.toISOString()), label: `${d.getMonth()+1}月` });
   }
   return arr;
 }
 
 function viewStats(){
   const range = ui.statsRange;
-  const txs = state.transactions.filter(t => range === 'all' ? true : inThisMonth(t.date));
+  const txs = state.transactions.filter(tx => matchRange(tx.date, range));
 
-  const income  = txs.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
-  const expense = txs.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+  const income  = txs.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const expense = txs.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
   const net     = income - expense;
 
-  const allIncome  = state.transactions.filter(t => t.type === 'income').reduce((s,t) => s + Number(t.amount||0), 0);
-  const allExpense = state.transactions.filter(t => t.type === 'expense').reduce((s,t) => s + Number(t.amount||0), 0);
+  const allIncome  = state.transactions.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const allExpense = state.transactions.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
 
-  // 支出分类
   const catMap = {};
-  txs.filter(t => t.type === 'expense').forEach(t => {
-    const k = t.category || '其他支出';
-    catMap[k] = (catMap[k] || 0) + Number(t.amount||0);
+  txs.filter(tx => tx.type === 'expense').forEach(tx => {
+    const k = tx.category || 'Other';
+    catMap[k] = (catMap[k] || 0) + Number(tx.amount||0);
   });
   const cats = Object.entries(catMap).sort((a,b) => b[1] - a[1]);
   const maxCat = cats.length ? cats[0][1] : 0;
 
-  // 收入分类
   const incMap = {};
-  txs.filter(t => t.type === 'income').forEach(t => {
-    const k = t.category || '其他收入';
-    incMap[k] = (incMap[k] || 0) + Number(t.amount||0);
+  txs.filter(tx => tx.type === 'income').forEach(tx => {
+    const k = tx.category || 'Other';
+    incMap[k] = (incMap[k] || 0) + Number(tx.amount||0);
   });
   const incCats = Object.entries(incMap).sort((a,b) => b[1] - a[1]);
   const maxInc = incCats.length ? incCats[0][1] : 0;
 
-  // 账户余额分布
   const accTotal = availableBalance();
 
-  // 月度趋势
   const months = last6Months().map(m => {
-    const inc = state.transactions.filter(t => t.type === 'income'  && String(t.date||'').startsWith(m.key)).reduce((s,t) => s + Number(t.amount||0), 0);
-    const exp = state.transactions.filter(t => t.type === 'expense' && String(t.date||'').startsWith(m.key)).reduce((s,t) => s + Number(t.amount||0), 0);
+    const inc = state.transactions.filter(tx => tx.type === 'income'  && String(tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
+    const exp = state.transactions.filter(tx => tx.type === 'expense' && String(tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
     return { key:m.key, label:m.label, inc, exp, net: inc - exp };
   });
   const maxAbs = Math.max.apply(null, months.map(m => Math.abs(m.net)).concat([1]));
 
   const hasData = txs.length > 0;
 
+  const rangeSegs = [
+    ['today', t('today')],['week','7D'],['month', t('statsMonth')],['year','YTD'],['all', t('statsAll')]
+  ];
+
   return `
   <div class="seg">
-    <button class="${range==='month'?'on':''}" onclick="setStatsRange('month')">本月</button>
-    <button class="${range==='all'?'on':''}" onclick="setStatsRange('all')">全部时间</button>
+    ${rangeSegs.map(([v,l]) =>
+      `<button class="${range===v?'on':''}" onclick="setStatsRange('${v}')">${esc(l)}</button>`).join('')}
   </div>
+  ${ range === 'custom' ? `
+  <div class="card">
+    <div class="two-col">
+      <label class="field"><span class="field-label">${esc(t('date'))} From</span>
+        <input type="date" value="${ui.statsCustomFrom}" onchange="ui.statsCustomFrom=this.value;render()"></label>
+      <label class="field"><span class="field-label">${esc(t('date'))} To</span>
+        <input type="date" value="${ui.statsCustomTo}" onchange="ui.statsCustomTo=this.value;render()"></label>
+    </div>
+  </div>` : '' }
 
   <div class="stat-grid">
-    <div class="stat-box"><span>收入</span><b class="c-green">${money(income)}</b></div>
-    <div class="stat-box"><span>支出</span><b class="c-red">${money(expense)}</b></div>
-    <div class="stat-box"><span>净储蓄</span><b class="${net>=0?'c-green':'c-red'}">${money(net)}</b></div>
-    <div class="stat-box"><span>锁定储蓄</span><b>${money(lockedBalance())}</b></div>
+    <div class="stat-box"><span>${esc(t('statsIncome'))}</span><b class="c-green">${money(income)}</b></div>
+    <div class="stat-box"><span>${esc(t('statsExpense'))}</span><b class="c-red">${money(expense)}</b></div>
+    <div class="stat-box"><span>${esc(t('statsNet'))}</span><b class="${net>=0?'c-green':'c-red'}">${money(net)}</b></div>
+    <div class="stat-box"><span>${esc(t('statsLocked'))}</span><b>${money(lockedBalance())}</b></div>
   </div>
 
   ${ range === 'month' ? `
   <div class="card">
-    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">累计数据（全部时间）</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:8px">${esc(t('statsCumulative'))}</div>
     <div class="asset-rows">
-      <div class="ar"><span>累计收入</span><b class="c-green">${money(allIncome)}</b></div>
-      <div class="ar"><span>累计支出</span><b class="c-red">${money(allExpense)}</b></div>
-      <div class="ar"><span>累计净储蓄</span><b>${money(allIncome - allExpense)}</b></div>
+      <div class="ar"><span>${esc(t('statsCumIncome'))}</span><b class="c-green">${money(allIncome)}</b></div>
+      <div class="ar"><span>${esc(t('statsCumExpense'))}</span><b class="c-red">${money(allExpense)}</b></div>
+      <div class="ar"><span>${esc(t('statsCumNet'))}</span><b>${money(allIncome - allExpense)}</b></div>
     </div>
   </div>` : '' }
 
   <div class="card">
     <div class="section-head" style="margin-bottom:12px">
-      <h3>支出分类</h3>
-      <span style="font-size:12px;color:var(--muted)">${range==='month'?'本月':'全部'}</span>
+      <h3>${esc(t('statsExpenseCat'))}</h3>
     </div>
     ${ cats.length
       ? cats.map(([name, amt]) =>
@@ -1490,13 +2517,12 @@ function viewStats(){
           <div class="cat-head"><span>${catIcon(name)} ${esc(name)}</span><span>${money(amt)}</span></div>
           <div class="cat-bar"><i style="width:${maxCat>0?(amt/maxCat*100).toFixed(1):0}%"></i></div>
         </div>`).join('')
-      : `<div class="empty"><p>暂无支出数据</p></div>` }
+      : `<div class="empty"><p>${esc(t('statsNoExpense'))}</p></div>` }
   </div>
 
   <div class="card">
     <div class="section-head" style="margin-bottom:12px">
-      <h3>收入分类</h3>
-      <span style="font-size:12px;color:var(--muted)">${range==='month'?'本月':'全部'}</span>
+      <h3>${esc(t('statsIncomeCat'))}</h3>
     </div>
     ${ incCats.length
       ? incCats.map(([name, amt]) =>
@@ -1504,14 +2530,14 @@ function viewStats(){
           <div class="cat-head"><span>${catIcon(name)} ${esc(name)}</span><span>${money(amt)}</span></div>
           <div class="cat-bar"><i class="inc" style="width:${maxInc>0?(amt/maxInc*100).toFixed(1):0}%"></i></div>
         </div>`).join('')
-      : `<div class="empty"><p>暂无收入数据</p></div>` }
+      : `<div class="empty"><p>${esc(t('statsNoIncome'))}</p></div>` }
   </div>
 
   ${ state.accounts.length ? `
   <div class="card">
     <div class="section-head" style="margin-bottom:12px">
-      <h3>账户余额分布</h3>
-      <span style="font-size:12px;color:var(--muted)">可用 ${money(accTotal)}</span>
+      <h3>${esc(t('statsAccDist'))}</h3>
+      <span style="font-size:12px;color:var(--muted)">${esc(t('statsAvailable'))} ${money(accTotal)}</span>
     </div>
     ${ state.accounts.map(a => {
         const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
@@ -1527,13 +2553,13 @@ function viewStats(){
   ${ state.goals.length ? `
   <div class="card">
     <div class="section-head" style="margin-bottom:12px">
-      <h3>储蓄目标进度</h3>
-      <span style="font-size:12px;color:var(--muted)">锁定 ${money(lockedBalance())}</span>
+      <h3>${esc(t('statsGoalProgress'))}</h3>
+      <span style="font-size:12px;color:var(--muted)">${money(lockedBalance())}</span>
     </div>
     ${ state.goals.map(g => {
-        const t = Number(g.targetAmount)||0;
-        const s = Number(g.saved)||0;
-        const p = t > 0 ? Math.min(s / t * 100, 100) : 0;
+        const tg = Number(g.targetAmount)||0;
+        const sv = Number(g.saved)||0;
+        const p = tg > 0 ? Math.min(sv / tg * 100, 100) : 0;
         return `<div class="cat-row">
           <div class="cat-head"><span>${g.icon||'🎯'} ${esc(g.name)}</span><span>${p.toFixed(0)}%</span></div>
           <div class="cat-bar"><i class="${p>=100?'inc':''}" style="width:${p.toFixed(1)}%"></i></div>
@@ -1543,8 +2569,8 @@ function viewStats(){
 
   <div class="card">
     <div class="section-head" style="margin-bottom:6px">
-      <h3>月度趋势</h3>
-      <span style="font-size:12px;color:var(--muted)">近 6 个月净储蓄</span>
+      <h3>${esc(t('statsTrend'))}</h3>
+      <span style="font-size:12px;color:var(--muted)">${esc(t('statsTrendSub'))}</span>
     </div>
     <div class="trend">
       ${ months.map(m => {
@@ -1558,7 +2584,7 @@ function viewStats(){
     </div>
   </div>
 
-  ${ !hasData ? `<div class="empty big"><div class="empty-icon">📊</div><p>还没有统计数据</p><span>记录收支后这里会自动生成分析</span></div>` : '' }
+  ${ !hasData ? `<div class="empty big"><div class="empty-icon">📊</div><p>${esc(t('statsNoData'))}</p><span>${esc(t('statsNoDataSub'))}</span></div>` : '' }
   `;
 }
 function setStatsRange(v){ ui.statsRange = v; render(); }
@@ -1569,7 +2595,7 @@ function setStatsRange(v){ ui.statsRange = v; render(); }
 function viewAccounts(){
   return `
   <div class="card">
-    <div style="font-size:12px;color:var(--muted);margin-bottom:4px">总可用余额</div>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:4px">${esc(t('totalAvailable'))}</div>
     <div style="font-size:28px;font-weight:800;font-variant-numeric:tabular-nums">${money(availableBalance())}</div>
   </div>
   <div class="list">
@@ -1577,18 +2603,18 @@ function viewAccounts(){
       ? state.accounts.map(a => {
           const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
           return `<div class="row" onclick="openAccountMenu('${a.id}')">
-            <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${meta.icon}</div>
+            <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${a.icon || meta.icon}</div>
             <div class="row-main">
               <div class="row-title">${esc(a.name)}</div>
-              <div class="row-sub">${meta.label}</div>
+              <div class="row-sub">${esc(meta.label)}</div>
             </div>
             <div class="row-amount">${money(a.balance||0)}</div>
           </div>`;
         }).join('')
-      : `<div class="empty"><p>还没有账户</p></div>` }
+      : `<div class="empty"><p>${esc(t('noAccount'))}</p></div>` }
   </div>
-  <button class="btn primary block" onclick="openAccountForm()">＋ 添加账户</button>
-  <p class="about">账户余额会随收入、支出、转账和储蓄操作实时更新。<br>删除账户前需先清空余额。</p>
+  <button class="btn primary block" onclick="openAccountForm()">＋ ${esc(t('createAccount'))}</button>
+  <p class="about">${esc(t('accountDeleteHint'))}</p>
   `;
 }
 
@@ -1596,19 +2622,21 @@ function viewAccounts(){
    分类管理
    ========================================================================= */
 function viewCategories(){
+  const incCats = incomeCats();
+  const expCats = expenseCats();
   return `
   <div class="card">
     <div class="section-head" style="margin-bottom:10px">
-      <h3>收入分类</h3>
-      <button class="link" onclick="addCustomCat('income')">＋ 新增</button>
+      <h3>${esc(t('catIncome'))}</h3>
+      <button class="link" onclick="addCustomCat('income')">${esc(t('catAdd'))}</button>
     </div>
     <div class="chip-row">
-      ${ incomeCats().map(c =>
+      ${ incCats.map(c =>
         `<span class="chip" style="background:#e7f8f1;color:#0a7a55">${catIcon(c)} ${esc(c)}</span>`).join('') }
     </div>
     ${ state.customIncomeCats.length ? `
     <div class="section-head" style="margin:10px 0 6px">
-      <h3 style="font-size:13px;color:var(--muted)">自定义收入分类</h3>
+      <h3 style="font-size:13px;color:var(--muted)">${esc(t('catCustomIncome'))}</h3>
     </div>
     <div class="chip-row">
       ${ state.customIncomeCats.map(c =>
@@ -1618,16 +2646,16 @@ function viewCategories(){
 
   <div class="card">
     <div class="section-head" style="margin-bottom:10px">
-      <h3>支出分类</h3>
-      <button class="link" onclick="addCustomCat('expense')">＋ 新增</button>
+      <h3>${esc(t('catExpense'))}</h3>
+      <button class="link" onclick="addCustomCat('expense')">${esc(t('catAdd'))}</button>
     </div>
     <div class="chip-row">
-      ${ expenseCats().map(c =>
+      ${ expCats.map(c =>
         `<span class="chip" style="background:#fdecec;color:#b3282c">${catIcon(c)} ${esc(c)}</span>`).join('') }
     </div>
     ${ state.customExpenseCats.length ? `
     <div class="section-head" style="margin:10px 0 6px">
-      <h3 style="font-size:13px;color:var(--muted)">自定义支出分类</h3>
+      <h3 style="font-size:13px;color:var(--muted)">${esc(t('catCustomExpense'))}</h3>
     </div>
     <div class="chip-row">
       ${ state.customExpenseCats.map(c =>
@@ -1635,36 +2663,36 @@ function viewCategories(){
     </div>` : '' }
   </div>
 
-  <p class="about">自定义分类会出现在记录收入 / 支出时的分类选择中。</p>
+  <p class="about">${esc(t('catHint'))}</p>
   `;
 }
 
 function addCustomCat(kind){
   openSheet({
-    title: kind === 'income' ? '新增收入分类' : '新增支出分类',
-    submitText: '添加',
-    body: `<label class="field"><span class="field-label">分类名称</span>
-      <input name="name" type="text" required maxlength="16" placeholder="例如：投资收入"></label>`,
+    title: kind === 'income' ? t('catAddIncome') : t('catAddExpense'),
+    submitText: t('add'),
+    body: `<label class="field"><span class="field-label">${esc(t('catName'))}</span>
+      <input name="name" type="text" required maxlength="24" placeholder="${esc(t('catNamePlaceholder'))}"></label>`,
     onSubmit(d){
       const name = (d.name || '').trim();
-      if(!name){ toast('请输入分类名称'); return false; }
+      if(!name){ toast(t('catEnterName')); return false; }
       const all = kind === 'income' ? incomeCats() : expenseCats();
-      if(all.includes(name)){ toast('该分类已存在'); return false; }
+      if(all.includes(name)){ toast(t('catExists')); return false; }
       if(kind === 'income') state.customIncomeCats.push(name);
       else state.customExpenseCats.push(name);
       afterChange();
-      toast('分类已添加');
+      toast(t('catAdded'));
       return true;
     }
   });
 }
 
 function removeCustomCat(kind, name){
-  confirmDialog(`确定删除自定义分类「${name}」？已存在的交易记录不受影响。`, () => {
+  confirmDialog(t('goalDeleteCustomHint', { name }), () => {
     if(kind === 'income') state.customIncomeCats = state.customIncomeCats.filter(c => c !== name);
     else state.customExpenseCats = state.customExpenseCats.filter(c => c !== name);
     afterChange();
-    toast('分类已删除');
+    toast(t('catDeleted'));
   });
 }
 
@@ -1672,14 +2700,15 @@ function removeCustomCat(kind, name){
    成就
    ========================================================================= */
 function viewAchievements(){
+  const list = I18N[LANG].achList || I18N.zh.achList;
   return `<div class="ach-grid">
-    ${ ACHIEVEMENTS.map(a => {
+    ${ list.map(a => {
       const got = !!state.achievements[a.id];
       const date = got ? new Date(state.achievements[a.id]) : null;
-      const ds = date ? `${date.getMonth()+1}/${date.getDate()} 解锁` : a.desc;
+      const ds = date ? t('achUnlockedDate', { m:date.getMonth()+1, d:date.getDate() }) : a.desc;
       return `<div class="ach ${got?'got':''}">
         <div class="ach-icon">${got ? a.icon : '🔒'}</div>
-        <div class="ach-name">${a.name}</div>
+        <div class="ach-name">${esc(a.name)}</div>
         <div class="ach-desc">${esc(ds)}</div>
       </div>`;
     }).join('') }
@@ -1692,71 +2721,111 @@ function viewAchievements(){
 function viewSettings(){
   const unlockedCount = Object.keys(state.achievements).length;
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
-  const autoLockLabel = autoLock <= 0 ? '不自动锁定' : autoLock + ' 分钟';
+  const autoLockLabel = autoLock <= 0 ? t('lockNever') : autoLock + ' ' + t('lockMin');
 
   return `
   <div class="card">
     <div class="set-row">
-      <div><div class="set-title">金额隐藏模式</div>
-        <div class="set-sub">所有金额显示为 RM****</div></div>
+      <div><div class="set-title">${esc(t('setHideBalance'))}</div>
+        <div class="set-sub">${esc(t('setHideBalanceSub'))}</div></div>
       <button class="switch ${state.settings.hideBalance?'on':''}" onclick="toggleHide()"><i></i></button>
     </div>
     <div class="set-row">
-      <div><div class="set-title">货币显示</div>
-        <div class="set-sub">当前货币单位</div></div>
+      <div><div class="set-title">${esc(t('setCurrency'))}</div>
+        <div class="set-sub">${esc(t('setCurrencySub'))}</div></div>
       <span class="set-val">RM / MYR</span>
     </div>
   </div>
 
   <div class="card">
     <div class="set-row tap" onclick="openSub('lock-settings')">
-      <div><div class="set-title">🔒 App Lock</div>
-        <div class="set-sub">${state.settings.appLockEnabled ? '已开启 · ' + autoLockLabel : '已关闭'}</div></div>
+      <div><div class="set-title">🔒 ${esc(t('setLock'))}</div>
+        <div class="set-sub">${state.settings.appLockEnabled ? esc(t('setLockSubOn')) + ' · ' + autoLockLabel : esc(t('setLockSubOff'))}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="openSub('categories')">
-      <div><div class="set-title">🏷️ 分类管理</div>
-        <div class="set-sub">自定义收入与支出分类</div></div>
+      <div><div class="set-title">🏷️ ${esc(t('setCategories'))}</div>
+        <div class="set-sub">${esc(t('setCategoriesSub'))}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="openSub('accounts')">
-      <div><div class="set-title">🏛️ 账户管理</div>
-        <div class="set-sub">${state.accounts.length} 个账户</div></div>
+      <div><div class="set-title">🏛️ ${esc(t('setAccounts'))}</div>
+        <div class="set-sub">${t('setAccountsSub', { n: state.accounts.length })}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="openSub('achievements')">
-      <div><div class="set-title">🏆 我的成就</div>
-        <div class="set-sub">已解锁 ${unlockedCount} / ${ACHIEVEMENTS.length}</div></div>
+      <div><div class="set-title">🏆 ${esc(t('setAchievements'))}</div>
+        <div class="set-sub">${t('setAchievementsSub', { a:unlockedCount, b:(I18N[LANG].achList||I18N.zh.achList).length })}</div></div>
       <span class="chev">›</span>
     </div>
   </div>
 
   <div class="card">
-    <div class="set-row tap" onclick="exportData()">
-      <div><div class="set-title">📤 导出数据 (JSON)</div>
-        <div class="set-sub">下载完整备份文件</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="exportCSV()">
-      <div><div class="set-title">📊 导出交易 (CSV)</div>
-        <div class="set-sub">适合 Excel / 表格查看</div></div>
+    <div class="set-row tap" onclick="openSub('whats-new')">
+      <div><div class="set-title">📋 ${esc(t('setWhatsNew'))}</div>
+        <div class="set-sub">${esc(t('setWhatsNewSub'))}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row">
-      <div><div class="set-title">数据存储</div>
-        <div class="set-sub">本地 localStorage</div></div>
-      <span class="set-val">${state.transactions.length} 笔交易</span>
+      <div><div class="set-title">${esc(t('setVersion'))}</div>
+        <div class="set-sub">${esc(t('setDataVersion'))}</div></div>
+      <span class="set-val">v${APP_VERSION} / v${state.dataVersion}</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row">
+      <div><div class="set-title">🌐 ${esc(t('setLanguage'))}</div>
+        <div class="set-sub">${esc(t('setLanguageSub'))}</div></div>
+      <div style="display:flex;gap:6px">
+        <button class="chip ${LANG==='zh'?'on':''}" onclick="setLang('zh')">中文</button>
+        <button class="chip ${LANG==='en'?'on':''}" onclick="setLang('en')">EN</button>
+        <button class="chip ${LANG==='ms'?'on':''}" onclick="setLang('ms')">BM</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="set-row tap" onclick="exportData()">
+      <div><div class="set-title">📤 ${esc(t('setExportJson'))}</div>
+        <div class="set-sub">${esc(t('setExportJsonSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="exportCSV()">
+      <div><div class="set-title">📊 ${esc(t('setExportCsv'))}</div>
+        <div class="set-sub">${esc(t('setExportCsvSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="triggerImport()">
+      <div><div class="set-title">📥 ${esc(t('setImport'))}</div>
+        <div class="set-sub">${esc(t('setImportSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row">
+      <div><div class="set-title">${esc(t('setDataStorage'))}</div>
+        <div class="set-sub">${esc(t('setDataStorageSub'))}</div></div>
+      <span class="set-val">${t('setTxCount', { n: state.transactions.length })}</span>
     </div>
     <div class="set-row tap" onclick="clearData()">
-      <div><div class="set-title danger">🗑 清除所有数据</div>
-        <div class="set-sub">不可恢复，请谨慎操作</div></div>
+      <div><div class="set-title danger">🗑 ${esc(t('setClearData'))}</div>
+        <div class="set-sub">${esc(t('setClearDataSub'))}</div></div>
       <span class="chev">›</span>
     </div>
   </div>
 
-  <p class="about">SaveWise v1.0 · 本地优先<br>
-  数据保存在本机浏览器，建议定期导出备份。<br>
-  已为云端同步、账号系统、生物识别与 AI 分析预留扩展空间。</p>
+  <div class="card">
+    <div class="section-head" style="margin-bottom:10px">
+      <h3>${esc(t('setDataStats'))}</h3>
+    </div>
+    <div class="asset-grid">
+      <div><span>${esc(t('setStatTx'))}</span><b>${state.transactions.length}</b></div>
+      <div><span>${esc(t('setStatAcc'))}</span><b>${state.accounts.length}</b></div>
+      <div><span>${esc(t('setStatGoal'))}</span><b>${state.goals.length}</b></div>
+      <div><span>${esc(t('setStatAsset'))}</span><b>${state.assets.length}</b></div>
+    </div>
+  </div>
+
+  <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:state.dataVersion })).replace(/\n/g,'<br>')}</p>
   `;
 }
 
@@ -1764,74 +2833,68 @@ function viewLockSettings(){
   const hasLock = !!(lockRecord && lockRecord.hash);
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
   const opts = [
-    { v:0,  l:'不自动锁定' },
-    { v:1,  l:'1 分钟' },
-    { v:5,  l:'5 分钟' },
-    { v:15, l:'15 分钟' },
-    { v:30, l:'30 分钟' }
+    { v:0, l:t('lockNever') },
+    { v:1, l:'1 ' + t('lockMin') },
+    { v:5, l:'5 ' + t('lockMin') },
+    { v:15, l:'15 ' + t('lockMin') },
+    { v:30, l:'30 ' + t('lockMin') }
   ];
 
   return `
   <div class="card">
     <div class="set-row">
-      <div><div class="set-title">启用 App Lock</div>
-        <div class="set-sub">打开应用时需要输入密码</div></div>
+      <div><div class="set-title">${esc(t('lockEnable'))}</div>
+        <div class="set-sub">${esc(t('lockEnableSub'))}</div></div>
       <button class="switch ${state.settings.appLockEnabled?'on':''}" onclick="toggleAppLock()"><i></i></button>
     </div>
     <div class="set-row">
-      <div><div class="set-title">自动锁定</div>
-        <div class="set-sub">离开应用一段时间后自动锁定</div></div>
-      <span class="set-val">${autoLock <= 0 ? '不自动锁定' : autoLock + ' 分钟'}</span>
+      <div><div class="set-title">${esc(t('lockAutoLockLabel'))}</div>
+        <div class="set-sub">${esc(t('lockAutoLockSub'))}</div></div>
+      <span class="set-val">${autoLock <= 0 ? esc(t('lockNever')) : autoLock + ' ' + t('lockMin')}</span>
     </div>
     <div class="chip-row" style="margin:10px 0 0">
       ${ opts.map(o =>
-        `<button class="chip ${autoLock===o.v?'on':''}" onclick="setAutoLock(${o.v})">${o.l}</button>`).join('') }
+        `<button class="chip ${autoLock===o.v?'on':''}" onclick="setAutoLock(${o.v})">${esc(o.l)}</button>`).join('') }
     </div>
   </div>
 
   <div class="card">
     <div class="set-row tap" onclick="changePin()">
-      <div><div class="set-title">🔑 修改 PIN / 密码</div>
-        <div class="set-sub">当前为 ${lockRecord && lockRecord.type === 'text' ? '自定义密码' : '6 位数字 PIN'}</div></div>
+      <div><div class="set-title">🔑 ${esc(t('lockChangePin'))}</div>
+        <div class="set-sub">${lockRecord && lockRecord.type === 'text' ? 'Custom password' : '6-digit PIN'}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="lockApp()">
-      <div><div class="set-title">🔒 立即锁定应用</div>
-        <div class="set-sub">下次打开需要重新输入密码</div></div>
+      <div><div class="set-title">🔒 ${esc(t('lockLockNow'))}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="disableLock()">
-      <div><div class="set-title danger">关闭 App Lock</div>
-        <div class="set-sub">删除已保存的密码数据</div></div>
+      <div><div class="set-title danger">${esc(t('lockDisable'))}</div></div>
       <span class="chev">›</span>
     </div>
   </div>
 
   <div class="card">
     <div class="set-row">
-      <div><div class="set-title">🧬 生物识别（Face ID / 指纹）</div>
-        <div class="set-sub">V2.0 将支持，当前设备暂不可用</div></div>
+      <div><div class="set-title">🧬 ${esc(t('lockBioTitle'))}</div>
+        <div class="set-sub">${esc(t('lockBioSub'))}</div></div>
       <button class="switch" disabled style="opacity:.4"><i></i></button>
     </div>
   </div>
 
-  <p class="about">密码经过 SHA-256 哈希后保存，不会以明文形式存储。<br>
-  忘记密码将无法恢复，请务必牢记。</p>
+  <p class="about">${esc(t('lockHashNote'))}</p>
   `;
 }
 
 function toggleAppLock(){
   state.settings.appLockEnabled = !state.settings.appLockEnabled;
   saveState(); render();
-  toast(state.settings.appLockEnabled ? 'App Lock 已开启' : 'App Lock 已关闭');
+  toast(state.settings.appLockEnabled ? t('lockEnabled') : t('lockDisabled'));
 }
-
 function setAutoLock(v){
   state.settings.autoLockMinutes = v;
   saveState(); render();
-  toast('自动锁定已设置为 ' + (v <= 0 ? '不自动锁定' : v + ' 分钟'));
 }
-
 function changePin(){
   lockUI.mode = 'changeOld';
   lockUI.pin = '';
@@ -1841,9 +2904,8 @@ function changePin(){
   isUnlocked = false;
   renderLock();
 }
-
 function disableLock(){
-  confirmDialog('关闭 App Lock 后，任何人打开应用都无需密码。确定继续？', () => {
+  confirmDialog(t('lockDisableConfirm'), () => {
     clearLock();
     lockRecord = null;
     state.settings.appLockEnabled = false;
@@ -1852,55 +2914,74 @@ function disableLock(){
     lockUI.pin = '';
     lockUI.msg = '';
     render();
-    toast('App Lock 已关闭');
+    toast(t('lockDisabled'));
   });
 }
 
 /* =========================================================================
-   数据导出 / 清除
+   What's New
+   ========================================================================= */
+function viewWhatsNew(){
+  const changelog = I18N[LANG].changelog || I18N.zh.changelog;
+  return `
+  ${ changelog.map(c => `
+    <div class="card">
+      <div class="section-head" style="margin-bottom:10px">
+        <h3>v${esc(c.version)}</h3>
+        <span style="font-size:12px;color:var(--muted)">${esc(c.date)}</span>
+      </div>
+      <ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.9;color:var(--text)">
+        ${ c.items.map(it => `<li>${esc(it)}</li>`).join('') }
+      </ul>
+    </div>
+  `).join('') }
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:state.dataVersion }))}</p>
+  `;
+}
+
+/* =========================================================================
+   导出 / 导入 / 清除
    ========================================================================= */
 function exportData(){
   try{
     const payload = {
-      app: 'SaveWise', version: 1,
+      app: 'SaveWise', appVersion: APP_VERSION, dataVersion: state.dataVersion,
       exportedAt: new Date().toISOString(),
       state
     };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
-    downloadBlob(blob, 'savewise-' + todayStr() + '.json');
-    toast('JSON 已导出');
-  }catch(e){ toast('导出失败'); }
+    downloadBlob(blob, 'savewise-' + nowLocalDate() + '.json');
+    toast(t('exportDone'));
+  }catch(e){ toast(t('exportFail')); }
 }
 
 function exportCSV(){
   try{
-    const rows = [['日期','类型','分类','子分类','金额','账户','转入账户','备注','固定']];
-    sortedTx().forEach(t => {
-      const acc = getAccount(t.accountId);
-      const to  = getAccount(t.toAccountId);
-      const typeLabel = {
-        income:'收入', expense:'支出', transfer:'转账',
-        goal_deposit:'储蓄存入', goal_withdraw:'储蓄取出'
-      }[t.type] || t.type;
+    const rows = [['date','time','type','category','subCategory','amount','account','toAccount','note','recurring']];
+    sortedTx().forEach(tx => {
+      const acc = getAccount(tx.accountId);
+      const to  = getAccount(tx.toAccountId);
+      const typeLabel = tx.type;
       rows.push([
-        t.date || '',
+        localDateStr(tx.date),
+        localTimeStr(tx.date),
         typeLabel,
-        t.category || '',
-        t.subCategory || '',
-        String(Number(t.amount||0).toFixed(2)),
+        tx.category || '',
+        tx.subCategory || '',
+        String(Number(tx.amount||0).toFixed(2)),
         acc ? acc.name : '',
         to ? to.name : '',
-        (t.note || '').replace(/[\r\n,]/g,' '),
-        t.recurring ? '是' : '否'
+        (tx.note || '').replace(/[\r\n,]/g,' '),
+        tx.recurring ? '1' : '0'
       ]);
     });
     const csv = '\ufeff' + rows.map(r =>
       r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')
     ).join('\n');
     const blob = new Blob([csv], { type:'text/csv;charset=utf-8' });
-    downloadBlob(blob, 'savewise-transactions-' + todayStr() + '.csv');
-    toast('CSV 已导出');
-  }catch(e){ toast('导出失败'); }
+    downloadBlob(blob, 'savewise-transactions-' + nowLocalDate() + '.csv');
+    toast(t('exportCsvDone'));
+  }catch(e){ toast(t('exportFail')); }
 }
 
 function downloadBlob(blob, filename){
@@ -1914,15 +2995,63 @@ function downloadBlob(blob, filename){
   setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 
+function triggerImport(){
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = '.json,application/json';
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try{
+        const parsed = JSON.parse(ev.target.result);
+        const src = parsed.state || parsed;
+        if(!src || !Array.isArray(src.accounts)){ toast(t('importInvalid')); return; }
+        const srcVer = Number(src.dataVersion) || 1;
+        if(srcVer > DATA_VERSION){ toast(t('importVersionFail')); return; }
+        confirmDialog(t('importConfirm'), () => {
+          createBackup('before-import');
+          try{
+            const migrated = migrate(src);
+            state = {
+              dataVersion: DATA_VERSION,
+              settings: Object.assign({}, defaultState().settings, migrated.settings || {}),
+              accounts: Array.isArray(migrated.accounts) ? migrated.accounts : [],
+              transactions: Array.isArray(migrated.transactions) ? migrated.transactions : [],
+              goals: Array.isArray(migrated.goals) ? migrated.goals : [],
+              assets: Array.isArray(migrated.assets) ? migrated.assets : [],
+              customIncomeCats: Array.isArray(migrated.customIncomeCats) ? migrated.customIncomeCats : [],
+              customExpenseCats: Array.isArray(migrated.customExpenseCats) ? migrated.customExpenseCats : [],
+              achievements: (migrated.achievements && typeof migrated.achievements === 'object') ? migrated.achievements : {},
+              createdAt: migrated.createdAt || new Date().toISOString()
+            };
+            LANG = state.settings.lang || LANG;
+            saveState();
+            ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null };
+            render({ top:true });
+            toast(t('importDone'));
+          }catch(err){
+            toast(t('importFail'));
+          }
+        });
+      }catch(err){ toast(t('importInvalid')); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+}
+
 function clearData(){
-  confirmDialog('将清除所有账户、交易、储蓄目标、资产与成就数据，且不可恢复。建议先导出备份。确定继续？', () => {
-    confirmDialog('再次确认：所有财务数据将被永久删除。真的要清除吗？', () => {
+  confirmDialog(t('clearTitle1'), () => {
+    confirmDialog(t('clearTitle2'), () => {
+      createBackup('before-clear');
       try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
       state = defaultState();
       saveState();
-      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'' };
+      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null };
       render({ top:true });
-      toast('所有数据已清除');
+      toast(t('clearDone'));
     });
   });
 }
@@ -1943,8 +3072,8 @@ function openSheet(opts){
       <form id="sheet-form" novalidate autocomplete="off">
         <div class="sheet-body">${opts.body}</div>
         <div class="sheet-foot">
-          <button type="button" class="btn ghost" data-close>取消</button>
-          <button type="submit" class="btn primary">${esc(opts.submitText || '保存')}</button>
+          <button type="button" class="btn ghost" data-close>${esc(t('cancel'))}</button>
+          <button type="submit" class="btn primary">${esc(opts.submitText || t('save'))}</button>
         </div>
       </form>
     </div>`;
@@ -1963,6 +3092,8 @@ function openSheet(opts){
     if(opts.onSubmit) ok = opts.onSubmit(data, form);
     if(ok !== false) closeSheet();
   });
+
+  if(opts.afterRender) opts.afterRender(root);
 }
 
 function openActionSheet(title, actions){
@@ -2003,8 +3134,8 @@ function confirmDialog(msg, onYes){
       <div class="sheet-body">
         <p class="confirm-msg">${esc(msg)}</p>
         <div class="confirm-btns">
-          <button type="button" class="btn ghost" data-close>取消</button>
-          <button type="button" class="btn danger" id="cf-yes">确认</button>
+          <button type="button" class="btn ghost" data-close>${esc(t('cancel'))}</button>
+          <button type="button" class="btn danger" id="cf-yes">${esc(t('confirm'))}</button>
         </div>
       </div>
     </div>`;
@@ -2045,34 +3176,31 @@ function toast(msg){
    ========================================================================= */
 function openAccountForm(){
   openSheet({
-    title: '添加账户',
-    submitText: '创建账户',
+    title: t('createAccount'),
+    submitText: t('add'),
     body: `
       <label class="field">
-        <span class="field-label">账户名称</span>
-        <input name="name" type="text" required maxlength="20" placeholder="例如：现金钱包">
+        <span class="field-label">${esc(t('accountName'))}</span>
+        <input name="name" type="text" required maxlength="24" placeholder="${esc(t('accountNamePlaceholder'))}">
       </label>
       <label class="field">
-        <span class="field-label">账户类型</span>
+        <span class="field-label">${esc(t('accountType'))}</span>
         <select name="type">
           ${Object.entries(ACC_TYPES).map(([k,v]) =>
-            `<option value="${k}">${v.icon} ${v.label}</option>`).join('')}
+            `<option value="${k}">${v.icon} ${esc(v.label)}</option>`).join('')}
         </select>
       </label>
       <label class="field">
-        <span class="field-label">初始余额（可选）</span>
+        <span class="field-label">${esc(t('initialBalance'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="initial" type="number" step="0.01" min="0" placeholder="0.00" inputmode="decimal"></div>
       </label>
-      <p class="hint">若填写初始余额，会自动生成一笔「初始余额」收入记录。</p>
+      <p class="hint">${esc(t('initialHint'))}</p>
     `,
     onSubmit(d){
       const name = (d.name || '').trim();
-      if(!name){ toast('请输入账户名称'); return false; }
-      const acc = {
-        id: uid(), name, type: d.type || 'other',
-        balance: 0, createdAt: Date.now()
-      };
+      if(!name){ toast(t('catEnterName')); return false; }
+      const acc = { id: uid(), name, type: d.type || 'other', balance: 0, createdAt: Date.now() };
       const initial = parseFloat(d.initial);
       if(initial && initial > 0){
         const amt = round2(initial);
@@ -2080,14 +3208,14 @@ function openAccountForm(){
         state.accounts.push(acc);
         state.transactions.push({
           id: uid(), type:'income', amount: amt,
-          date: todayStr(), category:'其他收入',
-          accountId: acc.id, note:'初始余额', createdAt: Date.now()
+          date: nowISO(), category: incomeCats()[incomeCats().length-1] || 'Other',
+          accountId: acc.id, note: t('initialBalanceNote'), createdAt: Date.now()
         });
       }else{
         state.accounts.push(acc);
       }
       afterChange();
-      toast('账户已创建');
+      toast(t('accountCreated'));
       return true;
     }
   });
@@ -2097,8 +3225,8 @@ function openAccountMenu(id){
   const a = getAccount(id);
   if(!a) return;
   openActionSheet(a.name, [
-    { label:'重命名账户', icon:'✏️', onClick: () => renameAccount(id) },
-    { label:'删除账户',   icon:'🗑', danger:true, onClick: () => deleteAccount(id) }
+    { label: t('renameAccount'), icon:'✏️', onClick: () => renameAccount(id) },
+    { label: t('deleteAccount'),   icon:'🗑', danger:true, onClick: () => deleteAccount(id) }
   ]);
 }
 
@@ -2106,15 +3234,15 @@ function renameAccount(id){
   const a = getAccount(id);
   if(!a) return;
   openSheet({
-    title: '重命名账户',
-    body: `<label class="field"><span class="field-label">账户名称</span>
-      <input name="name" type="text" required maxlength="20" value="${esc(a.name)}"></label>`,
+    title: t('renameAccount'),
+    body: `<label class="field"><span class="field-label">${esc(t('accountName'))}</span>
+      <input name="name" type="text" required maxlength="24" value="${esc(a.name)}"></label>`,
     onSubmit(d){
       const name = (d.name || '').trim();
       if(!name) return false;
       a.name = name;
       afterChange();
-      toast('已更新');
+      toast(t('accountUpdated'));
       return true;
     }
   });
@@ -2124,19 +3252,15 @@ function deleteAccount(id){
   const a = getAccount(id);
   if(!a) return;
   if(Math.abs(Number(a.balance)||0) > 0.001){
-    toast('该账户仍有余额，请先转出或消费');
+    toast(t('accountHasBalance'));
     return;
   }
-  const used = state.transactions.some(t => t.accountId === id || t.toAccountId === id);
-  confirmDialog(
-    used ? '该账户已有历史记录，删除后记录会保留但账户显示为「—」。确定删除？'
-         : '确定删除该账户？',
-    () => {
-      state.accounts = state.accounts.filter(x => x.id !== id);
-      afterChange();
-      toast('账户已删除');
-    }
-  );
+  const used = state.transactions.some(tx => tx.accountId === id || tx.toAccountId === id);
+  confirmDialog(used ? t('accountDeleteUsed') : t('accountDeleteConfirm'), () => {
+    state.accounts = state.accounts.filter(x => x.id !== id);
+    afterChange();
+    toast(t('accountDeleted'));
+  });
 }
 
 /* =========================================================================
@@ -2149,182 +3273,205 @@ function accountOptions(selected, excludeId){
     .join('');
 }
 
-function openIncomeForm(){
-  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+function openIncomeForm(presetAccountId){
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
+  const cats = incomeCats();
   openSheet({
-    title: '记录收入',
-    submitText: '保存收入',
+    title: t('recordIncome'),
+    submitText: t('saveIncome'),
     body: `
       <label class="field">
-        <span class="field-label">金额</span>
+        <span class="field-label">${esc(t('amount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">收入分类</span>
-        <select name="category">${incomeCats().map(c => `<option>${esc(c)}</option>`).join('')}</select>
+        <span class="field-label">${esc(t('category'))}</span>
+        <select name="category">${cats.map(c => `<option>${esc(c)}</option>`).join('')}</select>
       </label>
       <label class="field">
-        <span class="field-label">存入账户</span>
-        <select name="accountId">${accountOptions()}</select>
+        <span class="field-label">${esc(t('account'))}</span>
+        <select name="accountId">${accountOptions(presetAccountId)}</select>
+      </label>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">${esc(t('date'))}</span>
+          <input name="date" type="date" value="${nowLocalDate()}" required>
+        </label>
+        <label class="field">
+          <span class="field-label">${esc(t('time'))}</span>
+          <input name="time" type="time" value="${nowLocalTime()}" required>
+        </label>
+      </div>
+      <label class="field">
+        <span class="field-label">${esc(t('note'))}</span>
+        <input name="note" type="text" maxlength="60" placeholder="${esc(t('notePlaceholder'))}">
       </label>
       <label class="field">
-        <span class="field-label">日期</span>
-        <input name="date" type="date" value="${todayStr()}" required>
-      </label>
-      <label class="field">
-        <span class="field-label">备注（可选）</span>
-        <input name="note" type="text" maxlength="60" placeholder="例如：周末兼职">
-      </label>
-      <label class="field">
-        <span class="field-label">周期性收入？</span>
+        <span class="field-label">${esc(t('recurringLabel'))}</span>
         <select name="recurring">
-          <option value="">否，仅记录这一次</option>
-          <option value="1">是，固定 / 周期性（预留）</option>
+          <option value="">${esc(t('recurringNo'))}</option>
+          <option value="1">${esc(t('recurringYes'))}</option>
         </select>
       </label>
     `,
     onSubmit(d){
       const amount = round2(parseFloat(d.amount));
-      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       const acc = getAccount(d.accountId);
-      if(!acc){ toast('账户不存在'); return false; }
+      if(!acc){ toast(t('accountNotExist')); return false; }
       acc.balance = round2((Number(acc.balance)||0) + amount);
       state.transactions.push({
         id: uid(), type: 'income', amount,
-        date: d.date || todayStr(), category: d.category || '其他收入',
+        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        category: d.category || 'Other',
         accountId: acc.id, note: (d.note || '').trim(),
         recurring: !!d.recurring,
-        createdAt: Date.now()
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange();
-      toast('收入已记录');
+      toast(t('incomeSaved'));
       return true;
     }
   });
 }
 
-function openExpenseForm(){
-  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+function openExpenseForm(presetAccountId){
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
+  const cats = expenseCats();
   openSheet({
-    title: '记录支出',
-    submitText: '保存支出',
+    title: t('recordExpense'),
+    submitText: t('saveExpense'),
     body: `
       <label class="field">
-        <span class="field-label">金额</span>
+        <span class="field-label">${esc(t('amount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">支出分类</span>
-        <select name="category" id="exp-cat">${expenseCats().map(c => `<option>${esc(c)}</option>`).join('')}</select>
+        <span class="field-label">${esc(t('category'))}</span>
+        <select name="category" id="exp-cat">${cats.map(c => `<option>${esc(c)}</option>`).join('')}</select>
       </label>
       <label class="field" id="sub-cat-wrap" style="display:none">
-        <span class="field-label">子分类（可选）</span>
+        <span class="field-label">Sub</span>
         <select name="subCategory" id="sub-cat">
-          <option value="">不选择</option>
-          ${MEAL_SUBS.map(s => `<option>${s}</option>`).join('')}
+          <option value="">—</option>
+          ${mealSubs().map(s => `<option>${esc(s)}</option>`).join('')}
         </select>
       </label>
       <label class="field">
-        <span class="field-label">从账户扣除</span>
-        <select name="accountId">${accountOptions()}</select>
+        <span class="field-label">${esc(t('account'))}</span>
+        <select name="accountId">${accountOptions(presetAccountId)}</select>
+      </label>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">${esc(t('date'))}</span>
+          <input name="date" type="date" value="${nowLocalDate()}" required>
+        </label>
+        <label class="field">
+          <span class="field-label">${esc(t('time'))}</span>
+          <input name="time" type="time" value="${nowLocalTime()}" required>
+        </label>
+      </div>
+      <label class="field">
+        <span class="field-label">${esc(t('note'))}</span>
+        <input name="note" type="text" maxlength="60" placeholder="${esc(t('notePlaceholder'))}">
       </label>
       <label class="field">
-        <span class="field-label">日期</span>
-        <input name="date" type="date" value="${todayStr()}" required>
-      </label>
-      <label class="field">
-        <span class="field-label">备注（可选）</span>
-        <input name="note" type="text" maxlength="60" placeholder="例如：午餐">
-      </label>
-      <label class="field">
-        <span class="field-label">周期性支出？</span>
+        <span class="field-label">${esc(t('recurringLabelExp'))}</span>
         <select name="recurring">
-          <option value="">否，仅记录这一次</option>
-          <option value="1">是，固定 / 周期性（预留）</option>
+          <option value="">${esc(t('recurringNo'))}</option>
+          <option value="1">${esc(t('recurringYes'))}</option>
         </select>
       </label>
     `,
     onSubmit(d){
       const amount = round2(parseFloat(d.amount));
-      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       const acc = getAccount(d.accountId);
-      if(!acc){ toast('账户不存在'); return false; }
-      if(round2(Number(acc.balance)||0) < amount){ toast('该账户余额不足'); return false; }
+      if(!acc){ toast(t('accountNotExist')); return false; }
+      if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       acc.balance = round2((Number(acc.balance)||0) - amount);
       state.transactions.push({
         id: uid(), type: 'expense', amount,
-        date: d.date || todayStr(), category: d.category || '其他支出',
+        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        category: d.category || 'Other',
         subCategory: (d.subCategory || '').trim(),
         accountId: acc.id, note: (d.note || '').trim(),
         recurring: !!d.recurring,
-        createdAt: Date.now()
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange();
-      toast('支出已记录');
+      toast(t('expenseSaved'));
       return true;
+    },
+    afterRender(root){
+      const sel = root.querySelector('#exp-cat');
+      const wrap = root.querySelector('#sub-cat-wrap');
+      if(sel && wrap){
+        const firstFood = expenseCats()[0];
+        const toggle = () => { wrap.style.display = sel.value === firstFood ? '' : 'none'; };
+        sel.addEventListener('change', toggle);
+        toggle();
+      }
     }
   });
-  // 餐饮子分类显示
-  setTimeout(() => {
-    const sel = document.getElementById('exp-cat');
-    const wrap = document.getElementById('sub-cat-wrap');
-    if(sel && wrap){
-      const toggle = () => { wrap.style.display = sel.value === '餐饮' ? '' : 'none'; };
-      sel.addEventListener('change', toggle);
-      toggle();
-    }
-  }, 60);
 }
 
-function openTransferForm(){
-  if(state.accounts.length < 2){ toast('至少需要两个账户才能转账'); return; }
+function openTransferForm(presetFrom){
+  if(state.accounts.length < 2){ toast(t('needTwoAccounts')); return; }
+  const toDefault = state.accounts.find(a => a.id !== presetFrom)?.id || state.accounts[1].id;
   openSheet({
-    title: '账户转账',
-    submitText: '确认转账',
+    title: t('recordTransfer'),
+    submitText: t('saveTransfer'),
     body: `
       <label class="field">
-        <span class="field-label">转出账户</span>
-        <select name="fromId">${accountOptions()}</select>
+        <span class="field-label">${esc(t('fromAccount'))}</span>
+        <select name="fromId">${accountOptions(presetFrom)}</select>
       </label>
       <label class="field">
-        <span class="field-label">转入账户</span>
-        <select name="toId">${accountOptions(state.accounts[1].id)}</select>
+        <span class="field-label">${esc(t('toAccount'))}</span>
+        <select name="toId">${accountOptions(toDefault, presetFrom)}</select>
       </label>
       <label class="field">
-        <span class="field-label">金额</span>
+        <span class="field-label">${esc(t('amount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">${esc(t('date'))}</span>
+          <input name="date" type="date" value="${nowLocalDate()}" required>
+        </label>
+        <label class="field">
+          <span class="field-label">${esc(t('time'))}</span>
+          <input name="time" type="time" value="${nowLocalTime()}" required>
+        </label>
+      </div>
       <label class="field">
-        <span class="field-label">日期</span>
-        <input name="date" type="date" value="${todayStr()}" required>
+        <span class="field-label">${esc(t('note'))}</span>
+        <input name="note" type="text" maxlength="60" placeholder="${esc(t('notePlaceholder'))}">
       </label>
-      <label class="field">
-        <span class="field-label">备注（可选）</span>
-        <input name="note" type="text" maxlength="60" placeholder="例如：转入银行">
-      </label>
-      <p class="hint">转账不会计入收入或支出，仅调整账户余额。</p>
+      <p class="hint">${esc(t('transferHint'))}</p>
     `,
     onSubmit(d){
       const amount = round2(parseFloat(d.amount));
-      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
-      if(d.fromId === d.toId){ toast('转出与转入账户不能相同'); return false; }
+      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
+      if(d.fromId === d.toId){ toast(t('sameAccount')); return false; }
       const from = getAccount(d.fromId), to = getAccount(d.toId);
-      if(!from || !to){ toast('账户不存在'); return false; }
-      if(round2(Number(from.balance)||0) < amount){ toast('转出账户余额不足'); return false; }
-
+      if(!from || !to){ toast(t('accountNotExist')); return false; }
+      if(round2(Number(from.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       from.balance = round2((Number(from.balance)||0) - amount);
       to.balance   = round2((Number(to.balance)||0)   + amount);
-
       state.transactions.push({
         id: uid(), type: 'transfer', amount,
-        date: d.date || todayStr(), accountId: from.id, toAccountId: to.id,
-        note: (d.note || '').trim(), createdAt: Date.now()
+        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        accountId: from.id, toAccountId: to.id,
+        note: (d.note || '').trim(),
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange();
-      toast('转账完成');
+      toast(t('transferDone'));
       return true;
     }
   });
@@ -2334,145 +3481,149 @@ function openTransferForm(){
    交易菜单 / 编辑 / 删除
    ========================================================================= */
 function openTxMenu(id){
-  const t = state.transactions.find(x => x.id === id);
-  if(!t) return;
+  const tx = state.transactions.find(x => x.id === id);
+  if(!tx) return;
   const labelMap = {
-    income:'收入记录', expense:'支出记录', transfer:'转账记录',
-    goal_deposit:'储蓄存入记录', goal_withdraw:'储蓄取出记录'
+    income:t('income'), expense:t('expense'), transfer:t('transfer'),
+    goal_deposit:t('goalDeposit'), goal_withdraw:t('goalWithdraw')
   };
   const acts = [];
-  if(t.type === 'income' || t.type === 'expense'){
-    acts.push({ label:'编辑这笔记录', icon:'✏️', onClick: () => editTransaction(id) });
+  if(tx.type === 'income' || tx.type === 'expense'){
+    acts.push({ label: t('edit'), icon:'✏️', onClick: () => editTransaction(id) });
   }
-  acts.push({ label:'删除这笔记录', icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
-  openActionSheet(labelMap[t.type] || '记录', acts);
+  acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
+  openActionSheet(labelMap[tx.type] || 'Record', acts);
 }
 
 function editTransaction(id){
-  const t = state.transactions.find(x => x.id === id);
-  if(!t) return;
-  const isIncome = t.type === 'income';
+  const tx = state.transactions.find(x => x.id === id);
+  if(!tx) return;
+  const isIncome = tx.type === 'income';
   const cats = isIncome ? incomeCats() : expenseCats();
 
   openSheet({
-    title: isIncome ? '编辑收入' : '编辑支出',
-    submitText: '保存修改',
+    title: isIncome ? t('recordIncome') : t('recordExpense'),
+    submitText: t('save'),
     body: `
       <label class="field">
-        <span class="field-label">金额</span>
+        <span class="field-label">${esc(t('amount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
-          <input name="amount" type="number" step="0.01" min="0.01" required value="${t.amount}" inputmode="decimal"></div>
+          <input name="amount" type="number" step="0.01" min="0.01" required value="${tx.amount}" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">分类</span>
+        <span class="field-label">${esc(t('category'))}</span>
         <select name="category">${cats.map(c =>
-          `<option ${c===t.category?'selected':''}>${esc(c)}</option>`).join('')}</select>
+          `<option ${c===tx.category?'selected':''}>${esc(c)}</option>`).join('')}</select>
       </label>
       <label class="field">
-        <span class="field-label">账户</span>
+        <span class="field-label">${esc(t('account'))}</span>
         <select name="accountId">${state.accounts.map(a =>
-          `<option value="${a.id}" ${a.id===t.accountId?'selected':''}>${esc(a.name)}（${fmtNum(a.balance||0)}）</option>`).join('')}</select>
+          `<option value="${a.id}" ${a.id===tx.accountId?'selected':''}>${esc(a.name)}（${fmtNum(a.balance||0)}）</option>`).join('')}</select>
       </label>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">${esc(t('date'))}</span>
+          <input name="date" type="date" value="${localDateStr(tx.date)}" required>
+        </label>
+        <label class="field">
+          <span class="field-label">${esc(t('time'))}</span>
+          <input name="time" type="time" value="${localTimeStr(tx.date)}" required>
+        </label>
+      </div>
       <label class="field">
-        <span class="field-label">日期</span>
-        <input name="date" type="date" value="${t.date}" required>
+        <span class="field-label">${esc(t('note'))}</span>
+        <input name="note" type="text" maxlength="60" value="${esc(tx.note||'')}">
       </label>
-      <label class="field">
-        <span class="field-label">备注</span>
-        <input name="note" type="text" maxlength="60" value="${esc(t.note||'')}">
-      </label>
-      <p class="hint">修改后会自动重新计算账户余额与统计数据。</p>
     `,
     onSubmit(d){
       const newAmount = round2(parseFloat(d.amount));
-      if(!(newAmount > 0)){ toast('请输入有效金额'); return false; }
+      if(!(newAmount > 0)){ toast(t('invalidAmount')); return false; }
 
-      // 还原旧数据
-      if(t.type === 'income'){
-        const oldAcc = getAccount(t.accountId);
-        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(t.amount));
-      }else if(t.type === 'expense'){
-        const oldAcc = getAccount(t.accountId);
-        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(t.amount));
+      // 还原旧
+      if(tx.type === 'income'){
+        const oldAcc = getAccount(tx.accountId);
+        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount));
+      }else{
+        const oldAcc = getAccount(tx.accountId);
+        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount));
       }
 
       const newAcc = getAccount(d.accountId);
-      if(!newAcc){ toast('账户不存在'); return false; }
-      if(t.type === 'expense' && round2(Number(newAcc.balance)||0) < newAmount){
+      if(!newAcc){ toast(t('accountNotExist')); return false; }
+      if(tx.type === 'expense' && round2(Number(newAcc.balance)||0) < newAmount){
         // 再次还原
-        if(t.type === 'income'){
-          const oldAcc = getAccount(t.accountId);
-          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(t.amount));
-        }else if(t.type === 'expense'){
-          const oldAcc = getAccount(t.accountId);
-          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(t.amount));
+        if(tx.type === 'income'){
+          const oldAcc = getAccount(tx.accountId);
+          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount));
+        }else{
+          const oldAcc = getAccount(tx.accountId);
+          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount));
         }
-        toast('该账户余额不足');
+        toast(t('insufficientBalance'));
         return false;
       }
 
-      // 应用新数据
-      if(t.type === 'income'){
+      if(tx.type === 'income'){
         newAcc.balance = round2((Number(newAcc.balance)||0) + newAmount);
       }else{
         newAcc.balance = round2((Number(newAcc.balance)||0) - newAmount);
       }
 
-      t.amount = newAmount;
-      t.category = d.category || t.category;
-      t.accountId = newAcc.id;
-      t.date = d.date || t.date;
-      t.note = (d.note || '').trim();
+      tx.amount = newAmount;
+      tx.category = d.category || tx.category;
+      tx.accountId = newAcc.id;
+      tx.date = combineDateTime(d.date || localDateStr(tx.date), d.time || localTimeStr(tx.date));
+      tx.note = (d.note || '').trim();
+      tx.updatedAt = Date.now();
 
       afterChange();
-      toast('已保存修改');
+      toast(t('accountUpdated'));
       return true;
     }
   });
 }
 
 function deleteTransaction(id){
-  const t = state.transactions.find(x => x.id === id);
-  if(!t) return;
+  const tx = state.transactions.find(x => x.id === id);
+  if(!tx) return;
 
-  confirmDialog('删除后对应账户余额会自动还原，确定删除？', () => {
+  confirmDialog(t('clearTitle1'), () => {
     try{
-      switch(t.type){
+      switch(tx.type){
         case 'income': {
-          const a = getAccount(t.accountId);
-          if(a) a.balance = round2((Number(a.balance)||0) - Number(t.amount));
+          const a = getAccount(tx.accountId);
+          if(a) a.balance = round2((Number(a.balance)||0) - Number(tx.amount));
           break;
         }
         case 'expense': {
-          const a = getAccount(t.accountId);
-          if(a) a.balance = round2((Number(a.balance)||0) + Number(t.amount));
+          const a = getAccount(tx.accountId);
+          if(a) a.balance = round2((Number(a.balance)||0) + Number(tx.amount));
           break;
         }
         case 'transfer': {
-          const f = getAccount(t.accountId), to = getAccount(t.toAccountId);
-          if(f)  f.balance  = round2((Number(f.balance)||0)  + Number(t.amount));
-          if(to) to.balance = round2((Number(to.balance)||0) - Number(t.amount));
+          const f = getAccount(tx.accountId), to = getAccount(tx.toAccountId);
+          if(f)  f.balance  = round2((Number(f.balance)||0)  + Number(tx.amount));
+          if(to) to.balance = round2((Number(to.balance)||0) - Number(tx.amount));
           break;
         }
         case 'goal_deposit': {
-          const a = getAccount(t.accountId), g = getGoal(t.goalId);
-          if(a) a.balance = round2((Number(a.balance)||0) + Number(t.amount));
-          if(g) g.saved   = round2((Number(g.saved)||0)   - Number(t.amount));
+          const a = getAccount(tx.accountId), g = getGoal(tx.goalId);
+          if(a) a.balance = round2((Number(a.balance)||0) + Number(tx.amount));
+          if(g) g.saved   = round2((Number(g.saved)||0)   - Number(tx.amount));
           break;
         }
         case 'goal_withdraw': {
-          const a = getAccount(t.accountId), g = getGoal(t.goalId);
-          if(a) a.balance = round2((Number(a.balance)||0) - Number(t.amount));
-          if(g) g.saved   = round2((Number(g.saved)||0)   + Number(t.amount));
+          const a = getAccount(tx.accountId), g = getGoal(tx.goalId);
+          if(a) a.balance = round2((Number(a.balance)||0) - Number(tx.amount));
+          if(g) g.saved   = round2((Number(g.saved)||0)   + Number(tx.amount));
           break;
         }
       }
-    }catch(e){ /* 账户可能已被删除，跳过还原 */ }
-
+    }catch(e){}
     state.transactions = state.transactions.filter(x => x.id !== id);
     state.goals.forEach(g => { if(Number(g.saved) < 0) g.saved = 0; });
     afterChange();
-    toast('记录已删除，余额已还原');
+    toast(t('accountDeleted'));
   });
 }
 
@@ -2481,49 +3632,40 @@ function deleteTransaction(id){
    ========================================================================= */
 function openGoalForm(){
   openSheet({
-    title: '新建储蓄目标',
-    submitText: '创建目标',
+    title: t('goalNew'),
+    submitText: t('goalCreate'),
     body: `
       <label class="field">
-        <span class="field-label">目标名称</span>
-        <input name="name" type="text" required maxlength="24" placeholder="例如：买新手机">
+        <span class="field-label">${esc(t('goalName'))}</span>
+        <input name="name" type="text" required maxlength="24" placeholder="${esc(t('goalNamePlaceholder'))}">
       </label>
       <label class="field">
-        <span class="field-label">目标金额</span>
+        <span class="field-label">${esc(t('goalTarget'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="target" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">期限（可选）</span>
+        <span class="field-label">${esc(t('goalDeadline'))}</span>
         <input name="deadline" type="date">
       </label>
       <label class="field">
-        <span class="field-label">图标（可选）</span>
+        <span class="field-label">${esc(t('goalIcon'))}</span>
         <select name="icon">
-          <option value="">不选择</option>
-          <option value="🎯">🎯 目标</option>
-          <option value="📱">📱 手机</option>
-          <option value="✈️">✈️ 旅行</option>
-          <option value="🏠">🏠 家</option>
-          <option value="🎓">🎓 学习</option>
-          <option value="🚗">🚗 车</option>
-          <option value="💻">💻 电脑</option>
-          <option value="🎁">🎁 礼物</option>
-          <option value="🏥">🏥 医疗</option>
-          <option value="🪙">🪙 储蓄</option>
+          <option value="">${esc(t('goalIconNone'))}</option>
+          ${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i => `<option value="${i}">${i}</option>`).join('')}
         </select>
       </label>
       <label class="field">
-        <span class="field-label">备注（可选）</span>
-        <textarea name="note" maxlength="80" placeholder="为什么想存这笔钱？"></textarea>
+        <span class="field-label">${esc(t('goalNote'))}</span>
+        <textarea name="note" maxlength="80" placeholder="${esc(t('goalNotePlaceholder'))}"></textarea>
       </label>
-      <p class="hint">创建后，可用「存入」把可用余额转为锁定储蓄，不会凭空产生金额。</p>
+      <p class="hint">${esc(t('goalDepositHint', { amt: money(availableBalance()) }))}</p>
     `,
     onSubmit(d){
       const name = (d.name || '').trim();
       const target = round2(parseFloat(d.target));
-      if(!name){ toast('请输入目标名称'); return false; }
-      if(!(target > 0)){ toast('请输入有效目标金额'); return false; }
+      if(!name){ toast(t('catEnterName')); return false; }
+      if(!(target > 0)){ toast(t('invalidAmount')); return false; }
       state.goals.push({
         id: uid(), name, targetAmount: target,
         deadline: d.deadline || '', saved: 0,
@@ -2531,7 +3673,7 @@ function openGoalForm(){
         status: 'active', createdAt: Date.now()
       });
       afterChange();
-      toast('储蓄目标已创建');
+      toast(t('goalCreated'));
       return true;
     }
   });
@@ -2541,8 +3683,8 @@ function goalMenu(id){
   const g = getGoal(id);
   if(!g) return;
   openActionSheet(g.name, [
-    { label:'修改目标', icon:'✏️', onClick: () => editGoal(id) },
-    { label:'取消目标（退还全部资金）', icon:'↩️', danger:true, onClick: () => cancelGoal(id) }
+    { label: t('goalEdit'), icon:'✏️', onClick: () => editGoal(id) },
+    { label: t('goalCancel'), icon:'↩️', danger:true, onClick: () => cancelGoal(id) }
   ]);
 }
 
@@ -2550,36 +3692,35 @@ function editGoal(id){
   const g = getGoal(id);
   if(!g) return;
   openSheet({
-    title: '修改目标',
+    title: t('goalEdit'),
     body: `
-      <label class="field"><span class="field-label">目标名称</span>
+      <label class="field"><span class="field-label">${esc(t('goalName'))}</span>
         <input name="name" type="text" required maxlength="24" value="${esc(g.name)}"></label>
-      <label class="field"><span class="field-label">目标金额</span>
+      <label class="field"><span class="field-label">${esc(t('goalTarget'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="target" type="number" step="0.01" min="0.01" required value="${g.targetAmount}"></div></label>
-      <label class="field"><span class="field-label">期限（可选）</span>
+      <label class="field"><span class="field-label">${esc(t('goalDeadline'))}</span>
         <input name="deadline" type="date" value="${g.deadline || ''}"></label>
-      <label class="field"><span class="field-label">图标（可选）</span>
+      <label class="field"><span class="field-label">${esc(t('goalIcon'))}</span>
         <select name="icon">
-          <option value="">不选择</option>
+          <option value="">${esc(t('goalIconNone'))}</option>
           ${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i =>
             `<option value="${i}" ${g.icon===i?'selected':''}>${i}</option>`).join('')}
         </select></label>
-      <label class="field"><span class="field-label">备注（可选）</span>
+      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span>
         <textarea name="note" maxlength="80">${esc(g.note||'')}</textarea></label>
-      <p class="hint">已储蓄金额不会因修改目标而变化。</p>
     `,
     onSubmit(d){
       const name = (d.name || '').trim();
       const target = round2(parseFloat(d.target));
-      if(!name || !(target > 0)){ toast('请填写完整信息'); return false; }
+      if(!name || !(target > 0)){ toast(t('invalidAmount')); return false; }
       g.name = name;
       g.targetAmount = target;
       g.deadline = d.deadline || '';
       g.icon = d.icon || '';
       g.note = (d.note || '').trim();
       afterChange();
-      toast('已更新');
+      toast(t('accountUpdated'));
       return true;
     }
   });
@@ -2588,44 +3729,49 @@ function editGoal(id){
 function openGoalDeposit(goalId){
   const g = getGoal(goalId);
   if(!g) return;
-  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
-  const avail = availableBalance();
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   openSheet({
-    title: '存入储蓄目标',
-    submitText: '确认存入',
+    title: t('goalDepositTitle'),
+    submitText: t('goalDepositBtn'),
     body: `
       <label class="field">
-        <span class="field-label">金额</span>
+        <span class="field-label">${esc(t('amount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">从账户扣除</span>
+        <span class="field-label">${esc(t('fromAccount'))}</span>
         <select name="accountId">${accountOptions()}</select>
       </label>
-      <label class="field">
-        <span class="field-label">日期</span>
-        <input name="date" type="date" value="${todayStr()}" required>
-      </label>
-      <p class="hint">可用余额：${money(avail)} · 存入后从可用余额转入锁定储蓄，总资产不变。</p>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">${esc(t('date'))}</span>
+          <input name="date" type="date" value="${nowLocalDate()}" required>
+        </label>
+        <label class="field">
+          <span class="field-label">${esc(t('time'))}</span>
+          <input name="time" type="time" value="${nowLocalTime()}" required>
+        </label>
+      </div>
+      <p class="hint">${esc(t('goalDepositHint', { amt: money(availableBalance()) }))}</p>
     `,
     onSubmit(d){
       const amount = round2(parseFloat(d.amount));
-      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       const acc = getAccount(d.accountId);
-      if(!acc){ toast('账户不存在'); return false; }
-      if(round2(Number(acc.balance)||0) < amount){ toast('该账户余额不足'); return false; }
-
+      if(!acc){ toast(t('accountNotExist')); return false; }
+      if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       acc.balance = round2((Number(acc.balance)||0) - amount);
       g.saved = round2((Number(g.saved)||0) + amount);
-
       state.transactions.push({
         id: uid(), type: 'goal_deposit', amount,
-        date: d.date || todayStr(), accountId: acc.id, goalId: g.id,
-        category: '储蓄', note: '', createdAt: Date.now()
+        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        accountId: acc.id, goalId: g.id,
+        category: 'Savings', note: '',
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange();
-      toast('已存入储蓄目标');
+      toast(t('goalDeposited'));
       return true;
     }
   });
@@ -2634,46 +3780,51 @@ function openGoalDeposit(goalId){
 function openGoalWithdraw(goalId){
   const g = getGoal(goalId);
   if(!g) return;
-  if(!state.accounts.length){ toast('请先创建一个账户'); return; }
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const saved = round2(Number(g.saved)||0);
-  if(saved <= 0){ toast('该目标还没有可取出的资金'); return; }
-
+  if(saved <= 0){ toast(t('goalNoMoney')); return; }
   openSheet({
-    title: '从储蓄目标取出',
-    submitText: '确认取出',
+    title: t('goalWithdrawTitle'),
+    submitText: t('goalWithdrawBtn'),
     body: `
       <label class="field">
-        <span class="field-label">金额</span>
+        <span class="field-label">${esc(t('amount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">转入账户</span>
+        <span class="field-label">${esc(t('toAccount'))}</span>
         <select name="accountId">${accountOptions()}</select>
       </label>
-      <label class="field">
-        <span class="field-label">日期</span>
-        <input name="date" type="date" value="${todayStr()}" required>
-      </label>
-      <p class="hint">该目标当前锁定：${money(saved)}</p>
+      <div class="two-col">
+        <label class="field">
+          <span class="field-label">${esc(t('date'))}</span>
+          <input name="date" type="date" value="${nowLocalDate()}" required>
+        </label>
+        <label class="field">
+          <span class="field-label">${esc(t('time'))}</span>
+          <input name="time" type="time" value="${nowLocalTime()}" required>
+        </label>
+      </div>
+      <p class="hint">${esc(t('goalWithdrawHint', { amt: money(saved) }))}</p>
     `,
     onSubmit(d){
       const amount = round2(parseFloat(d.amount));
-      if(!(amount > 0)){ toast('请输入有效金额'); return false; }
+      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       const acc = getAccount(d.accountId);
-      if(!acc){ toast('账户不存在'); return false; }
-      if(amount > round2(Number(g.saved)||0) + 0.001){ toast('超出该目标已储蓄金额'); return false; }
-
+      if(!acc){ toast(t('accountNotExist')); return false; }
+      if(amount > round2(Number(g.saved)||0) + 0.001){ toast(t('goalExceed')); return false; }
       g.saved = round2((Number(g.saved)||0) - amount);
       acc.balance = round2((Number(acc.balance)||0) + amount);
-
       state.transactions.push({
         id: uid(), type: 'goal_withdraw', amount,
-        date: d.date || todayStr(), accountId: acc.id, goalId: g.id,
-        category: '储蓄', note: '', createdAt: Date.now()
+        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        accountId: acc.id, goalId: g.id,
+        category: 'Savings', note: '',
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange();
-      toast('已转回可用余额');
+      toast(t('goalWithdrew'));
       return true;
     }
   });
@@ -2683,43 +3834,37 @@ function cancelGoal(id){
   const g = getGoal(id);
   if(!g) return;
   const saved = round2(Number(g.saved)||0);
-
   if(saved <= 0){
-    confirmDialog('确定取消该储蓄目标？', () => {
+    confirmDialog(t('goalCancelTitle'), () => {
       state.goals = state.goals.filter(x => x.id !== id);
       afterChange();
-      toast('目标已取消');
+      toast(t('goalCancelled'));
     });
     return;
   }
-
-  if(!state.accounts.length){ toast('请先创建一个账户以接收退款'); return; }
-
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   openSheet({
-    title: '取消目标',
-    submitText: '确认取消',
+    title: t('goalCancelTitle'),
+    submitText: t('goalCancelBtn'),
     body: `
-      <p class="hint" style="margin-bottom:14px">目标内锁定的 <b>${money(saved)}</b> 将全额退回所选账户，不会凭空消失。</p>
+      <p class="hint" style="margin-bottom:14px">${esc(t('goalCancelHint', { amt: money(saved) }))}</p>
       <label class="field">
-        <span class="field-label">退回账户</span>
+        <span class="field-label">${esc(t('goalReturnAccount'))}</span>
         <select name="accountId">${accountOptions()}</select>
       </label>
     `,
     onSubmit(d){
       const acc = getAccount(d.accountId);
-      if(!acc){ toast('账户不存在'); return false; }
-
+      if(!acc){ toast(t('accountNotExist')); return false; }
       acc.balance = round2((Number(acc.balance)||0) + saved);
-
       state.transactions.push({
         id: uid(), type: 'goal_withdraw', amount: saved,
-        date: todayStr(), accountId: acc.id, goalId: g.id,
-        category: '储蓄', note: '取消目标退回', createdAt: Date.now()
+        date: nowISO(), accountId: acc.id, goalId: g.id,
+        category: 'Savings', note: 'Goal cancelled', createdAt: Date.now(), updatedAt: Date.now()
       });
-
       state.goals = state.goals.filter(x => x.id !== id);
       afterChange();
-      toast('目标已取消，资金已退回');
+      toast(t('goalCancelled'));
       return true;
     }
   });
@@ -2730,50 +3875,49 @@ function cancelGoal(id){
    ========================================================================= */
 function openAssetForm(){
   openSheet({
-    title: '添加资产',
-    submitText: '添加资产',
+    title: t('assetNew'),
+    submitText: t('assetAdd'),
     body: `
       <label class="field">
-        <span class="field-label">资产名称</span>
-        <input name="name" type="text" required maxlength="24" placeholder="例如：笔记本电脑">
+        <span class="field-label">${esc(t('assetName'))}</span>
+        <input name="name" type="text" required maxlength="24" placeholder="${esc(t('assetNamePlaceholder'))}">
       </label>
       <label class="field">
-        <span class="field-label">购买价格</span>
+        <span class="field-label">${esc(t('assetPrice'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="price" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">购买日期</span>
-        <input name="purchaseDate" type="date" value="${todayStr()}" required>
+        <span class="field-label">${esc(t('assetPurchaseDate'))}</span>
+        <input name="purchaseDate" type="date" value="${nowLocalDate()}" required>
       </label>
       <div class="two-col">
         <label class="field">
-          <span class="field-label">预计使用（年）</span>
+          <span class="field-label">${esc(t('assetYears'))}</span>
           <input name="years" type="number" min="0" step="1" value="1" inputmode="numeric">
         </label>
         <label class="field">
-          <span class="field-label">预计使用（月）</span>
+          <span class="field-label">${esc(t('assetMonths'))}</span>
           <input name="months" type="number" min="0" max="11" step="1" value="0" inputmode="numeric">
         </label>
       </div>
       <label class="field">
-        <span class="field-label">备注（可选）</span>
-        <input name="note" type="text" maxlength="60" placeholder="例如：工作用主力机">
+        <span class="field-label">${esc(t('assetNote'))}</span>
+        <input name="note" type="text" maxlength="60" placeholder="${esc(t('assetNotePlaceholder'))}">
       </label>
-      <p class="hint">系统按「购买价格 ÷ 预计使用总天数」计算每日价值，并随时间自动累计回本金额。</p>
+      <p class="hint">${esc(t('assetHint'))}</p>
     `,
     onSubmit(d){
       const name = (d.name || '').trim();
       const price = round2(parseFloat(d.price));
       const years = Math.max(0, parseInt(d.years, 10) || 0);
       const months = Math.max(0, parseInt(d.months, 10) || 0);
-      if(!name){ toast('请输入资产名称'); return false; }
-      if(!(price > 0)){ toast('请输入有效购买价格'); return false; }
-      if(years * 365 + months * 30 <= 0){ toast('预计使用期限必须大于 0'); return false; }
-
+      if(!name){ toast(t('assetValidName')); return false; }
+      if(!(price > 0)){ toast(t('assetValidPrice')); return false; }
+      if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
       state.assets.push({
         id: uid(), name, price,
-        purchaseDate: d.purchaseDate || todayStr(),
+        purchaseDate: d.purchaseDate || nowLocalDate(),
         expectedYears: years, expectedMonths: months,
         endDate: null, status: 'active',
         manualValue: null, manualNote: '',
@@ -2781,7 +3925,7 @@ function openAssetForm(){
         createdAt: Date.now()
       });
       afterChange();
-      toast('资产已添加');
+      toast(t('assetAdded'));
       return true;
     }
   });
@@ -2791,12 +3935,12 @@ function assetMenu(id){
   const a = getAsset(id);
   if(!a) return;
   openActionSheet(a.name, [
-    { label:'编辑资产信息', icon:'✏️', onClick: () => editAsset(id) },
-    { label:'删除资产', icon:'🗑', danger:true, onClick: () => {
-        confirmDialog('确定删除该资产及其回本记录？', () => {
+    { label: t('edit'), icon:'✏️', onClick: () => editAsset(id) },
+    { label: t('assetDelete'), icon:'🗑', danger:true, onClick: () => {
+        confirmDialog(t('assetDeleteConfirm'), () => {
           state.assets = state.assets.filter(x => x.id !== id);
           afterChange();
-          toast('资产已删除');
+          toast(t('assetDeleted'));
         });
       } }
   ]);
@@ -2806,22 +3950,22 @@ function editAsset(id){
   const a = getAsset(id);
   if(!a) return;
   openSheet({
-    title: '编辑资产',
+    title: t('assetEdit'),
     body: `
-      <label class="field"><span class="field-label">资产名称</span>
+      <label class="field"><span class="field-label">${esc(t('assetName'))}</span>
         <input name="name" type="text" required maxlength="24" value="${esc(a.name)}"></label>
-      <label class="field"><span class="field-label">购买价格</span>
+      <label class="field"><span class="field-label">${esc(t('assetPrice'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
           <input name="price" type="number" step="0.01" min="0.01" required value="${a.price}"></div></label>
-      <label class="field"><span class="field-label">购买日期</span>
+      <label class="field"><span class="field-label">${esc(t('assetPurchaseDate'))}</span>
         <input name="purchaseDate" type="date" value="${a.purchaseDate}" required></label>
       <div class="two-col">
-        <label class="field"><span class="field-label">预计使用（年）</span>
+        <label class="field"><span class="field-label">${esc(t('assetYears'))}</span>
           <input name="years" type="number" min="0" step="1" value="${a.expectedYears||0}" inputmode="numeric"></label>
-        <label class="field"><span class="field-label">预计使用（月）</span>
+        <label class="field"><span class="field-label">${esc(t('assetMonths'))}</span>
           <input name="months" type="number" min="0" max="11" step="1" value="${a.expectedMonths||0}" inputmode="numeric"></label>
       </div>
-      <label class="field"><span class="field-label">备注</span>
+      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span>
         <input name="note" type="text" maxlength="60" value="${esc(a.note||'')}"></label>
     `,
     onSubmit(d){
@@ -2829,14 +3973,14 @@ function editAsset(id){
       const price = round2(parseFloat(d.price));
       const years = Math.max(0, parseInt(d.years, 10) || 0);
       const months = Math.max(0, parseInt(d.months, 10) || 0);
-      if(!name || !(price > 0)){ toast('请填写完整信息'); return false; }
-      if(years * 365 + months * 30 <= 0){ toast('预计使用期限必须大于 0'); return false; }
+      if(!name || !(price > 0)){ toast(t('assetValidPrice')); return false; }
+      if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
       a.name = name; a.price = price;
       a.purchaseDate = d.purchaseDate || a.purchaseDate;
       a.expectedYears = years; a.expectedMonths = months;
       a.note = (d.note || '').trim();
       afterChange();
-      toast('已更新');
+      toast(t('assetUpdated'));
       return true;
     }
   });
@@ -2847,24 +3991,24 @@ function openAssetAdjust(id){
   if(!a) return;
   const c = assetCalc(a);
   openSheet({
-    title: '手动调整使用价值',
-    submitText: '保存调整',
+    title: t('assetAdjustTitle'),
+    submitText: t('assetAdjustBtn'),
     body: `
       <div class="asset-rows" style="margin-bottom:16px">
-        <div class="ar"><span>系统计算回本</span><b>${money(c.systemValue)}</b></div>
-        <div class="ar"><span>购买价格</span><b>${money(c.price)}</b></div>
+        <div class="ar"><span>${esc(t('assetSystemValue'))}</span><b>${money(c.systemValue)}</b></div>
+        <div class="ar"><span>${esc(t('assetPrice'))}</span><b>${money(c.price)}</b></div>
       </div>
       <label class="field">
-        <span class="field-label">实际使用价值（RM）</span>
+        <span class="field-label">${esc(t('assetAdjustValue'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span>
-          <input name="manualValue" type="number" step="0.01" min="0" placeholder="留空则恢复系统计算"
+          <input name="manualValue" type="number" step="0.01" min="0" placeholder="${esc(t('assetAdjustPlaceholder'))}"
                  value="${c.hasManual ? a.manualValue : ''}" inputmode="decimal"></div>
       </label>
       <label class="field">
-        <span class="field-label">调整原因（可选）</span>
-        <input name="manualNote" type="text" maxlength="60" placeholder="例如：实际状况良好 / 市场贬值" value="${esc(a.manualNote||'')}">
+        <span class="field-label">${esc(t('assetAdjustReason'))}</span>
+        <input name="manualNote" type="text" maxlength="60" value="${esc(a.manualNote||'')}">
       </label>
-      <p class="hint">用户调整值会与系统计算值分开显示，不会覆盖原始数据。</p>
+      <p class="hint">${esc(t('assetAdjustHint'))}</p>
     `,
     onSubmit(d){
       const raw = String(d.manualValue || '').trim();
@@ -2872,13 +4016,13 @@ function openAssetAdjust(id){
         a.manualValue = null;
       }else{
         const v = round2(parseFloat(raw));
-        if(!(v >= 0)){ toast('请输入有效金额'); return false; }
-        if(v > a.price){ toast('调整值不能超过购买价格'); return false; }
+        if(!(v >= 0)){ toast(t('invalidAmount')); return false; }
+        if(v > a.price){ toast(t('assetAdjustExceed')); return false; }
         a.manualValue = v;
       }
       a.manualNote = (d.manualNote || '').trim();
       afterChange();
-      toast('已保存调整');
+      toast(t('assetAdjusted'));
       return true;
     }
   });
@@ -2889,37 +4033,37 @@ function openAssetEnd(id){
   if(!a) return;
   const c = assetCalc(a);
   openSheet({
-    title: '结束回本计算',
-    submitText: '确认结束',
+    title: t('assetEndTitle'),
+    submitText: t('assetEndBtn'),
     body: `
       <div class="asset-rows" style="margin-bottom:16px">
-        <div class="ar"><span>当前系统计算回本</span><b>${money(c.systemValue)}</b></div>
-        <div class="ar"><span>已使用天数</span><b>${c.usedDays.toFixed(1)} 天</b></div>
+        <div class="ar"><span>${esc(t('assetSystemValue'))}</span><b>${money(c.systemValue)}</b></div>
+        <div class="ar"><span>${esc(t('assetUsedDays'))}</span><b>${c.usedDays.toFixed(1)}</b></div>
       </div>
       <label class="field">
-        <span class="field-label">结束原因</span>
+        <span class="field-label">${esc(t('assetEndReason'))}</span>
         <select name="status">
-          <option value="completed">✅ 已完成（正常用满期限）</option>
-          <option value="ended">⏹ 提前结束</option>
-          <option value="damaged">💥 已损坏</option>
-          <option value="lost">🔍 已遗失</option>
-          <option value="sold">💰 已出售</option>
-          <option value="stopped">🚫 停止使用</option>
+          <option value="completed">✅ ${esc(t('assetStatusCompleted'))}</option>
+          <option value="ended">⏹ ${esc(t('assetStatusEnded'))}</option>
+          <option value="damaged">💥 ${esc(t('assetStatusDamaged'))}</option>
+          <option value="lost">🔍 ${esc(t('assetStatusLost'))}</option>
+          <option value="sold">💰 ${esc(t('assetStatusSold'))}</option>
+          <option value="stopped">🚫 ${esc(t('assetStatusStopped'))}</option>
         </select>
       </label>
       <label class="field">
-        <span class="field-label">结束日期</span>
-        <input name="endDate" type="date" value="${todayStr()}" required>
+        <span class="field-label">${esc(t('assetEndDate'))}</span>
+        <input name="endDate" type="date" value="${nowLocalDate()}" required>
       </label>
-      <p class="hint">结束后该资产不再自动累计回本金额，实际使用时间与未回本金额将被冻结记录。</p>
+      <p class="hint">${esc(t('assetEndHint'))}</p>
     `,
     onSubmit(d){
-      const endDate = d.endDate || todayStr();
-      if(parseDate(endDate) < parseDate(a.purchaseDate)){ toast('结束日期不能早于购买日期'); return false; }
+      const endDate = d.endDate || nowLocalDate();
+      if(new Date(endDate) < new Date(a.purchaseDate)){ toast(t('assetEndBeforeBuy')); return false; }
       a.endDate = endDate;
       a.status = d.status || 'ended';
       afterChange();
-      toast('回本计算已结束');
+      toast(t('assetEnded'));
       return true;
     }
   });
@@ -2929,21 +4073,15 @@ function openAssetEnd(id){
    启动
    ========================================================================= */
 (function boot(){
-  // 修复历史数据浮点误差
   state.accounts.forEach(a => { a.balance = round2(Number(a.balance) || 0); });
   state.goals.forEach(g => {
     g.saved = round2(Number(g.saved) || 0);
     g.targetAmount = round2(Number(g.targetAmount) || 0);
   });
-
   saveState();
   checkAchievements();
 
-  // 锁屏初始化
-  if(lockRecord && lockRecord.hash && state.settings.appLockEnabled){
-    isUnlocked = false;
-    lockUI.mode = 'unlock';
-  }else if(lockRecord && lockRecord.hash){
+  if(lockRecord && lockRecord.hash){
     isUnlocked = false;
     lockUI.mode = 'unlock';
   }else{
@@ -2954,15 +4092,15 @@ function openAssetEnd(id){
   render({ top:true });
 })();
 
-// 跨标签同步
 window.addEventListener('storage', e => {
   if(e.key === STORAGE_KEY){
     state = loadState();
+    LANG = state.settings.lang || LANG;
     if(isUnlocked) render();
   }
   if(e.key === LOCK_KEY){
     lockRecord = loadLock();
-    if(!lockRecord) { isUnlocked = true; renderLock(); render({ top:true }); }
+    if(!lockRecord){ isUnlocked = true; renderLock(); render({ top:true }); }
   }
 });
 </script>
