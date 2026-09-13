@@ -302,6 +302,20 @@ section{display:flex;flex-direction:column;gap:10px;}
 .records-row .rr-amt{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .note-full{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
 .meta-line{font-size:11px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;}
+#splash-root{position:fixed;inset:0;z-index:600;background:linear-gradient(160deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s;}
+#splash-root.hide{opacity:0;visibility:hidden;pointer-events:none;}
+#splash-root .sp-word{display:flex;align-items:baseline;gap:12px;animation:spIn .9s cubic-bezier(.2,.8,.3,1) both;}
+#splash-root .sp-zh{font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:56px;font-weight:900;letter-spacing:8px;background:linear-gradient(135deg,#fff 0%,#e8e2f5 50%,#e6d3a8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;}
+#splash-root .sp-zh::after{content:'';position:absolute;left:0;right:0;bottom:-10px;height:3px;border-radius:3px;background:linear-gradient(90deg,#fff 0%,#e6d3a8 100%);opacity:.65;transform:scaleX(0);transform-origin:left;animation:spLine .9s .35s cubic-bezier(.2,.8,.3,1) forwards;}
+#splash-root .sp-en{font-size:17px;font-weight:700;letter-spacing:7px;text-transform:uppercase;color:#fff;opacity:.88;animation:spIn .9s .12s cubic-bezier(.2,.8,.3,1) both;}
+#splash-root .sp-slogan{font-size:11.5px;letter-spacing:2.5px;color:rgba(255,255,255,.72);animation:spIn .9s .28s cubic-bezier(.2,.8,.3,1) both;}
+#splash-root .sp-dot{position:absolute;bottom:64px;display:flex;gap:7px;}
+#splash-root .sp-dot i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);animation:spPulse 1.25s ease-in-out infinite;}
+#splash-root .sp-dot i:nth-child(2){animation-delay:.16s;}
+#splash-root .sp-dot i:nth-child(3){animation-delay:.32s;}
+@keyframes spIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes spLine{to{transform:scaleX(1);}}
+@keyframes spPulse{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:1;transform:scale(1);}}
 @media (max-width: 380px){
   .hero-amount{font-size:28px;}
   .quick button{font-size:10.5px;}
@@ -315,24 +329,28 @@ section{display:flex;flex-direction:column;gap:10px;}
 <div id="sheet-root"></div>
 <div id="toast-root"></div>
 <div id="lock-root"></div>
+<div id="splash-root"></div>
 
 <script>
 /* =========================================================================
-   积衡 Jiheng v1.02
+   积衡 Jiheng v1.03
    -----------------------------------------------------------------------
-   V1.02 核心更新：
-   - 秒级时间：eventAt / createdAt / updatedAt / timezone / editHistory
-   - Money Given 与账户余额联动（从所选账户扣款）
-   - Debt 与账户余额联动（Account-linked / Record-only）
-   - 还款与实际资金流联动
-   - Debt / Money Given 使用统一数据源，避免重复扣款
-   - 搜索输入框连续输入 + 中文 IME 支持
-   - Filter Bar 横向滚动
-   - 保留 V1.00 / V1.01 所有数据
+   V1.03 核心更新：
+   - 修复 Records 页面 i18n 硬编码问题
+   - 修复 Data Version 被错误显示为 V2，统一为 V1.03
+   - 全 App 日期系统检查，所有记录补齐 eventAt / createdAt / updatedAt / timezone
+   - 时间精度保存到秒
+   - 编辑历史结构化：从数字数组升级为 [{at, action}]
+   - 每次编辑新增一条历史，永不覆盖
+   - 新增 Splash Screen 开屏动画
+   - Splash 与数据初始化并行，不绕过 App Lock
+   - 保留 V1.00 / V1.01 / V1.02 全部用户数据
    ========================================================================= */
 
-const APP_VERSION  = '1.02';
-const DATA_VERSION = 2;
+const APP_VERSION  = '1.03';
+const DATA_VERSION = 3;
+const DATA_VERSION_LABEL = 'V1.03';
+const SCHEMA_SERIES = 'V1';
 
 const STORAGE_KEY       = 'jiheng_state_v1';
 const LEGACY_KEYS       = ['jiheng_state_v1','savewise_state_v1'];
@@ -344,6 +362,7 @@ const META_KEY          = 'jiheng_meta_v1';
 const LEGACY_META_KEYS  = ['jiheng_meta_v1','savewise_meta_v1'];
 const BACKUP_KEY        = 'jiheng_backup_v1';
 const CHANGELOG_KEY     = 'jiheng_changelog_v1';
+const APP_TZ            = 'Asia/Kuala_Lumpur';
 
 /* ============================ 产品身份说明 ============================ */
 const PRODUCT_NOTICE_LANGS = [
@@ -485,7 +504,10 @@ const I18N = {
     goalDeposit:'存入', goalWithdraw:'取出', goalCancel:'取消目标',
     goalDepositTitle:'存入储蓄目标', goalWithdrawTitle:'从储蓄目标取出',
     goalDepositBtn:'确认存入', goalWithdrawBtn:'确认取出',
-    goalDeposited:'已存入储蓄目标', goalWithdrew:'已转回可用余额',
+    goalDeposited:'已存入储蓄目标', goalWitheredPlaceholder:'占位',
+    goalDepositedShort:'已存入',
+    goalWithdrawBtnShort:'已取出',
+    goalDepositedText:'已存入储蓄目标', goalWithdrew:'已转回可用余额',
     goalDepositHint:'可用余额：{amt} · 存入后从可用余额转入储蓄分配，记录总资产不变。',
     goalWithdrawHint:'该目标当前分配：{amt}',
     goalExceed:'超出该目标已分配金额', goalNoMoney:'该目标还没有可取出的资金',
@@ -538,6 +560,8 @@ const I18N = {
     recordsMoneyGivenCount:'转给他人',
     recordsNoData:'还没有记录',
     recordsNoDataSub:'建立第一笔欠款或转给他人记录',
+    recordsCountSuffix:'笔记录',
+    accountsCountSuffix:'个账户',
 
     debtTitle:'欠款记录', debtSub:'记录我欠别人 / 别人欠我，只记录不执行转账',
     debtIOwe:'我欠别人', debtOweMe:'别人欠我', debtAll:'全部',
@@ -628,7 +652,7 @@ const I18N = {
     setImport:'导入 / 恢复数据', setImportSub:'从 JSON 备份恢复',
     setDataStorage:'数据存储', setDataStorageSub:'本地 localStorage（Local-first）',
     setClearData:'清除所有数据', setClearDataSub:'不可恢复，请谨慎操作',
-    setAbout:'积衡 Jiheng v{av} · 数据版本 v{dv}\n数据保存在本机浏览器，建议定期导出备份。',
+    setAbout:'积衡 Jiheng v{av} · 数据版本 {dv}\n数据保存在本机浏览器，建议定期导出备份。',
     setLanguage:'语言 / Language', setLanguageSub:'切换应用显示语言',
     setVersion:'App 版本', setDataVersion:'数据版本', setLastUpdate:'最后更新',
     setDataStats:'数据统计', setStatTx:'交易数量', setStatAcc:'资金账户', setStatGoal:'储蓄目标', setStatAsset:'资产数量',
@@ -663,11 +687,25 @@ const I18N = {
     migrationFailed:'积衡无法安全完成此次更新。你的现有数据已被保留。',
     migrationSuccess:'数据已安全迁移，所有记录完整保留。', backupCreated:'已自动创建更新前备份。',
     whatsNewTitle:'更新记录', productGuideTitle:'产品功能讲解',
-    dataVersionNote:'数据版本 v{dv} · App 版本 v{av}',
+    dataVersionNote:'数据版本 {dv} · App 版本 {av}',
     aboutTitle:'关于积衡', sysInfoTitle:'系统信息', storageLocal:'本地存储', lastUpdated:'最后更新',
 
     delTxTitle:'确定要删除这笔交易记录吗？', delTransferTitle:'确定要删除这笔账户转移记录吗？',
     delGoalDepositTitle:'确定要删除这笔储蓄存入记录吗？', delGoalWithdrawTitle:'确定要删除这笔储蓄取出记录吗？',
+
+    viewEditHistory:'查看编辑历史',
+    editHistoryTitle:'编辑历史',
+    originalRecordTime:'原始记录时间',
+    createdAtLabel:'创建时间',
+    updatedAtLabel:'最后修改',
+    eventTimeLabel:'事件发生时间',
+    editTimeLabel:'编辑时间',
+    noEditHistory:'暂无编辑记录',
+    versionLabel:'App 版本',
+    dataVersionLabel:'数据版本',
+    schemaSeriesLabel:'数据系列',
+    guideSplashTitle:'开屏动画',
+    guideSplashDesc:'冷启动时播放 Jiheng 品牌开屏动画，随后进入 App Lock 或主页。动画不阻塞数据加载，不绕过 App Lock。',
 
     incomeCatNames:{
       salary:'工资 / 薪金', part_time:'兼职收入', freelance:'自由职业 / 接案', temp_work:'临时工作', bonus:'奖金', allowance:'津贴',
@@ -747,7 +785,7 @@ const I18N = {
     guideSearchTitle:'搜索与筛选',
     guideSearchDesc:'支持中文、英文、Unicode、Emoji、部分匹配搜索。可与类型 / 日期 / 账户 / 分类筛选组合使用。',
     guideTimeTitle:'时间与编辑历史',
-    guideTimeDesc:'每笔记录保存事件发生时间（秒级）、创建时间、最后修改时间与完整编辑历史，便于追溯。',
+    guideTimeDesc:'每笔记录保存事件发生时间（秒级）、创建时间、最后修改时间与完整编辑历史，便于追溯。每次编辑新增一条历史，永不覆盖。',
     guideAchTitle:'成就',
     guideAchDesc:'根据你真实使用情况解锁成就。每项成就都显示名称、说明、如何达到、进度与状态。',
     guideLockTitle:'应用锁',
@@ -897,6 +935,8 @@ const I18N = {
     recordsMoneyGivenCount:'Money Given',
     recordsNoData:'No records yet',
     recordsNoDataSub:'Create your first Debt or Money Given entry',
+    recordsCountSuffix:'records',
+    accountsCountSuffix:'accounts',
 
     debtTitle:'Debt Records', debtSub:'Record what I owe and what others owe me',
     debtIOwe:'I Owe', debtOweMe:'Owed to Me', debtAll:'All',
@@ -987,7 +1027,7 @@ const I18N = {
     setImport:'Import / Restore', setImportSub:'Restore from JSON backup',
     setDataStorage:'Data Storage', setDataStorageSub:'Local localStorage (Local-first)',
     setClearData:'Clear All Data', setClearDataSub:'Irreversible, be careful',
-    setAbout:'Jiheng v{av} · Data v{dv}\nData is stored in this browser, export backups regularly.',
+    setAbout:'Jiheng v{av} · Data {dv}\nData is stored in this browser, export backups regularly.',
     setLanguage:'Language / 语言', setLanguageSub:'Switch app display language',
     setVersion:'App Version', setDataVersion:'Data Version', setLastUpdate:'Last Update',
     setDataStats:'Data Statistics', setStatTx:'Transactions', setStatAcc:'Money Accounts', setStatGoal:'Goals', setStatAsset:'Assets',
@@ -1022,11 +1062,25 @@ const I18N = {
     migrationFailed:'Jiheng could not safely complete this update. Your existing data has been preserved.',
     migrationSuccess:'Data safely migrated. All records preserved.', backupCreated:'Pre-update backup created automatically.',
     whatsNewTitle:'Update History', productGuideTitle:'Product Guide',
-    dataVersionNote:'Data v{dv} · App v{av}',
+    dataVersionNote:'Data {dv} · App v{av}',
     aboutTitle:'About Jiheng', sysInfoTitle:'System Information', storageLocal:'Local storage', lastUpdated:'Last updated',
 
     delTxTitle:'Are you sure you want to delete this transaction?', delTransferTitle:'Are you sure you want to delete this account transfer record?',
     delGoalDepositTitle:'Are you sure you want to delete this savings deposit record?', delGoalWithdrawTitle:'Are you sure you want to delete this savings withdrawal record?',
+
+    viewEditHistory:'View Edit History',
+    editHistoryTitle:'Edit History',
+    originalRecordTime:'Original Record Time',
+    createdAtLabel:'Created At',
+    updatedAtLabel:'Last Updated',
+    eventTimeLabel:'Event Time',
+    editTimeLabel:'Edit Time',
+    noEditHistory:'No edit history yet',
+    versionLabel:'App Version',
+    dataVersionLabel:'Data Version',
+    schemaSeriesLabel:'Data Series',
+    guideSplashTitle:'Splash Screen',
+    guideSplashDesc:'Plays Jiheng brand splash on cold start, then enters App Lock or Home. Non-blocking and does not bypass App Lock.',
 
     incomeCatNames:{
       salary:'Salary / Wages', part_time:'Part-time Income', freelance:'Freelance / Gig', temp_work:'Temp Work', bonus:'Bonus', allowance:'Allowance',
@@ -1106,7 +1160,7 @@ const I18N = {
     guideSearchTitle:'Search & Filter',
     guideSearchDesc:'Supports Chinese, English, Unicode, Emoji, partial matching. Combines with type / date / account / category filters.',
     guideTimeTitle:'Time & Edit History',
-    guideTimeDesc:'Each record stores event time (second-level), created time, last updated time and full edit history for traceability.',
+    guideTimeDesc:'Each record stores event time (second-level), created time, last updated time and full edit history for traceability. Each edit appends a new entry, never overwrites.',
     guideAchTitle:'Achievements',
     guideAchDesc:'Unlock achievements based on real usage. Each shows name, description, how-to-unlock, progress and status.',
     guideLockTitle:'App Lock',
@@ -1256,6 +1310,8 @@ const I18N = {
     recordsMoneyGivenCount:'Wang Diberi',
     recordsNoData:'Belum ada rekod',
     recordsNoDataSub:'Cipta rekod hutang atau wang diberi pertama',
+    recordsCountSuffix:'rekod',
+    accountsCountSuffix:'akaun',
 
     debtTitle:'Rekod Hutang', debtSub:'Rekod hutang saya dan hutang orang kepada saya',
     debtIOwe:'Saya Berhutang', debtOweMe:'Orang Berhutang', debtAll:'Semua',
@@ -1346,7 +1402,7 @@ const I18N = {
     setImport:'Import / Pulih', setImportSub:'Pulih dari sandaran JSON',
     setDataStorage:'Storan Data', setDataStorageSub:'localStorage tempatan (Local-first)',
     setClearData:'Padam Semua Data', setClearDataSub:'Tidak boleh dipulihkan',
-    setAbout:'Jiheng v{av} · Data v{dv}\nData disimpan dalam pelayar ini, eksport sandaran secara berkala.',
+    setAbout:'Jiheng v{av} · Data {dv}\nData disimpan dalam pelayar ini, eksport sandaran secara berkala.',
     setLanguage:'Bahasa / Language', setLanguageSub:'Tukar bahasa paparan',
     setVersion:'Versi App', setDataVersion:'Versi Data', setLastUpdate:'Kemas Kini Terakhir',
     setDataStats:'Statistik Data', setStatTx:'Transaksi', setStatAcc:'Akaun Wang', setStatGoal:'Sasaran', setStatAsset:'Aset',
@@ -1381,11 +1437,25 @@ const I18N = {
     migrationFailed:'Jiheng tidak dapat melengkapkan kemas kini ini dengan selamat. Data sedia ada anda telah dikekalkan.',
     migrationSuccess:'Data berjaya dipindahkan. Semua rekod dikekalkan.', backupCreated:'Sandaran pra-kemas kini dicipta secara automatik.',
     whatsNewTitle:'Sejarah Kemas Kini', productGuideTitle:'Panduan Produk',
-    dataVersionNote:'Data v{dv} · App v{av}',
+    dataVersionNote:'Data {dv} · App v{av}',
     aboutTitle:'Tentang Jiheng', sysInfoTitle:'Maklumat Sistem', storageLocal:'Storan tempatan', lastUpdated:'Kemas kini terakhir',
 
     delTxTitle:'Adakah anda pasti mahu memadam rekod transaksi ini?', delTransferTitle:'Adakah anda pasti mahu memadam rekod pindahan akaun ini?',
     delGoalDepositTitle:'Adakah anda pasti mahu memadam rekod simpanan ini?', delGoalWithdrawTitle:'Adakah anda pasti mahu memadam rekod keluaran simpanan ini?',
+
+    viewEditHistory:'Lihat Sejarah Edit',
+    editHistoryTitle:'Sejarah Edit',
+    originalRecordTime:'Masa Rekod Asal',
+    createdAtLabel:'Masa Dicipta',
+    updatedAtLabel:'Kemas Kini Terakhir',
+    eventTimeLabel:'Masa Peristiwa',
+    editTimeLabel:'Masa Edit',
+    noEditHistory:'Belum ada sejarah edit',
+    versionLabel:'Versi App',
+    dataVersionLabel:'Versi Data',
+    schemaSeriesLabel:'Siri Data',
+    guideSplashTitle:'Skrin Splash',
+    guideSplashDesc:'Memainkan splash jenama Jiheng semasa mula sejuk, kemudian masuk App Lock atau Utama. Tidak menyekat dan tidak memintas App Lock.',
 
     incomeCatNames:{
       salary:'Gaji / Upah', part_time:'Pendapatan Sambilan', freelance:'Bebas / Gig', temp_work:'Kerja Sementara', bonus:'Bonus', allowance:'Elaun',
@@ -1465,7 +1535,7 @@ const I18N = {
     guideSearchTitle:'Carian & Penapis',
     guideSearchDesc:'Menyokong Cina, Inggeris, Unicode, Emoji, padanan separa. Boleh digabung dengan penapis jenis / tarikh / akaun / kategori.',
     guideTimeTitle:'Masa & Sejarah Edit',
-    guideTimeDesc:'Setiap rekod menyimpan masa peristiwa (saat), masa dicipta, masa dikemas kini dan sejarah edit penuh untuk kebolehkesanan.',
+    guideTimeDesc:'Setiap rekod menyimpan masa peristiwa (saat), masa dicipta, masa dikemas kini dan sejarah edit penuh untuk kebolehkesanan. Setiap edit tambah entri baharu, tidak menimpa.',
     guideAchTitle:'Pencapaian',
     guideAchDesc:'Buka pencapaian berdasarkan penggunaan sebenar. Setiap satu tunjuk nama, penerangan, cara buka, kemajuan dan status.',
     guideLockTitle:'App Lock',
@@ -1546,8 +1616,7 @@ function setLang(l){
   render();
   toast(l === 'zh' ? '语言已切换为简体中文' : l === 'en' ? 'Language switched to English' : 'Bahasa ditukar ke Bahasa Melayu');
 }
-
-/* ============================ Metadata ============================ */
+  /* ============================ Metadata ============================ */
 function loadMeta(){
   try{
     const raw = localStorage.getItem(META_KEY) || (LEGACY_META_KEYS.map(k=>localStorage.getItem(k)).find(Boolean));
@@ -1734,6 +1803,70 @@ const CHANGELOG_SEED = [
         'Tambah baik keselamatan migrasi dan naik taraf; semua data V1.00 / V1.01 dikekalkan'
       ]
     }
+  },
+  {
+    version:'1.03',
+    date:'2026-09-13',
+    title:{ zh:'积衡 Jiheng — 系统、时间与开屏体验优化', en:'Jiheng — System, Time & Launch Experience Improvements', ms:'Jiheng — Penambahbaikan Sistem, Masa & Pengalaman Pelancaran' },
+    items:{
+      zh:[
+        '修复 Records 页面部分文字未使用 i18n 的问题，三语言显示正确',
+        '修复首页「笔记录」硬编码中文的问题',
+        '修复 Data Version 被错误显示为 V2 的问题，统一显示为 V1.03',
+        '明确区分 App Version / Data Version / Schema Version / Update History',
+        '全 App 日期系统检查，所有日期记录补齐对应时间',
+        'Accounts / Goals / Assets 补齐 eventAt / updatedAt / timezone',
+        '时间精度保存到秒',
+        '编辑历史结构化：从数字数组升级为 [{at, action}]',
+        '每次编辑新增一条历史，永不覆盖',
+        '区分「事件发生时间」与「创建时间」',
+        '编辑历史支持无限次，编辑 100 次就保存 100 次',
+        '时区统一为 Asia/Kuala_Lumpur',
+        '新增 Jiheng 开屏动画 Splash Screen',
+        'Splash 与数据初始化并行，不阻塞',
+        'Splash 不绕过 App Lock',
+        'Splash 只在冷启动播放，路由切换不重复',
+        '保留 V1.00 / V1.01 / V1.02 全部用户数据'
+      ],
+      en:[
+        'Fixed Records page texts not using i18n; all three languages now correct',
+        'Fixed hardcoded "笔记录" on Home',
+        'Fixed Data Version incorrectly shown as V2; now displayed as V1.03',
+        'Clarified App Version / Data Version / Schema Version / Update History',
+        'Full-app date audit; all records now have corresponding time',
+        'Accounts / Goals / Assets now have eventAt / updatedAt / timezone',
+        'Time precision saved to the second',
+        'Structured edit history: upgraded from numeric array to [{at, action}]',
+        'Each edit appends a new history entry, never overwrites',
+        'Distinguished "event time" vs "created time"',
+        'Unlimited edit history — 100 edits saves 100 entries',
+        'Timezone unified to Asia/Kuala_Lumpur',
+        'Added Jiheng Splash Screen',
+        'Splash runs in parallel with data init, non-blocking',
+        'Splash does not bypass App Lock',
+        'Splash only plays on cold start',
+        'All V1.00 / V1.01 / V1.02 user data preserved'
+      ],
+      ms:[
+        'Betulkan teks halaman Rekod tidak guna i18n; tiga bahasa kini betul',
+        'Betulkan "笔记录" hardcoded di Utama',
+        'Betulkan Data Version salah dipaparkan sebagai V2; kini V1.03',
+        'Jelaskan App Version / Data Version / Schema Version / Update History',
+        'Audit tarikh seluruh app; semua rekod kini ada masa',
+        'Accounts / Goals / Assets kini ada eventAt / updatedAt / timezone',
+        'Ketepatan masa sehingga saat',
+        'Sejarah edit berstruktur: naik taraf kepada [{at, action}]',
+        'Setiap edit tambah entri baharu, tidak menimpa',
+        'Bezakan "masa peristiwa" dan "masa dicipta"',
+        'Sejarah edit tanpa had — 100 edit simpan 100 entri',
+        'Zon masa disatukan ke Asia/Kuala_Lumpur',
+        'Tambah Splash Screen Jiheng',
+        'Splash berjalan selari dengan init data, tidak menyekat',
+        'Splash tidak memintas App Lock',
+        'Splash hanya dimainkan semasa mula sejuk',
+        'Semua data V1.00 / V1.01 / V1.02 dikekalkan'
+      ]
+    }
   }
 ];
 function loadChangelog(){
@@ -1771,49 +1904,78 @@ function defaultState(){
   };
 }
 
-/* V1.02 迁移：兼容 V1.00 / V1.01，补齐新字段，绝不删除数据 */
+/* V1.03 迁移：兼容 V1.00 / V1.01 / V1.02，只加字段不删 */
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
+  if(!Array.isArray(p.accounts)) p.accounts = [];
+  if(!Array.isArray(p.transactions)) p.transactions = [];
+  if(!Array.isArray(p.goals)) p.goals = [];
+  if(!Array.isArray(p.assets)) p.assets = [];
   if(!Array.isArray(p.debts)) p.debts = [];
   if(!Array.isArray(p.moneyGiven)) p.moneyGiven = [];
   if(!Array.isArray(p.customIncomeCats)) p.customIncomeCats = [];
   if(!Array.isArray(p.customExpenseCats)) p.customExpenseCats = [];
   if(!Array.isArray(p.customMethods)) p.customMethods = [];
 
-  // V1.02 交易记录补齐 timezone / editHistory
-  (p.transactions || []).forEach(tx => {
+  const TZ = APP_TZ;
+  const _toISO = (v) => {
+    if(!v) return nowISO();
+    if(typeof v === 'number'){ try{ return new Date(v).toISOString(); }catch(e){ return nowISO(); } }
+    const s = String(v);
+    if(/^\d{4}-\d{2}-\d{2}$/.test(s)) return new Date(s + 'T00:00:00').toISOString();
+    if(/^\d{4}-\d{2}-\d{2}T/.test(s)) return s;
+    const d = new Date(s);
+    return isNaN(d.getTime()) ? nowISO() : d.toISOString();
+  };
+  const _normHistory = (arr) => {
+    if(!Array.isArray(arr)) return [];
+    return arr.map(x => {
+      if(x && typeof x === 'object' && x.at) return { at: x.at, action: x.action || 'edit' };
+      if(typeof x === 'number') return { at: new Date(x).toISOString(), action: 'edit' };
+      if(typeof x === 'string') return { at: _toISO(x), action: 'edit' };
+      return null;
+    }).filter(Boolean);
+  };
+
+  p.transactions.forEach(tx => {
     if(tx.method === undefined) tx.method = '';
     if(tx.methodCustom === undefined) tx.methodCustom = '';
-    if(!tx.timezone) tx.timezone = 'Asia/Kuala_Lumpur';
-    if(!Array.isArray(tx.editHistory)) tx.editHistory = [];
-    if(!tx.eventAt) tx.eventAt = tx.date || nowISO();
-    if(!tx.createdAt) tx.createdAt = Date.now();
+    if(!tx.timezone) tx.timezone = TZ;
+    tx.editHistory = _normHistory(tx.editHistory);
+    if(!tx.eventAt) tx.eventAt = _toISO(tx.date);
+    if(!tx.createdAt) tx.createdAt = new Date(tx.eventAt).getTime();
     if(!tx.updatedAt) tx.updatedAt = tx.createdAt;
   });
 
-  // V1.02 账户补齐 note
-  (p.accounts || []).forEach(a => {
+  p.accounts.forEach(a => {
     if(a.note === undefined) a.note = '';
-    if(!a.timezone) a.timezone = 'Asia/Kuala_Lumpur';
+    if(!a.timezone) a.timezone = TZ;
+    if(!a.eventAt) a.eventAt = _toISO(a.createdAt);
+    if(!a.createdAt) a.createdAt = new Date(a.eventAt).getTime();
+    if(!a.updatedAt) a.updatedAt = a.createdAt;
+    a.editHistory = _normHistory(a.editHistory);
   });
 
-  // V1.02 储蓄目标补齐字段
-  (p.goals || []).forEach(g => {
+  p.goals.forEach(g => {
     if(g.note === undefined) g.note = '';
-    if(!Array.isArray(g.editHistory)) g.editHistory = [];
-    if(!g.createdAt) g.createdAt = Date.now();
+    if(!g.timezone) g.timezone = TZ;
+    if(!g.eventAt) g.eventAt = _toISO(g.createdAt);
+    if(!g.createdAt) g.createdAt = new Date(g.eventAt).getTime();
+    if(!g.updatedAt) g.updatedAt = g.createdAt;
+    g.editHistory = _normHistory(g.editHistory);
   });
 
-  // V1.02 资产补齐字段
-  (p.assets || []).forEach(a => {
+  p.assets.forEach(a => {
     if(a.note === undefined) a.note = '';
     if(a.manualNote === undefined) a.manualNote = '';
-    if(!Array.isArray(a.editHistory)) a.editHistory = [];
-    if(!a.createdAt) a.createdAt = Date.now();
+    if(!a.timezone) a.timezone = TZ;
+    if(!a.eventAt) a.eventAt = _toISO(a.purchaseDate || a.createdAt);
+    if(!a.createdAt) a.createdAt = new Date(a.eventAt).getTime();
+    if(!a.updatedAt) a.updatedAt = a.createdAt;
+    a.editHistory = _normHistory(a.editHistory);
   });
 
-  // V1.02 欠款迁移：新增 linkMode / linkedAccountId / eventAt / timezone / editHistory
   p.debts.forEach(d => {
     if(!Array.isArray(d.payments)) d.payments = [];
     if(d.purpose === undefined) d.purpose = '';
@@ -1823,35 +1985,40 @@ function migrate(p){
     if(d.reason === undefined) d.reason = '';
     if(d.paid === undefined) d.paid = 0;
     if(!d.status) d.status = 'unpaid';
-    if(d.linkMode === undefined) d.linkMode = 'record_only';  // 默认仅记录，避免旧数据错误扣款
+    if(d.linkMode === undefined) d.linkMode = 'record_only';
     if(d.linkedAccountId === undefined) d.linkedAccountId = null;
-    if(!d.timezone) d.timezone = 'Asia/Kuala_Lumpur';
-    if(!d.eventAt) d.eventAt = d.date || nowISO();
-    if(!d.createdAt) d.createdAt = Date.now();
+    if(!d.timezone) d.timezone = TZ;
+    d.editHistory = _normHistory(d.editHistory);
+    if(!d.eventAt) d.eventAt = _toISO(d.date);
+    if(!d.createdAt) d.createdAt = new Date(d.eventAt).getTime();
     if(!d.updatedAt) d.updatedAt = d.createdAt;
-    if(!Array.isArray(d.editHistory)) d.editHistory = [];
     if(!d.eventId) d.eventId = d.id;
+    d.payments.forEach(pay => {
+      if(!pay.timezone) pay.timezone = TZ;
+      if(!pay.eventAt) pay.eventAt = _toISO(pay.createdAt);
+      if(!pay.createdAt) pay.createdAt = new Date(pay.eventAt).getTime();
+    });
   });
 
-  // V1.02 Money Given 迁移：新增 nature / sourceAccountId / eventAt / timezone / editHistory
   p.moneyGiven.forEach(m => {
     if(m.purpose === undefined) m.purpose = m.giftType || '';
     if(m.purposeCustom === undefined) m.purposeCustom = '';
     if(m.method === undefined) m.method = '';
     if(m.methodCustom === undefined) m.methodCustom = '';
     if(m.note === undefined) m.note = '';
-    if(m.nature === undefined) m.nature = 'gift';    // 默认赠予，避免旧数据未联动账户
+    if(m.nature === undefined) m.nature = 'gift';
     if(m.sourceAccountId === undefined) m.sourceAccountId = m.accountId || null;
-    if(!m.timezone) m.timezone = 'Asia/Kuala_Lumpur';
-    if(!m.eventAt) m.eventAt = m.date || nowISO();
-    if(!m.createdAt) m.createdAt = Date.now();
+    if(!m.timezone) m.timezone = TZ;
+    m.editHistory = _normHistory(m.editHistory);
+    if(!m.eventAt) m.eventAt = _toISO(m.date);
+    if(!m.createdAt) m.createdAt = new Date(m.eventAt).getTime();
     if(!m.updatedAt) m.updatedAt = m.createdAt;
-    if(!Array.isArray(m.editHistory)) m.editHistory = [];
     if(!m.eventId) m.eventId = m.id;
     if(m.linkedDebtId === undefined) m.linkedDebtId = null;
   });
 
   p.dataVersion = DATA_VERSION;
+
   const checks = [
     Array.isArray(p.accounts), Array.isArray(p.transactions), Array.isArray(p.goals),
     Array.isArray(p.assets), Array.isArray(p.debts), Array.isArray(p.moneyGiven),
@@ -2085,7 +2252,6 @@ function allExpenseIds(){ const ids = []; EXPENSE_GROUPS.forEach(g => g.items.fo
 function allMethodIds(){ const ids = []; MONEY_METHOD_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function incomeCats(){ return allIncomeIds(); }
 function expenseCats(){ return allExpenseIds(); }
-function mealSubs(){ return I18N[LANG].mealSubs || I18N.zh.mealSubs; }
 
 /* ============================ 成就 ============================ */
 function currentStreak(){
@@ -2342,6 +2508,31 @@ setInterval(() => {
 document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') markActivity(); });
 
 /* =========================================================================
+   Splash Screen (V1.03)
+   ========================================================================= */
+let _splashPlayed = false;
+function showSplash(cb){
+  if(_splashPlayed){ if(cb) cb(); return; }
+  _splashPlayed = true;
+  const root = document.getElementById('splash-root');
+  if(!root){ if(cb) cb(); return; }
+  const lang = LANG;
+  const pack = I18N[lang] || I18N.zh;
+  root.innerHTML = `
+    <div class="sp-word">
+      <span class="sp-zh">积衡</span>
+      <span class="sp-en">JI HENG</span>
+    </div>
+    <div class="sp-slogan">${esc(pack.slogan || '积累，亦有衡。')}</div>
+    <div class="sp-dot"><i></i><i></i><i></i></div>`;
+  root.classList.remove('hide');
+  setTimeout(() => {
+    root.classList.add('hide');
+    setTimeout(() => { if(cb) cb(); }, 550);
+  }, 1500);
+}
+
+/* =========================================================================
    渲染
    ========================================================================= */
 function render(opts){
@@ -2423,9 +2614,8 @@ function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
 function openSub(name){ ui.sub = name; render({ top:true }); }
 function back(){ ui.sub = null; render({ top:true }); }
 function toggleHide(){ state.settings.hideBalance = !state.settings.hideBalance; saveState(); render(); }
-
-/* =========================================================================
-   首页（V1.02：增加欠款 / 转给他人快捷入口）
+  /* =========================================================================
+   首页（V1.03：Records 硬编码修复 + 日期时间规范化显示）
    ========================================================================= */
 function viewHome(){
   const total  = totalAssets();
@@ -2469,7 +2659,7 @@ function viewHome(){
     <div class="mini tappable" onclick="openSub('money-given')">
       <span>🎁 ${esc(t('moneyGiven'))}</span>
       <b class="c-red">-${money(totalGiven)}</b>
-      <span style="margin-top:2px;font-size:11px">${state.moneyGiven.length} 笔记录</span>
+      <span style="margin-top:2px;font-size:11px">${state.moneyGiven.length} ${esc(t('recordsCountSuffix'))}</span>
     </div>
   </div>
 
@@ -2492,7 +2682,7 @@ function viewHome(){
       ${ state.accounts.length
           ? `<div class="row" onclick="goAccountDetail(null)">
               <div class="row-icon" style="background:var(--brand-soft);color:var(--brand)">∑</div>
-              <div class="row-main"><div class="row-title">${esc(t('allAccounts'))}</div><div class="row-sub">${state.accounts.length} ${esc(t('setStatAcc'))}</div></div>
+              <div class="row-main"><div class="row-title">${esc(t('allAccounts'))}</div><div class="row-sub">${state.accounts.length} ${esc(t('accountsCountSuffix'))}</div></div>
               <div class="row-amount">${money(availableBalance())}</div>
             </div>` + state.accounts.map(accRow).join('')
           : `<div class="empty"><p>${esc(t('noAccount'))}</p><button class="btn primary sm" onclick="openAccountForm()">${esc(t('addFirstAccount'))}</button></div>` }
@@ -2542,33 +2732,33 @@ function txRow(tx){
     case 'income':
       icon = catIcon(tx.category);
       title = incomeDisplayLabel(tx.category) || t('income');
-      sub = (acc ? acc.name : '—') + (tx.note ? ' · ' + tx.note : '');
+      sub = (acc ? acc.name : '—') + ' · ' + localDateTimeStr(tx.eventAt||tx.date) + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-green'; sign = '+';
       break;
     case 'expense':
       icon = catIcon(tx.category);
       title = tx.subCategory ? `${expenseDisplayLabel(tx.category)} · ${tx.subCategory}` : (expenseDisplayLabel(tx.category) || t('expense'));
-      sub = (acc ? acc.name : '—') + (tx.note ? ' · ' + tx.note : '');
+      sub = (acc ? acc.name : '—') + ' · ' + localDateTimeStr(tx.eventAt||tx.date) + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-red'; sign = '-';
       break;
     case 'transfer': {
       const to = getAccount(tx.toAccountId);
       icon = '⇄'; title = t('transfer');
-      sub = (acc ? acc.name : '—') + ' → ' + (to ? to.name : '—') + (tx.note ? ' · ' + tx.note : '');
+      sub = (acc ? acc.name : '—') + ' → ' + (to ? to.name : '—') + ' · ' + localDateTimeStr(tx.eventAt||tx.date) + (tx.note ? ' · ' + tx.note : '');
       cls = 'c-muted'; sign = '';
       break;
     }
     case 'goal_deposit': {
       const g = getGoal(tx.goalId);
       icon = '🎯'; title = t('goalDeposit');
-      sub = (acc ? acc.name : '—') + ' → ' + (g ? g.name : '—');
+      sub = (acc ? acc.name : '—') + ' → ' + (g ? g.name : '—') + ' · ' + localDateTimeStr(tx.eventAt||tx.date);
       cls = 'c-amber'; sign = '';
       break;
     }
     case 'goal_withdraw': {
       const g2 = getGoal(tx.goalId);
       icon = '🎯'; title = t('goalWithdraw');
-      sub = (g2 ? g2.name : '—') + ' → ' + (acc ? acc.name : '—');
+      sub = (g2 ? g2.name : '—') + ' → ' + (acc ? acc.name : '—') + ' · ' + localDateTimeStr(tx.eventAt||tx.date);
       cls = 'c-green'; sign = '+';
       break;
     }
@@ -2650,7 +2840,7 @@ function viewAllAccountsDetail(){
 function filterByAccount(id){ ui.recordAccount = id; ui.tab = 'records'; ui.sub = null; render({ top:true }); }
 
 /* =========================================================================
-   交易页面（V1.02 修复搜索输入框失焦）
+   交易页面（V1.03 保留搜索 + 日期时间完整显示）
    ========================================================================= */
 function viewRecords(){
   return `
@@ -2750,14 +2940,13 @@ function setRecordCat(c){ ui.recordCat = c; render(); }
 function setRecordAccount(id){ ui.recordAccount = id; render(); }
 function clearSearch(){
   ui.searchQuery = '';
-  // 保留 input DOM，只更新 value，避免失焦
   const el = document.getElementById('rec-search');
   if(el){ el.value = ''; }
   render();
 }
 function resetTxFilters(){ ui.recordFilter = 'all'; ui.recordCat = ''; ui.recordAccount = ''; render(); }
 
-/* V1.02：搜索输入保持焦点 + IME 兼容 */
+/* V1.03：搜索输入保持焦点 + IME 兼容 */
 let _imeComposing = false;
 document.addEventListener('compositionstart', e => {
   if(e.target && (e.target.id === 'rec-search' || e.target.id === 'records-search')){
@@ -2767,7 +2956,6 @@ document.addEventListener('compositionstart', e => {
 document.addEventListener('compositionend', e => {
   if(e.target && (e.target.id === 'rec-search' || e.target.id === 'records-search')){
     _imeComposing = false;
-    // 触发一次搜索
     if(e.target.id === 'rec-search'){ ui.searchQuery = e.target.value; rerenderTxListInPlace(); }
     if(e.target.id === 'records-search'){ ui.recordsSearch = e.target.value; rerenderRecordsInPlace(); }
   }
@@ -2786,28 +2974,21 @@ document.addEventListener('input', e => {
   }
 });
 
-/* V1.02：只替换列表与统计区域，不重建搜索框 */
 function rerenderTxListInPlace(){
   const root = document.getElementById('app');
   if(!root) return;
-  // 定位 view 容器，保留搜索输入与 seg
   const view = root.querySelector('.view');
   if(!view) { render(); return; }
-  // 移除统计与列表（在最后），保留最前面的 filter 区域
-  // 简化做法：找到所有 .stat-grid 和之后的兄弟节点，替换为 renderTxList()
   const statGrid = view.querySelector('.stat-grid');
   if(statGrid){
-    // 移除 statGrid 之后的所有兄弟节点
     let n = statGrid.nextSibling;
     while(n){ const nx = n.nextSibling; n.remove ? n.remove() : view.removeChild(n); n = nx; }
     statGrid.remove();
-    // 追加新的列表
     const tmp = document.createElement('div');
     tmp.innerHTML = renderTxList();
     while(tmp.firstChild){ view.appendChild(tmp.firstChild); }
     return;
   }
-  // 没有 stat-grid（初始空状态），直接整体重绘但保留输入焦点
   render();
 }
 function rerenderRecordsInPlace(){
@@ -2815,7 +2996,6 @@ function rerenderRecordsInPlace(){
   if(!root) return;
   const view = root.querySelector('.view');
   if(!view) { render(); return; }
-  // 简化做法：整体重绘后恢复 focus
   const el = document.getElementById('records-search');
   const val = el ? el.value : '';
   const pos = el ? el.selectionStart : 0;
@@ -2859,7 +3039,7 @@ function viewRecordsHub(){
 }
 
 /* =========================================================================
-   Debts 页面（V1.02：与账户联动）
+   Debts 页面（V1.03：完整日期时间显示）
    ========================================================================= */
 function viewDebtsPage(){
   const qNorm = normalizeSearchText(ui.recordsSearch || '');
@@ -2904,7 +3084,7 @@ function viewDebtsPage(){
 }
 
 /* =========================================================================
-   Money Given 页面（V1.02：与账户联动）
+   Money Given 页面（V1.03：完整日期时间显示）
    ========================================================================= */
 function viewMoneyGivenPage(){
   const qNorm = normalizeSearchText(ui.recordsSearch || '');
@@ -2938,9 +3118,8 @@ function viewMoneyGivenPage(){
         <span>${esc(qNorm ? t('tryOtherKeyword') : t('mgNoRecordsSub'))}</span>
       </div>` }`;
 }
-
-/* =========================================================================
-   储蓄 / 资产 / 统计 / 设置
+  /* =========================================================================
+   储蓄 / 资产 / 统计
    ========================================================================= */
 function viewGoals(){
   const goals = state.goals;
@@ -2967,11 +3146,12 @@ function goalCard(g){
     else if(days === 0) dl = t('goalDueToday');
     else dl = t('goalOverdue', { n: -days });
   }
+  const createdLine = g.eventAt ? localDateTimeStr(g.eventAt) : '';
   return `<div class="goal-card">
     <div class="goal-top">
       <div>
         <div class="goal-name">${g.icon ? g.icon + ' ' : ''}${esc(g.name)}${done ? `<span class="badge-done">${esc(t('goalDone'))}</span>` : ''}</div>
-        <div class="goal-sub">${esc(dl)}</div>
+        <div class="goal-sub">${esc(dl)}${createdLine ? ' · ' + esc(createdLine) : ''}</div>
         ${g.note ? `<div class="goal-sub">${esc(g.note)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="goalMenu('${g.id}')">⋯</button>
@@ -3044,11 +3224,12 @@ function assetCard(a){
   const pct = Math.min(c.rate * 100, 100);
   const isActive = a.status === 'active';
   const cls = { active:'st-active', completed:'st-done', ended:'st-end', damaged:'st-bad', lost:'st-bad', sold:'st-done', stopped:'st-end' }[a.status] || 'st-active';
+  const createdLine = a.eventAt ? localDateTimeStr(a.eventAt) : '';
   return `<div class="asset-card">
     <div class="asset-top">
       <div>
         <div class="asset-name">${esc(a.name)}</div>
-        <div class="goal-sub">${esc(a.purchaseDate)}${a.endDate ? ' · ' + esc(a.endDate) : ''}</div>
+        <div class="goal-sub">${esc(a.purchaseDate)}${a.endDate ? ' · ' + esc(a.endDate) : ''}${createdLine ? ' · ' + esc(createdLine) : ''}</div>
         ${a.note ? `<div class="goal-sub">${esc(a.note)}</div>` : ''}
       </div>
       <span class="badge ${cls}">${esc(assetStatusLabel(a.status))}</span>
@@ -3144,6 +3325,10 @@ function viewStats(){
   ${ !hasData ? `<div class="empty big"><div class="empty-icon">📊</div><p>${esc(t('statsNoData'))}</p><span>${esc(t('statsNoDataSub'))}</span></div>` : '' }`;
 }
 function setStatsRange(v){ ui.statsRange = v; render(); }
+
+/* =========================================================================
+   账户管理 / 分类 / 成就 / 设置
+   ========================================================================= */
 function viewAccounts(){
   return `
   <div class="card">
@@ -3301,7 +3486,7 @@ function viewSettings(){
       <div><span>${esc(t('setStatGiven'))}</span><b>${state.moneyGiven.length}</b></div>
     </div>
   </div>
-  <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION })).replace(/\n/g,'<br>')}</p>`;
+  <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION_LABEL })).replace(/\n/g,'<br>')}</p>`;
 }
 function viewLockSettings(){
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
@@ -3358,8 +3543,9 @@ function viewSystemInfo(){
   return `
   <div class="card">
     <div class="asset-grid">
-      <div><span>App Version</span><b>v${esc(APP_VERSION)}</b></div>
-      <div><span>Data Version</span><b>v${esc(DATA_VERSION)}</b></div>
+      <div><span>${esc(t('versionLabel'))}</span><b>v${esc(APP_VERSION)}</b></div>
+      <div><span>${esc(t('dataVersionLabel'))}</span><b>${esc(DATA_VERSION_LABEL)}</b></div>
+      <div><span>${esc(t('schemaSeriesLabel'))}</span><b>${esc(SCHEMA_SERIES)}</b></div>
       <div><span>${esc(t('lastUpdated'))}</span><b style="font-size:12px">${esc(localDateStr(META.lastUpdated))} ${esc(localTimeSecStr(META.lastUpdated))}</b></div>
       <div><span>${esc(t('storageLocal'))}</span><b>localStorage</b></div>
       <div><span>${esc(t('lockModeLabel'))}</span><b>${lockKind === 'text' ? esc(t('lockModePassword')) : esc(t('lockModePIN'))}</b></div>
@@ -3378,7 +3564,7 @@ function viewSystemInfo(){
       <div><span>${esc(t('setAchievements'))}</span><b>${Object.keys(state.achievements).length}</b></div>
     </div>
   </div>
-  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION_LABEL }))}</p>`;
 }
 function viewIdentity(){
   return `${renderProductNotice()}
@@ -3406,7 +3592,8 @@ function viewProductGuide(){
     { icon:'💾', title:t('guideDataTitle'),     desc:t('guideDataDesc') },
     { icon:'🌐', title:t('guideLangTitle'),     desc:t('guideLangDesc') },
     { icon:'👁', title:t('guidePrivacyTitle'),  desc:t('guidePrivacyDesc') },
-    { icon:'📶', title:t('guideLocalTitle'),    desc:t('guideLocalDesc') }
+    { icon:'📶', title:t('guideLocalTitle'),    desc:t('guideLocalDesc') },
+    { icon:'🚀', title:t('guideSplashTitle'),   desc:t('guideSplashDesc') }
   ];
   return `
   <p class="about" style="margin:0 0 10px">${esc(t('guideIntro'))}</p>
@@ -3419,7 +3606,7 @@ function viewProductGuide(){
       </div>
     </div>
   `).join('')}
-  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION_LABEL }))}</p>`;
 }
 function viewWhatsNew(){
   return `
@@ -3435,7 +3622,7 @@ function viewWhatsNew(){
       </ul>
     </div>
   `).join('') }
-  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION }))}</p>`;
+  <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION_LABEL }))}</p>`;
 }
 function toggleAppLock(){ state.settings.appLockEnabled = !state.settings.appLockEnabled; saveState(); render(); toast(state.settings.appLockEnabled ? t('lockEnabled') : t('lockDisabled')); }
 function setAutoLock(v){ state.settings.autoLockMinutes = v; saveState(); render(); }
@@ -3445,7 +3632,7 @@ function setAutoLock(v){ state.settings.autoLockMinutes = v; saveState(); render
    ========================================================================= */
 function exportData(){
   try{
-    const payload = { app:'Jiheng', appVersion:APP_VERSION, dataVersion:DATA_VERSION, exportedAt:new Date().toISOString(), changelog:CHANGELOG, state };
+    const payload = { app:'Jiheng', appVersion:APP_VERSION, dataVersion:DATA_VERSION, dataVersionLabel:DATA_VERSION_LABEL, schemaSeries:SCHEMA_SERIES, exportedAt:new Date().toISOString(), changelog:CHANGELOG, state };
     const blob = new Blob([JSON.stringify(payload, null, 2)], { type:'application/json' });
     downloadBlob(blob, 'jiheng-' + nowLocalDate() + '.json');
     toast(t('exportDone'));
@@ -3539,7 +3726,6 @@ function clearData(){
     });
   });
 }
-
 /* =========================================================================
    Sheet / Picker / Toast
    ========================================================================= */
@@ -3721,7 +3907,7 @@ function openGroupedPicker(opts){
 }
 
 /* =========================================================================
-   表单实现
+   账户表单 / 菜单
    ========================================================================= */
 function openAccountForm(){
   openSheet({
@@ -3740,21 +3926,24 @@ function openAccountForm(){
     onSubmit(d){
       const name = (d.name || '').trim();
       if(!name){ toast(t('catEnterName')); return false; }
+      const nowIso = nowISO();
       const acc = {
         id: uid(), name, type: d.type || 'other', balance: 0,
-        note: '', timezone: 'Asia/Kuala_Lumpur',
-        createdAt: Date.now()
+        note: '', timezone: APP_TZ,
+        eventAt: nowIso,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        editHistory: []
       };
       const initial = parseFloat(d.initial);
       if(initial && initial > 0){
         const amt = round2(initial);
         acc.balance = amt;
         state.accounts.push(acc);
-        const nowIso = nowISO();
         state.transactions.push({
           id: uid(), type:'income', amount: amt,
           eventAt: nowIso, date: nowIso,
-          timezone: 'Asia/Kuala_Lumpur',
+          timezone: APP_TZ,
           category:'other_income', method:'cash', methodCustom:'',
           accountId: acc.id, note: t('initialBalanceNote'),
           editHistory: [],
@@ -3781,7 +3970,14 @@ function renameAccount(id){
   openSheet({
     title: t('renameAccount'),
     body: `<label class="field"><span class="field-label">${esc(t('accountName'))}</span><input name="name" type="text" required maxlength="80" value="${esc(a.name)}"></label>`,
-    onSubmit(d){ const name = (d.name || '').trim(); if(!name) return false; a.name = name; afterChange(); toast(t('accountUpdated')); return true; }
+    onSubmit(d){
+      const name = (d.name || '').trim(); if(!name) return false;
+      a.name = name;
+      a.updatedAt = Date.now();
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push({ at: nowISO(), action: 'edit' });
+      afterChange(); toast(t('accountUpdated')); return true;
+    }
   });
 }
 function deleteAccount(id){
@@ -3947,7 +4143,7 @@ function openIncomeForm(presetAccountId){
       state.transactions.push({
         id: uid(), type: 'income', amount,
         eventAt, date: eventAt,
-        timezone: 'Asia/Kuala_Lumpur',
+        timezone: APP_TZ,
         category: d.category || initialCat,
         method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || ''),
@@ -3992,7 +4188,7 @@ function openExpenseForm(presetAccountId){
       state.transactions.push({
         id: uid(), type: 'expense', amount,
         eventAt, date: eventAt,
-        timezone: 'Asia/Kuala_Lumpur',
+        timezone: APP_TZ,
         category: d.category || initialCat,
         subCategory: '',
         method: d.method || '', methodCustom: d.methodCustom || '',
@@ -4036,7 +4232,7 @@ function openTransferForm(presetFrom){
       state.transactions.push({
         id: uid(), type: 'transfer', amount,
         eventAt, date: eventAt,
-        timezone: 'Asia/Kuala_Lumpur',
+        timezone: APP_TZ,
         accountId: from.id, toAccountId: to.id, note: (d.note || ''),
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
@@ -4047,7 +4243,7 @@ function openTransferForm(presetFrom){
 }
 
 /* =========================================================================
-   Debt Form（V1.02 与账户联动）
+   Debt Form
    ========================================================================= */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
@@ -4099,7 +4295,6 @@ function openDebtForm(presetId){
       const linkedAccountId = linkMode === 'account' ? d.linkedAccountId : null;
 
       if(editing){
-        // 回滚旧的联动（如果有）
         if(editing.linkMode === 'account' && editing.linkedAccountId){
           const oldAcc = getAccount(editing.linkedAccountId);
           if(oldAcc){
@@ -4107,7 +4302,6 @@ function openDebtForm(presetId){
             else oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount||0));
           }
         }
-        // 应用新联动
         if(linkMode === 'account'){
           const acc = getAccount(linkedAccountId);
           if(!acc){ toast(t('accountNotExist')); return false; }
@@ -4132,7 +4326,7 @@ function openDebtForm(presetId){
         editing.linkedAccountId = linkedAccountId;
         editing.updatedAt = Date.now();
         if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
-        editing.editHistory.push(Date.now());
+        editing.editHistory.push({ at: nowISO(), action: 'edit' });
         const paid = Number(editing.paid) || 0;
         if(paid >= amount && amount > 0) editing.status = 'paid';
         else if(paid > 0) editing.status = 'partial';
@@ -4156,7 +4350,7 @@ function openDebtForm(presetId){
           purpose: (d.purpose || '').trim(), purposeCustom: (d.purposeCustom || '').trim(),
           method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
           eventAt, date: eventAt,
-          timezone: 'Asia/Kuala_Lumpur',
+          timezone: APP_TZ,
           dueDate: d.dueDate || '', reason: (d.reason || ''),
           paid: 0, payments: [], status: 'unpaid',
           linkMode, linkedAccountId,
@@ -4194,18 +4388,22 @@ function debtMenu(id){
   if(!d) return;
   const acts = [
     { label: t('debtRepay'), icon:'💵', onClick: () => openDebtRepay(id) },
-    { label: t('edit'), icon:'✏️', onClick: () => openDebtForm(id) }
+    { label: t('edit'), icon:'✏️', onClick: () => openDebtForm(id) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('debt', id) }
   ];
   if(d.status !== 'cancelled'){
     acts.push({ label: t('debtCancel'), icon:'🚫', danger:true, onClick: () => {
       confirmDialog(t('debtCancelConfirm'), () => {
-        d.status = 'cancelled'; d.updatedAt = Date.now(); afterChange(); toast(t('debtCancelled'));
+        d.status = 'cancelled';
+        d.updatedAt = Date.now();
+        if(!Array.isArray(d.editHistory)) d.editHistory = [];
+        d.editHistory.push({ at: nowISO(), action: 'cancel' });
+        afterChange(); toast(t('debtCancelled'));
       });
     }});
   }
   acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => {
     confirmDialog(t('debtDeleteConfirm'), () => {
-      // 回滚联动
       if(d.linkMode === 'account' && d.linkedAccountId){
         const acc = getAccount(d.linkedAccountId);
         if(acc){
@@ -4252,20 +4450,13 @@ function openDebtRepay(id){
       const amount = round2(parseFloat(dd.amount));
       if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       if(amount > remain + 0.001){ toast(t('debtExceed')); return false; }
-
-      // 还款与账户联动：
-      // 若 debt.linkMode === 'account'，则自动到 d.linkedAccountId
-      // 否则读取用户选择的 accountId（可选，仅用于记录资金流）
       let targetAcc = null;
       if(d.linkMode === 'account' && d.linkedAccountId){
         targetAcc = getAccount(d.linkedAccountId);
       }else if(dd.accountId){
         targetAcc = getAccount(dd.accountId);
       }
-
       if(targetAcc){
-        // owe_me: 别人欠我，收到还款 → 账户 +
-        // i_owe: 我欠别人，我付款 → 账户 -
         if(d.direction === 'owe_me'){
           targetAcc.balance = round2((Number(targetAcc.balance)||0) + amount);
         }else{
@@ -4273,11 +4464,12 @@ function openDebtRepay(id){
           targetAcc.balance = round2((Number(targetAcc.balance)||0) - amount);
         }
       }
-
+      const repayAt = combineDateTime(dd.date || nowLocalDate(), dd.time || nowLocalTime());
       d.payments = Array.isArray(d.payments) ? d.payments : [];
       d.payments.push({
         id: uid(), amount,
-        eventAt: combineDateTime(dd.date || nowLocalDate(), dd.time || nowLocalTime()),
+        eventAt: repayAt,
+        timezone: APP_TZ,
         note: (dd.note || ''),
         accountId: targetAcc ? targetAcc.id : null,
         createdAt: Date.now()
@@ -4287,7 +4479,7 @@ function openDebtRepay(id){
       else { d.status = 'partial'; }
       d.updatedAt = Date.now();
       if(!Array.isArray(d.editHistory)) d.editHistory = [];
-      d.editHistory.push(Date.now());
+      d.editHistory.push({ at: nowISO(), action: 'repay' });
       afterChange(); toast(t('debtRepayRecorded')); return true;
     }
   });
@@ -4343,7 +4535,7 @@ function debtCard(d){
 }
 
 /* =========================================================================
-   Money Given Form（V1.02 与账户联动 + 性质）
+   Money Given Form
    ========================================================================= */
 function openMGForm(presetId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
@@ -4392,16 +4584,11 @@ function openMGForm(presetId){
       const nature = d.nature || 'gift';
 
       if(editing){
-        // 回滚旧账户扣款
         const oldAcc = getAccount(editing.accountId);
         if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(editing.amount||0));
-        // 回滚旧关联欠款（如果有）
         if(editing.linkedDebtId){
           const oldDebt = getDebt(editing.linkedDebtId);
-          if(oldDebt){
-            // 仅回滚关联标记，不修改账户余额，因为钱已经通过 Money Given 扣除
-            oldDebt.linkedMoneyGivenId = null;
-          }
+          if(oldDebt) oldDebt.linkedMoneyGivenId = null;
         }
         if(round2(Number(acc.balance)||0) < amount){
           if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount||0));
@@ -4421,14 +4608,12 @@ function openMGForm(presetId){
         editing.note = (d.note || '');
         editing.updatedAt = Date.now();
         if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
-        editing.editHistory.push(Date.now());
-        // 若性质从 loan 变为非 loan，解除旧关联
+        editing.editHistory.push({ at: nowISO(), action: 'edit' });
         if(nature !== 'loan' && editing.linkedDebtId){
           const oldDebt = getDebt(editing.linkedDebtId);
           if(oldDebt) oldDebt.linkedMoneyGivenId = null;
           editing.linkedDebtId = null;
         }
-        // 若性质从非 loan 变为 loan，建立新关联欠款
         if(nature === 'loan' && !editing.linkedDebtId){
           const eventId = editing.eventId || ('EVT-' + Date.now().toString(36).toUpperCase());
           const debt = {
@@ -4437,7 +4622,7 @@ function openMGForm(presetId){
             purpose: 'friend_borrow', purposeCustom: '',
             method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
             eventAt, date: eventAt,
-            timezone: 'Asia/Kuala_Lumpur',
+            timezone: APP_TZ,
             dueDate: '', reason: t('debtCreatedFromMoneyGiven'),
             paid: 0, payments: [], status: 'unpaid',
             linkMode: 'record_only', linkedAccountId: null,
@@ -4472,13 +4657,12 @@ function openMGForm(presetId){
           methodCustom: (d.methodCustom || '').trim(),
           giftType: d.purpose || 'gift',
           eventAt, date: eventAt,
-          timezone: 'Asia/Kuala_Lumpur',
+          timezone: APP_TZ,
           note: (d.note || ''),
           linkedDebtId: null,
           editHistory: [],
           createdAt: Date.now(), updatedAt: Date.now()
         };
-        // 若性质为 loan，建立关联欠款（仅记录，不重复扣款）
         if(nature === 'loan'){
           const debt = {
             id: uid(), eventId,
@@ -4486,7 +4670,7 @@ function openMGForm(presetId){
             purpose: 'friend_borrow', purposeCustom: '',
             method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
             eventAt, date: eventAt,
-            timezone: 'Asia/Kuala_Lumpur',
+            timezone: APP_TZ,
             dueDate: '', reason: t('debtCreatedFromMoneyGiven'),
             paid: 0, payments: [], status: 'unpaid',
             linkMode: 'record_only', linkedAccountId: null,
@@ -4522,11 +4706,11 @@ function mgMenu(id){
   if(!m) return;
   openActionSheet(m.person, [
     { label: t('edit'), icon:'✏️', onClick: () => openMGForm(id) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('mg', id) },
     { label: t('delete'), icon:'🗑', danger:true, onClick: () => {
       confirmDialog(t('mgDeleteConfirm'), () => {
         const acc = getAccount(m.accountId);
         if(acc) acc.balance = round2((Number(acc.balance)||0) + Number(m.amount));
-        // 解除关联欠款标记
         if(m.linkedDebtId){
           const d = getDebt(m.linkedDebtId);
           if(d) d.linkedMoneyGivenId = null;
@@ -4555,9 +4739,8 @@ function mgCard(m){
     <div class="goal-amt"><b class="c-red">-${money(m.amount)}</b></div>
   </div>`;
 }
-
-/* =========================================================================
-   交易菜单 / 编辑 / 删除
+ /* =========================================================================
+   交易菜单 / 编辑 / 删除 / 编辑历史
    ========================================================================= */
 function openTxMenu(id){
   const tx = state.transactions.find(x => x.id === id);
@@ -4567,6 +4750,7 @@ function openTxMenu(id){
   if(tx.type === 'income' || tx.type === 'expense'){
     acts.push({ label: t('edit'), icon:'✏️', onClick: () => editTransaction(id) });
   }
+  acts.push({ label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('tx', id) });
   acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
   openActionSheet(labelMap[tx.type] || 'Record', acts);
 }
@@ -4607,18 +4791,21 @@ function editTransaction(id){
     onSubmit(d){
       const newAmount = round2(parseFloat(d.amount));
       if(!(newAmount > 0)){ toast(t('invalidAmount')); return false; }
+      const oldAcc = getAccount(tx.accountId);
       if(tx.type === 'income'){
-        const oldAcc = getAccount(tx.accountId);
         if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount));
       }else{
-        const oldAcc = getAccount(tx.accountId);
         if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount));
       }
       const newAcc = getAccount(d.accountId);
-      if(!newAcc){ toast(t('accountNotExist')); return false; }
+      if(!newAcc){
+        if(tx.type === 'income'){ if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount)); }
+        else { if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount)); }
+        toast(t('accountNotExist')); return false;
+      }
       if(tx.type === 'expense' && round2(Number(newAcc.balance)||0) < newAmount){
-        if(tx.type === 'income'){ const oldAcc = getAccount(tx.accountId); if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount)); }
-        else { const oldAcc = getAccount(tx.accountId); if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount)); }
+        if(tx.type === 'income'){ if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount)); }
+        else { if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount)); }
         toast(t('insufficientBalance')); return false;
       }
       if(tx.type === 'income'){ newAcc.balance = round2((Number(newAcc.balance)||0) + newAmount); }
@@ -4633,7 +4820,7 @@ function editTransaction(id){
       tx.note = (d.note || '');
       tx.updatedAt = Date.now();
       if(!Array.isArray(tx.editHistory)) tx.editHistory = [];
-      tx.editHistory.push(Date.now());
+      tx.editHistory.push({ at: nowISO(), action: 'edit' });
       afterChange(); toast(t('accountUpdated')); return true;
     },
     afterRender(root){ bindCategoryPicker(root, isIncome?'income':'expense'); bindMethodPicker(root); }
@@ -4674,7 +4861,40 @@ function deleteTransaction(id){
 }
 
 /* =========================================================================
-   储蓄目标 / 资产（保持原有 + 秒级时间）
+   编辑历史查看 (V1.03 新增)
+   ========================================================================= */
+function viewEditHistory(kind, id){
+  let obj = null;
+  if(kind === 'tx') obj = state.transactions.find(x => x.id === id);
+  else if(kind === 'debt') obj = getDebt(id);
+  else if(kind === 'mg') obj = getMG(id);
+  else if(kind === 'goal') obj = getGoal(id);
+  else if(kind === 'asset') obj = getAsset(id);
+  if(!obj) return;
+  const fmtSafe = (v) => v ? localDateTimeStr(v) : '—';
+  const hist = Array.isArray(obj.editHistory) ? obj.editHistory : [];
+  const rows = [
+    `<div class="ar"><span>${esc(t('eventTimeLabel'))}</span><b>${esc(fmtSafe(obj.eventAt || obj.date))}</b></div>`,
+    `<div class="ar"><span>${esc(t('createdAtLabel'))}</span><b>${esc(fmtSafe(obj.createdAt))}</b></div>`,
+    `<div class="ar"><span>${esc(t('updatedAtLabel'))}</span><b>${esc(fmtSafe(obj.updatedAt || obj.createdAt))}</b></div>`
+  ];
+  if(hist.length){
+    hist.forEach((h, i) => {
+      rows.push(`<div class="ar"><span>Edit #${i+1}</span><b>${esc(fmtSafe(h.at))}${h.action ? ' · ' + esc(h.action) : ''}</b></div>`);
+    });
+  }else{
+    rows.push(`<div class="ar"><span>${esc(t('noEditHistory'))}</span><b>—</b></div>`);
+  }
+  openSheet({
+    title: t('editHistoryTitle'),
+    submitText: t('close'),
+    body: `<div class="asset-rows">${rows.join('')}</div>`,
+    onSubmit(){ return true; }
+  });
+}
+
+/* =========================================================================
+   储蓄目标
    ========================================================================= */
 function openGoalForm(){
   openSheet({
@@ -4695,7 +4915,18 @@ function openGoalForm(){
       const target = round2(parseFloat(d.target));
       if(!name){ toast(t('catEnterName')); return false; }
       if(!(target > 0)){ toast(t('invalidAmount')); return false; }
-      state.goals.push({ id: uid(), name, targetAmount: target, deadline: d.deadline || '', saved: 0, icon: d.icon || '', note: (d.note || ''), status: 'active', editHistory: [], createdAt: Date.now() });
+      const nowIso = nowISO();
+      state.goals.push({
+        id: uid(), name, targetAmount: target,
+        deadline: d.deadline || '', saved: 0,
+        icon: d.icon || '', note: (d.note || ''),
+        status: 'active',
+        timezone: APP_TZ,
+        eventAt: nowIso,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        editHistory: []
+      });
       afterChange(); toast(t('goalCreated')); return true;
     }
   });
@@ -4705,6 +4936,7 @@ function goalMenu(id){
   if(!g) return;
   openActionSheet(g.name, [
     { label: t('goalEdit'), icon:'✏️', onClick: () => editGoal(id) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('goal', id) },
     { label: t('goalCancel'), icon:'↩️', danger:true, onClick: () => cancelGoal(id) }
   ]);
 }
@@ -4728,8 +4960,9 @@ function editGoal(id){
       const target = round2(parseFloat(d.target));
       if(!name || !(target > 0)){ toast(t('invalidAmount')); return false; }
       g.name = name; g.targetAmount = target; g.deadline = d.deadline || ''; g.icon = d.icon || ''; g.note = (d.note || '');
+      g.updatedAt = Date.now();
       if(!Array.isArray(g.editHistory)) g.editHistory = [];
-      g.editHistory.push(Date.now());
+      g.editHistory.push({ at: nowISO(), action: 'edit' });
       afterChange(); toast(t('accountUpdated')); return true;
     }
   });
@@ -4758,11 +4991,12 @@ function openGoalDeposit(goalId){
       if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       acc.balance = round2((Number(acc.balance)||0) - amount);
       g.saved = round2((Number(g.saved)||0) + amount);
+      g.updatedAt = Date.now();
       const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'goal_deposit', amount,
         eventAt, date: eventAt,
-        timezone: 'Asia/Kuala_Lumpur',
+        timezone: APP_TZ,
         accountId: acc.id, goalId: g.id, category: 'Savings', note: '',
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
@@ -4797,11 +5031,12 @@ function openGoalWithdraw(goalId){
       if(amount > round2(Number(g.saved)||0) + 0.001){ toast(t('goalExceed')); return false; }
       g.saved = round2((Number(g.saved)||0) - amount);
       acc.balance = round2((Number(acc.balance)||0) + amount);
+      g.updatedAt = Date.now();
       const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'goal_withdraw', amount,
         eventAt, date: eventAt,
-        timezone: 'Asia/Kuala_Lumpur',
+        timezone: APP_TZ,
         accountId: acc.id, goalId: g.id, category: 'Savings', note: '',
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
@@ -4835,7 +5070,7 @@ function cancelGoal(id){
       state.transactions.push({
         id: uid(), type: 'goal_withdraw', amount: saved,
         eventAt, date: eventAt,
-        timezone: 'Asia/Kuala_Lumpur',
+        timezone: APP_TZ,
         accountId: acc.id, goalId: g.id, category: 'Savings', note: 'Goal cancelled',
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
@@ -4845,6 +5080,10 @@ function cancelGoal(id){
     }
   });
 }
+
+/* =========================================================================
+   资产
+   ========================================================================= */
 function openAssetForm(){
   openSheet({
     title: t('assetNew'), submitText: t('assetAdd'),
@@ -4868,7 +5107,20 @@ function openAssetForm(){
       if(!name){ toast(t('assetValidName')); return false; }
       if(!(price > 0)){ toast(t('assetValidPrice')); return false; }
       if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
-      state.assets.push({ id: uid(), name, price, purchaseDate: d.purchaseDate || nowLocalDate(), expectedYears: years, expectedMonths: months, endDate: null, status: 'active', manualValue: null, manualNote: '', note: (d.note || ''), editHistory: [], createdAt: Date.now() });
+      const nowIso = nowISO();
+      state.assets.push({
+        id: uid(), name, price,
+        purchaseDate: d.purchaseDate || nowLocalDate(),
+        expectedYears: years, expectedMonths: months,
+        endDate: null, status: 'active',
+        manualValue: null, manualNote: '',
+        note: (d.note || ''),
+        timezone: APP_TZ,
+        eventAt: nowIso,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        editHistory: []
+      });
       afterChange(); toast(t('assetAdded')); return true;
     }
   });
@@ -4878,6 +5130,7 @@ function assetMenu(id){
   if(!a) return;
   openActionSheet(a.name, [
     { label: t('edit'), icon:'✏️', onClick: () => editAsset(id) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('asset', id) },
     { label: t('assetDelete'), icon:'🗑', danger:true, onClick: () => {
       confirmDialog(t('assetDeleteConfirm'), () => {
         state.assets = state.assets.filter(x => x.id !== id);
@@ -4911,8 +5164,9 @@ function editAsset(id){
       if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
       a.name = name; a.price = price; a.purchaseDate = d.purchaseDate || a.purchaseDate;
       a.expectedYears = years; a.expectedMonths = months; a.note = (d.note || '');
+      a.updatedAt = Date.now();
       if(!Array.isArray(a.editHistory)) a.editHistory = [];
-      a.editHistory.push(Date.now());
+      a.editHistory.push({ at: nowISO(), action: 'edit' });
       afterChange(); toast(t('assetUpdated')); return true;
     }
   });
@@ -4943,8 +5197,9 @@ function openAssetAdjust(id){
         a.manualValue = v;
       }
       a.manualNote = (d.manualNote || '');
+      a.updatedAt = Date.now();
       if(!Array.isArray(a.editHistory)) a.editHistory = [];
-      a.editHistory.push(Date.now());
+      a.editHistory.push({ at: nowISO(), action: 'adjust' });
       afterChange(); toast(t('assetAdjusted')); return true;
     }
   });
@@ -4976,8 +5231,9 @@ function openAssetEnd(id){
       const endDate = d.endDate || nowLocalDate();
       if(new Date(endDate) < new Date(a.purchaseDate)){ toast(t('assetEndBeforeBuy')); return false; }
       a.endDate = endDate; a.status = d.status || 'ended';
+      a.updatedAt = Date.now();
       if(!Array.isArray(a.editHistory)) a.editHistory = [];
-      a.editHistory.push(Date.now());
+      a.editHistory.push({ at: nowISO(), action: 'end' });
       afterChange(); toast(t('assetEnded')); return true;
     }
   });
@@ -5000,16 +5256,26 @@ function openAssetEnd(id){
   META.dataVersion = DATA_VERSION;
   META.lastUpdated = new Date().toISOString();
   saveMeta(META);
-  if(loadResult.migrationFailed){ setTimeout(() => toast(t('migrationFailed')), 800); }
-  if(loadResult.parseError){ setTimeout(() => toast(t('migrationFailed')), 800); }
+  if(loadResult.migrationFailed){ setTimeout(() => toast(t('migrationFailed')), 2200); }
+  if(loadResult.parseError){ setTimeout(() => toast(t('migrationFailed')), 2200); }
   saveChangelog();
   saveState();
   checkAchievements();
+
   if(lockRecord && lockRecord.hash){ isUnlocked = false; lockUI.mode = 'unlock'; }
   else { isUnlocked = false; lockUI.mode = 'create'; }
+
+  const lockRoot = document.getElementById('lock-root');
+  if(lockRoot) lockRoot.style.visibility = 'hidden';
   renderLock();
-  render({ top:true });
-  console.log('[Jiheng] v' + APP_VERSION + ' ready.');
+
+  showSplash(() => {
+    if(lockRoot) lockRoot.style.visibility = '';
+    renderLock();
+    if(isUnlocked) render({ top:true });
+  });
+
+  console.log('[Jiheng] v' + APP_VERSION + ' ready. Data ' + DATA_VERSION_LABEL);
 })();
 
 window.addEventListener('storage', e => {
@@ -5026,4 +5292,4 @@ window.addEventListener('storage', e => {
 });
 </script>
 </body>
-</html>
+</html> 
