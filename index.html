@@ -330,13 +330,12 @@ section{display:flex;flex-direction:column;gap:10px;}
 <div id="toast-root"></div>
 <div id="lock-root"></div>
 <div id="splash-root"></div>
-
 <script>
 /* =========================================================================
    积衡 Jiheng v1.03
    -----------------------------------------------------------------------
    V1.03 核心更新：
-   - 修复 Records 页面 i18n 硬编码问题
+   - 修复 Records 分类筛选条 i18n 问题
    - 修复 Data Version 被错误显示为 V2，统一为 V1.03
    - 全 App 日期系统检查，所有记录补齐 eventAt / createdAt / updatedAt / timezone
    - 时间精度保存到秒
@@ -504,10 +503,7 @@ const I18N = {
     goalDeposit:'存入', goalWithdraw:'取出', goalCancel:'取消目标',
     goalDepositTitle:'存入储蓄目标', goalWithdrawTitle:'从储蓄目标取出',
     goalDepositBtn:'确认存入', goalWithdrawBtn:'确认取出',
-    goalDeposited:'已存入储蓄目标', goalWitheredPlaceholder:'占位',
-    goalDepositedShort:'已存入',
-    goalWithdrawBtnShort:'已取出',
-    goalDepositedText:'已存入储蓄目标', goalWithdrew:'已转回可用余额',
+    goalDeposited:'已存入储蓄目标', goalWithdrew:'已转回可用余额',
     goalDepositHint:'可用余额：{amt} · 存入后从可用余额转入储蓄分配，记录总资产不变。',
     goalWithdrawHint:'该目标当前分配：{amt}',
     goalExceed:'超出该目标已分配金额', goalNoMoney:'该目标还没有可取出的资金',
@@ -1810,7 +1806,7 @@ const CHANGELOG_SEED = [
     title:{ zh:'积衡 Jiheng — 系统、时间与开屏体验优化', en:'Jiheng — System, Time & Launch Experience Improvements', ms:'Jiheng — Penambahbaikan Sistem, Masa & Pengalaman Pelancaran' },
     items:{
       zh:[
-        '修复 Records 页面部分文字未使用 i18n 的问题，三语言显示正确',
+        '修复 Records 分类筛选条未使用 i18n 的问题，三语言显示正确',
         '修复首页「笔记录」硬编码中文的问题',
         '修复 Data Version 被错误显示为 V2 的问题，统一显示为 V1.03',
         '明确区分 App Version / Data Version / Schema Version / Update History',
@@ -1829,7 +1825,7 @@ const CHANGELOG_SEED = [
         '保留 V1.00 / V1.01 / V1.02 全部用户数据'
       ],
       en:[
-        'Fixed Records page texts not using i18n; all three languages now correct',
+        'Fixed Records category filter not using i18n; all three languages now correct',
         'Fixed hardcoded "笔记录" on Home',
         'Fixed Data Version incorrectly shown as V2; now displayed as V1.03',
         'Clarified App Version / Data Version / Schema Version / Update History',
@@ -1848,7 +1844,7 @@ const CHANGELOG_SEED = [
         'All V1.00 / V1.01 / V1.02 user data preserved'
       ],
       ms:[
-        'Betulkan teks halaman Rekod tidak guna i18n; tiga bahasa kini betul',
+        'Betulkan penapis kategori halaman Rekod tidak guna i18n; tiga bahasa kini betul',
         'Betulkan "笔记录" hardcoded di Utama',
         'Betulkan Data Version salah dipaparkan sebagai V2; kini V1.03',
         'Jelaskan App Version / Data Version / Schema Version / Update History',
@@ -1904,7 +1900,6 @@ function defaultState(){
   };
 }
 
-/* V1.03 迁移：兼容 V1.00 / V1.01 / V1.02，只加字段不删 */
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
@@ -2217,7 +2212,6 @@ function inToday(iso){
   return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth() && d.getDate()===n.getDate();
 }
 
-/* ============================ 搜索归一化 ============================ */
 function normalizeSearchText(s){
   if(s == null) return '';
   let str = String(s);
@@ -2246,7 +2240,6 @@ function accountExpense(id, range){ return state.transactions.filter(tx => tx.ty
 function accountTransferIn(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.toAccountId === id && matchRange(tx.eventAt||tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
 function accountTransferOut(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.accountId === id && matchRange(tx.eventAt||tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
 
-/* ============================ 分类 helpers ============================ */
 function allIncomeIds(){ const ids = []; INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function allExpenseIds(){ const ids = []; EXPENSE_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
 function allMethodIds(){ const ids = []; MONEY_METHOD_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
@@ -2321,9 +2314,7 @@ function afterChange(){
   unlocked.forEach((a,i) => setTimeout(() => toast(t('achUnlockToast', { name:a.name })), 300 + i*900));
 }
 
-/* =========================================================================
-   Lock Screen
-   ========================================================================= */
+/* ============================ Lock Screen ============================ */
 let lockUI = { mode:'unlock', pin:'', firstPin:'', useTextMode:false, msg:'', error:false };
 function currentLockKind(){ return (lockRecord && lockRecord.type === 'text') ? 'text' : 'pin'; }
 function shouldUseTextMode(){
@@ -2507,9 +2498,7 @@ setInterval(() => {
 ['click','touchstart','keydown','scroll'].forEach(ev => { window.addEventListener(ev, markActivity, { passive:true }); });
 document.addEventListener('visibilitychange', () => { if(document.visibilityState === 'visible') markActivity(); });
 
-/* =========================================================================
-   Splash Screen (V1.03)
-   ========================================================================= */
+/* ============================ Splash ============================ */
 let _splashPlayed = false;
 function showSplash(cb){
   if(_splashPlayed){ if(cb) cb(); return; }
@@ -2532,9 +2521,7 @@ function showSplash(cb){
   }, 1500);
 }
 
-/* =========================================================================
-   渲染
-   ========================================================================= */
+/* ============================ 渲染 ============================ */
 function render(opts){
   opts = opts || {};
   if(!isUnlocked){ renderLock(); document.getElementById('app').innerHTML = ''; return; }
@@ -2615,7 +2602,7 @@ function openSub(name){ ui.sub = name; render({ top:true }); }
 function back(){ ui.sub = null; render({ top:true }); }
 function toggleHide(){ state.settings.hideBalance = !state.settings.hideBalance; saveState(); render(); }
   /* =========================================================================
-   首页（V1.03：Records 硬编码修复 + 日期时间规范化显示）
+   首页
    ========================================================================= */
 function viewHome(){
   const total  = totalAssets();
@@ -2840,7 +2827,7 @@ function viewAllAccountsDetail(){
 function filterByAccount(id){ ui.recordAccount = id; ui.tab = 'records'; ui.sub = null; render({ top:true }); }
 
 /* =========================================================================
-   交易页面（V1.03 保留搜索 + 日期时间完整显示）
+   交易页面
    ========================================================================= */
 function viewRecords(){
   return `
@@ -2861,7 +2848,11 @@ function renderTxFilters(){
   const segs = [['all', t('filterAll')],['income', t('filterIncome')],['expense', t('filterExpense')],['saving', t('filterSaving')]];
   const accList = state.accounts;
   const catSet = new Set();
-  state.transactions.forEach(tx => { if(tx.category) catSet.add(tx.category); });
+  state.transactions.forEach(tx => {
+    if(!tx.category) return;
+    if(tx.type !== 'income' && tx.type !== 'expense') return;
+    catSet.add(tx.category);
+  });
   const catList = Array.from(catSet).sort();
   const hasFilter = f !== 'all' || catFilter || accFilter;
   return `
@@ -2876,7 +2867,7 @@ function renderTxFilters(){
   </div>` : '' }
   ${ catList.length ? `<div class="seg">
     <button class="${!catFilter?'on':''}" onclick="setRecordCat('')">${esc(t('all'))}</button>
-    ${catList.slice(0,12).map(c => `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)} ${esc(c)}</button>`).join('')}
+    ${catList.slice(0,12).map(c => `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)} ${esc(incomeDisplayLabel(c) || expenseDisplayLabel(c) || c)}</button>`).join('')}
   </div>` : '' }
   ${ hasFilter ? `<button class="btn ghost sm block" onclick="resetTxFilters()">${esc(t('resetFilters'))}</button>` : '' }`;
 }
@@ -2946,7 +2937,6 @@ function clearSearch(){
 }
 function resetTxFilters(){ ui.recordFilter = 'all'; ui.recordCat = ''; ui.recordAccount = ''; render(); }
 
-/* V1.03：搜索输入保持焦点 + IME 兼容 */
 let _imeComposing = false;
 document.addEventListener('compositionstart', e => {
   if(e.target && (e.target.id === 'rec-search' || e.target.id === 'records-search')){
@@ -3039,7 +3029,7 @@ function viewRecordsHub(){
 }
 
 /* =========================================================================
-   Debts 页面（V1.03：完整日期时间显示）
+   Debts 页面
    ========================================================================= */
 function viewDebtsPage(){
   const qNorm = normalizeSearchText(ui.recordsSearch || '');
@@ -3084,7 +3074,7 @@ function viewDebtsPage(){
 }
 
 /* =========================================================================
-   Money Given 页面（V1.03：完整日期时间显示）
+   Money Given 页面
    ========================================================================= */
 function viewMoneyGivenPage(){
   const qNorm = normalizeSearchText(ui.recordsSearch || '');
@@ -3726,7 +3716,7 @@ function clearData(){
     });
   });
 }
-/* =========================================================================
+  /* =========================================================================
    Sheet / Picker / Toast
    ========================================================================= */
 function openSheet(opts){
@@ -4739,7 +4729,8 @@ function mgCard(m){
     <div class="goal-amt"><b class="c-red">-${money(m.amount)}</b></div>
   </div>`;
 }
- /* =========================================================================
+
+/* =========================================================================
    交易菜单 / 编辑 / 删除 / 编辑历史
    ========================================================================= */
 function openTxMenu(id){
@@ -4804,8 +4795,7 @@ function editTransaction(id){
         toast(t('accountNotExist')); return false;
       }
       if(tx.type === 'expense' && round2(Number(newAcc.balance)||0) < newAmount){
-        if(tx.type === 'income'){ if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount)); }
-        else { if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount)); }
+        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount));
         toast(t('insufficientBalance')); return false;
       }
       if(tx.type === 'income'){ newAcc.balance = round2((Number(newAcc.balance)||0) + newAmount); }
@@ -4861,7 +4851,7 @@ function deleteTransaction(id){
 }
 
 /* =========================================================================
-   编辑历史查看 (V1.03 新增)
+   编辑历史查看
    ========================================================================= */
 function viewEditHistory(kind, id){
   let obj = null;
@@ -5292,4 +5282,4 @@ window.addEventListener('storage', e => {
 });
 </script>
 </body>
-</html> 
+</html>
