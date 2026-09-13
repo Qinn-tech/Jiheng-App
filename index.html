@@ -115,6 +115,8 @@ section{display:flex;flex-direction:column;gap:10px;}
 .mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);}
 .mini span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;}
 .mini b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;word-break:break-all;}
+.mini.tappable{cursor:pointer;transition:transform .12s;}
+.mini.tappable:active{transform:scale(.98);}
 .quick{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
 .quick button{background:#fff;border:none;border-radius:16px;padding:12px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;color:var(--text);box-shadow:var(--shadow);cursor:pointer;font-weight:600;transition:transform .12s;}
 .quick button:active{transform:scale(.94);}
@@ -124,7 +126,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .row-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:17px;flex:0 0 auto;}
 .row-main{flex:1;min-width:0;overflow-wrap:anywhere;word-break:break-word;}
 .row-title{font-size:14.5px;font-weight:600;overflow-wrap:anywhere;word-break:break-word;}
-.row-sub{font-size:12px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;}
+.row-sub{font-size:12px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;white-space:pre-wrap;}
 .row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;}
 .tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;}
 .empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px;}
@@ -141,8 +143,9 @@ section{display:flex;flex-direction:column;gap:10px;}
 .btn.soft{background:var(--brand-soft);color:var(--brand);font-size:13.5px;padding:10px 14px;flex:1;}
 .btn.sm{padding:9px 16px;font-size:13.5px;}
 .btn.block{width:100%;}
-.seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-.seg button{flex:1;border:none;background:none;padding:9px 6px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;min-width:60px;}
+.seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.seg::-webkit-scrollbar{display:none;}
+.seg button{flex:0 0 auto;border:none;background:none;padding:9px 14px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;}
 .seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(91,75,138,.22);}
 .day-group{display:flex;flex-direction:column;gap:8px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;}
@@ -154,7 +157,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .goal-card,.asset-card,.debt-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;overflow-wrap:anywhere;word-break:break-word;}
 .goal-top,.asset-top,.debt-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
 .goal-name,.asset-name,.debt-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;overflow-wrap:anywhere;word-break:break-word;}
-.goal-sub{font-size:12px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;word-break:break-word;line-height:1.55;}
+.goal-sub{font-size:12px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;word-break:break-word;line-height:1.55;white-space:pre-wrap;}
 .badge-done{font-size:10.5px;background:#e7f8f1;color:var(--green);padding:2px 7px;border-radius:6px;font-weight:700;}
 .goal-amt{font-variant-numeric:tabular-nums;}
 .goal-amt b{font-size:20px;font-weight:800;}
@@ -249,7 +252,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .field{display:block;margin-bottom:14px;}
 .field-label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;}
 .field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);background:#fafbfc;border-radius:13px;padding:12px 14px;font-size:15px;color:var(--text);font-family:inherit;outline:none;transition:border-color .16s,background .16s;appearance:none;-webkit-appearance:none;overflow-wrap:anywhere;}
-.field textarea{resize:vertical;min-height:80px;line-height:1.55;max-height:320px;}
+.field textarea{resize:vertical;min-height:80px;line-height:1.55;max-height:360px;}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand);background:#fff;}
 .field select{background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a86a0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;}
 .input-wrap{position:relative;display:flex;align-items:center;}
@@ -291,8 +294,6 @@ section{display:flex;flex-direction:column;gap:10px;}
 .search-input{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;outline:none;transition:border-color .16s;min-width:0;}
 .search-input:focus{border-color:var(--brand);}
 .search-clear{width:38px;height:38px;border-radius:12px;border:none;background:#fff;box-shadow:var(--shadow);color:var(--brand);font-size:14px;cursor:pointer;flex:0 0 auto;display:grid;place-items:center;}
-.expandable{cursor:pointer;}
-.expandable .row-sub{transition:all .15s;}
 .records-row{display:flex;gap:10px;align-items:center;padding:14px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);cursor:pointer;overflow-wrap:anywhere;}
 .records-row .rr-icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:20px;flex:0 0 auto;}
 .records-row .rr-main{flex:1;min-width:0;}
@@ -300,6 +301,7 @@ section{display:flex;flex-direction:column;gap:10px;}
 .records-row .rr-sub{font-size:12.5px;color:var(--muted);margin-top:2px;line-height:1.5;}
 .records-row .rr-amt{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
 .note-full{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
+.meta-line{font-size:11px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;}
 @media (max-width: 380px){
   .hero-amount{font-size:28px;}
   .quick button{font-size:10.5px;}
@@ -316,23 +318,22 @@ section{display:flex;flex-direction:column;gap:10px;}
 
 <script>
 /* =========================================================================
-   积衡 Jiheng v1.01
-   记录现实中的钱，但不持有或处理你的钱。
+   积衡 Jiheng v1.02
    -----------------------------------------------------------------------
-   V1.01 修复重点：
-   - Debts / Money Given 真正持久化
-   - Records 独立系统
-   - 长备注完整保存与显示（不截断）
-   - 中文 / Unicode / 部分匹配搜索
-   - Search + Filter 组合
-   - Single Source of Truth
-   - 保留 V1.00 所有数据、PIN、分类、成就
+   V1.02 核心更新：
+   - 秒级时间：eventAt / createdAt / updatedAt / timezone / editHistory
+   - Money Given 与账户余额联动（从所选账户扣款）
+   - Debt 与账户余额联动（Account-linked / Record-only）
+   - 还款与实际资金流联动
+   - Debt / Money Given 使用统一数据源，避免重复扣款
+   - 搜索输入框连续输入 + 中文 IME 支持
+   - Filter Bar 横向滚动
+   - 保留 V1.00 / V1.01 所有数据
    ========================================================================= */
 
-const APP_VERSION  = '1.01';
-const DATA_VERSION = 1;
+const APP_VERSION  = '1.02';
+const DATA_VERSION = 2;
 
-/* 兼容旧 key —— 绝不删除用户数据 */
 const STORAGE_KEY       = 'jiheng_state_v1';
 const LEGACY_KEYS       = ['jiheng_state_v1','savewise_state_v1'];
 const LOCK_KEY          = 'jiheng_lock_v1';
@@ -350,7 +351,6 @@ const PRODUCT_NOTICE_LANGS = [
   { code:'EN', text:'Jiheng records your real-world money. It does not hold or handle your money. It is a personal finance recording, organization, calculation and analysis software. It is NOT a bank, e-wallet, payment instrument, remittance service or financial institution, and does not receive, hold, custody, or actually transfer the user\'s real-world money. Any amount shown is a financial record entered by the user or calculated from records.' },
   { code:'BM', text:'Jiheng merekodkan wang sebenar anda. Ia tidak memegang atau mengendalikan wang anda. Ia ialah perisian merekod, menyusun, mengira dan menganalisis kewangan peribadi. Ia BUKAN bank, e-dompet, instrumen pembayaran, perkhidmatan kiriman wang atau institusi kewangan, dan tidak menerima, menyimpan, menjaga atau memindahkan wang sebenar pengguna. Jumlah yang dipaparkan ialah rekod kewangan yang dimasukkan atau dikira daripada rekod.' }
 ];
-
 function renderProductNotice(){
   return `
   <div class="product-notice">
@@ -528,7 +528,6 @@ const I18N = {
     assetRecoveryNote:'回本 / 使用价值是资产分析功能，不会产生现金，也不会增加任何账户余额。',
     assetValidName:'请输入资产名称', assetValidPrice:'请输入有效购买价格', assetValidPeriod:'预计使用期限必须大于 0',
 
-    /* Records */
     recordsTitle:'记录',
     recordsSubtitle:'记录不属于收入 / 支出的其他现实资金事件',
     recordsDebtsTitle:'欠款记录 Debts',
@@ -540,7 +539,6 @@ const I18N = {
     recordsNoData:'还没有记录',
     recordsNoDataSub:'建立第一笔欠款或转给他人记录',
 
-    /* Debts */
     debtTitle:'欠款记录', debtSub:'记录我欠别人 / 别人欠我，只记录不执行转账',
     debtIOwe:'我欠别人', debtOweMe:'别人欠我', debtAll:'全部',
     debtNew:'新增欠款记录', debtEdit:'编辑欠款记录',
@@ -562,12 +560,19 @@ const I18N = {
     debtImportantNote:'欠款记录只记录现实中已发生的借贷，积衡不会实际收付款项，也不会自动改变账户余额。',
     debtRepayHint:'如实际收款/付款已发生，请另外使用「收入」「支出」或「转给他人」记录资金变化。',
     debtOverdue:'已到期', debtDueToday:'今天到期', debtDueIn:'还剩 {n} 天', debtExceed:'超出剩余欠款金额',
+    debtLinkMode:'资金联动',
+    debtLinkAccount:'与账户联动（会扣 / 加账户余额）',
+    debtLinkRecordOnly:'仅记录（不改变账户余额）',
+    debtLinkHintLinked:'此欠款会与所选账户联动。若为“别人欠我”，会从所选账户扣除；若为“我欠别人”，会增加所选账户余额。',
+    debtLinkHintRecordOnly:'此欠款仅作为记录，不改变任何账户余额，适合补录历史欠款。',
+    debtLinkedAccount:'联动账户',
+    debtCreatedFromMoneyGiven:'由「转给他人」自动建立',
 
     mgTitle:'转给他人 / 赠与记录', mgSub:'记录现实中已发生的资金转出，例如赠与、给家人、给朋友、归还',
     mgNew:'记录转给他人', mgEdit:'编辑记录',
     mgPerson:'收款人名称', mgPersonPlaceholder:'例如：妈妈',
     mgAmount:'金额', mgDate:'日期', mgTime:'时间',
-    mgFromAccount:'资金来源账户', mgFromAccountHint:'这笔钱原本记录在哪一个积衡账户？',
+    mgFromAccount:'资金来源账户', mgFromAccountHint:'这笔钱原本记录在哪一个积衡账户？会从该账户余额中扣除。',
     mgPurpose:'用途 / 类型', mgPurposeCustom:'自定义用途',
     mgMethod:'转账方式', mgMethodCustom:'自定义方式', mgMethodHint:'现实中你用什么方式把钱给出去？',
     mgNote:'备注（可选）', mgSave:'确认记录', mgCreated:'已记录转给他人',
@@ -575,6 +580,14 @@ const I18N = {
     mgDeleteConfirm:'确定要删除这笔转给他人记录吗？对应账户余额会自动还原。',
     mgNoRecords:'还没有转给他人的记录', mgNoRecordsSub:'记录你现实中转给别人的钱',
     mgImportantNote:'积衡只记录这次现实资金变化，不实际执行转账。',
+    mgNature:'性质',
+    mgNatureGift:'赠予（对方无需偿还）',
+    mgNatureLoan:'借给他人（对方欠我）',
+    mgNatureOther:'其他',
+    mgNatureHintGift:'赠予：只减少账户余额，不会建立欠款。',
+    mgNatureHintLoan:'借给他人：减少账户余额，同时建立一笔「别人欠我」的欠款。',
+    mgNatureHintOther:'其他：只减少账户余额，不建立欠款。',
+    mgLoanDebtCreated:'已同时建立一笔「别人欠我」的欠款记录',
 
     statsMonth:'本月', statsAll:'全部时间', statsWeek:'本周', statsYear:'本年', statsToday:'今日',
     statsIncome:'收入', statsExpense:'支出', statsNet:'净储蓄', statsLocked:'储蓄分配',
@@ -719,12 +732,12 @@ const I18N = {
     guideTxDesc:'记录你的收入与支出：金额、日期、时间、分类、账户、记录方式与备注。备注支持任意长度，完整保存与显示。',
     guideTransferTitle:'转账记录',
     guideTransferDesc:'记录现实中从账户 A 到账户 B 的资金转移。积衡只记录，不实际移动你的钱。',
-    guideRecordsTitle:'记录 Records（新）',
-    guideRecordsDesc:'独立记录不属于收入 / 支出的现实资金事件。V1.01 起包含欠款记录与转给他人。',
+    guideRecordsTitle:'记录 Records',
+    guideRecordsDesc:'独立记录不属于收入 / 支出的现实资金事件。包含欠款记录与转给他人。',
     guideDebtsTitle:'欠款记录 Debts',
-    guideDebtsDesc:'记录你欠别人（I Owe）和别人欠你（Owed to Me）。可追踪还款进度、剩余金额、状态、到期日与备注。只记录，不实际付款。',
+    guideDebtsDesc:'记录你欠别人（I Owe）和别人欠你（Owed to Me）。可选择与账户联动（实际扣 / 加余额）或仅记录。支持部分还款与状态追踪。只记录，不实际付款。',
     guideMoneyGivenTitle:'转给他人 Money Given',
-    guideMoneyGivenDesc:'记录现实中已经给出去的钱。可选择来源账户、用途与转账方式。会相应减少所选账户的记录余额。',
+    guideMoneyGivenDesc:'记录现实中已经给出去的钱。可选择来源账户、用途、转账方式与性质（赠予 / 借给他人 / 其他）。借给他人时会同时建立一笔「别人欠我」的欠款，不会重复扣款。',
     guideGoalTitle:'储蓄目标',
     guideGoalDesc:'建立储蓄目标并分配可用余额。分配只是记录上的划分，积衡不会实际锁定资金。',
     guideAssetTitle:'资产记录',
@@ -733,6 +746,8 @@ const I18N = {
     guideStatsDesc:'根据你的真实数据生成收入、支出、净储蓄、分类消费与月度趋势。没有数据时显示空状态。',
     guideSearchTitle:'搜索与筛选',
     guideSearchDesc:'支持中文、英文、Unicode、Emoji、部分匹配搜索。可与类型 / 日期 / 账户 / 分类筛选组合使用。',
+    guideTimeTitle:'时间与编辑历史',
+    guideTimeDesc:'每笔记录保存事件发生时间（秒级）、创建时间、最后修改时间与完整编辑历史，便于追溯。',
     guideAchTitle:'成就',
     guideAchDesc:'根据你真实使用情况解锁成就。每项成就都显示名称、说明、如何达到、进度与状态。',
     guideLockTitle:'应用锁',
@@ -904,12 +919,19 @@ const I18N = {
     debtImportantNote:'Debt records only record real-world lending. Jiheng does not perform any payments and does not change account balances automatically.',
     debtRepayHint:'If a real-world payment has already occurred, use Income, Expense or Money Given to record the fund movement separately.',
     debtOverdue:'Overdue', debtDueToday:'Due today', debtDueIn:'{n} days left', debtExceed:'Exceeds remaining debt amount',
+    debtLinkMode:'Account Link',
+    debtLinkAccount:'Linked to account (will change balance)',
+    debtLinkRecordOnly:'Record-only (does not change balance)',
+    debtLinkHintLinked:'This debt is linked to the selected account. For "Owed to Me", it deducts from the account; for "I Owe", it adds to the account.',
+    debtLinkHintRecordOnly:'This debt is record-only and does not change any account balance. Suitable for back-filling historical debts.',
+    debtLinkedAccount:'Linked Account',
+    debtCreatedFromMoneyGiven:'Auto-created from Money Given',
 
     mgTitle:'Record Money Given', mgSub:'Record real-world money given: gifts, family, friends, repayment',
     mgNew:'Record Money Given', mgEdit:'Edit Record',
     mgPerson:'Recipient Name', mgPersonPlaceholder:'e.g. Mom',
     mgAmount:'Amount', mgDate:'Date', mgTime:'Time',
-    mgFromAccount:'Source Account', mgFromAccountHint:'Which Jiheng account was this money originally recorded in?',
+    mgFromAccount:'Source Account', mgFromAccountHint:'Which Jiheng account was this money originally recorded in? Balance will be reduced.',
     mgPurpose:'Purpose / Type', mgPurposeCustom:'Custom purpose',
     mgMethod:'Transfer Method', mgMethodCustom:'Custom method', mgMethodHint:'How did you give the money in the real world?',
     mgNote:'Note (optional)', mgSave:'Confirm Record', mgCreated:'Recorded money given',
@@ -917,6 +939,14 @@ const I18N = {
     mgDeleteConfirm:'Are you sure you want to delete this money-given record? Corresponding account balance will be restored.',
     mgNoRecords:'No money-given records yet', mgNoRecordsSub:'Record money you have given in real life',
     mgImportantNote:'Jiheng only records this real-world fund change. It does not execute any transfer.',
+    mgNature:'Nature',
+    mgNatureGift:'Gift (no repayment)',
+    mgNatureLoan:'Loan (they owe me)',
+    mgNatureOther:'Other',
+    mgNatureHintGift:'Gift: only reduces the account balance, no debt created.',
+    mgNatureHintLoan:'Loan: reduces the account balance and creates an "Owed to Me" debt.',
+    mgNatureHintOther:'Other: only reduces the account balance, no debt created.',
+    mgLoanDebtCreated:'Also created an "Owed to Me" debt record',
 
     statsMonth:'This Month', statsAll:'All Time', statsWeek:'This Week', statsYear:'This Year', statsToday:'Today',
     statsIncome:'Income', statsExpense:'Expense', statsNet:'Net Savings', statsLocked:'Goal Allocations',
@@ -1061,12 +1091,12 @@ const I18N = {
     guideTxDesc:'Record income and expenses: amount, date, time, category, account, method, note. Notes support any length and are stored and displayed fully.',
     guideTransferTitle:'Transfer Records',
     guideTransferDesc:'Record real-world transfers from Account A to Account B. Jiheng only records; it does not move your money.',
-    guideRecordsTitle:'Records (New)',
-    guideRecordsDesc:'A dedicated section for real-world money events that are not Income or Expense. V1.01 includes Debt Records and Money Given.',
+    guideRecordsTitle:'Records',
+    guideRecordsDesc:'A dedicated section for real-world money events that are not Income or Expense. Includes Debt Records and Money Given.',
     guideDebtsTitle:'Debt Records',
-    guideDebtsDesc:'Record what you owe (I Owe) and what others owe you (Owed to Me), with repayment progress, remaining amount, status, due date and note. Records only, no actual payments.',
+    guideDebtsDesc:'Record what you owe (I Owe) and what others owe you (Owed to Me). Choose account-linked (actually changes balance) or record-only. Supports partial repayment and status tracking. Records only, no actual payments.',
     guideMoneyGivenTitle:'Money Given',
-    guideMoneyGivenDesc:'Record money already given in the real world. Choose source account, purpose and transfer method. The selected account balance is reduced accordingly.',
+    guideMoneyGivenDesc:'Record money already given in the real world. Choose source account, purpose, method and nature (Gift / Loan / Other). Choosing Loan also creates an "Owed to Me" debt without double-deducting.',
     guideGoalTitle:'Savings Goals',
     guideGoalDesc:'Create savings goals and allocate available balance. Allocation is a record-level split; Jiheng does not actually lock funds.',
     guideAssetTitle:'Asset Records',
@@ -1075,6 +1105,8 @@ const I18N = {
     guideStatsDesc:'Income, expense, net savings, category breakdown and monthly trend based on your real records. Empty state when no data.',
     guideSearchTitle:'Search & Filter',
     guideSearchDesc:'Supports Chinese, English, Unicode, Emoji, partial matching. Combines with type / date / account / category filters.',
+    guideTimeTitle:'Time & Edit History',
+    guideTimeDesc:'Each record stores event time (second-level), created time, last updated time and full edit history for traceability.',
     guideAchTitle:'Achievements',
     guideAchDesc:'Unlock achievements based on real usage. Each shows name, description, how-to-unlock, progress and status.',
     guideLockTitle:'App Lock',
@@ -1246,12 +1278,19 @@ const I18N = {
     debtImportantNote:'Rekod hutang hanya merekod pinjaman sebenar. Jiheng tidak melakukan pembayaran dan tidak mengubah baki akaun secara automatik.',
     debtRepayHint:'Jika pembayaran sebenar telah berlaku, gunakan Pendapatan, Perbelanjaan atau Wang Diberi untuk merekod pergerakan dana.',
     debtOverdue:'Lewat', debtDueToday:'Tamat hari ini', debtDueIn:'{n} hari lagi', debtExceed:'Melebihi baki hutang',
+    debtLinkMode:'Pautan Akaun',
+    debtLinkAccount:'Berpaut dengan akaun (tukar baki)',
+    debtLinkRecordOnly:'Rekod sahaja (tidak tukar baki)',
+    debtLinkHintLinked:'Hutang ini berpaut dengan akaun dipilih. Untuk "Orang Berhutang", ia ditolak; untuk "Saya Berhutang", ia ditambah.',
+    debtLinkHintRecordOnly:'Hutang ini rekod sahaja dan tidak mengubah baki akaun. Sesuai untuk rekod hutang lampau.',
+    debtLinkedAccount:'Akaun Berpaut',
+    debtCreatedFromMoneyGiven:'Dicipta automatik daripada Wang Diberi',
 
     mgTitle:'Rekod Wang Diberi', mgSub:'Rekod wang sebenar yang diberi: hadiah, keluarga, rakan, bayaran balik',
     mgNew:'Rekod Wang Diberi', mgEdit:'Edit Rekod',
     mgPerson:'Nama Penerima', mgPersonPlaceholder:'cth. Emak',
     mgAmount:'Jumlah', mgDate:'Tarikh', mgTime:'Masa',
-    mgFromAccount:'Akaun Sumber', mgFromAccountHint:'Wang ini asalnya direkod dalam akaun Jiheng yang mana?',
+    mgFromAccount:'Akaun Sumber', mgFromAccountHint:'Wang ini asalnya direkod dalam akaun Jiheng yang mana? Baki akan berkurang.',
     mgPurpose:'Tujuan / Jenis', mgPurposeCustom:'Tujuan tersuai',
     mgMethod:'Cara Pemindahan', mgMethodCustom:'Cara tersuai', mgMethodHint:'Bagaimana anda memberi wang ini dalam dunia sebenar?',
     mgNote:'Nota (pilihan)', mgSave:'Sahkan Rekod', mgCreated:'Wang diberi direkod',
@@ -1259,6 +1298,14 @@ const I18N = {
     mgDeleteConfirm:'Adakah anda pasti mahu memadam rekod wang diberi ini? Baki akaun berkenaan akan dipulihkan.',
     mgNoRecords:'Belum ada rekod wang diberi', mgNoRecordsSub:'Rekod wang yang anda beri dalam kehidupan sebenar',
     mgImportantNote:'Jiheng hanya merekod perubahan dana sebenar ini. Ia tidak melaksanakan sebarang pemindahan.',
+    mgNature:'Sifat',
+    mgNatureGift:'Hadiah (tiada bayaran balik)',
+    mgNatureLoan:'Pinjaman (dia berhutang)',
+    mgNatureOther:'Lain-lain',
+    mgNatureHintGift:'Hadiah: hanya kurangkan baki akaun, tiada hutang dicipta.',
+    mgNatureHintLoan:'Pinjaman: kurangkan baki akaun dan cipta hutang "Orang Berhutang".',
+    mgNatureHintOther:'Lain-lain: hanya kurangkan baki akaun, tiada hutang dicipta.',
+    mgLoanDebtCreated:'Turut mencipta hutang "Orang Berhutang"',
 
     statsMonth:'Bulan Ini', statsAll:'Semua Masa', statsWeek:'Minggu Ini', statsYear:'Tahun Ini', statsToday:'Hari Ini',
     statsIncome:'Pendapatan', statsExpense:'Perbelanjaan', statsNet:'Simpanan Bersih', statsLocked:'Peruntukan',
@@ -1403,12 +1450,12 @@ const I18N = {
     guideTxDesc:'Rekod pendapatan dan perbelanjaan: jumlah, tarikh, masa, kategori, akaun, cara, nota. Nota menyokong sebarang panjang dan disimpan serta dipaparkan sepenuhnya.',
     guideTransferTitle:'Rekod Pindahan',
     guideTransferDesc:'Rekod pindahan sebenar dari Akaun A ke Akaun B. Jiheng hanya merekod; ia tidak memindahkan wang anda.',
-    guideRecordsTitle:'Rekod (Baharu)',
-    guideRecordsDesc:'Seksyen khas untuk peristiwa wang sebenar selain Pendapatan / Perbelanjaan. V1.01 termasuk Rekod Hutang dan Wang Diberi.',
+    guideRecordsTitle:'Rekod',
+    guideRecordsDesc:'Seksyen khas untuk peristiwa wang sebenar selain Pendapatan / Perbelanjaan. Termasuk Rekod Hutang dan Wang Diberi.',
     guideDebtsTitle:'Rekod Hutang',
-    guideDebtsDesc:'Rekod hutang anda (I Owe) dan hutang orang kepada anda (Owed to Me), dengan kemajuan bayaran, baki, status, tarikh akhir dan nota. Rekod sahaja, bukan pembayaran sebenar.',
+    guideDebtsDesc:'Rekod hutang anda (I Owe) dan hutang orang kepada anda (Owed to Me). Pilih pautan akaun (tukar baki) atau rekod sahaja. Sokong bayaran sebahagian dan penjejakan status. Rekod sahaja, bukan pembayaran sebenar.',
     guideMoneyGivenTitle:'Wang Diberi',
-    guideMoneyGivenDesc:'Rekod wang yang telah diberi dalam dunia sebenar. Pilih akaun sumber, tujuan dan cara pemindahan. Baki akaun berkenaan akan berkurang.',
+    guideMoneyGivenDesc:'Rekod wang yang telah diberi dalam dunia sebenar. Pilih akaun sumber, tujuan, cara dan sifat (Hadiah / Pinjaman / Lain-lain). Pinjaman juga cipta hutang "Orang Berhutang" tanpa tolak dua kali.',
     guideGoalTitle:'Sasaran Simpanan',
     guideGoalDesc:'Cipta sasaran simpanan dan peruntukkan baki boleh guna. Peruntukan ialah pembahagian rekod; Jiheng tidak mengunci dana sebenar.',
     guideAssetTitle:'Rekod Aset',
@@ -1417,6 +1464,8 @@ const I18N = {
     guideStatsDesc:'Pendapatan, perbelanjaan, simpanan bersih, pecahan kategori dan trend bulanan berdasarkan rekod sebenar.',
     guideSearchTitle:'Carian & Penapis',
     guideSearchDesc:'Menyokong Cina, Inggeris, Unicode, Emoji, padanan separa. Boleh digabung dengan penapis jenis / tarikh / akaun / kategori.',
+    guideTimeTitle:'Masa & Sejarah Edit',
+    guideTimeDesc:'Setiap rekod menyimpan masa peristiwa (saat), masa dicipta, masa dikemas kini dan sejarah edit penuh untuk kebolehkesanan.',
     guideAchTitle:'Pencapaian',
     guideAchDesc:'Buka pencapaian berdasarkan penggunaan sebenar. Setiap satu tunjuk nama, penerangan, cara buka, kemajuan dan status.',
     guideLockTitle:'App Lock',
@@ -1543,12 +1592,9 @@ const CHANGELOG_SEED = [
         '改进数据持久化：所有记录立即写入本地存储',
         '修复中文 / Unicode 搜索',
         '搜索支持部分匹配',
-        '扩展可搜索字段：备注、分类、账户、人名、用途等',
+        '扩展可搜索字段',
         '支持 Search + Filter 组合筛选',
         '改进长备注显示：自动换行，完整显示，不截断',
-        '防止 Note 截断：前端与存储层使用一致的字段长度',
-        '改进响应式长文本布局',
-        '改进数据同步：所有页面使用同一数据源',
         '更新 Product Guide',
         '保留所有 V1.00 数据、PIN、自定义分类与成就'
       ],
@@ -1558,16 +1604,13 @@ const CHANGELOG_SEED = [
         'Added dedicated Records section',
         'Added Debts (I Owe / Owed to Me)',
         'Added Money Given',
-        'Added Debt status tracking: Unpaid / Partially Paid / Paid',
-        'Improved data persistence: all records written to local storage immediately',
+        'Added Debt status tracking',
+        'Improved data persistence',
         'Fixed Chinese / Unicode search',
         'Search supports partial matching',
-        'Expanded searchable fields: note, category, account, person, purpose',
+        'Expanded searchable fields',
         'Search + Filter combination',
-        'Improved long-note display: auto-wrap, fully visible, no truncation',
-        'Prevented Note truncation: consistent field length in UI and storage',
-        'Improved responsive long-text layout',
-        'Improved data synchronization: single source of truth',
+        'Improved long-note display: auto-wrap, no truncation',
         'Updated Product Guide',
         'All V1.00 data, PIN, custom categories and achievements preserved'
       ],
@@ -1577,18 +1620,118 @@ const CHANGELOG_SEED = [
         'Tambah seksyen Rekod khas',
         'Tambah Rekod Hutang (Saya Berhutang / Orang Berhutang)',
         'Tambah Wang Diberi',
-        'Tambah penjejakan status hutang: Belum Bayar / Sebahagian / Selesai',
-        'Tambah baik persistensi data: semua rekod ditulis ke storan tempatan serta-merta',
+        'Tambah penjejakan status hutang',
+        'Tambah baik persistensi data',
         'Betulkan carian Cina / Unicode',
         'Carian menyokong padanan separa',
-        'Perluas medan carian: nota, kategori, akaun, nama, tujuan',
+        'Perluas medan carian',
         'Sokongan Carian + Penapis bersama',
-        'Tambah baik paparan nota panjang: auto-bungkus, penuh, tiada pemotongan',
-        'Cegah pemotongan Nota: panjang medan konsisten dalam UI dan storan',
-        'Tambah baik susun atur teks panjang responsif',
-        'Tambah baik penyelarasan data: satu sumber kebenaran',
+        'Tambah baik paparan nota panjang: auto-bungkus, tiada pemotongan',
         'Kemas kini Panduan Produk',
         'Semua data V1.00, PIN, kategori tersuai dan pencapaian dikekalkan'
+      ]
+    }
+  },
+  {
+    version:'1.02',
+    date:'2026-09-13',
+    title:{ zh:'积衡 Jiheng — 资金流、记录与系统优化', en:'Jiheng — Financial Flow, Records & System Optimization', ms:'Jiheng — Aliran Kewangan, Rekod & Pengoptimuman Sistem' },
+    items:{
+      zh:[
+        '优化收入、支出、转账、欠款与转给他人的数据结构',
+        '欠款与实际资金流联动（Account-linked / Record-only）',
+        'Money Given 支持资金来源账户，会从所选账户扣款',
+        'Money Given 支持性质：赠予 / 借给他人 / 其他',
+        '借给他人时自动建立「别人欠我」的欠款，避免重复扣款',
+        '支持实际还款资金流：Cash +RM100 / Debt -RM100',
+        '支持部分还款：未偿还 / 部分偿还 / 已还清',
+        '防止 Debt / Money Given 重复扣款',
+        '增加关联事件 ID 与关联账户 ID 逻辑',
+        '优化日期与时间系统：秒级时间、eventAt / createdAt / updatedAt / timezone',
+        '保存完整编辑时间历史 editHistory',
+        '修复 Debt 数据持久化',
+        '修复 Money Given 数据持久化',
+        '首页增加欠款快捷入口与总额显示',
+        '首页增加转给他人快捷入口与总额显示',
+        '优化 Records 统一记录架构',
+        '修复搜索输入框失焦问题',
+        '修复连续输入问题：a → ab → abc 不再失焦',
+        '支持中文拼音 IME：compositionstart / update / end',
+        '扩大搜索范围：中文 / English / 数字 / Unicode / Emoji',
+        '支持 partial matching',
+        '搜索与 Filter 联动，不互相清除',
+        '修复 Filter Bar 溢出，支持移动端横向滚动',
+        '优化长文字显示与容器高度自适应',
+        '防止用户备注被截断',
+        '搜索基于完整原始内容，不基于截断显示内容',
+        '编辑时加载完整原文',
+        '语言切换不修改用户文字',
+        '优化 Single Source of Truth：所有页面从同一数据源计算',
+        '优化数据迁移与升级安全，保留 V1.00 / V1.01 所有用户数据'
+      ],
+      en:[
+        'Optimized data structures for income, expense, transfer, debt and money-given',
+        'Debt now links to real fund flow (Account-linked / Record-only)',
+        'Money Given supports source account; deducts from selected account',
+        'Money Given supports Nature: Gift / Loan / Other',
+        'Choosing Loan auto-creates an "Owed to Me" debt without double-deducting',
+        'Repayment linked to real fund flow: Cash +RM100 / Debt -RM100',
+        'Supports partial repayment: Unpaid / Partial / Paid',
+        'Prevents double-deduction between Debt and Money Given',
+        'Added linked event ID and linked account ID logic',
+        'Improved time system: second-level, eventAt / createdAt / updatedAt / timezone',
+        'Saves full editHistory',
+        'Fixed Debt persistence',
+        'Fixed Money Given persistence',
+        'Home now shows Debt shortcut with total',
+        'Home now shows Money Given shortcut with total',
+        'Optimized Records unified architecture',
+        'Fixed search input losing focus',
+        'Fixed continuous typing: a → ab → abc without losing focus',
+        'Supports Chinese Pinyin IME: compositionstart / update / end',
+        'Expanded search: Chinese / English / numbers / Unicode / Emoji',
+        'Supports partial matching',
+        'Search and Filter work together, do not clear each other',
+        'Fixed Filter Bar overflow; supports horizontal scroll on mobile',
+        'Improved long-text display and container auto-height',
+        'Prevented truncation of user notes',
+        'Search uses full original content, not truncated display',
+        'Loads full original text when editing',
+        'Language switch does not modify user text',
+        'Optimized Single Source of Truth: all pages compute from the same data source',
+        'Improved migration and upgrade safety; all V1.00 / V1.01 user data preserved'
+      ],
+      ms:[
+        'Mengoptimumkan struktur data pendapatan, perbelanjaan, pindahan, hutang dan wang diberi',
+        'Hutang kini berpaut dengan aliran dana sebenar (Berpaut akaun / Rekod sahaja)',
+        'Wang Diberi menyokong akaun sumber; baki akaun akan berkurang',
+        'Wang Diberi menyokong sifat: Hadiah / Pinjaman / Lain-lain',
+        'Memilih Pinjaman cipta hutang "Orang Berhutang" tanpa tolak dua kali',
+        'Bayaran balik berpaut dengan aliran dana: Tunai +RM100 / Hutang -RM100',
+        'Sokong bayaran sebahagian: Belum Bayar / Sebahagian / Selesai',
+        'Cegah tolak dua kali antara Hutang dan Wang Diberi',
+        'Tambah logik ID peristiwa berpaut dan ID akaun berpaut',
+        'Tambah baik sistem masa: tahap saat, eventAt / createdAt / updatedAt / timezone',
+        'Simpan editHistory penuh',
+        'Betulkan persistensi Hutang',
+        'Betulkan persistensi Wang Diberi',
+        'Utama kini tunjuk pintasan Hutang dengan jumlah',
+        'Utama kini tunjuk pintasan Wang Diberi dengan jumlah',
+        'Optimumkan seni bina Rekod bersatu',
+        'Betulkan medan carian hilang fokus',
+        'Betulkan taip berterusan: a → ab → abc tanpa hilang fokus',
+        'Sokong IME Pinyin Cina: compositionstart / update / end',
+        'Perluas carian: Cina / Inggeris / nombor / Unicode / Emoji',
+        'Sokong padanan separa',
+        'Carian dan Penapis berfungsi bersama, tidak kosongkan satu sama lain',
+        'Betulkan limpahan Bar Penapis; sokong skrol mendatar pada mudah alih',
+        'Tambah baik paparan teks panjang dan ketinggian bekas automatik',
+        'Cegah pemotongan nota pengguna',
+        'Carian guna kandungan asal penuh, bukan paparan dipotong',
+        'Muat teks asal penuh semasa edit',
+        'Tukar bahasa tidak mengubah teks pengguna',
+        'Optimumkan Single Source of Truth',
+        'Tambah baik keselamatan migrasi dan naik taraf; semua data V1.00 / V1.01 dikekalkan'
       ]
     }
   }
@@ -1628,7 +1771,7 @@ function defaultState(){
   };
 }
 
-/* 迁移：只补齐字段，绝不删除数据 */
+/* V1.02 迁移：兼容 V1.00 / V1.01，补齐新字段，绝不删除数据 */
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
@@ -1637,7 +1780,40 @@ function migrate(p){
   if(!Array.isArray(p.customIncomeCats)) p.customIncomeCats = [];
   if(!Array.isArray(p.customExpenseCats)) p.customExpenseCats = [];
   if(!Array.isArray(p.customMethods)) p.customMethods = [];
-  (p.transactions || []).forEach(tx => { if(tx.method === undefined) tx.method = ''; if(tx.methodCustom === undefined) tx.methodCustom = ''; });
+
+  // V1.02 交易记录补齐 timezone / editHistory
+  (p.transactions || []).forEach(tx => {
+    if(tx.method === undefined) tx.method = '';
+    if(tx.methodCustom === undefined) tx.methodCustom = '';
+    if(!tx.timezone) tx.timezone = 'Asia/Kuala_Lumpur';
+    if(!Array.isArray(tx.editHistory)) tx.editHistory = [];
+    if(!tx.eventAt) tx.eventAt = tx.date || nowISO();
+    if(!tx.createdAt) tx.createdAt = Date.now();
+    if(!tx.updatedAt) tx.updatedAt = tx.createdAt;
+  });
+
+  // V1.02 账户补齐 note
+  (p.accounts || []).forEach(a => {
+    if(a.note === undefined) a.note = '';
+    if(!a.timezone) a.timezone = 'Asia/Kuala_Lumpur';
+  });
+
+  // V1.02 储蓄目标补齐字段
+  (p.goals || []).forEach(g => {
+    if(g.note === undefined) g.note = '';
+    if(!Array.isArray(g.editHistory)) g.editHistory = [];
+    if(!g.createdAt) g.createdAt = Date.now();
+  });
+
+  // V1.02 资产补齐字段
+  (p.assets || []).forEach(a => {
+    if(a.note === undefined) a.note = '';
+    if(a.manualNote === undefined) a.manualNote = '';
+    if(!Array.isArray(a.editHistory)) a.editHistory = [];
+    if(!a.createdAt) a.createdAt = Date.now();
+  });
+
+  // V1.02 欠款迁移：新增 linkMode / linkedAccountId / eventAt / timezone / editHistory
   p.debts.forEach(d => {
     if(!Array.isArray(d.payments)) d.payments = [];
     if(d.purpose === undefined) d.purpose = '';
@@ -1647,14 +1823,34 @@ function migrate(p){
     if(d.reason === undefined) d.reason = '';
     if(d.paid === undefined) d.paid = 0;
     if(!d.status) d.status = 'unpaid';
+    if(d.linkMode === undefined) d.linkMode = 'record_only';  // 默认仅记录，避免旧数据错误扣款
+    if(d.linkedAccountId === undefined) d.linkedAccountId = null;
+    if(!d.timezone) d.timezone = 'Asia/Kuala_Lumpur';
+    if(!d.eventAt) d.eventAt = d.date || nowISO();
+    if(!d.createdAt) d.createdAt = Date.now();
+    if(!d.updatedAt) d.updatedAt = d.createdAt;
+    if(!Array.isArray(d.editHistory)) d.editHistory = [];
+    if(!d.eventId) d.eventId = d.id;
   });
+
+  // V1.02 Money Given 迁移：新增 nature / sourceAccountId / eventAt / timezone / editHistory
   p.moneyGiven.forEach(m => {
     if(m.purpose === undefined) m.purpose = m.giftType || '';
     if(m.purposeCustom === undefined) m.purposeCustom = '';
     if(m.method === undefined) m.method = '';
     if(m.methodCustom === undefined) m.methodCustom = '';
     if(m.note === undefined) m.note = '';
+    if(m.nature === undefined) m.nature = 'gift';    // 默认赠予，避免旧数据未联动账户
+    if(m.sourceAccountId === undefined) m.sourceAccountId = m.accountId || null;
+    if(!m.timezone) m.timezone = 'Asia/Kuala_Lumpur';
+    if(!m.eventAt) m.eventAt = m.date || nowISO();
+    if(!m.createdAt) m.createdAt = Date.now();
+    if(!m.updatedAt) m.updatedAt = m.createdAt;
+    if(!Array.isArray(m.editHistory)) m.editHistory = [];
+    if(!m.eventId) m.eventId = m.id;
+    if(m.linkedDebtId === undefined) m.linkedDebtId = null;
   });
+
   p.dataVersion = DATA_VERSION;
   const checks = [
     Array.isArray(p.accounts), Array.isArray(p.transactions), Array.isArray(p.goals),
@@ -1803,14 +1999,16 @@ function money(n){
 }
 function nowISO(){ return new Date().toISOString(); }
 function nowLocalDate(){ const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-function nowLocalTime(){ const d = new Date(); return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function nowLocalTime(){ const d = new Date(); return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`; }
 function dateFromISO(iso){ try{ const d = new Date(iso); return isNaN(d.getTime()) ? new Date() : d; } catch(e){ return new Date(); } }
 function localDateStr(iso){ const d = dateFromISO(iso); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
 function localTimeStr(iso){ const d = dateFromISO(iso); return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`; }
+function localTimeSecStr(iso){ const d = dateFromISO(iso); return `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`; }
+function localDateTimeStr(iso){ const d = dateFromISO(iso); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`; }
 function combineDateTime(dateStr, timeStr){
-  const [y,m,d] = String(dateStr).split('-').map(Number);
-  const [hh,mm] = String(timeStr||'00:00').split(':').map(Number);
-  const dt = new Date(y||1970, (m||1)-1, d||1, hh||0, mm||0, 0);
+  const parts = String(dateStr).split('-').map(Number);
+  const timeParts = String(timeStr||'00:00:00').split(':').map(Number);
+  const dt = new Date(parts[0]||1970, (parts[1]||1)-1, parts[2]||1, timeParts[0]||0, timeParts[1]||0, timeParts[2]||0);
   if(isNaN(dt.getTime())) return nowISO();
   return dt.toISOString();
 }
@@ -1833,7 +2031,7 @@ function getDebt(id){ return state.debts.find(d => d.id === id) || null; }
 function getMG(id){ return state.moneyGiven.find(m => m.id === id) || null; }
 function sortedTx(){
   return state.transactions.slice().sort((a,b) =>
-    String(b.date||'').localeCompare(String(a.date||'')) || (b.createdAt||0) - (a.createdAt||0)
+    String(b.eventAt||b.date||'').localeCompare(String(a.eventAt||a.date||'')) || (b.createdAt||0) - (a.createdAt||0)
   );
 }
 function monthKeyFromISO(iso){ const d = dateFromISO(iso); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; }
@@ -1852,31 +2050,15 @@ function inToday(iso){
   return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth() && d.getDate()===n.getDate();
 }
 
-/* ============================ V1.01 搜索归一化 ============================ */
-/* 只用于搜索匹配，不修改用户原始数据 */
+/* ============================ 搜索归一化 ============================ */
 function normalizeSearchText(s){
   if(s == null) return '';
   let str = String(s);
-  // Unicode 归一化：NFKC 会统一全角/半角、常见兼容字符
   try{ if(str.normalize) str = str.normalize('NFKC'); }catch(e){}
-  // 小写化
   str = str.toLowerCase();
-  // 去掉零宽字符
   str = str.replace(/[\u200B-\u200D\uFEFF]/g, '');
-  // 统一空白
   str = str.replace(/\s+/g, ' ').trim();
   return str;
-}
-/* 检查一条记录是否包含搜索关键词（多字段，部分匹配） */
-function recordMatchesSearch(record, qNorm, fields){
-  if(!qNorm) return true;
-  for(let i = 0; i < fields.length; i++){
-    const val = record[fields[i]];
-    if(val == null) continue;
-    const n = normalizeSearchText(val);
-    if(n.indexOf(qNorm) !== -1) return true;
-  }
-  return false;
 }
 
 /* ============================ 核心计算 ============================ */
@@ -1892,10 +2074,10 @@ function matchRange(iso, range){
   if(range === 'year')  return inThisYear(iso);
   return true;
 }
-function accountIncome(id, range){ return state.transactions.filter(tx => tx.type === 'income' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
-function accountExpense(id, range){ return state.transactions.filter(tx => tx.type === 'expense' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
-function accountTransferIn(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.toAccountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
-function accountTransferOut(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.accountId === id && matchRange(tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountIncome(id, range){ return state.transactions.filter(tx => tx.type === 'income' && tx.accountId === id && matchRange(tx.eventAt||tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountExpense(id, range){ return state.transactions.filter(tx => tx.type === 'expense' && tx.accountId === id && matchRange(tx.eventAt||tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountTransferIn(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.toAccountId === id && matchRange(tx.eventAt||tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
+function accountTransferOut(id, range){ return state.transactions.filter(tx => tx.type === 'transfer' && tx.accountId === id && matchRange(tx.eventAt||tx.date, range)).reduce((s,tx) => s + Number(tx.amount||0), 0); }
 
 /* ============================ 分类 helpers ============================ */
 function allIncomeIds(){ const ids = []; INCOME_GROUPS.forEach(g => g.items.forEach(i => ids.push(i))); return ids; }
@@ -1907,7 +2089,7 @@ function mealSubs(){ return I18N[LANG].mealSubs || I18N.zh.mealSubs; }
 
 /* ============================ 成就 ============================ */
 function currentStreak(){
-  const days = new Set(state.transactions.map(tx => localDateStr(tx.date)));
+  const days = new Set(state.transactions.map(tx => localDateStr(tx.eventAt||tx.date)));
   if(!days.size) return 0;
   let streak = 0;
   let d = new Date();
@@ -2243,17 +2425,22 @@ function back(){ ui.sub = null; render({ top:true }); }
 function toggleHide(){ state.settings.hideBalance = !state.settings.hideBalance; saveState(); render(); }
 
 /* =========================================================================
-   首页
+   首页（V1.02：增加欠款 / 转给他人快捷入口）
    ========================================================================= */
 function viewHome(){
   const total  = totalAssets();
   const avail  = availableBalance();
   const locked = lockedBalance();
-  const mIn = state.transactions.filter(tx => tx.type === 'income' && inThisMonth(tx.date)).reduce((s,tx) => s + Number(tx.amount||0), 0);
-  const mOut = state.transactions.filter(tx => tx.type === 'expense' && inThisMonth(tx.date)).reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const mIn = state.transactions.filter(tx => tx.type === 'income' && inThisMonth(tx.eventAt||tx.date)).reduce((s,tx) => s + Number(tx.amount||0), 0);
+  const mOut = state.transactions.filter(tx => tx.type === 'expense' && inThisMonth(tx.eventAt||tx.date)).reduce((s,tx) => s + Number(tx.amount||0), 0);
   const recent = sortedTx().slice(0,5);
   const goalsPreview = state.goals.filter(g => Number(g.saved) > 0 || Number(g.targetAmount) > 0).slice(0,2);
+
+  const totalIOwe  = state.debts.filter(d => d.direction === 'i_owe' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
+  const totalOweMe = state.debts.filter(d => d.direction === 'owe_me' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
+  const totalGiven = state.moneyGiven.reduce((s,m) => s + Number(m.amount||0), 0);
   const hasAny = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
+
   return `
   <div class="hero">
     <div class="hero-top">
@@ -2272,6 +2459,20 @@ function viewHome(){
     <div class="mini"><span>${esc(t('monthIncome'))}</span><b class="c-green">${money(mIn)}</b></div>
     <div class="mini"><span>${esc(t('monthExpense'))}</span><b class="c-red">${money(mOut)}</b></div>
   </div>
+
+  <div class="mini-row">
+    <div class="mini tappable" onclick="openSub('debts')">
+      <span>🤝 ${esc(t('debtTitle'))}</span>
+      <b class="c-red">-${money(totalIOwe)}</b>
+      <span style="margin-top:2px;font-size:11px">${esc(t('debtOweMe'))} <b style="font-size:12px">+${money(totalOweMe)}</b></span>
+    </div>
+    <div class="mini tappable" onclick="openSub('money-given')">
+      <span>🎁 ${esc(t('moneyGiven'))}</span>
+      <b class="c-red">-${money(totalGiven)}</b>
+      <span style="margin-top:2px;font-size:11px">${state.moneyGiven.length} 笔记录</span>
+    </div>
+  </div>
+
   <div class="quick">
     <button onclick="openIncomeForm()"><span class="qi">＋</span>${esc(t('quickIncome'))}</button>
     <button onclick="openExpenseForm()"><span class="qi">－</span>${esc(t('quickExpense'))}</button>
@@ -2279,11 +2480,12 @@ function viewHome(){
     <button onclick="openGoalForm()"><span class="qi">🎯</span>${esc(t('quickGoal'))}</button>
   </div>
   <div class="quick">
-    <button onclick="openDebtForm()"><span class="qi">🤝</span>${esc(t('debtTitle'))}</button>
-    <button onclick="openMGForm()"><span class="qi">🎁</span>${esc(t('moneyGiven'))}</button>
+    <button onclick="openDebtForm()"><span class="qi">🤝</span>${esc(t('debtNew'))}</button>
+    <button onclick="openMGForm()"><span class="qi">🎁</span>${esc(t('mgNew'))}</button>
     <button onclick="go('assets')"><span class="qi">📦</span>${esc(t('tabAssets'))}</button>
     <button onclick="go('stats')"><span class="qi">📊</span>${esc(t('tabStats'))}</button>
   </div>
+
   <section>
     <div class="section-head"><h3>${esc(t('myAccounts'))}</h3><button class="link" onclick="openSub('accounts')">${esc(t('manage'))}</button></div>
     <div class="list">
@@ -2296,15 +2498,18 @@ function viewHome(){
           : `<div class="empty"><p>${esc(t('noAccount'))}</p><button class="btn primary sm" onclick="openAccountForm()">${esc(t('addFirstAccount'))}</button></div>` }
     </div>
   </section>
+
   ${ goalsPreview.length ? `
   <section>
     <div class="section-head"><h3>${esc(t('tabGoals'))}</h3><button class="link" onclick="go('goals')">${esc(t('viewAll'))}</button></div>
     ${ goalsPreview.map(goalCard).join('') }
   </section>` : '' }
+
   <section>
     <div class="section-head"><h3>${esc(t('recentTx'))}</h3><button class="link" onclick="go('records')">${esc(t('viewAll'))}</button></div>
     <div class="list">${ recent.length ? recent.map(txRow).join('') : `<div class="empty"><p>${esc(t('noTx'))}</p></div>` }</div>
   </section>
+
   ${ !hasAny ? `
   <div class="empty big">
     <div class="empty-icon">🌱</div>
@@ -2445,14 +2650,14 @@ function viewAllAccountsDetail(){
 function filterByAccount(id){ ui.recordAccount = id; ui.tab = 'records'; ui.sub = null; render({ top:true }); }
 
 /* =========================================================================
-   交易页面（保留原有）+ V1.01 搜索改进
+   交易页面（V1.02 修复搜索输入框失焦）
    ========================================================================= */
 function viewRecords(){
   return `
   <div class="quick">
     <button onclick="openSub('records')"><span class="qi">🗂</span>${esc(t('recordsTitle'))}</button>
-    <button onclick="openDebtForm()"><span class="qi">🤝</span>${esc(t('debtTitle'))}</button>
-    <button onclick="openMGForm()"><span class="qi">🎁</span>${esc(t('moneyGiven'))}</button>
+    <button onclick="openDebtForm()"><span class="qi">🤝</span>${esc(t('debtNew'))}</button>
+    <button onclick="openMGForm()"><span class="qi">🎁</span>${esc(t('mgNew'))}</button>
     <button onclick="openIncomeForm()"><span class="qi">＋</span>${esc(t('quickIncome'))}</button>
   </div>
   ${renderTxFilters()}
@@ -2477,11 +2682,11 @@ function renderTxFilters(){
   <div class="seg">${segs.map(([v,l]) => `<button class="${f===v?'on':''}" onclick="setFilter('${v}')">${esc(l)}</button>`).join('')}</div>
   ${ accList.length ? `<div class="seg">
     <button class="${!accFilter?'on':''}" onclick="setRecordAccount('')">${esc(t('allAccounts'))}</button>
-    ${accList.slice(0,6).map(a => `<button class="${accFilter===a.id?'on':''}" onclick="setRecordAccount('${a.id}')">${esc(a.name)}</button>`).join('')}
+    ${accList.slice(0,10).map(a => `<button class="${accFilter===a.id?'on':''}" onclick="setRecordAccount('${a.id}')">${esc(a.name)}</button>`).join('')}
   </div>` : '' }
   ${ catList.length ? `<div class="seg">
     <button class="${!catFilter?'on':''}" onclick="setRecordCat('')">${esc(t('all'))}</button>
-    ${catList.slice(0,8).map(c => `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)}</button>`).join('')}
+    ${catList.slice(0,12).map(c => `<button class="${catFilter===c?'on':''}" onclick="setRecordCat('${esc(c)}')">${catIcon(c)} ${esc(c)}</button>`).join('')}
   </div>` : '' }
   ${ hasFilter ? `<button class="btn ghost sm block" onclick="resetTxFilters()">${esc(t('resetFilters'))}</button>` : '' }`;
 }
@@ -2498,27 +2703,17 @@ function renderTxList(){
   if(catFilter) list = list.filter(tx => tx.category === catFilter);
   if(qNorm){
     list = list.filter(tx => {
-      // 搜索字段：分类、子分类、备注、金额、日期、账户名、方式
       const acc = getAccount(tx.accountId);
       const to  = getAccount(tx.toAccountId);
       const g   = tx.goalId ? getGoal(tx.goalId) : null;
       const bag = [
-        tx.category,
-        tx.subCategory,
-        tx.note,
-        tx.method,
-        tx.methodCustom,
-        String(tx.amount),
-        tx.date,
-        acc ? acc.name : '',
-        to ? to.name : '',
-        g ? g.name : '',
-        tx.type
+        tx.category, tx.subCategory, tx.note, tx.method, tx.methodCustom,
+        String(tx.amount), tx.date, tx.eventAt,
+        acc ? acc.name : '', to ? to.name : '', g ? g.name : '', tx.type
       ];
       for(let i = 0; i < bag.length; i++){
-        const val = bag[i];
-        if(val == null) continue;
-        if(normalizeSearchText(val).indexOf(qNorm) !== -1) return true;
+        if(bag[i] == null) continue;
+        if(normalizeSearchText(bag[i]).indexOf(qNorm) !== -1) return true;
       }
       return false;
     });
@@ -2526,7 +2721,7 @@ function renderTxList(){
   const totalIn  = list.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
   const totalOut = list.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
   const groups = new Map();
-  list.forEach(tx => { const d = localDateStr(tx.date); if(!groups.has(d)) groups.set(d, []); groups.get(d).push(tx); });
+  list.forEach(tx => { const d = localDateStr(tx.eventAt||tx.date); if(!groups.has(d)) groups.set(d, []); groups.get(d).push(tx); });
   const dates = Array.from(groups.keys()).sort().reverse();
   return `
   <div class="stat-grid">
@@ -2553,39 +2748,84 @@ function renderTxList(){
 function setFilter(v){ ui.recordFilter = v; render(); }
 function setRecordCat(c){ ui.recordCat = c; render(); }
 function setRecordAccount(id){ ui.recordAccount = id; render(); }
-function clearSearch(){ ui.searchQuery = ''; render(); }
+function clearSearch(){
+  ui.searchQuery = '';
+  // 保留 input DOM，只更新 value，避免失焦
+  const el = document.getElementById('rec-search');
+  if(el){ el.value = ''; }
+  render();
+}
 function resetTxFilters(){ ui.recordFilter = 'all'; ui.recordCat = ''; ui.recordAccount = ''; render(); }
 
-/* 实时搜索：input 事件（V1.01 修复中文 IME 搜索） */
-document.addEventListener('input', e => {
-  if(e.target && e.target.id === 'rec-search'){
-    const v = e.target.value;
-    clearTimeout(window.__searchTimer);
-    window.__searchTimer = setTimeout(() => {
-      ui.searchQuery = v;
-      const el = document.getElementById('rec-search');
-      const pos = el ? el.selectionStart : 0;
-      render();
-      const el2 = document.getElementById('rec-search');
-      if(el2){ el2.focus(); try{ el2.setSelectionRange(pos,pos); }catch(err){} }
-    }, 180);
+/* V1.02：搜索输入保持焦点 + IME 兼容 */
+let _imeComposing = false;
+document.addEventListener('compositionstart', e => {
+  if(e.target && (e.target.id === 'rec-search' || e.target.id === 'records-search')){
+    _imeComposing = true;
   }
-  if(e.target && e.target.id === 'records-search'){
-    const v = e.target.value;
-    clearTimeout(window.__recordsSearchTimer);
-    window.__recordsSearchTimer = setTimeout(() => {
-      ui.recordsSearch = v;
-      const el = document.getElementById('records-search');
-      const pos = el ? el.selectionStart : 0;
-      render();
-      const el2 = document.getElementById('records-search');
-      if(el2){ el2.focus(); try{ el2.setSelectionRange(pos,pos); }catch(err){} }
-    }, 180);
+}, true);
+document.addEventListener('compositionend', e => {
+  if(e.target && (e.target.id === 'rec-search' || e.target.id === 'records-search')){
+    _imeComposing = false;
+    // 触发一次搜索
+    if(e.target.id === 'rec-search'){ ui.searchQuery = e.target.value; rerenderTxListInPlace(); }
+    if(e.target.id === 'records-search'){ ui.recordsSearch = e.target.value; rerenderRecordsInPlace(); }
+  }
+}, true);
+document.addEventListener('input', e => {
+  if(!e.target) return;
+  if(e.target.id === 'rec-search'){
+    if(_imeComposing) return;
+    ui.searchQuery = e.target.value;
+    rerenderTxListInPlace();
+  }
+  if(e.target.id === 'records-search'){
+    if(_imeComposing) return;
+    ui.recordsSearch = e.target.value;
+    rerenderRecordsInPlace();
   }
 });
 
+/* V1.02：只替换列表与统计区域，不重建搜索框 */
+function rerenderTxListInPlace(){
+  const root = document.getElementById('app');
+  if(!root) return;
+  // 定位 view 容器，保留搜索输入与 seg
+  const view = root.querySelector('.view');
+  if(!view) { render(); return; }
+  // 移除统计与列表（在最后），保留最前面的 filter 区域
+  // 简化做法：找到所有 .stat-grid 和之后的兄弟节点，替换为 renderTxList()
+  const statGrid = view.querySelector('.stat-grid');
+  if(statGrid){
+    // 移除 statGrid 之后的所有兄弟节点
+    let n = statGrid.nextSibling;
+    while(n){ const nx = n.nextSibling; n.remove ? n.remove() : view.removeChild(n); n = nx; }
+    statGrid.remove();
+    // 追加新的列表
+    const tmp = document.createElement('div');
+    tmp.innerHTML = renderTxList();
+    while(tmp.firstChild){ view.appendChild(tmp.firstChild); }
+    return;
+  }
+  // 没有 stat-grid（初始空状态），直接整体重绘但保留输入焦点
+  render();
+}
+function rerenderRecordsInPlace(){
+  const root = document.getElementById('app');
+  if(!root) return;
+  const view = root.querySelector('.view');
+  if(!view) { render(); return; }
+  // 简化做法：整体重绘后恢复 focus
+  const el = document.getElementById('records-search');
+  const val = el ? el.value : '';
+  const pos = el ? el.selectionStart : 0;
+  render();
+  const el2 = document.getElementById('records-search');
+  if(el2){ el2.value = val; el2.focus(); try{ el2.setSelectionRange(pos,pos); }catch(e){} }
+}
+
 /* =========================================================================
-   Records Hub（V1.01 新增）
+   Records Hub
    ========================================================================= */
 function viewRecordsHub(){
   return `
@@ -2619,7 +2859,7 @@ function viewRecordsHub(){
 }
 
 /* =========================================================================
-   Debts 页面（V1.01）
+   Debts 页面（V1.02：与账户联动）
    ========================================================================= */
 function viewDebtsPage(){
   const qNorm = normalizeSearchText(ui.recordsSearch || '');
@@ -2629,7 +2869,7 @@ function viewDebtsPage(){
   else if(f === 'owe_me') list = list.filter(d => d.direction === 'owe_me');
   if(qNorm){
     list = list.filter(d => {
-      const bag = [d.person, d.reason, d.purpose, d.purposeCustom, d.method, d.methodCustom, d.status, String(d.amount), d.date];
+      const bag = [d.person, d.reason, d.purpose, d.purposeCustom, d.method, d.methodCustom, d.status, String(d.amount), d.date, d.eventAt];
       for(let i = 0; i < bag.length; i++){
         if(bag[i] == null) continue;
         if(normalizeSearchText(bag[i]).indexOf(qNorm) !== -1) return true;
@@ -2664,14 +2904,14 @@ function viewDebtsPage(){
 }
 
 /* =========================================================================
-   Money Given 页面（V1.01）
+   Money Given 页面（V1.02：与账户联动）
    ========================================================================= */
 function viewMoneyGivenPage(){
   const qNorm = normalizeSearchText(ui.recordsSearch || '');
   let list = state.moneyGiven.slice().sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
   if(qNorm){
     list = list.filter(m => {
-      const bag = [m.person, m.note, m.purpose, m.purposeCustom, m.method, m.methodCustom, String(m.amount), m.date];
+      const bag = [m.person, m.note, m.purpose, m.purposeCustom, m.method, m.methodCustom, String(m.amount), m.date, m.eventAt, m.nature];
       for(let i = 0; i < bag.length; i++){
         if(bag[i] == null) continue;
         if(normalizeSearchText(bag[i]).indexOf(qNorm) !== -1) return true;
@@ -2845,7 +3085,7 @@ function last6Months(){
 }
 function viewStats(){
   const range = ui.statsRange;
-  const txs = state.transactions.filter(tx => matchRange(tx.date, range));
+  const txs = state.transactions.filter(tx => matchRange(tx.eventAt||tx.date, range));
   const income  = txs.filter(tx => tx.type === 'income').reduce((s,tx) => s + Number(tx.amount||0), 0);
   const expense = txs.filter(tx => tx.type === 'expense').reduce((s,tx) => s + Number(tx.amount||0), 0);
   const net     = income - expense;
@@ -2858,8 +3098,8 @@ function viewStats(){
   const incCats = Object.entries(incMap).sort((a,b) => b[1] - a[1]);
   const maxInc = incCats.length ? incCats[0][1] : 0;
   const months = last6Months().map(m => {
-    const inc = state.transactions.filter(tx => tx.type === 'income'  && String(tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
-    const exp = state.transactions.filter(tx => tx.type === 'expense' && String(tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
+    const inc = state.transactions.filter(tx => tx.type === 'income'  && String(tx.eventAt||tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
+    const exp = state.transactions.filter(tx => tx.type === 'expense' && String(tx.eventAt||tx.date||'').startsWith(m.key)).reduce((s,tx) => s + Number(tx.amount||0), 0);
     return { key:m.key, label:m.label, inc, exp, net: inc - exp };
   });
   const maxAbs = Math.max.apply(null, months.map(m => Math.abs(m.net)).concat([1]));
@@ -3120,7 +3360,7 @@ function viewSystemInfo(){
     <div class="asset-grid">
       <div><span>App Version</span><b>v${esc(APP_VERSION)}</b></div>
       <div><span>Data Version</span><b>v${esc(DATA_VERSION)}</b></div>
-      <div><span>${esc(t('lastUpdated'))}</span><b style="font-size:12px">${esc(localDateStr(META.lastUpdated))} ${esc(localTimeStr(META.lastUpdated))}</b></div>
+      <div><span>${esc(t('lastUpdated'))}</span><b style="font-size:12px">${esc(localDateStr(META.lastUpdated))} ${esc(localTimeSecStr(META.lastUpdated))}</b></div>
       <div><span>${esc(t('storageLocal'))}</span><b>localStorage</b></div>
       <div><span>${esc(t('lockModeLabel'))}</span><b>${lockKind === 'text' ? esc(t('lockModePassword')) : esc(t('lockModePIN'))}</b></div>
     </div>
@@ -3160,6 +3400,7 @@ function viewProductGuide(){
     { icon:'📦', title:t('guideAssetTitle'),    desc:t('guideAssetDesc') },
     { icon:'📊', title:t('guideStatsTitle'),    desc:t('guideStatsDesc') },
     { icon:'🔎', title:t('guideSearchTitle'),   desc:t('guideSearchDesc') },
+    { icon:'⏱', title:t('guideTimeTitle'),     desc:t('guideTimeDesc') },
     { icon:'🏆', title:t('guideAchTitle'),      desc:t('guideAchDesc') },
     { icon:'🔒', title:t('guideLockTitle'),     desc:t('guideLockDesc') },
     { icon:'💾', title:t('guideDataTitle'),     desc:t('guideDataDesc') },
@@ -3212,12 +3453,16 @@ function exportData(){
 }
 function exportCSV(){
   try{
-    const rows = [['date','time','type','category','subCategory','method','amount','account','toAccount','note']];
+    const rows = [['eventAt','createdAt','updatedAt','timezone','type','category','subCategory','method','amount','account','toAccount','note']];
     sortedTx().forEach(tx => {
       const acc = getAccount(tx.accountId);
       const to  = getAccount(tx.toAccountId);
       rows.push([
-        localDateStr(tx.date), localTimeStr(tx.date), tx.type,
+        localDateTimeStr(tx.eventAt||tx.date),
+        localDateTimeStr(tx.createdAt),
+        localDateTimeStr(tx.updatedAt),
+        tx.timezone || '',
+        tx.type,
         tx.category || '', tx.subCategory || '',
         tx.methodCustom || methodDisplay(tx.method || ''),
         String(Number(tx.amount||0).toFixed(2)),
@@ -3392,17 +3637,6 @@ function toast(msg){
 function openGroupedPicker(opts){
   const sheetRoot = document.getElementById('sheet-root');
   const parentSheet = sheetRoot.querySelector('.sheet');
-  const parentForm = sheetRoot.querySelector('#sheet-form');
-  let parentState = null;
-  if(parentForm){
-    parentState = {};
-    parentForm.querySelectorAll('input, select, textarea').forEach(el => {
-      const key = el.name || el.id;
-      if(!key) return;
-      if(el.type === 'checkbox') parentState[key] = el.checked;
-      else parentState[key] = el.value;
-    });
-  }
   let pickerRoot = document.getElementById('picker-root');
   if(!pickerRoot){
     pickerRoot = document.createElement('div');
@@ -3436,7 +3670,7 @@ function openGroupedPicker(opts){
         ${ opts.allowCustom ? `
           <div class="opt-label">${esc(t('pickCustom'))}</div>
           <label class="field" style="margin-top:2px">
-            <input type="text" id="picker-custom-input" maxlength="60"
+            <input type="text" id="picker-custom-input" maxlength="80"
               placeholder="${esc(opts.customPlaceholder || t('catCustomPlaceholder'))}"
               value="${esc(opts.customValue || '')}">
           </label>
@@ -3446,7 +3680,7 @@ function openGroupedPicker(opts){
       </div>
     </div>`;
   pickerRoot.style.pointerEvents = 'auto';
-  function closePicker(shouldRestoreParent){
+  function closePicker(){
     const inner = pickerRoot.querySelector('.sheet');
     const mask = pickerRoot.querySelector('#picker-mask');
     if(inner) inner.style.transform = 'translateY(100%)';
@@ -3454,10 +3688,8 @@ function openGroupedPicker(opts){
     setTimeout(() => {
       pickerRoot.innerHTML = '';
       pickerRoot.style.pointerEvents = 'none';
-      if(shouldRestoreParent !== false){
-        const ps = sheetRoot.querySelector('.sheet');
-        if(ps) ps.style.transform = 'translateY(0)';
-      }
+      const ps = sheetRoot.querySelector('.sheet');
+      if(ps) ps.style.transform = 'translateY(0)';
     }, 320);
   }
   if(parentSheet){ parentSheet.style.transform = 'translateY(100%)'; }
@@ -3467,14 +3699,14 @@ function openGroupedPicker(opts){
     if(pickerMask) pickerMask.style.opacity = '1';
     if(pickerSheet) pickerSheet.style.transform = 'translateY(0)';
   });
-  pickerRoot.querySelector('#picker-close').addEventListener('click', () => closePicker(true));
-  pickerRoot.querySelector('#picker-back').addEventListener('click', () => closePicker(true));
-  pickerMask.addEventListener('click', () => closePicker(true));
+  pickerRoot.querySelector('#picker-close').addEventListener('click', closePicker);
+  pickerRoot.querySelector('#picker-back').addEventListener('click', closePicker);
+  pickerMask.addEventListener('click', closePicker);
   pickerRoot.querySelectorAll('.opt-item').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.dataset.id;
       if(opts.onPick) opts.onPick(id);
-      closePicker(true);
+      closePicker();
     });
   });
   const cs = pickerRoot.querySelector('#picker-custom-save');
@@ -3483,7 +3715,7 @@ function openGroupedPicker(opts){
       const val = (pickerRoot.querySelector('#picker-custom-input').value || '').trim();
       if(!val) return;
       if(opts.onCustom) opts.onCustom(val);
-      closePicker(true);
+      closePicker();
     });
   }
 }
@@ -3508,16 +3740,25 @@ function openAccountForm(){
     onSubmit(d){
       const name = (d.name || '').trim();
       if(!name){ toast(t('catEnterName')); return false; }
-      const acc = { id: uid(), name, type: d.type || 'other', balance: 0, createdAt: Date.now() };
+      const acc = {
+        id: uid(), name, type: d.type || 'other', balance: 0,
+        note: '', timezone: 'Asia/Kuala_Lumpur',
+        createdAt: Date.now()
+      };
       const initial = parseFloat(d.initial);
       if(initial && initial > 0){
         const amt = round2(initial);
         acc.balance = amt;
         state.accounts.push(acc);
+        const nowIso = nowISO();
         state.transactions.push({
-          id: uid(), type:'income', amount: amt, date: nowISO(), category:'other_income',
-          method:'cash', methodCustom:'',
-          accountId: acc.id, note: t('initialBalanceNote'), createdAt: Date.now(), updatedAt: Date.now()
+          id: uid(), type:'income', amount: amt,
+          eventAt: nowIso, date: nowIso,
+          timezone: 'Asia/Kuala_Lumpur',
+          category:'other_income', method:'cash', methodCustom:'',
+          accountId: acc.id, note: t('initialBalanceNote'),
+          editHistory: [],
+          createdAt: Date.now(), updatedAt: Date.now()
         });
       }else{
         state.accounts.push(acc);
@@ -3672,6 +3913,9 @@ function bindPurposePicker(root, kind){
   });
 }
 
+/* =========================================================================
+   收入 / 支出 / 转账
+   ========================================================================= */
 function openIncomeForm(presetAccountId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const initialCat = allIncomeIds()[0];
@@ -3687,7 +3931,7 @@ function openIncomeForm(presetAccountId){
       <label class="field"><span class="field-label">${esc(t('account'))}</span><select name="accountId">${accountOptions(presetAccountId)}</select></label>
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('notePlaceholder'))}"></textarea></label>
       <label class="field"><span class="field-label">${esc(t('recurringLabel'))}</span>
@@ -3699,13 +3943,17 @@ function openIncomeForm(presetAccountId){
       const acc = getAccount(d.accountId);
       if(!acc){ toast(t('accountNotExist')); return false; }
       acc.balance = round2((Number(acc.balance)||0) + amount);
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'income', amount,
-        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        eventAt, date: eventAt,
+        timezone: 'Asia/Kuala_Lumpur',
         category: d.category || initialCat,
         method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || ''),
-        recurring: !!d.recurring, createdAt: Date.now(), updatedAt: Date.now()
+        recurring: !!d.recurring,
+        editHistory: [],
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('incomeSaved')); return true;
     },
@@ -3727,7 +3975,7 @@ function openExpenseForm(presetAccountId){
       <label class="field"><span class="field-label">${esc(t('account'))}</span><select name="accountId">${accountOptions(presetAccountId)}</select></label>
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('notePlaceholder'))}"></textarea></label>
       <label class="field"><span class="field-label">${esc(t('recurringLabelExp'))}</span>
@@ -3740,14 +3988,18 @@ function openExpenseForm(presetAccountId){
       if(!acc){ toast(t('accountNotExist')); return false; }
       if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       acc.balance = round2((Number(acc.balance)||0) - amount);
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'expense', amount,
-        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        eventAt, date: eventAt,
+        timezone: 'Asia/Kuala_Lumpur',
         category: d.category || initialCat,
         subCategory: '',
         method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || ''),
-        recurring: !!d.recurring, createdAt: Date.now(), updatedAt: Date.now()
+        recurring: !!d.recurring,
+        editHistory: [],
+        createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('expenseSaved')); return true;
     },
@@ -3767,7 +4019,7 @@ function openTransferForm(presetFrom){
       </label>
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('notePlaceholder'))}"></textarea></label>
       <p class="hint">${esc(t('transferHint'))}</p>`,
@@ -3780,10 +4032,13 @@ function openTransferForm(presetFrom){
       if(round2(Number(from.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       from.balance = round2((Number(from.balance)||0) - amount);
       to.balance   = round2((Number(to.balance)||0)   + amount);
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'transfer', amount,
-        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        eventAt, date: eventAt,
+        timezone: 'Asia/Kuala_Lumpur',
         accountId: from.id, toAccountId: to.id, note: (d.note || ''),
+        editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('transferDone')); return true;
@@ -3792,18 +4047,20 @@ function openTransferForm(presetFrom){
 }
 
 /* =========================================================================
-   Debt Form（V1.01 修复持久化）
+   Debt Form（V1.02 与账户联动）
    ========================================================================= */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
   const initialPurpose = 'food_debt';
   const initialMethod = 'cash';
+  const initialLinkMode = editing ? (editing.linkMode || 'record_only') : 'record_only';
+  const initialAccountId = editing ? (editing.linkedAccountId || '') : (state.accounts[0] ? state.accounts[0].id : '');
   openSheet({
     title: editing ? t('debtEdit') : t('debtNew'),
     submitText: editing ? t('save') : t('add'),
     body: `
       <label class="field"><span class="field-label">${esc(t('debtDirection'))}</span>
-        <select name="direction">
+        <select name="direction" id="debt-direction">
           <option value="i_owe" ${editing && editing.direction==='i_owe'?'selected':''}>${esc(t('debtDirIOwe'))}</option>
           <option value="owe_me" ${editing && editing.direction==='owe_me'?'selected':''}>${esc(t('debtDirOweMe'))}</option>
         </select>
@@ -3814,9 +4071,20 @@ function openDebtForm(presetId){
       </label>
       <div class="field"><span class="field-label">${esc(t('debtPurpose'))}</span>${renderPurposePickerButton('debt', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}</div>
       <div class="field"><span class="field-label">${esc(t('debtMethod'))}</span>${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}</div>
+      <label class="field"><span class="field-label">${esc(t('debtLinkMode'))}</span>
+        <select name="linkMode" id="debt-link-mode">
+          <option value="record_only" ${initialLinkMode==='record_only'?'selected':''}>${esc(t('debtLinkRecordOnly'))}</option>
+          <option value="account" ${initialLinkMode==='account'?'selected':''}>${esc(t('debtLinkAccount'))}</option>
+        </select>
+      </label>
+      <p class="hint" id="debt-link-hint">${esc(t('debtLinkHintRecordOnly'))}</p>
+      <label class="field" id="debt-linked-account-wrap" style="display:${initialLinkMode==='account'?'block':'none'}">
+        <span class="field-label">${esc(t('debtLinkedAccount'))}</span>
+        <select name="linkedAccountId">${accountOptions(initialAccountId)}</select>
+      </label>
       <div class="two-col">
-        <label class="field"><span class="field-label">${esc(t('debtDate'))}</span><input name="date" type="date" required value="${editing?localDateStr(editing.date):nowLocalDate()}"></label>
-        <label class="field"><span class="field-label">${esc(t('debtTime'))}</span><input name="time" type="time" required value="${editing?localTimeStr(editing.date):nowLocalTime()}"></label>
+        <label class="field"><span class="field-label">${esc(t('debtDate'))}</span><input name="date" type="date" required value="${editing?localDateStr(editing.eventAt||editing.date):nowLocalDate()}"></label>
+        <label class="field"><span class="field-label">${esc(t('debtTime'))}</span><input name="time" type="time" step="1" required value="${editing?localTimeSecStr(editing.eventAt||editing.date):nowLocalTime()}"></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('debtDueDate'))}</span><input name="dueDate" type="date" value="${editing && editing.dueDate ? esc(editing.dueDate) : ''}"></label>
       <label class="field"><span class="field-label">${esc(t('debtReason'))}</span><textarea name="reason" maxlength="4000" placeholder="${esc(t('debtReasonPlaceholder'))}">${editing?esc(editing.reason||''):''}</textarea></label>
@@ -3826,39 +4094,99 @@ function openDebtForm(presetId){
       const amount = round2(parseFloat(d.amount));
       if(!person){ toast(t('catEnterName')); return false; }
       if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
+      const linkMode = d.linkMode === 'account' ? 'account' : 'record_only';
+      const linkedAccountId = linkMode === 'account' ? d.linkedAccountId : null;
+
       if(editing){
+        // 回滚旧的联动（如果有）
+        if(editing.linkMode === 'account' && editing.linkedAccountId){
+          const oldAcc = getAccount(editing.linkedAccountId);
+          if(oldAcc){
+            if(editing.direction === 'owe_me') oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(editing.amount||0));
+            else oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount||0));
+          }
+        }
+        // 应用新联动
+        if(linkMode === 'account'){
+          const acc = getAccount(linkedAccountId);
+          if(!acc){ toast(t('accountNotExist')); return false; }
+          if(d.direction === 'owe_me'){
+            if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
+            acc.balance = round2((Number(acc.balance)||0) - amount);
+          }else{
+            acc.balance = round2((Number(acc.balance)||0) + amount);
+          }
+        }
         editing.direction = d.direction;
         editing.person = person; editing.amount = amount;
         editing.purpose = (d.purpose || '').trim();
         editing.purposeCustom = (d.purposeCustom || '').trim();
         editing.method = (d.method || '').trim();
         editing.methodCustom = (d.methodCustom || '').trim();
-        editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
+        editing.eventAt = eventAt;
+        editing.date = eventAt;
         editing.dueDate = d.dueDate || '';
         editing.reason = (d.reason || '');
+        editing.linkMode = linkMode;
+        editing.linkedAccountId = linkedAccountId;
         editing.updatedAt = Date.now();
+        if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
+        editing.editHistory.push(Date.now());
         const paid = Number(editing.paid) || 0;
         if(paid >= amount && amount > 0) editing.status = 'paid';
         else if(paid > 0) editing.status = 'partial';
         else editing.status = 'unpaid';
         afterChange(); toast(t('debtUpdated'));
       }else{
-        const debt = {
-          id: uid(), direction: d.direction || 'i_owe', person, amount,
+        if(linkMode === 'account'){
+          const acc = getAccount(linkedAccountId);
+          if(!acc){ toast(t('accountNotExist')); return false; }
+          if(d.direction === 'owe_me'){
+            if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
+            acc.balance = round2((Number(acc.balance)||0) - amount);
+          }else{
+            acc.balance = round2((Number(acc.balance)||0) + amount);
+          }
+        }
+        const eventId = 'EVT-' + Date.now().toString(36).toUpperCase();
+        state.debts.push({
+          id: uid(), eventId,
+          direction: d.direction || 'i_owe', person, amount,
           purpose: (d.purpose || '').trim(), purposeCustom: (d.purposeCustom || '').trim(),
           method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
-          date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+          eventAt, date: eventAt,
+          timezone: 'Asia/Kuala_Lumpur',
           dueDate: d.dueDate || '', reason: (d.reason || ''),
           paid: 0, payments: [], status: 'unpaid',
+          linkMode, linkedAccountId,
+          editHistory: [],
           createdAt: Date.now(), updatedAt: Date.now()
-        };
-        state.debts.push(debt);
-        saveState();   // V1.01: 立即持久化
+        });
+        saveState();
         afterChange(); toast(t('debtCreated'));
       }
       return true;
     },
-    afterRender(root){ bindPurposePicker(root, 'debt'); bindMethodPicker(root); }
+    afterRender(root){
+      bindPurposePicker(root, 'debt'); bindMethodPicker(root);
+      const sel = root.querySelector('#debt-link-mode');
+      const hint = root.querySelector('#debt-link-hint');
+      const wrap = root.querySelector('#debt-linked-account-wrap');
+      if(sel && hint && wrap){
+        const update = () => {
+          if(sel.value === 'account'){
+            hint.textContent = t('debtLinkHintLinked');
+            wrap.style.display = 'block';
+          }else{
+            hint.textContent = t('debtLinkHintRecordOnly');
+            wrap.style.display = 'none';
+          }
+        };
+        sel.addEventListener('change', update);
+        update();
+      }
+    }
   });
 }
 function debtMenu(id){
@@ -3877,6 +4205,14 @@ function debtMenu(id){
   }
   acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => {
     confirmDialog(t('debtDeleteConfirm'), () => {
+      // 回滚联动
+      if(d.linkMode === 'account' && d.linkedAccountId){
+        const acc = getAccount(d.linkedAccountId);
+        if(acc){
+          if(d.direction === 'owe_me') acc.balance = round2((Number(acc.balance)||0) + Number(d.amount||0));
+          else acc.balance = round2((Number(acc.balance)||0) - Number(d.amount||0));
+        }
+      }
       state.debts = state.debts.filter(x => x.id !== id);
       afterChange(); toast(t('debtDeleted'));
     });
@@ -3888,6 +4224,7 @@ function openDebtRepay(id){
   if(!d) return;
   const remain = round2(Math.max(Number(d.amount) - Number(d.paid||0), 0));
   if(remain <= 0){ toast(t('debtStatusPaid')); return; }
+  const useAccount = d.linkMode === 'account' && d.linkedAccountId;
   openSheet({
     title: t('debtRepayTitle'), submitText: t('debtRepayBtn'),
     body: `
@@ -3899,9 +4236,15 @@ function openDebtRepay(id){
       <label class="field"><span class="field-label">${esc(t('debtRepayAmount'))}</span>
         <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
       </label>
+      ${ useAccount ? `
+      <p class="hint">${esc(t('debtLinkedAccount'))}: ${esc((getAccount(d.linkedAccountId)||{}).name||'—')}</p>
+      ` : `
+      <label class="field"><span class="field-label">${esc(t('account'))}（可选，用于记录实际资金流）</span>
+        <select name="accountId"><option value="">${esc(t('none'))}</option>${accountOptions()}</select>
+      </label>` }
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('debtRepayNote'))}</span><textarea name="note" maxlength="4000"></textarea></label>
       <p class="hint">${esc(t('debtRepayHint'))}</p>`,
@@ -3909,16 +4252,42 @@ function openDebtRepay(id){
       const amount = round2(parseFloat(dd.amount));
       if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       if(amount > remain + 0.001){ toast(t('debtExceed')); return false; }
+
+      // 还款与账户联动：
+      // 若 debt.linkMode === 'account'，则自动到 d.linkedAccountId
+      // 否则读取用户选择的 accountId（可选，仅用于记录资金流）
+      let targetAcc = null;
+      if(d.linkMode === 'account' && d.linkedAccountId){
+        targetAcc = getAccount(d.linkedAccountId);
+      }else if(dd.accountId){
+        targetAcc = getAccount(dd.accountId);
+      }
+
+      if(targetAcc){
+        // owe_me: 别人欠我，收到还款 → 账户 +
+        // i_owe: 我欠别人，我付款 → 账户 -
+        if(d.direction === 'owe_me'){
+          targetAcc.balance = round2((Number(targetAcc.balance)||0) + amount);
+        }else{
+          if(round2(Number(targetAcc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
+          targetAcc.balance = round2((Number(targetAcc.balance)||0) - amount);
+        }
+      }
+
       d.payments = Array.isArray(d.payments) ? d.payments : [];
       d.payments.push({
         id: uid(), amount,
-        date: combineDateTime(dd.date || nowLocalDate(), dd.time || nowLocalTime()),
-        note: (dd.note || ''), createdAt: Date.now()
+        eventAt: combineDateTime(dd.date || nowLocalDate(), dd.time || nowLocalTime()),
+        note: (dd.note || ''),
+        accountId: targetAcc ? targetAcc.id : null,
+        createdAt: Date.now()
       });
       d.paid = round2(Number(d.paid||0) + amount);
       if(d.paid >= Number(d.amount) - 0.001){ d.status = 'paid'; d.paid = Number(d.amount); }
       else { d.status = 'partial'; }
       d.updatedAt = Date.now();
+      if(!Array.isArray(d.editHistory)) d.editHistory = [];
+      d.editHistory.push(Date.now());
       afterChange(); toast(t('debtRepayRecorded')); return true;
     }
   });
@@ -3932,7 +4301,7 @@ function debtCard(d){
   const dirLabel = d.direction === 'i_owe' ? t('debtIOwe') : t('debtOweMe');
   const statusLabel = d.status === 'paid' ? t('debtStatusPaid') : d.status === 'partial' ? t('debtStatusPartial') : d.status === 'cancelled' ? t('debtStatusCancelled') : t('debtStatusUnpaid');
   const statusCls = d.status === 'paid' ? 'st-done' : d.status === 'partial' ? 'st-partial' : d.status === 'cancelled' ? 'st-end' : 'st-active';
-  const startMs = dateFromISO(d.date).getTime();
+  const startMs = dateFromISO(d.eventAt||d.date).getTime();
   const days = Math.max(0, Math.round((Date.now() - startMs) / 86400000));
   const durText = `${days} ${t('debtDays')}`;
   let dueText = '';
@@ -3945,6 +4314,8 @@ function debtCard(d){
   }
   const purposeText = d.purposeCustom ? d.purposeCustom : debtPurposeDisplay(d.purpose);
   const methodText = d.methodCustom ? d.methodCustom : methodDisplay(d.method);
+  const linkTag = d.linkMode === 'account' ? ' · 🔗' : '';
+  const linkedAcc = d.linkedAccountId ? getAccount(d.linkedAccountId) : null;
   const noteFull = d.reason || '';
   return `<div class="debt-card">
     <div class="debt-top">
@@ -3953,8 +4324,9 @@ function debtCard(d){
           <span class="badge ${dirCls}">${esc(dirLabel)}</span>
           <span class="badge ${statusCls}">${esc(statusLabel)}</span>
         </div>
-        <div class="goal-sub">${esc(localDateStr(d.date))}${dueText} · ${esc(durText)}</div>
+        <div class="goal-sub">${esc(localDateTimeStr(d.eventAt||d.date))}${dueText} · ${esc(durText)}${linkTag}</div>
         ${purposeText ? `<div class="goal-sub">${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">${esc(methodText)}</div>` : '')}
+        ${linkedAcc ? `<div class="goal-sub">🔗 ${esc(linkedAcc.name)}</div>` : ''}
         ${noteFull ? `<div class="goal-sub note-full">${esc(noteFull)}</div>` : ''}
       </div>
       <button class="icon-btn sm" onclick="debtMenu('${d.id}')">⋯</button>
@@ -3971,13 +4343,14 @@ function debtCard(d){
 }
 
 /* =========================================================================
-   Money Given Form（V1.01 修复持久化）
+   Money Given Form（V1.02 与账户联动 + 性质）
    ========================================================================= */
 function openMGForm(presetId){
   if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
   const editing = presetId ? getMG(presetId) : null;
   const initialPurpose = 'to_friend';
   const initialMethod = 'cash';
+  const initialNature = editing ? (editing.nature || 'gift') : 'gift';
   openSheet({
     title: editing ? t('mgEdit') : t('mgNew'),
     submitText: editing ? t('save') : t('mgSave'),
@@ -3990,13 +4363,21 @@ function openMGForm(presetId){
         <select name="accountId">${accountOptions(editing?editing.accountId:null)}</select>
         <p class="hint" style="margin-top:6px">${esc(t('mgFromAccountHint'))}</p>
       </label>
+      <label class="field"><span class="field-label">${esc(t('mgNature'))}</span>
+        <select name="nature" id="mg-nature">
+          <option value="gift" ${initialNature==='gift'?'selected':''}>${esc(t('mgNatureGift'))}</option>
+          <option value="loan" ${initialNature==='loan'?'selected':''}>${esc(t('mgNatureLoan'))}</option>
+          <option value="other" ${initialNature==='other'?'selected':''}>${esc(t('mgNatureOther'))}</option>
+        </select>
+      </label>
+      <p class="hint" id="mg-nature-hint">${esc(initialNature === 'loan' ? t('mgNatureHintLoan') : initialNature === 'other' ? t('mgNatureHintOther') : t('mgNatureHintGift'))}</p>
       <div class="field"><span class="field-label">${esc(t('mgPurpose'))}</span>${renderPurposePickerButton('mg', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}</div>
       <div class="field"><span class="field-label">${esc(t('mgMethod'))}</span>${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}
         <p class="hint" style="margin-top:6px">${esc(t('mgMethodHint'))}</p>
       </div>
       <div class="two-col">
-        <label class="field"><span class="field-label">${esc(t('mgDate'))}</span><input name="date" type="date" required value="${editing?localDateStr(editing.date):nowLocalDate()}"></label>
-        <label class="field"><span class="field-label">${esc(t('mgTime'))}</span><input name="time" type="time" required value="${editing?localTimeStr(editing.date):nowLocalTime()}"></label>
+        <label class="field"><span class="field-label">${esc(t('mgDate'))}</span><input name="date" type="date" required value="${editing?localDateStr(editing.eventAt||editing.date):nowLocalDate()}"></label>
+        <label class="field"><span class="field-label">${esc(t('mgTime'))}</span><input name="time" type="time" step="1" required value="${editing?localTimeSecStr(editing.eventAt||editing.date):nowLocalTime()}"></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('mgNote'))}</span><textarea name="note" maxlength="4000">${editing?esc(editing.note||''):''}</textarea></label>
       <p class="hint">${esc(t('mgImportantNote'))}</p>`,
@@ -4007,11 +4388,23 @@ function openMGForm(presetId){
       if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
       const acc = getAccount(d.accountId);
       if(!acc){ toast(t('accountNotExist')); return false; }
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
+      const nature = d.nature || 'gift';
+
       if(editing){
+        // 回滚旧账户扣款
         const oldAcc = getAccount(editing.accountId);
-        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(editing.amount));
+        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(editing.amount||0));
+        // 回滚旧关联欠款（如果有）
+        if(editing.linkedDebtId){
+          const oldDebt = getDebt(editing.linkedDebtId);
+          if(oldDebt){
+            // 仅回滚关联标记，不修改账户余额，因为钱已经通过 Money Given 扣除
+            oldDebt.linkedMoneyGivenId = null;
+          }
+        }
         if(round2(Number(acc.balance)||0) < amount){
-          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount));
+          if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount||0));
           toast(t('insufficientBalance')); return false;
         }
         acc.balance = round2((Number(acc.balance)||0) - amount);
@@ -4021,31 +4414,107 @@ function openMGForm(presetId){
         editing.method = (d.method || '').trim();
         editing.methodCustom = (d.methodCustom || '').trim();
         editing.giftType = d.purpose || editing.giftType || 'gift';
-        editing.date = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
+        editing.nature = nature;
+        editing.sourceAccountId = acc.id;
+        editing.eventAt = eventAt;
+        editing.date = eventAt;
         editing.note = (d.note || '');
         editing.updatedAt = Date.now();
+        if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
+        editing.editHistory.push(Date.now());
+        // 若性质从 loan 变为非 loan，解除旧关联
+        if(nature !== 'loan' && editing.linkedDebtId){
+          const oldDebt = getDebt(editing.linkedDebtId);
+          if(oldDebt) oldDebt.linkedMoneyGivenId = null;
+          editing.linkedDebtId = null;
+        }
+        // 若性质从非 loan 变为 loan，建立新关联欠款
+        if(nature === 'loan' && !editing.linkedDebtId){
+          const eventId = editing.eventId || ('EVT-' + Date.now().toString(36).toUpperCase());
+          const debt = {
+            id: uid(), eventId,
+            direction: 'owe_me', person, amount: amount,
+            purpose: 'friend_borrow', purposeCustom: '',
+            method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
+            eventAt, date: eventAt,
+            timezone: 'Asia/Kuala_Lumpur',
+            dueDate: '', reason: t('debtCreatedFromMoneyGiven'),
+            paid: 0, payments: [], status: 'unpaid',
+            linkMode: 'record_only', linkedAccountId: null,
+            linkedMoneyGivenId: editing.id,
+            editHistory: [],
+            createdAt: Date.now(), updatedAt: Date.now()
+          };
+          state.debts.push(debt);
+          editing.linkedDebtId = debt.id;
+        } else if(nature === 'loan' && editing.linkedDebtId){
+          const debt = getDebt(editing.linkedDebtId);
+          if(debt){
+            debt.person = person;
+            debt.amount = amount;
+            debt.eventAt = eventAt; debt.date = eventAt;
+            debt.updatedAt = Date.now();
+          }
+        }
         afterChange(); toast(t('mgUpdated'));
       }else{
         if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
         acc.balance = round2((Number(acc.balance)||0) - amount);
+        const eventId = 'EVT-' + Date.now().toString(36).toUpperCase();
         const mg = {
-          id: uid(), person, amount, accountId: acc.id,
+          id: uid(), eventId,
+          person, amount, accountId: acc.id,
+          sourceAccountId: acc.id,
+          nature,
           purpose: (d.purpose || '').trim(),
           purposeCustom: (d.purposeCustom || '').trim(),
           method: (d.method || '').trim(),
           methodCustom: (d.methodCustom || '').trim(),
           giftType: d.purpose || 'gift',
-          date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+          eventAt, date: eventAt,
+          timezone: 'Asia/Kuala_Lumpur',
           note: (d.note || ''),
+          linkedDebtId: null,
+          editHistory: [],
           createdAt: Date.now(), updatedAt: Date.now()
         };
+        // 若性质为 loan，建立关联欠款（仅记录，不重复扣款）
+        if(nature === 'loan'){
+          const debt = {
+            id: uid(), eventId,
+            direction: 'owe_me', person, amount: amount,
+            purpose: 'friend_borrow', purposeCustom: '',
+            method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
+            eventAt, date: eventAt,
+            timezone: 'Asia/Kuala_Lumpur',
+            dueDate: '', reason: t('debtCreatedFromMoneyGiven'),
+            paid: 0, payments: [], status: 'unpaid',
+            linkMode: 'record_only', linkedAccountId: null,
+            linkedMoneyGivenId: mg.id,
+            editHistory: [],
+            createdAt: Date.now(), updatedAt: Date.now()
+          };
+          state.debts.push(debt);
+          mg.linkedDebtId = debt.id;
+        }
         state.moneyGiven.push(mg);
-        saveState();   // V1.01: 立即持久化
-        afterChange(); toast(t('mgCreated'));
+        saveState();
+        afterChange(); toast(nature === 'loan' ? t('mgCreated') + ' · ' + t('mgLoanDebtCreated') : t('mgCreated'));
       }
       return true;
     },
-    afterRender(root){ bindPurposePicker(root, 'mg'); bindMethodPicker(root); }
+    afterRender(root){
+      bindPurposePicker(root, 'mg'); bindMethodPicker(root);
+      const sel = root.querySelector('#mg-nature');
+      const hint = root.querySelector('#mg-nature-hint');
+      if(sel && hint){
+        const update = () => {
+          hint.textContent = sel.value === 'loan' ? t('mgNatureHintLoan') : sel.value === 'other' ? t('mgNatureHintOther') : t('mgNatureHintGift');
+        };
+        sel.addEventListener('change', update);
+        update();
+      }
+    }
   });
 }
 function mgMenu(id){
@@ -4057,6 +4526,11 @@ function mgMenu(id){
       confirmDialog(t('mgDeleteConfirm'), () => {
         const acc = getAccount(m.accountId);
         if(acc) acc.balance = round2((Number(acc.balance)||0) + Number(m.amount));
+        // 解除关联欠款标记
+        if(m.linkedDebtId){
+          const d = getDebt(m.linkedDebtId);
+          if(d) d.linkedMoneyGivenId = null;
+        }
         state.moneyGiven = state.moneyGiven.filter(x => x.id !== id);
         afterChange(); toast(t('mgDeleted'));
       });
@@ -4067,11 +4541,12 @@ function mgCard(m){
   const acc = getAccount(m.accountId);
   const purposeText = m.purposeCustom ? m.purposeCustom : mgPurposeDisplay(m.purpose);
   const methodText = m.methodCustom ? m.methodCustom : methodDisplay(m.method);
+  const natureLabel = m.nature === 'loan' ? '🤝 ' + t('mgNatureLoan') : m.nature === 'other' ? t('mgNatureOther') : '🎁 ' + t('mgNatureGift');
   return `<div class="debt-card">
     <div class="debt-top">
       <div style="min-width:0;flex:1">
-        <div class="debt-name">${esc(m.person)} <span class="badge st-bad">${esc(t('moneyGiven'))}</span></div>
-        <div class="goal-sub">${esc(localDateStr(m.date))} ${esc(localTimeStr(m.date))} · ${esc(acc ? acc.name : '—')}</div>
+        <div class="debt-name">${esc(m.person)} <span class="badge st-bad">${esc(t('moneyGiven'))}</span> <span class="badge st-active">${esc(natureLabel)}</span></div>
+        <div class="goal-sub">${esc(localDateTimeStr(m.eventAt||m.date))} · ${esc(acc ? acc.name : '—')}</div>
         ${purposeText ? `<div class="goal-sub">📋 ${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">💳 ${esc(methodText)}</div>` : '')}
         ${m.note ? `<div class="goal-sub note-full">${esc(m.note)}</div>` : ''}
       </div>
@@ -4125,8 +4600,8 @@ function editTransaction(id){
         <select name="accountId">${state.accounts.map(a => `<option value="${a.id}" ${a.id===tx.accountId?'selected':''}>${esc(a.name)}（${fmtNum(a.balance||0)}）</option>`).join('')}</select>
       </label>
       <div class="two-col">
-        <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${localDateStr(tx.date)}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${localTimeStr(tx.date)}" required></label>
+        <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${localDateStr(tx.eventAt||tx.date)}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${localTimeSecStr(tx.eventAt||tx.date)}" required></label>
       </div>
       <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000">${esc(tx.note||'')}</textarea></label>`,
     onSubmit(d){
@@ -4153,9 +4628,12 @@ function editTransaction(id){
       tx.method = d.method || '';
       tx.methodCustom = d.methodCustom || '';
       tx.accountId = newAcc.id;
-      tx.date = combineDateTime(d.date || localDateStr(tx.date), d.time || localTimeStr(tx.date));
+      const newEventAt = combineDateTime(d.date || localDateStr(tx.eventAt||tx.date), d.time || localTimeSecStr(tx.eventAt||tx.date));
+      tx.eventAt = newEventAt; tx.date = newEventAt;
       tx.note = (d.note || '');
       tx.updatedAt = Date.now();
+      if(!Array.isArray(tx.editHistory)) tx.editHistory = [];
+      tx.editHistory.push(Date.now());
       afterChange(); toast(t('accountUpdated')); return true;
     },
     afterRender(root){ bindCategoryPicker(root, isIncome?'income':'expense'); bindMethodPicker(root); }
@@ -4196,7 +4674,7 @@ function deleteTransaction(id){
 }
 
 /* =========================================================================
-   储蓄目标 / 资产
+   储蓄目标 / 资产（保持原有 + 秒级时间）
    ========================================================================= */
 function openGoalForm(){
   openSheet({
@@ -4217,7 +4695,7 @@ function openGoalForm(){
       const target = round2(parseFloat(d.target));
       if(!name){ toast(t('catEnterName')); return false; }
       if(!(target > 0)){ toast(t('invalidAmount')); return false; }
-      state.goals.push({ id: uid(), name, targetAmount: target, deadline: d.deadline || '', saved: 0, icon: d.icon || '', note: (d.note || ''), status: 'active', createdAt: Date.now() });
+      state.goals.push({ id: uid(), name, targetAmount: target, deadline: d.deadline || '', saved: 0, icon: d.icon || '', note: (d.note || ''), status: 'active', editHistory: [], createdAt: Date.now() });
       afterChange(); toast(t('goalCreated')); return true;
     }
   });
@@ -4250,6 +4728,8 @@ function editGoal(id){
       const target = round2(parseFloat(d.target));
       if(!name || !(target > 0)){ toast(t('invalidAmount')); return false; }
       g.name = name; g.targetAmount = target; g.deadline = d.deadline || ''; g.icon = d.icon || ''; g.note = (d.note || '');
+      if(!Array.isArray(g.editHistory)) g.editHistory = [];
+      g.editHistory.push(Date.now());
       afterChange(); toast(t('accountUpdated')); return true;
     }
   });
@@ -4267,7 +4747,7 @@ function openGoalDeposit(goalId){
       <label class="field"><span class="field-label">${esc(t('fromAccount'))}</span><select name="accountId">${accountOptions()}</select></label>
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
       </div>
       <p class="hint">${esc(t('goalDepositHint', { amt: money(availableBalance()) }))}</p>`,
     onSubmit(d){
@@ -4278,10 +4758,13 @@ function openGoalDeposit(goalId){
       if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
       acc.balance = round2((Number(acc.balance)||0) - amount);
       g.saved = round2((Number(g.saved)||0) + amount);
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'goal_deposit', amount,
-        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        eventAt, date: eventAt,
+        timezone: 'Asia/Kuala_Lumpur',
         accountId: acc.id, goalId: g.id, category: 'Savings', note: '',
+        editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('goalDeposited')); return true;
@@ -4303,7 +4786,7 @@ function openGoalWithdraw(goalId){
       <label class="field"><span class="field-label">${esc(t('toAccount'))}</span><select name="accountId">${accountOptions()}</select></label>
       <div class="two-col">
         <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" value="${nowLocalTime()}" required></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
       </div>
       <p class="hint">${esc(t('goalWithdrawHint', { amt: money(saved) }))}</p>`,
     onSubmit(d){
@@ -4314,10 +4797,13 @@ function openGoalWithdraw(goalId){
       if(amount > round2(Number(g.saved)||0) + 0.001){ toast(t('goalExceed')); return false; }
       g.saved = round2((Number(g.saved)||0) - amount);
       acc.balance = round2((Number(acc.balance)||0) + amount);
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
       state.transactions.push({
         id: uid(), type: 'goal_withdraw', amount,
-        date: combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime()),
+        eventAt, date: eventAt,
+        timezone: 'Asia/Kuala_Lumpur',
         accountId: acc.id, goalId: g.id, category: 'Savings', note: '',
+        editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
       afterChange(); toast(t('goalWithdrew')); return true;
@@ -4345,9 +4831,13 @@ function cancelGoal(id){
       const acc = getAccount(d.accountId);
       if(!acc){ toast(t('accountNotExist')); return false; }
       acc.balance = round2((Number(acc.balance)||0) + saved);
+      const eventAt = nowISO();
       state.transactions.push({
-        id: uid(), type: 'goal_withdraw', amount: saved, date: nowISO(),
+        id: uid(), type: 'goal_withdraw', amount: saved,
+        eventAt, date: eventAt,
+        timezone: 'Asia/Kuala_Lumpur',
         accountId: acc.id, goalId: g.id, category: 'Savings', note: 'Goal cancelled',
+        editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
       state.goals = state.goals.filter(x => x.id !== id);
@@ -4378,7 +4868,7 @@ function openAssetForm(){
       if(!name){ toast(t('assetValidName')); return false; }
       if(!(price > 0)){ toast(t('assetValidPrice')); return false; }
       if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
-      state.assets.push({ id: uid(), name, price, purchaseDate: d.purchaseDate || nowLocalDate(), expectedYears: years, expectedMonths: months, endDate: null, status: 'active', manualValue: null, manualNote: '', note: (d.note || ''), createdAt: Date.now() });
+      state.assets.push({ id: uid(), name, price, purchaseDate: d.purchaseDate || nowLocalDate(), expectedYears: years, expectedMonths: months, endDate: null, status: 'active', manualValue: null, manualNote: '', note: (d.note || ''), editHistory: [], createdAt: Date.now() });
       afterChange(); toast(t('assetAdded')); return true;
     }
   });
@@ -4421,6 +4911,8 @@ function editAsset(id){
       if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
       a.name = name; a.price = price; a.purchaseDate = d.purchaseDate || a.purchaseDate;
       a.expectedYears = years; a.expectedMonths = months; a.note = (d.note || '');
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push(Date.now());
       afterChange(); toast(t('assetUpdated')); return true;
     }
   });
@@ -4451,6 +4943,8 @@ function openAssetAdjust(id){
         a.manualValue = v;
       }
       a.manualNote = (d.manualNote || '');
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push(Date.now());
       afterChange(); toast(t('assetAdjusted')); return true;
     }
   });
@@ -4482,6 +4976,8 @@ function openAssetEnd(id){
       const endDate = d.endDate || nowLocalDate();
       if(new Date(endDate) < new Date(a.purchaseDate)){ toast(t('assetEndBeforeBuy')); return false; }
       a.endDate = endDate; a.status = d.status || 'ended';
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push(Date.now());
       afterChange(); toast(t('assetEnded')); return true;
     }
   });
