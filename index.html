@@ -37,8 +37,6 @@ body.no-scroll{overflow:hidden;}
 button{font-family:inherit;font-size:inherit;line-height:inherit;color:inherit;}
 input,select,textarea{font-family:inherit;font-size:inherit;line-height:inherit;color:inherit;}
 img,svg,video{max-width:100%;height:auto;display:block;}
-
-/* ---------- App 容器：真正跨平台自适应 ---------- */
 #app{
   max-width:560px;margin:0 auto;
   min-height:100vh;min-height:100dvh;
@@ -46,21 +44,9 @@ img,svg,video{max-width:100%;height:auto;display:block;}
   padding-left:var(--safe-l);padding-right:var(--safe-r);
   overflow-x:hidden;
 }
-@media (min-width:561px){
-  #app{
-    max-width:600px;
-    box-shadow:0 0 60px rgba(91,75,138,.08);
-    background:var(--bg);
-  }
-}
-@media (min-width:900px){
-  #app{max-width:720px;}
-}
-@media (min-width:1200px){
-  #app{max-width:860px;}
-}
-
-/* ---------- 品牌 wordmark ---------- */
+@media (min-width:561px){ #app{max-width:600px;box-shadow:0 0 60px rgba(91,75,138,.08);background:var(--bg);} }
+@media (min-width:900px){ #app{max-width:720px;} }
+@media (min-width:1200px){ #app{max-width:860px;} }
 .jiheng-wordmark{display:inline-flex;align-items:baseline;gap:8px;font-weight:800;letter-spacing:-.5px;line-height:1;flex-wrap:wrap;}
 .jiheng-wordmark .zh{font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif;font-size:24px;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#5b4b8a 0%,#8a7bb8 60%,#c9a961 100%);-webkit-background-clip:text;background-clip:text;color:transparent;position:relative;}
 .jiheng-wordmark .zh::after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:2px;border-radius:2px;background:linear-gradient(90deg,#5b4b8a 0%,#c9a961 100%);opacity:.35;}
@@ -68,16 +54,12 @@ img,svg,video{max-width:100%;height:auto;display:block;}
 .jiheng-wordmark.light .zh{background:linear-gradient(135deg,#ffffff 0%,#e8e2f5 50%,#e6d3a8 100%);-webkit-background-clip:text;background-clip:text;color:transparent;}
 .jiheng-wordmark.light .zh::after{background:linear-gradient(90deg,#fff 0%,#e6d3a8 100%);opacity:.5;}
 .jiheng-wordmark.light .en{color:#fff;opacity:.85;}
-
-/* ---------- 顶部栏 ---------- */
 .topbar{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(12px + var(--safe-t)) 16px 12px;background:rgba(247,246,251,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);}
 .topbar h1{font-size:17px;font-weight:700;margin:0;letter-spacing:.2px;color:var(--brand);min-width:0;overflow-wrap:anywhere;word-break:break-word;line-height:1.4;text-align:center;flex:1;}
 .topbar.brand{padding-top:calc(10px + var(--safe-t));}
 .icon-btn{width:38px;height:38px;min-width:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;font-size:16px;color:var(--brand);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;line-height:1;}
 .icon-btn:active{transform:scale(.92);}
 .icon-btn.sm{width:30px;height:30px;min-width:30px;font-size:14px;border-radius:10px;box-shadow:none;background:var(--brand-soft);}
-
-/* ---------- 主视图 ---------- */
 .view{padding:4px 16px 24px;display:flex;flex-direction:column;gap:14px;}
 section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
@@ -90,8 +72,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .c-red{color:var(--red)!important;}
 .c-muted{color:var(--muted)!important;}
 .c-amber{color:var(--amber)!important;}
-
-/* ---------- 产品身份说明 ---------- */
 .product-notice{background:linear-gradient(135deg,#fff 0%,var(--brand-soft) 100%);border:1.5px solid var(--brand-3);border-radius:18px;padding:14px 14px 12px;box-shadow:0 4px 16px rgba(91,75,138,.10);}
 .product-notice .pn-head{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
 .product-notice .pn-icon{width:26px;height:26px;min-width:26px;border-radius:8px;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex:0 0 auto;line-height:1;}
@@ -101,8 +81,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .product-notice .pn-flag{font-size:10.5px;font-weight:800;color:#fff;background:var(--brand);padding:3px 7px;border-radius:6px;letter-spacing:.4px;flex:0 0 auto;margin-top:2px;min-width:34px;text-align:center;line-height:1.3;}
 .product-notice .pn-text{font-size:12.5px;line-height:1.6;color:var(--text);font-weight:500;flex:1;min-width:0;overflow-wrap:anywhere;word-break:break-word;}
 .product-notice .pn-text b{color:var(--brand);font-weight:800;}
-
-/* ---------- Lock Screen（跨平台自适应） ---------- */
 .lock-screen{
   position:fixed;inset:0;z-index:500;
   background:linear-gradient(160deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);
@@ -127,15 +105,7 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .pin-dot.error{border-color:#ff8a8a;background:#ff8a8a;}
 .lock-msg{min-height:18px;font-size:12px;margin:0 0 10px;color:#ffd6d6;font-weight:600;text-align:center;line-height:1.5;flex:0 0 auto;overflow-wrap:anywhere;word-break:break-word;padding:0 4px;width:100%;}
 .keypad{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;max-width:280px;flex:0 0 auto;}
-.key{
-  min-height:46px;height:auto;padding:10px 6px;
-  border-radius:14px;border:none;background:rgba(255,255,255,.16);color:#fff;
-  font-size:19px;font-weight:600;line-height:1.2;cursor:pointer;
-  transition:background .1s,transform .1s;
-  -webkit-user-select:none;user-select:none;touch-action:manipulation;
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  overflow-wrap:anywhere;word-break:break-word;min-width:0;
-}
+.key{min-height:46px;height:auto;padding:10px 6px;border-radius:14px;border:none;background:rgba(255,255,255,.16);color:#fff;font-size:19px;font-weight:600;line-height:1.2;cursor:pointer;transition:background .1s,transform .1s;-webkit-user-select:none;user-select:none;touch-action:manipulation;display:flex;align-items:center;justify-content:center;text-align:center;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
 .key:active{transform:scale(.94);background:rgba(255,255,255,.30);}
 .key.fn{font-size:12px;font-weight:700;background:transparent;line-height:1.3;}
 .key.fn:active{background:rgba(255,255,255,.14);}
@@ -191,8 +161,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
   .lock-ok-btn{max-width:320px;font-size:15px;padding:14px;}
   .lock-footer{max-width:320px;}
 }
-
-/* ---------- Hero（首页大卡） ---------- */
 .hero{position:relative;overflow:hidden;border-radius:24px;padding:22px 20px;background:linear-gradient(135deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);color:#fff;box-shadow:var(--shadow-brand);}
 .hero::after{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(201,169,97,.10);top:-120px;right:-80px;pointer-events:none;}
 .hero::before{content:'';position:absolute;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.05);bottom:-90px;left:-40px;pointer-events:none;}
@@ -207,8 +175,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .split-item span{font-size:11.5px;opacity:.85;line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
 .split-item b{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.3;overflow-wrap:anywhere;word-break:break-all;}
 .split-div{width:1px;background:rgba(255,255,255,.22);flex:0 0 auto;}
-
-/* ---------- Mini 数据卡 ---------- */
 .mini-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media (max-width:340px){ .mini-row{grid-template-columns:1fr;} }
 .mini{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);min-width:0;}
@@ -216,15 +182,11 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .mini b{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;word-break:break-all;line-height:1.3;overflow-wrap:anywhere;}
 .mini.tappable{cursor:pointer;transition:transform .12s;}
 .mini.tappable:active{transform:scale(.98);}
-
-/* ---------- Quick 快捷按钮 ---------- */
 .quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
 @media (max-width:380px){ .quick{grid-template-columns:repeat(2,minmax(0,1fr));} }
 .quick button{background:#fff;border:none;border-radius:16px;padding:12px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font-size:11.5px;color:var(--text);box-shadow:var(--shadow);cursor:pointer;font-weight:600;transition:transform .12s;line-height:1.35;overflow-wrap:anywhere;word-break:break-word;text-align:center;min-height:62px;min-width:0;}
 .quick button:active{transform:scale(.94);}
 .quick .qi{font-size:17px;line-height:1;color:var(--brand);}
-
-/* ---------- 列表行 ---------- */
 .row{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;transition:background .12s;min-width:0;}
 .row:active{background:#fafbfd;}
 .row-icon{width:38px;height:38px;min-width:38px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;font-size:17px;flex:0 0 auto;line-height:1;}
@@ -233,16 +195,12 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .row-sub{font-size:12px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;white-space:pre-wrap;}
 .row-amount{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;line-height:1.3;}
 .tx-amt{font-size:14.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;line-height:1.3;}
-
-/* ---------- 空状态 ---------- */
 .empty{padding:22px 16px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;overflow-wrap:anywhere;}
 .empty p{margin:0 0 10px;}
 .empty.big{padding:40px 20px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);}
 .empty-icon{font-size:38px;margin-bottom:10px;opacity:.7;line-height:1;}
 .empty.big p{font-size:14.5px;font-weight:600;color:var(--text);margin-bottom:4px;line-height:1.5;}
 .empty.big span{display:block;font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.6;}
-
-/* ---------- 按钮 ---------- */
 .btn{border:none;border-radius:13px;padding:13px 18px;font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s,opacity .12s;line-height:1.4;white-space:normal;overflow-wrap:anywhere;word-break:break-word;text-align:center;min-height:44px;display:inline-flex;align-items:center;justify-content:center;}
 .btn:active{transform:scale(.97);}
 .btn.primary{background:var(--brand);color:#fff;box-shadow:0 6px 16px rgba(91,75,138,.28);}
@@ -251,25 +209,17 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .btn.soft{background:var(--brand-soft);color:var(--brand);font-size:13.5px;padding:10px 14px;flex:1 1 0;min-width:0;}
 .btn.sm{padding:9px 16px;font-size:13.5px;min-height:38px;}
 .btn.block{width:100%;}
-
-/* ---------- Seg / Filter 条 ---------- */
 .seg{display:flex;background:#fff;border-radius:14px;padding:4px;box-shadow:var(--shadow);gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .seg::-webkit-scrollbar{display:none;}
 .seg button{flex:0 0 auto;border:none;background:none;padding:9px 14px;border-radius:11px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;transition:all .18s;line-height:1.4;}
 .seg button.on{background:var(--brand);color:#fff;box-shadow:0 4px 10px rgba(91,75,138,.22);}
-
-/* ---------- 日期分组 ---------- */
 .day-group{display:flex;flex-direction:column;gap:8px;}
 .day-head{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:var(--muted);padding:0 4px;font-weight:600;gap:8px;flex-wrap:wrap;line-height:1.4;}
 .day-head i{font-style:normal;font-weight:700;}
-
-/* ---------- Summary strip ---------- */
 .summary-strip{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;gap:16px;flex-wrap:wrap;}
 .summary-strip>div{flex:1 1 120px;display:flex;flex-direction:column;gap:3px;min-width:0;}
 .summary-strip span{font-size:12px;color:var(--muted);line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
 .summary-strip b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;line-height:1.25;overflow-wrap:anywhere;}
-
-/* ---------- Goal / Asset / Debt 卡片 ---------- */
 .goal-card,.asset-card,.debt-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
 .goal-top,.asset-top,.debt-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;flex-wrap:wrap;}
 .goal-name,.asset-name,.debt-name{font-size:15.5px;font-weight:700;display:flex;align-items:center;gap:6px;flex-wrap:wrap;overflow-wrap:anywhere;word-break:break-word;line-height:1.4;min-width:0;}
@@ -292,8 +242,7 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .st-debt-iowe{background:#fdecec;color:var(--red);}
 .st-debt-oweme{background:#e7f8f1;color:var(--green);}
 .st-partial{background:#fff5e6;color:var(--amber);}
-
-/* ---------- Asset 网格 ---------- */
+.st-record{background:#f0f0f5;color:var(--muted);}
 .asset-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;}
 @media (max-width:340px){ .asset-grid{grid-template-columns:1fr;} }
 .asset-grid>div{display:flex;flex-direction:column;gap:2px;min-width:0;}
@@ -303,15 +252,11 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .ar{display:flex;justify-content:space-between;font-size:12.5px;gap:8px;overflow-wrap:anywhere;word-break:break-word;align-items:flex-start;}
 .ar span{color:var(--muted);flex:0 0 auto;line-height:1.5;}
 .ar b{font-weight:700;font-variant-numeric:tabular-nums;text-align:right;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;min-width:0;}
-
-/* ---------- Stat 网格 ---------- */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media (max-width:340px){ .stat-grid{grid-template-columns:1fr;} }
 .stat-box{background:#fff;border-radius:var(--r-md);padding:14px;box-shadow:var(--shadow);min-width:0;}
 .stat-box span{font-size:12px;color:var(--muted);display:block;margin-bottom:4px;line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
 .stat-box b{font-size:18px;font-weight:800;font-variant-numeric:tabular-nums;word-break:break-all;line-height:1.3;overflow-wrap:anywhere;}
-
-/* ---------- 分类统计行 ---------- */
 .cat-row{display:flex;flex-direction:column;gap:6px;padding:11px 0;}
 .cat-row+.cat-row{border-top:1px solid var(--line);}
 .cat-head{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;gap:8px;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;}
@@ -320,16 +265,12 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .cat-bar{height:6px;background:#f0eff7;border-radius:99px;overflow:hidden;}
 .cat-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--brand),var(--brand-2));}
 .cat-bar i.inc{background:linear-gradient(90deg,#0e9b6b,#34d399);}
-
-/* ---------- 趋势图 ---------- */
 .trend{display:flex;align-items:flex-end;gap:6px;height:130px;padding-top:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
 .trend-col{flex:1 1 0;min-width:32px;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;}
 .trend-bar{width:100%;max-width:26px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,var(--brand-2),var(--brand));min-height:3px;transition:height .4s;}
 .trend-bar.neg{background:linear-gradient(180deg,#fca5a5,#ef4444);}
 .trend-lbl{font-size:11px;color:var(--muted);font-weight:600;line-height:1.3;white-space:nowrap;}
 .trend-val{font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums;line-height:1.3;white-space:nowrap;}
-
-/* ---------- 设置行 ---------- */
 .set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;flex-wrap:wrap;}
 .set-row+.set-row{border-top:1px solid var(--line);}
 .set-title{font-size:14.5px;font-weight:600;line-height:1.4;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
@@ -343,8 +284,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .switch.on{background:var(--brand);}
 .switch.on i{transform:translateX(20px);}
 .about{font-size:11.5px;color:var(--muted);text-align:center;line-height:1.7;padding:0 8px;overflow-wrap:anywhere;word-break:break-word;}
-
-/* ---------- 成就 ---------- */
 .ach-grid{display:grid;grid-template-columns:1fr;gap:12px;}
 @media (min-width:720px){ .ach-grid{grid-template-columns:1fr 1fr;} }
 .ach{background:#fff;border-radius:var(--r-lg);padding:14px 16px;text-align:left;box-shadow:var(--shadow);opacity:.85;transition:opacity .2s;border:1.5px solid transparent;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
@@ -362,8 +301,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .ach-progress-text{font-size:11px;font-weight:700;color:var(--muted);white-space:nowrap;line-height:1.3;}
 .ach-status{font-size:11px;font-weight:700;color:var(--green);white-space:nowrap;line-height:1.3;flex:0 0 auto;}
 .ach-status.locked{color:var(--muted);font-weight:600;}
-
-/* ---------- 底部导航 ---------- */
 .tabbar{position:fixed;bottom:0;left:0;right:0;max-width:560px;margin:0 auto;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;padding:8px 4px calc(8px + var(--safe-b));padding-left:calc(4px + var(--safe-l));padding-right:calc(4px + var(--safe-r));}
 @media (min-width:561px){ .tabbar{max-width:600px;} }
 @media (min-width:900px){ .tabbar{max-width:720px;} }
@@ -372,8 +309,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .tabbar button .ti{font-size:18px;line-height:1;transition:transform .18s;}
 .tabbar button.on{color:var(--brand);}
 .tabbar button.on .ti{transform:translateY(-1px) scale(1.06);}
-
-/* ---------- Sheet（底部弹出） ---------- */
 #sheet-root{position:fixed;inset:0;z-index:100;pointer-events:none;}
 #sheet-root.show{pointer-events:auto;}
 #sheet-root .mask{position:absolute;inset:0;background:rgba(28,24,48,.45);opacity:0;transition:opacity .26s;}
@@ -391,8 +326,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .sheet-body{padding:0 18px;}
 .sheet-foot{display:flex;gap:10px;padding:8px 18px 4px;position:sticky;bottom:0;background:#fff;padding-top:12px;flex-wrap:wrap;}
 .sheet-foot .btn{flex:1 1 120px;}
-
-/* ---------- 表单字段 ---------- */
 .field{display:block;margin-bottom:14px;}
 .field-label{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
 .field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);background:#fafbfc;border-radius:13px;padding:12px 14px;font-size:15px;color:var(--text);font-family:inherit;outline:none;transition:border-color .16s,background .16s;appearance:none;-webkit-appearance:none;overflow-wrap:anywhere;line-height:1.5;min-width:0;}
@@ -405,19 +338,13 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 @media (max-width:340px){ .two-col{grid-template-columns:1fr;} }
 .hint{font-size:11.5px;color:var(--muted);margin:-8px 0 14px;line-height:1.6;overflow-wrap:anywhere;word-break:break-word;}
-
-/* ---------- Action list ---------- */
 .action-list{padding:0 14px 6px;display:flex;flex-direction:column;gap:6px;}
 .action-item{width:100%;border:none;background:#f7f8fc;border-radius:14px;padding:15px 16px;text-align:left;font-size:15px;font-weight:600;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:10px;transition:background .14s,transform .12s;overflow-wrap:anywhere;word-break:break-word;line-height:1.5;min-height:44px;}
 .action-item:active{transform:scale(.985);background:#eef0f7;}
 .action-item.danger{color:var(--red);}
-
-/* ---------- Confirm ---------- */
 .confirm-msg{font-size:15px;line-height:1.6;padding:16px 4px 20px;margin:0;text-align:center;font-weight:600;overflow-wrap:anywhere;word-break:break-word;}
 .confirm-btns{display:flex;gap:10px;padding:0 2px 8px;flex-wrap:wrap;}
 .confirm-btns .btn{flex:1 1 120px;}
-
-/* ---------- Chip / Option ---------- */
 .chip-row{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:14px;}
 .chip{border:none;background:#f2f3f7;color:var(--text);font-size:12.5px;font-weight:600;padding:8px 13px;border-radius:11px;cursor:pointer;transition:all .14s;max-width:100%;overflow-wrap:anywhere;word-break:break-word;line-height:1.4;}
 .chip:active{transform:scale(.95);}
@@ -427,34 +354,24 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .opt-item:active{background:#eef0f7;}
 .opt-item.on{background:var(--brand);color:#fff;font-weight:600;}
 .opt-label{font-size:11px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.4px;padding:10px 2px 4px;line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
-
-/* ---------- Guide 卡片 ---------- */
 .guide-item{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;}
 .guide-icon{width:42px;height:42px;min-width:42px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:inline-flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto;line-height:1;}
 .guide-body{flex:1 1 200px;min-width:0;}
 .guide-title{font-size:14.5px;font-weight:700;color:var(--brand);margin-bottom:4px;line-height:1.4;overflow-wrap:anywhere;word-break:break-word;}
 .guide-desc{font-size:13px;color:var(--text);line-height:1.6;overflow-wrap:anywhere;word-break:break-word;}
-
-/* ---------- Version card ---------- */
 .version-card{background:#fff;border-radius:var(--r-lg);padding:16px;box-shadow:var(--shadow);}
 .version-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;gap:8px;flex-wrap:wrap;}
 .version-no{font-size:16px;font-weight:800;color:var(--brand);line-height:1.3;}
 .version-date{font-size:12px;color:var(--muted);line-height:1.3;}
 .version-title{font-size:13px;font-weight:700;margin-bottom:8px;color:var(--text);line-height:1.5;overflow-wrap:anywhere;word-break:break-word;}
 .version-list{margin:0;padding-left:18px;font-size:13px;line-height:1.9;color:var(--text);overflow-wrap:anywhere;word-break:break-word;}
-
-/* ---------- Toast ---------- */
 #toast-root{position:fixed;left:0;right:0;top:calc(16px + var(--safe-t));z-index:200;pointer-events:none;display:flex;justify-content:center;padding:0 16px;}
 .toast{background:rgba(28,24,48,.92);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:14px;max-width:100%;text-align:center;opacity:0;transform:translateY(-12px);transition:all .28s cubic-bezier(.3,1.4,.5,1);box-shadow:0 8px 24px rgba(0,0,0,.22);overflow-wrap:anywhere;word-break:break-word;line-height:1.4;}
 .toast.in{opacity:1;transform:translateY(0);}
-
-/* ---------- 搜索栏 ---------- */
 .search-bar{display:flex;gap:8px;align-items:center;}
 .search-input{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:13px;padding:11px 14px;font-size:14.5px;outline:none;transition:border-color .16s;min-width:0;line-height:1.4;}
 .search-input:focus{border-color:var(--brand);}
 .search-clear{width:38px;height:38px;min-width:38px;border-radius:12px;border:none;background:#fff;box-shadow:var(--shadow);color:var(--brand);font-size:14px;cursor:pointer;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;line-height:1;}
-
-/* ---------- Records 行 ---------- */
 .records-row{display:flex;gap:10px;align-items:center;padding:14px;background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);cursor:pointer;overflow-wrap:anywhere;word-break:break-word;min-width:0;}
 .records-row .rr-icon{width:44px;height:44px;min-width:44px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-size:20px;flex:0 0 auto;line-height:1;}
 .records-row .rr-main{flex:1;min-width:0;}
@@ -463,8 +380,22 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .records-row .rr-amt{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;line-height:1.3;}
 .note-full{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
 .meta-line{font-size:11px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;line-height:1.4;}
-
-/* ---------- Splash ---------- */
+/* V1.04 Repayment */
+.repay-card{background:#fafbfd;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);position:relative;}
+.repay-card .rp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;}
+.repay-card .rp-amt{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.3;}
+.repay-card .rp-meta{font-size:11.5px;color:var(--muted);line-height:1.5;overflow-wrap:anywhere;word-break:break-word;}
+.repay-card .rp-note{font-size:12.5px;color:var(--text);line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
+.repay-card .rp-tag{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;white-space:nowrap;line-height:1.3;}
+.repay-card .rp-tag.affect{background:#e7f8f1;color:var(--green);}
+.repay-card .rp-tag.record{background:#f0f0f5;color:var(--muted);}
+.repay-card .rp-menu{position:absolute;top:8px;right:8px;width:26px;height:26px;border-radius:8px;border:none;background:rgba(0,0,0,.04);color:var(--brand);font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;line-height:1;}
+.repay-card .rp-menu:active{background:rgba(0,0,0,.08);}
+.repay-history-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
+.repay-history-head h3{font-size:14.5px;font-weight:700;margin:0;color:var(--brand);}
+.toggle-line{display:flex;align-items:center;gap:10px;padding:10px 0;flex-wrap:wrap;}
+.toggle-line .tl-label{flex:1;min-width:0;font-size:13px;line-height:1.5;overflow-wrap:anywhere;word-break:break-word;}
+.toggle-line .tl-sub{font-size:11.5px;color:var(--muted);line-height:1.5;margin-top:2px;}
 #splash-root{position:fixed;inset:0;z-index:600;background:linear-gradient(160deg,#3d3158 0%,#5b4b8a 55%,#8a7bb8 100%);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s;padding:24px;text-align:center;}
 #splash-root.hide{opacity:0;visibility:hidden;pointer-events:none;}
 #splash-root .sp-word{display:flex;align-items:baseline;gap:12px;animation:spIn .9s cubic-bezier(.2,.8,.3,1) both;flex-wrap:wrap;justify-content:center;}
@@ -488,8 +419,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
   #splash-root .sp-en{font-size:20px;letter-spacing:9px;}
   #splash-root .sp-slogan{font-size:13px;letter-spacing:3px;}
 }
-
-/* ---------- 小屏微调 ---------- */
 @media (max-width:380px){
   .hero-amount{font-size:28px;}
   .quick button{font-size:10.5px;padding:10px 4px;min-height:56px;}
@@ -504,11 +433,7 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
   .stat-box b{font-size:16px;}
   .mini b{font-size:15px;}
 }
-
-/* 滚动条隐藏 */
 ::-webkit-scrollbar{width:0;height:0;}
-
-/* 键盘安全区（移动端输入框弹起时不被遮挡） */
 @supports (padding: max(0px)){
   .lock-screen{padding-bottom:calc(8px + max(var(--safe-b), 0px));}
 }
@@ -522,23 +447,22 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 <div id="splash-root"></div>
 <script>
 /* =========================================================================
-   积衡 Jiheng v1.03
+   积衡 Jiheng v1.04
    -----------------------------------------------------------------------
-   V1.03 核心更新：
-   - 修复 Records 分类筛选条 i18n 问题
-   - 修复 Data Version 被错误显示为 V2，统一为 V1.03
-   - 全 App 日期系统检查，所有记录补齐 eventAt / createdAt / updatedAt / timezone
-   - 时间精度保存到秒
-   - 编辑历史结构化：从数字数组升级为 [{at, action}]
-   - 每次编辑新增一条历史，永不覆盖
-   - 新增 Splash Screen 开屏动画
-   - Splash 与数据初始化并行，不绕过 App Lock
-   - 保留 V1.00 / V1.01 / V1.02 全部用户数据
+   V1.04 核心更新：
+   - 欠款支持多次还款，每次还款独立记录
+   - 每次还款可使用不同账户 / 方式 / 时间 / 备注 / 是否影响账户
+   - 支持「别人欠我」与「我欠别人」双向逻辑
+   - 还款与实际资金流关联，防止重复记账
+   - Repayment 完整编辑历史
+   - Debt Detail 页显示完整还款历史
+   - 新增设置：还款默认是否影响账户
+   - 保留 V1.00 / V1.01 / V1.02 / V1.03 全部用户数据
    ========================================================================= */
 
-const APP_VERSION  = '1.03';
-const DATA_VERSION = 3;
-const DATA_VERSION_LABEL = 'V1.03';
+const APP_VERSION  = '1.04';
+const DATA_VERSION = 4;
+const DATA_VERSION_LABEL = 'V1.04';
 const SCHEMA_SERIES = 'V1';
 
 const STORAGE_KEY       = 'jiheng_state_v1';
@@ -778,6 +702,30 @@ const I18N = {
     debtLinkedAccount:'联动账户',
     debtCreatedFromMoneyGiven:'由「转给他人」自动建立',
 
+    debtDetailTitle:'欠款详情',
+    debtOriginal:'原始记录', debtOriginalAmount:'原始金额', debtOriginalTime:'欠款发生时间',
+    debtSummary:'欠款信息', debtTotalPaid:'已还总额', debtRemaining:'剩余',
+    debtRepayHistory:'还款历史', debtNoRepay:'还没有还款记录',
+    debtAddRepay:'添加还款', debtEditRepay:'编辑还款', debtDeleteRepay:'删除还款',
+    debtRepayDeleted:'还款已删除', debtRepayUpdated:'还款已更新',
+    debtRepayCreated:'还款已记录',
+    debtRepayDeleteConfirm:'确定要删除这笔还款吗？对应账户余额会同步还原。',
+    debtRepayExceed:'超出剩余欠款金额', debtRepayAmount:'还款金额',
+    debtRepayAffectAccount:'影响账户余额',
+    debtRepayAffectAccountOn:'影响账户（账户余额将同步变动）',
+    debtRepayAffectAccountOff:'仅记录（不改变账户余额）',
+    debtRepayAccount:'还款账户', debtRepayAccountHint:'这笔还款进入 / 从哪个账户变动',
+    debtRepayMethod:'还款方式', debtRepayMethodHint:'现实中的还款方式',
+    debtRepayTime:'还款时间', debtRepayNotePlaceholder:'这笔还款的备注（可选）',
+    debtRepayAffectLabel:'影响账户', debtRepayRecordLabel:'仅记录',
+    debtRepayCount:'还款笔数',
+    debtRepayAffectDefaultOn:'还款默认影响账户余额',
+    debtRepayAffectDefaultSub:'关闭后，新还款默认仅记录，不改变账户余额；每笔仍可单独修改。',
+    debtRecordNoRepay:'还没有还款', debtRecordNoRepaySub:'点击「添加还款」记录第一笔还款',
+    debtRepayWillAffectAccount:'此笔还款将影响账户余额',
+    debtRepayWillRecordOnly:'此笔还款仅记录，不改变账户余额',
+    debtRepayRestore:'还款删除后对应账户余额会自动还原',
+
     mgTitle:'转给他人 / 赠与记录', mgSub:'记录现实中已发生的资金转出，例如赠与、给家人、给朋友、归还',
     mgNew:'记录转给他人', mgEdit:'编辑记录',
     mgPerson:'收款人名称', mgPersonPlaceholder:'例如：妈妈',
@@ -818,6 +766,7 @@ const I18N = {
       { id:'first_account',  name:'资金账户创建', desc:'创建第一个资金账户',  icon:'🏛️', how:'创建第一个资金账户即可解锁。', target:1, kind:'account_count' },
       { id:'first_debt',     name:'借贷记录',   desc:'记录第一笔欠款',       icon:'🤝', how:'记录第一笔欠款即可解锁。', target:1, kind:'debt_count' },
       { id:'first_given',    name:'赠与他人',   desc:'首次记录转给他人',     icon:'🎁', how:'首次记录转给他人即可解锁。', target:1, kind:'money_given_count' },
+      { id:'first_repay',    name:'首次还款',   desc:'首次记录一笔还款',     icon:'💰', how:'第一次添加任意欠款的还款即可解锁。', target:1, kind:'repayment_count' },
       { id:'goal_done',      name:'目标达成',   desc:'完成第一个储蓄目标',   icon:'🏅', how:'完成任意一个储蓄目标（100%）即可解锁。', target:1, kind:'goal_done_count' },
       { id:'streak_7',       name:'坚持一周',   desc:'连续 7 天记录交易',    icon:'🔥', how:'连续 7 天至少完成一次有效的财务记录。', target:7, kind:'streak' },
       { id:'streak_30',      name:'坚持一月',   desc:'连续 30 天记录交易',   icon:'⚡', how:'连续 30 天至少完成一次有效的财务记录。', target:30, kind:'streak' },
@@ -842,11 +791,12 @@ const I18N = {
     setLanguage:'语言 / Language', setLanguageSub:'切换应用显示语言',
     setVersion:'App 版本', setDataVersion:'数据版本', setLastUpdate:'最后更新',
     setDataStats:'数据统计', setStatTx:'交易数量', setStatAcc:'资金账户', setStatGoal:'储蓄目标', setStatAsset:'资产数量',
-    setStatTransfers:'账户转移', setStatDebt:'欠款记录', setStatGiven:'转给他人',
+    setStatTransfers:'账户转移', setStatDebt:'欠款记录', setStatGiven:'转给他人', setStatRepay:'还款记录',
     setWhatsNew:'更新记录', setWhatsNewSub:'查看版本更新内容',
     setProductGuide:'产品功能讲解', setProductGuideSub:'了解积衡当前提供的全部功能',
     setSystemInfo:'系统信息', setSystemInfoSub:'App、数据版本与存储状态',
     setIdentity:'产品身份说明', setIdentitySub:'三语完整版本',
+    setDebtDefaults:'欠款设置', setDebtDefaultsSub:'还款默认行为',
 
     catIncome:'收入分类', catExpense:'支出分类', catAdd:'＋ 新增',
     catCustomIncome:'自定义收入分类', catCustomExpense:'自定义支出分类',
@@ -868,7 +818,7 @@ const I18N = {
     clearTitle1:'将清除所有账户、交易、储蓄目标、资产与成就数据，且不可恢复。建议先导出备份。确定继续？',
     clearTitle2:'再次确认：所有财务数据将被永久删除。真的要清除吗？', clearDone:'所有数据已清除',
     saveFail:'保存失败：存储空间不足',
-    accountNotExist:'账户不存在', goalNotExist:'目标不存在', assetNotExist:'资产不存在',
+    accountNotExist:'账户不存在', goalNotExist:'目标不存在', assetNotExist:'资产不存在', debtNotExist:'欠款记录不存在', repayNotExist:'还款记录不存在',
     amountPositive:'金额必须大于 0', invalidNumber:'请输入有效的数字',
     migrationFailed:'积衡无法安全完成此次更新。你的现有数据已被保留。',
     migrationSuccess:'数据已安全迁移，所有记录完整保留。', backupCreated:'已自动创建更新前备份。',
@@ -892,6 +842,8 @@ const I18N = {
     schemaSeriesLabel:'数据系列',
     guideSplashTitle:'开屏动画',
     guideSplashDesc:'冷启动时播放 Jiheng 品牌开屏动画，随后进入 App Lock 或主页。动画不阻塞数据加载，不绕过 App Lock。',
+    guideRepayTitle:'多次还款',
+    guideRepayDesc:'一笔欠款支持无限次还款，每次还款可选择不同账户、方式、时间与备注，并可选择是否影响账户余额。还款历史完整保存。',
 
     incomeCatNames:{
       salary:'工资 / 薪金', part_time:'兼职收入', freelance:'自由职业 / 接案', temp_work:'临时工作', bonus:'奖金', allowance:'津贴',
@@ -959,7 +911,7 @@ const I18N = {
     guideRecordsTitle:'记录 Records',
     guideRecordsDesc:'独立记录不属于收入 / 支出的现实资金事件。包含欠款记录与转给他人。',
     guideDebtsTitle:'欠款记录 Debts',
-    guideDebtsDesc:'记录你欠别人（I Owe）和别人欠你（Owed to Me）。可选择与账户联动（实际扣 / 加余额）或仅记录。支持部分还款与状态追踪。只记录，不实际付款。',
+    guideDebtsDesc:'记录你欠别人（I Owe）和别人欠你（Owed to Me）。可选择与账户联动或仅记录。支持多次还款与状态追踪。只记录，不实际付款。',
     guideMoneyGivenTitle:'转给他人 Money Given',
     guideMoneyGivenDesc:'记录现实中已经给出去的钱。可选择来源账户、用途、转账方式与性质（赠予 / 借给他人 / 其他）。借给他人时会同时建立一笔「别人欠我」的欠款，不会重复扣款。',
     guideGoalTitle:'储蓄目标',
@@ -1153,6 +1105,30 @@ const I18N = {
     debtLinkedAccount:'Linked Account',
     debtCreatedFromMoneyGiven:'Auto-created from Money Given',
 
+    debtDetailTitle:'Debt Detail',
+    debtOriginal:'Original Record', debtOriginalAmount:'Original Amount', debtOriginalTime:'Original Event Time',
+    debtSummary:'Debt Summary', debtTotalPaid:'Total Paid', debtRemaining:'Remaining',
+    debtRepayHistory:'Repayment History', debtNoRepay:'No repayments yet',
+    debtAddRepay:'Add Repayment', debtEditRepay:'Edit Repayment', debtDeleteRepay:'Delete Repayment',
+    debtRepayDeleted:'Repayment deleted', debtRepayUpdated:'Repayment updated',
+    debtRepayCreated:'Repayment recorded',
+    debtRepayDeleteConfirm:'Delete this repayment? Corresponding account balance will be restored.',
+    debtRepayExceed:'Exceeds remaining debt amount', debtRepayAmount:'Repayment Amount',
+    debtRepayAffectAccount:'Affect Account Balance',
+    debtRepayAffectAccountOn:'Affect account (balance will change)',
+    debtRepayAffectAccountOff:'Record only (no balance change)',
+    debtRepayAccount:'Repayment Account', debtRepayAccountHint:'Which account this repayment flows into / out of',
+    debtRepayMethod:'Repayment Method', debtRepayMethodHint:'How the repayment was made in real life',
+    debtRepayTime:'Repayment Time', debtRepayNotePlaceholder:'Note for this repayment (optional)',
+    debtRepayAffectLabel:'Affect Account', debtRepayRecordLabel:'Record Only',
+    debtRepayCount:'Repayments',
+    debtRepayAffectDefaultOn:'Repayments affect account by default',
+    debtRepayAffectDefaultSub:'When off, new repayments default to record-only and do not change account balance; each repayment can still be changed individually.',
+    debtRecordNoRepay:'No repayments yet', debtRecordNoRepaySub:'Tap "Add Repayment" to record the first repayment',
+    debtRepayWillAffectAccount:'This repayment will affect account balance',
+    debtRepayWillRecordOnly:'This repayment will be recorded only',
+    debtRepayRestore:'Deleting a repayment restores the corresponding account balance',
+
     mgTitle:'Record Money Given', mgSub:'Record real-world money given: gifts, family, friends, repayment',
     mgNew:'Record Money Given', mgEdit:'Edit Record',
     mgPerson:'Recipient Name', mgPersonPlaceholder:'e.g. Mom',
@@ -1193,6 +1169,7 @@ const I18N = {
       { id:'first_account',  name:'Money Account Created', desc:'Create first money account', icon:'🏛️', how:'Create your first money account to unlock.', target:1, kind:'account_count' },
       { id:'first_debt',     name:'Debt Recorded', desc:'Record first debt',       icon:'🤝', how:'Record your first debt to unlock.', target:1, kind:'debt_count' },
       { id:'first_given',    name:'Money Given', desc:'First money-given record',   icon:'🎁', how:'Record your first money-given entry to unlock.', target:1, kind:'money_given_count' },
+      { id:'first_repay',    name:'First Repayment', desc:'Record first repayment', icon:'💰', how:'Add a repayment to any debt to unlock.', target:1, kind:'repayment_count' },
       { id:'goal_done',      name:'Goal Achieved', desc:'Complete first savings goal', icon:'🏅', how:'Complete any savings goal (100%) to unlock.', target:1, kind:'goal_done_count' },
       { id:'streak_7',       name:'7-Day Streak', desc:'Record 7 days in a row',   icon:'🔥', how:'Record at least one valid entry for 7 consecutive days.', target:7, kind:'streak' },
       { id:'streak_30',      name:'30-Day Streak', desc:'Record 30 days in a row',  icon:'⚡', how:'Record at least one valid entry for 30 consecutive days.', target:30, kind:'streak' },
@@ -1217,11 +1194,12 @@ const I18N = {
     setLanguage:'Language / 语言', setLanguageSub:'Switch app display language',
     setVersion:'App Version', setDataVersion:'Data Version', setLastUpdate:'Last Update',
     setDataStats:'Data Statistics', setStatTx:'Transactions', setStatAcc:'Money Accounts', setStatGoal:'Goals', setStatAsset:'Assets',
-    setStatTransfers:'Transfers', setStatDebt:'Debt Records', setStatGiven:'Money Given',
+    setStatTransfers:'Transfers', setStatDebt:'Debt Records', setStatGiven:'Money Given', setStatRepay:'Repayments',
     setWhatsNew:'Update History', setWhatsNewSub:'View version updates',
     setProductGuide:'Product Guide', setProductGuideSub:'See what Jiheng offers today',
     setSystemInfo:'System Information', setSystemInfoSub:'App, data version and storage status',
     setIdentity:'Product Identity Notice', setIdentitySub:'Full 3-language version',
+    setDebtDefaults:'Debt Settings', setDebtDefaultsSub:'Repayment default behavior',
 
     catIncome:'Income Categories', catExpense:'Expense Categories', catAdd:'＋ Add',
     catCustomIncome:'Custom Income Categories', catCustomExpense:'Custom Expense Categories',
@@ -1243,7 +1221,7 @@ const I18N = {
     clearTitle1:'This will clear all accounts, transactions, goals, assets and achievements. Export a backup first. Continue?',
     clearTitle2:'Confirm again: all financial data will be permanently deleted. Are you sure?', clearDone:'All data cleared',
     saveFail:'Save failed: storage full',
-    accountNotExist:'Account does not exist', goalNotExist:'Goal does not exist', assetNotExist:'Asset does not exist',
+    accountNotExist:'Account does not exist', goalNotExist:'Goal does not exist', assetNotExist:'Asset does not exist', debtNotExist:'Debt record does not exist', repayNotExist:'Repayment does not exist',
     amountPositive:'Amount must be greater than 0', invalidNumber:'Please enter a valid number',
     migrationFailed:'Jiheng could not safely complete this update. Your existing data has been preserved.',
     migrationSuccess:'Data safely migrated. All records preserved.', backupCreated:'Pre-update backup created automatically.',
@@ -1267,6 +1245,8 @@ const I18N = {
     schemaSeriesLabel:'Data Series',
     guideSplashTitle:'Splash Screen',
     guideSplashDesc:'Plays Jiheng brand splash on cold start, then enters App Lock or Home. Non-blocking and does not bypass App Lock.',
+    guideRepayTitle:'Multiple Repayments',
+    guideRepayDesc:'One debt supports unlimited repayments. Each repayment can use different account, method, time and note, and can individually choose whether to affect the account balance. Full repayment history is preserved.',
 
     incomeCatNames:{
       salary:'Salary / Wages', part_time:'Part-time Income', freelance:'Freelance / Gig', temp_work:'Temp Work', bonus:'Bonus', allowance:'Allowance',
@@ -1334,7 +1314,7 @@ const I18N = {
     guideRecordsTitle:'Records',
     guideRecordsDesc:'A dedicated section for real-world money events that are not Income or Expense. Includes Debt Records and Money Given.',
     guideDebtsTitle:'Debt Records',
-    guideDebtsDesc:'Record what you owe (I Owe) and what others owe you (Owed to Me). Choose account-linked (actually changes balance) or record-only. Supports partial repayment and status tracking. Records only, no actual payments.',
+    guideDebtsDesc:'Record what you owe (I Owe) and what others owe you (Owed to Me). Choose account-linked or record-only. Supports multiple repayments and status tracking. Records only, no actual payments.',
     guideMoneyGivenTitle:'Money Given',
     guideMoneyGivenDesc:'Record money already given in the real world. Choose source account, purpose, method and nature (Gift / Loan / Other). Choosing Loan also creates an "Owed to Me" debt without double-deducting.',
     guideGoalTitle:'Savings Goals',
@@ -1528,6 +1508,30 @@ const I18N = {
     debtLinkedAccount:'Akaun Berpaut',
     debtCreatedFromMoneyGiven:'Dicipta automatik daripada Wang Diberi',
 
+    debtDetailTitle:'Butiran Hutang',
+    debtOriginal:'Rekod Asal', debtOriginalAmount:'Jumlah Asal', debtOriginalTime:'Masa Kejadian Asal',
+    debtSummary:'Ringkasan Hutang', debtTotalPaid:'Jumlah Dibayar', debtRemaining:'Baki',
+    debtRepayHistory:'Sejarah Bayaran', debtNoRepay:'Belum ada bayaran',
+    debtAddRepay:'Tambah Bayaran', debtEditRepay:'Edit Bayaran', debtDeleteRepay:'Padam Bayaran',
+    debtRepayDeleted:'Bayaran dipadam', debtRepayUpdated:'Bayaran dikemas kini',
+    debtRepayCreated:'Bayaran direkod',
+    debtRepayDeleteConfirm:'Padam bayaran ini? Baki akaun berkaitan akan dipulihkan.',
+    debtRepayExceed:'Melebihi baki hutang', debtRepayAmount:'Jumlah Bayaran',
+    debtRepayAffectAccount:'Pengaruhi Baki Akaun',
+    debtRepayAffectAccountOn:'Pengaruhi akaun (baki akan berubah)',
+    debtRepayAffectAccountOff:'Rekod sahaja (baki tidak berubah)',
+    debtRepayAccount:'Akaun Bayaran', debtRepayAccountHint:'Akaun mana bayaran ini masuk / keluar',
+    debtRepayMethod:'Cara Bayaran', debtRepayMethodHint:'Bagaimana bayaran dibuat dalam kehidupan sebenar',
+    debtRepayTime:'Masa Bayaran', debtRepayNotePlaceholder:'Nota untuk bayaran ini (pilihan)',
+    debtRepayAffectLabel:'Pengaruhi Akaun', debtRepayRecordLabel:'Rekod Sahaja',
+    debtRepayCount:'Bilangan Bayaran',
+    debtRepayAffectDefaultOn:'Bayaran mempengaruhi akaun secara lalai',
+    debtRepayAffectDefaultSub:'Apabila dimatikan, bayaran baharu secara lalai hanya direkod dan tidak mengubah baki akaun; setiap bayaran masih boleh diubah secara individu.',
+    debtRecordNoRepay:'Belum ada bayaran', debtRecordNoRepaySub:'Ketik "Tambah Bayaran" untuk merekod bayaran pertama',
+    debtRepayWillAffectAccount:'Bayaran ini akan mempengaruhi baki akaun',
+    debtRepayWillRecordOnly:'Bayaran ini akan direkod sahaja',
+    debtRepayRestore:'Memadam bayaran memulihkan baki akaun berkaitan',
+
     mgTitle:'Rekod Wang Diberi', mgSub:'Rekod wang sebenar yang diberi: hadiah, keluarga, rakan, bayaran balik',
     mgNew:'Rekod Wang Diberi', mgEdit:'Edit Rekod',
     mgPerson:'Nama Penerima', mgPersonPlaceholder:'cth. Emak',
@@ -1568,6 +1572,7 @@ const I18N = {
       { id:'first_account',  name:'Akaun Wang Dicipta', desc:'Cipta akaun wang pertama', icon:'🏛️', how:'Cipta akaun wang pertama untuk membuka.', target:1, kind:'account_count' },
       { id:'first_debt',     name:'Hutang Direkod', desc:'Rekod hutang pertama', icon:'🤝', how:'Rekod hutang pertama untuk membuka.', target:1, kind:'debt_count' },
       { id:'first_given',    name:'Wang Diberi', desc:'Rekod wang diberi pertama', icon:'🎁', how:'Rekod wang diberi pertama untuk membuka.', target:1, kind:'money_given_count' },
+      { id:'first_repay',    name:'Bayaran Pertama', desc:'Rekod bayaran pertama', icon:'💰', how:'Tambah bayaran pada mana-mana hutang untuk membuka.', target:1, kind:'repayment_count' },
       { id:'goal_done',      name:'Sasaran Dicapai', desc:'Selesaikan sasaran pertama', icon:'🏅', how:'Selesaikan mana-mana sasaran simpanan (100%) untuk membuka.', target:1, kind:'goal_done_count' },
       { id:'streak_7',       name:'7 Hari Berturut', desc:'Rekod 7 hari berturut-turut', icon:'🔥', how:'Rekod sekurang-kurangnya satu entri sah selama 7 hari berturut-turut.', target:7, kind:'streak' },
       { id:'streak_30',      name:'30 Hari Berturut', desc:'Rekod 30 hari berturut-turut', icon:'⚡', how:'Rekod sekurang-kurangnya satu entri sah selama 30 hari berturut-turut.', target:30, kind:'streak' },
@@ -1592,11 +1597,12 @@ const I18N = {
     setLanguage:'Bahasa / Language', setLanguageSub:'Tukar bahasa paparan',
     setVersion:'Versi App', setDataVersion:'Versi Data', setLastUpdate:'Kemas Kini Terakhir',
     setDataStats:'Statistik Data', setStatTx:'Transaksi', setStatAcc:'Akaun Wang', setStatGoal:'Sasaran', setStatAsset:'Aset',
-    setStatTransfers:'Pindahan', setStatDebt:'Rekod Hutang', setStatGiven:'Wang Diberi',
+    setStatTransfers:'Pindahan', setStatDebt:'Rekod Hutang', setStatGiven:'Wang Diberi', setStatRepay:'Bayaran',
     setWhatsNew:'Sejarah Kemas Kini', setWhatsNewSub:'Lihat kandungan kemas kini',
     setProductGuide:'Panduan Produk', setProductGuideSub:'Lihat ciri semasa Jiheng',
     setSystemInfo:'Maklumat Sistem', setSystemInfoSub:'App, versi data dan status storan',
     setIdentity:'Notis Identiti Produk', setIdentitySub:'Versi penuh 3 bahasa',
+    setDebtDefaults:'Tetapan Hutang', setDebtDefaultsSub:'Tingkah laku lalai bayaran',
 
     catIncome:'Kategori Pendapatan', catExpense:'Kategori Perbelanjaan', catAdd:'＋ Tambah',
     catCustomIncome:'Kategori Pendapatan Tersuai', catCustomExpense:'Kategori Perbelanjaan Tersuai',
@@ -1618,7 +1624,7 @@ const I18N = {
     clearTitle1:'Ini akan memadam semua akaun, transaksi, sasaran, aset dan pencapaian. Eksport sandaran dahulu. Teruskan?',
     clearTitle2:'Sahkan sekali lagi: semua data kewangan akan dipadam secara kekal. Anda pasti?', clearDone:'Semua data dipadam',
     saveFail:'Gagal simpan: storan penuh',
-    accountNotExist:'Akaun tidak wujud', goalNotExist:'Sasaran tidak wujud', assetNotExist:'Aset tidak wujud',
+    accountNotExist:'Akaun tidak wujud', goalNotExist:'Sasaran tidak wujud', assetNotExist:'Aset tidak wujud', debtNotExist:'Rekod hutang tidak wujud', repayNotExist:'Bayaran tidak wujud',
     amountPositive:'Jumlah mesti lebih daripada 0', invalidNumber:'Sila masukkan nombor yang sah',
     migrationFailed:'Jiheng tidak dapat melengkapkan kemas kini ini dengan selamat. Data sedia ada anda telah dikekalkan.',
     migrationSuccess:'Data berjaya dipindahkan. Semua rekod dikekalkan.', backupCreated:'Sandaran pra-kemas kini dicipta secara automatik.',
@@ -1642,6 +1648,8 @@ const I18N = {
     schemaSeriesLabel:'Siri Data',
     guideSplashTitle:'Skrin Splash',
     guideSplashDesc:'Memainkan splash jenama Jiheng semasa mula sejuk, kemudian masuk App Lock atau Utama. Tidak menyekat dan tidak memintas App Lock.',
+    guideRepayTitle:'Bayaran Berbilang',
+    guideRepayDesc:'Satu hutang menyokong bilangan bayaran tanpa had. Setiap bayaran boleh guna akaun, cara, masa dan nota berbeza, dan boleh pilih secara individu sama ada mempengaruhi baki akaun. Sejarah bayaran penuh dikekalkan.',
 
     incomeCatNames:{
       salary:'Gaji / Upah', part_time:'Pendapatan Sambilan', freelance:'Bebas / Gig', temp_work:'Kerja Sementara', bonus:'Bonus', allowance:'Elaun',
@@ -1709,7 +1717,7 @@ const I18N = {
     guideRecordsTitle:'Rekod',
     guideRecordsDesc:'Seksyen khas untuk peristiwa wang sebenar selain Pendapatan / Perbelanjaan. Termasuk Rekod Hutang dan Wang Diberi.',
     guideDebtsTitle:'Rekod Hutang',
-    guideDebtsDesc:'Rekod hutang anda (I Owe) dan hutang orang kepada anda (Owed to Me). Pilih pautan akaun (tukar baki) atau rekod sahaja. Sokong bayaran sebahagian dan penjejakan status. Rekod sahaja, bukan pembayaran sebenar.',
+    guideDebtsDesc:'Rekod hutang anda (I Owe) dan hutang orang kepada anda (Owed to Me). Pilih pautan akaun atau rekod sahaja. Sokong bayaran berbilang dan penjejakan status. Rekod sahaja, bukan pembayaran sebenar.',
     guideMoneyGivenTitle:'Wang Diberi',
     guideMoneyGivenDesc:'Rekod wang yang telah diberi dalam dunia sebenar. Pilih akaun sumber, tujuan, cara dan sifat (Hadiah / Pinjaman / Lain-lain). Pinjaman juga cipta hutang "Orang Berhutang" tanpa tolak dua kali.',
     guideGoalTitle:'Sasaran Simpanan',
@@ -1837,54 +1845,9 @@ const CHANGELOG_SEED = [
     date:'2026-09-12',
     title:{ zh:'积衡 Jiheng — Records & Search Improvements', en:'Jiheng — Records & Search Improvements', ms:'Jiheng — Penambahbaikan Rekod & Carian' },
     items:{
-      zh:[
-        '修复欠款记录无法真正保存的问题',
-        '修复转给他人无法真正保存的问题',
-        '新增独立的 Records / 记录页面',
-        '新增 Debts / 欠款记录（I Owe / Owed to Me）',
-        '新增 Money Given / 转给他人',
-        '新增欠款状态追踪：未偿还 / 部分偿还 / 已还清',
-        '改进数据持久化：所有记录立即写入本地存储',
-        '修复中文 / Unicode 搜索',
-        '搜索支持部分匹配',
-        '扩展可搜索字段',
-        '支持 Search + Filter 组合筛选',
-        '改进长备注显示：自动换行，完整显示，不截断',
-        '更新 Product Guide',
-        '保留所有 V1.00 数据、PIN、自定义分类与成就'
-      ],
-      en:[
-        'Fixed Debt record persistence',
-        'Fixed Money Given persistence',
-        'Added dedicated Records section',
-        'Added Debts (I Owe / Owed to Me)',
-        'Added Money Given',
-        'Added Debt status tracking',
-        'Improved data persistence',
-        'Fixed Chinese / Unicode search',
-        'Search supports partial matching',
-        'Expanded searchable fields',
-        'Search + Filter combination',
-        'Improved long-note display: auto-wrap, no truncation',
-        'Updated Product Guide',
-        'All V1.00 data, PIN, custom categories and achievements preserved'
-      ],
-      ms:[
-        'Betulkan rekod hutang tidak disimpan dengan betul',
-        'Betulkan rekod wang diberi tidak disimpan dengan betul',
-        'Tambah seksyen Rekod khas',
-        'Tambah Rekod Hutang (Saya Berhutang / Orang Berhutang)',
-        'Tambah Wang Diberi',
-        'Tambah penjejakan status hutang',
-        'Tambah baik persistensi data',
-        'Betulkan carian Cina / Unicode',
-        'Carian menyokong padanan separa',
-        'Perluas medan carian',
-        'Sokongan Carian + Penapis bersama',
-        'Tambah baik paparan nota panjang: auto-bungkus, tiada pemotongan',
-        'Kemas kini Panduan Produk',
-        'Semua data V1.00, PIN, kategori tersuai dan pencapaian dikekalkan'
-      ]
+      zh:['修复欠款记录无法真正保存的问题','修复转给他人无法真正保存的问题','新增独立的 Records / 记录页面','新增 Debts / 欠款记录（I Owe / Owed to Me）','新增 Money Given / 转给他人','新增欠款状态追踪：未偿还 / 部分偿还 / 已还清','改进数据持久化：所有记录立即写入本地存储','修复中文 / Unicode 搜索','搜索支持部分匹配','扩展可搜索字段','支持 Search + Filter 组合筛选','改进长备注显示：自动换行，完整显示，不截断','更新 Product Guide','保留所有 V1.00 数据、PIN、自定义分类与成就'],
+      en:['Fixed Debt record persistence','Fixed Money Given persistence','Added dedicated Records section','Added Debts (I Owe / Owed to Me)','Added Money Given','Added Debt status tracking','Improved data persistence','Fixed Chinese / Unicode search','Search supports partial matching','Expanded searchable fields','Search + Filter combination','Improved long-note display: auto-wrap, no truncation','Updated Product Guide','All V1.00 data, PIN, custom categories and achievements preserved'],
+      ms:['Betulkan rekod hutang tidak disimpan dengan betul','Betulkan rekod wang diberi tidak disimpan dengan betul','Tambah seksyen Rekod khas','Tambah Rekod Hutang (Saya Berhutang / Orang Berhutang)','Tambah Wang Diberi','Tambah penjejakan status hutang','Tambah baik persistensi data','Betulkan carian Cina / Unicode','Carian menyokong padanan separa','Perluas medan carian','Sokongan Carian + Penapis bersama','Tambah baik paparan nota panjang: auto-bungkus, tiada pemotongan','Kemas kini Panduan Produk','Semua data V1.00, PIN, kategori tersuai dan pencapaian dikekalkan']
     }
   },
   {
@@ -1892,102 +1855,9 @@ const CHANGELOG_SEED = [
     date:'2026-09-13',
     title:{ zh:'积衡 Jiheng — 资金流、记录与系统优化', en:'Jiheng — Financial Flow, Records & System Optimization', ms:'Jiheng — Aliran Kewangan, Rekod & Pengoptimuman Sistem' },
     items:{
-      zh:[
-        '优化收入、支出、转账、欠款与转给他人的数据结构',
-        '欠款与实际资金流联动（Account-linked / Record-only）',
-        'Money Given 支持资金来源账户，会从所选账户扣款',
-        'Money Given 支持性质：赠予 / 借给他人 / 其他',
-        '借给他人时自动建立「别人欠我」的欠款，避免重复扣款',
-        '支持实际还款资金流：Cash +RM100 / Debt -RM100',
-        '支持部分还款：未偿还 / 部分偿还 / 已还清',
-        '防止 Debt / Money Given 重复扣款',
-        '增加关联事件 ID 与关联账户 ID 逻辑',
-        '优化日期与时间系统：秒级时间、eventAt / createdAt / updatedAt / timezone',
-        '保存完整编辑时间历史 editHistory',
-        '修复 Debt 数据持久化',
-        '修复 Money Given 数据持久化',
-        '首页增加欠款快捷入口与总额显示',
-        '首页增加转给他人快捷入口与总额显示',
-        '优化 Records 统一记录架构',
-        '修复搜索输入框失焦问题',
-        '修复连续输入问题：a → ab → abc 不再失焦',
-        '支持中文拼音 IME：compositionstart / update / end',
-        '扩大搜索范围：中文 / English / 数字 / Unicode / Emoji',
-        '支持 partial matching',
-        '搜索与 Filter 联动，不互相清除',
-        '修复 Filter Bar 溢出，支持移动端横向滚动',
-        '优化长文字显示与容器高度自适应',
-        '防止用户备注被截断',
-        '搜索基于完整原始内容，不基于截断显示内容',
-        '编辑时加载完整原文',
-        '语言切换不修改用户文字',
-        '优化 Single Source of Truth：所有页面从同一数据源计算',
-        '优化数据迁移与升级安全，保留 V1.00 / V1.01 所有用户数据'
-      ],
-      en:[
-        'Optimized data structures for income, expense, transfer, debt and money-given',
-        'Debt now links to real fund flow (Account-linked / Record-only)',
-        'Money Given supports source account; deducts from selected account',
-        'Money Given supports Nature: Gift / Loan / Other',
-        'Choosing Loan auto-creates an "Owed to Me" debt without double-deducting',
-        'Repayment linked to real fund flow: Cash +RM100 / Debt -RM100',
-        'Supports partial repayment: Unpaid / Partial / Paid',
-        'Prevents double-deduction between Debt and Money Given',
-        'Added linked event ID and linked account ID logic',
-        'Improved time system: second-level, eventAt / createdAt / updatedAt / timezone',
-        'Saves full editHistory',
-        'Fixed Debt persistence',
-        'Fixed Money Given persistence',
-        'Home now shows Debt shortcut with total',
-        'Home now shows Money Given shortcut with total',
-        'Optimized Records unified architecture',
-        'Fixed search input losing focus',
-        'Fixed continuous typing: a → ab → abc without losing focus',
-        'Supports Chinese Pinyin IME: compositionstart / update / end',
-        'Expanded search: Chinese / English / numbers / Unicode / Emoji',
-        'Supports partial matching',
-        'Search and Filter work together, do not clear each other',
-        'Fixed Filter Bar overflow; supports horizontal scroll on mobile',
-        'Improved long-text display and container auto-height',
-        'Prevented truncation of user notes',
-        'Search uses full original content, not truncated display',
-        'Loads full original text when editing',
-        'Language switch does not modify user text',
-        'Optimized Single Source of Truth: all pages compute from the same data source',
-        'Improved migration and upgrade safety; all V1.00 / V1.01 user data preserved'
-      ],
-      ms:[
-        'Mengoptimumkan struktur data pendapatan, perbelanjaan, pindahan, hutang dan wang diberi',
-        'Hutang kini berpaut dengan aliran dana sebenar (Berpaut akaun / Rekod sahaja)',
-        'Wang Diberi menyokong akaun sumber; baki akaun akan berkurang',
-        'Wang Diberi menyokong sifat: Hadiah / Pinjaman / Lain-lain',
-        'Memilih Pinjaman cipta hutang "Orang Berhutang" tanpa tolak dua kali',
-        'Bayaran balik berpaut dengan aliran dana: Tunai +RM100 / Hutang -RM100',
-        'Sokong bayaran sebahagian: Belum Bayar / Sebahagian / Selesai',
-        'Cegah tolak dua kali antara Hutang dan Wang Diberi',
-        'Tambah logik ID peristiwa berpaut dan ID akaun berpaut',
-        'Tambah baik sistem masa: tahap saat, eventAt / createdAt / updatedAt / timezone',
-        'Simpan editHistory penuh',
-        'Betulkan persistensi Hutang',
-        'Betulkan persistensi Wang Diberi',
-        'Utama kini tunjuk pintasan Hutang dengan jumlah',
-        'Utama kini tunjuk pintasan Wang Diberi dengan jumlah',
-        'Optimumkan seni bina Rekod bersatu',
-        'Betulkan medan carian hilang fokus',
-        'Betulkan taip berterusan: a → ab → abc tanpa hilang fokus',
-        'Sokong IME Pinyin Cina: compositionstart / update / end',
-        'Perluas carian: Cina / Inggeris / nombor / Unicode / Emoji',
-        'Sokong padanan separa',
-        'Carian dan Penapis berfungsi bersama, tidak kosongkan satu sama lain',
-        'Betulkan limpahan Bar Penapis; sokong skrol mendatar pada mudah alih',
-        'Tambah baik paparan teks panjang dan ketinggian bekas automatik',
-        'Cegah pemotongan nota pengguna',
-        'Carian guna kandungan asal penuh, bukan paparan dipotong',
-        'Muat teks asal penuh semasa edit',
-        'Tukar bahasa tidak mengubah teks pengguna',
-        'Optimumkan Single Source of Truth',
-        'Tambah baik keselamatan migrasi dan naik taraf; semua data V1.00 / V1.01 dikekalkan'
-      ]
+      zh:['优化收入、支出、转账、欠款与转给他人的数据结构','欠款与实际资金流联动（Account-linked / Record-only）','Money Given 支持资金来源账户，会从所选账户扣款','Money Given 支持性质：赠予 / 借给他人 / 其他','借给他人时自动建立「别人欠我」的欠款，避免重复扣款','支持实际还款资金流','支持部分还款：未偿还 / 部分偿还 / 已还清','防止 Debt / Money Given 重复扣款','增加关联事件 ID 与关联账户 ID 逻辑','优化日期与时间系统：秒级时间、eventAt / createdAt / updatedAt / timezone','保存完整编辑时间历史 editHistory','首页增加欠款快捷入口与总额显示','首页增加转给他人快捷入口与总额显示','优化 Records 统一记录架构','修复搜索输入框失焦问题','支持中文拼音 IME','扩大搜索范围：中文 / English / 数字 / Unicode / Emoji','搜索与 Filter 联动，不互相清除','修复 Filter Bar 溢出','优化长文字显示与容器高度自适应','防止用户备注被截断','搜索基于完整原始内容','编辑时加载完整原文','语言切换不修改用户文字','优化 Single Source of Truth','优化数据迁移与升级安全'],
+      en:['Optimized data structures for income, expense, transfer, debt and money-given','Debt now links to real fund flow (Account-linked / Record-only)','Money Given supports source account','Money Given supports Nature: Gift / Loan / Other','Choosing Loan auto-creates an "Owed to Me" debt','Repayment linked to real fund flow','Supports partial repayment','Prevents double-deduction','Added linked event ID and linked account ID logic','Improved time system: second-level','Saves full editHistory','Home now shows Debt shortcut','Home now shows Money Given shortcut','Optimized Records unified architecture','Fixed search input losing focus','Supports Chinese Pinyin IME','Expanded search: Chinese / English / numbers / Unicode / Emoji','Search and Filter work together','Fixed Filter Bar overflow','Improved long-text display','Prevented truncation of user notes','Search uses full original content','Loads full original text when editing','Language switch does not modify user text','Optimized Single Source of Truth','Improved migration safety'],
+      ms:['Mengoptimumkan struktur data','Hutang berpaut dengan aliran dana sebenar','Wang Diberi menyokong akaun sumber','Wang Diberi menyokong sifat: Hadiah / Pinjaman / Lain-lain','Memilih Pinjaman cipta hutang "Orang Berhutang"','Bayaran balik berpaut dengan aliran dana','Sokong bayaran sebahagian','Cegah tolak dua kali','Tambah logik ID peristiwa berpaut','Tambah baik sistem masa: tahap saat','Simpan editHistory penuh','Utama kini tunjuk pintasan Hutang','Utama kini tunjuk pintasan Wang Diberi','Optimumkan seni bina Rekod bersatu','Betulkan medan carian hilang fokus','Sokong IME Pinyin Cina','Perluas carian','Carian dan Penapis berfungsi bersama','Betulkan limpahan Bar Penapis','Tambah baik paparan teks panjang','Cegah pemotongan nota pengguna','Carian guna kandungan asal penuh','Muat teks asal penuh semasa edit','Tukar bahasa tidak mengubah teks pengguna','Optimumkan Single Source of Truth','Tambah baik keselamatan migrasi']
     }
   },
   {
@@ -1995,62 +1865,66 @@ const CHANGELOG_SEED = [
     date:'2026-09-13',
     title:{ zh:'积衡 Jiheng — 系统、时间与开屏体验优化', en:'Jiheng — System, Time & Launch Experience Improvements', ms:'Jiheng — Penambahbaikan Sistem, Masa & Pengalaman Pelancaran' },
     items:{
+      zh:['修复 Records 分类筛选条未使用 i18n 的问题，三语言显示正确','修复首页「笔记录」硬编码中文的问题','修复 Data Version 被错误显示为 V2 的问题，统一显示为 V1.03','明确区分 App Version / Data Version / Schema Version / Update History','全 App 日期系统检查，所有日期记录补齐对应时间','Accounts / Goals / Assets 补齐 eventAt / updatedAt / timezone','时间精度保存到秒','编辑历史结构化：从数字数组升级为 [{at, action}]','每次编辑新增一条历史，永不覆盖','区分「事件发生时间」与「创建时间」','编辑历史支持无限次','时区统一为 Asia/Kuala_Lumpur','新增 Jiheng 开屏动画 Splash Screen','Splash 与数据初始化并行，不阻塞','Splash 不绕过 App Lock','Splash 只在冷启动播放','跨平台 CSS 修复：Android 锁屏文字重叠','所有文字容器允许自动换行','响应式断点扩展：小屏 / 大屏 / 平板 / 桌面','保留 V1.00 / V1.01 / V1.02 全部用户数据'],
+      en:['Fixed Records category filter not using i18n','Fixed hardcoded text on Home','Fixed Data Version incorrectly shown as V2; now V1.03','Clarified App Version / Data Version / Schema Version','Full-app date audit','Accounts / Goals / Assets now have eventAt / updatedAt / timezone','Time precision to the second','Structured edit history','Each edit appends a new entry','Distinguished event time vs created time','Unlimited edit history','Timezone unified to Asia/Kuala_Lumpur','Added Jiheng Splash Screen','Splash runs in parallel','Splash does not bypass App Lock','Splash only on cold start','Cross-platform CSS fixes for Android','All text containers allow wrapping','Extended responsive breakpoints','All V1.00 / V1.01 / V1.02 data preserved'],
+      ms:['Betulkan penapis kategori Rekod tidak guna i18n','Betulkan teks hardcoded di Utama','Betulkan Data Version salah dipaparkan sebagai V2; kini V1.03','Jelaskan App / Data / Schema Version','Audit tarikh seluruh app','Accounts / Goals / Assets kini ada eventAt / updatedAt / timezone','Ketepatan masa sehingga saat','Sejarah edit berstruktur','Setiap edit tambah entri baharu','Bezakan masa peristiwa dan masa dicipta','Sejarah edit tanpa had','Zon masa Asia/Kuala_Lumpur','Tambah Splash Screen Jiheng','Splash berjalan selari','Splash tidak memintas App Lock','Splash hanya semasa mula sejuk','Pembaikan CSS merentas platform untuk Android','Semua bekas teks benarkan bungkus','Perluas breakpoint responsif','Semua data V1.00 / V1.01 / V1.02 dikekalkan']
+    }
+  },
+  {
+    version:'1.04',
+    date:'2026-09-13',
+    title:{ zh:'积衡 Jiheng — 欠款多次还款与资金流系统升级', en:'Jiheng — Advanced Debt & Repayment System', ms:'Jiheng — Sistem Hutang & Bayaran Berbilang Lanjutan' },
+    items:{
       zh:[
-        '修复 Records 分类筛选条未使用 i18n 的问题，三语言显示正确',
-        '修复首页「笔记录」硬编码中文的问题',
-        '修复 Data Version 被错误显示为 V2 的问题，统一显示为 V1.03',
-        '明确区分 App Version / Data Version / Schema Version / Update History',
-        '全 App 日期系统检查，所有日期记录补齐对应时间',
-        'Accounts / Goals / Assets 补齐 eventAt / updatedAt / timezone',
-        '时间精度保存到秒',
-        '编辑历史结构化：从数字数组升级为 [{at, action}]',
-        '每次编辑新增一条历史，永不覆盖',
-        '区分「事件发生时间」与「创建时间」',
-        '编辑历史支持无限次，编辑 100 次就保存 100 次',
-        '时区统一为 Asia/Kuala_Lumpur',
-        '新增 Jiheng 开屏动画 Splash Screen',
-        'Splash 与数据初始化并行，不阻塞',
-        'Splash 不绕过 App Lock',
-        'Splash 只在冷启动播放，路由切换不重复',
-        '保留 V1.00 / V1.01 / V1.02 全部用户数据'
+        '支持一笔欠款多次还款，无次数上限',
+        '每一次还款是独立记录，互不覆盖',
+        '每次还款可使用不同账户',
+        '每次还款可使用不同资金方式（Cash / TNG / Bank / DuitNow 等）',
+        '每次还款可设置不同的实际发生时间（秒级）',
+        '每次还款可填写独立备注',
+        '每次还款可独立选择是否影响账户余额',
+        '支持部分还款，自动计算剩余与状态',
+        '支持「别人欠我」与「我欠别人」双向一致逻辑',
+        '还款与实际资金流关联，防止重复记账',
+        '支持还款编辑与删除，账户余额同步还原',
+        '每一次还款都拥有完整 editHistory',
+        'Debt Detail 页显示完整还款历史',
+        '设置中新增「还款默认是否影响账户」开关',
+        '保留 V1.00 / V1.01 / V1.02 / V1.03 全部用户数据'
       ],
       en:[
-        'Fixed Records category filter not using i18n; all three languages now correct',
-        'Fixed hardcoded "笔记录" on Home',
-        'Fixed Data Version incorrectly shown as V2; now displayed as V1.03',
-        'Clarified App Version / Data Version / Schema Version / Update History',
-        'Full-app date audit; all records now have corresponding time',
-        'Accounts / Goals / Assets now have eventAt / updatedAt / timezone',
-        'Time precision saved to the second',
-        'Structured edit history: upgraded from numeric array to [{at, action}]',
-        'Each edit appends a new history entry, never overwrites',
-        'Distinguished "event time" vs "created time"',
-        'Unlimited edit history — 100 edits saves 100 entries',
-        'Timezone unified to Asia/Kuala_Lumpur',
-        'Added Jiheng Splash Screen',
-        'Splash runs in parallel with data init, non-blocking',
-        'Splash does not bypass App Lock',
-        'Splash only plays on cold start',
-        'All V1.00 / V1.01 / V1.02 user data preserved'
+        'A single debt supports unlimited repayments',
+        'Each repayment is an independent record',
+        'Each repayment can use a different account',
+        'Each repayment can use a different method (Cash / TNG / Bank / DuitNow etc.)',
+        'Each repayment has its own real-world event time (second-level)',
+        'Each repayment can have its own note',
+        'Each repayment can individually choose whether to affect account balance',
+        'Supports partial repayment with automatic remaining and status',
+        'Consistent logic for both "Owed to Me" and "I Owe"',
+        'Repayment linked to real fund flow, prevents double-counting',
+        'Repayment edit and delete with account balance restore',
+        'Every repayment has full editHistory',
+        'Debt Detail page shows full repayment history',
+        'New setting for default repayment affect-account behavior',
+        'All V1.00 / V1.01 / V1.02 / V1.03 user data preserved'
       ],
       ms:[
-        'Betulkan penapis kategori halaman Rekod tidak guna i18n; tiga bahasa kini betul',
-        'Betulkan "笔记录" hardcoded di Utama',
-        'Betulkan Data Version salah dipaparkan sebagai V2; kini V1.03',
-        'Jelaskan App Version / Data Version / Schema Version / Update History',
-        'Audit tarikh seluruh app; semua rekod kini ada masa',
-        'Accounts / Goals / Assets kini ada eventAt / updatedAt / timezone',
-        'Ketepatan masa sehingga saat',
-        'Sejarah edit berstruktur: naik taraf kepada [{at, action}]',
-        'Setiap edit tambah entri baharu, tidak menimpa',
-        'Bezakan "masa peristiwa" dan "masa dicipta"',
-        'Sejarah edit tanpa had — 100 edit simpan 100 entri',
-        'Zon masa disatukan ke Asia/Kuala_Lumpur',
-        'Tambah Splash Screen Jiheng',
-        'Splash berjalan selari dengan init data, tidak menyekat',
-        'Splash tidak memintas App Lock',
-        'Splash hanya dimainkan semasa mula sejuk',
-        'Semua data V1.00 / V1.01 / V1.02 dikekalkan'
+        'Satu hutang menyokong bayaran tanpa had',
+        'Setiap bayaran adalah rekod bebas',
+        'Setiap bayaran boleh guna akaun berbeza',
+        'Setiap bayaran boleh guna cara berbeza (Tunai / TNG / Bank / DuitNow dll.)',
+        'Setiap bayaran ada masa kejadian sebenar sendiri (tahap saat)',
+        'Setiap bayaran boleh ada nota sendiri',
+        'Setiap bayaran boleh pilih secara individu sama ada mempengaruhi baki akaun',
+        'Sokong bayaran sebahagian dengan baki dan status automatik',
+        'Logik konsisten untuk "Orang Berhutang" dan "Saya Berhutang"',
+        'Bayaran berpaut dengan aliran dana sebenar, cegah kiraan dua kali',
+        'Edit dan padam bayaran dengan pemulihan baki akaun',
+        'Setiap bayaran ada editHistory penuh',
+        'Halaman Butiran Hutang tunjuk sejarah bayaran penuh',
+        'Tetapan baharu untuk tingkah laku lalai bayaran',
+        'Semua data V1.00 / V1.01 / V1.02 / V1.03 dikekalkan'
       ]
     }
   }
@@ -2083,13 +1957,19 @@ function changelogItems(entry){
 function defaultState(){
   return {
     dataVersion: DATA_VERSION,
-    settings: { currency:'RM', hideBalance:false, autoLockMinutes:5, appLockEnabled:true, lang:LANG, lastUpdated:new Date().toISOString() },
+    settings: {
+      currency:'RM', hideBalance:false, autoLockMinutes:5, appLockEnabled:true,
+      lang:LANG, lastUpdated:new Date().toISOString(),
+      debtRepayAffectAccountDefault: true
+    },
     accounts: [], transactions: [], goals: [], assets: [], debts: [], moneyGiven: [],
     customIncomeCats: [], customExpenseCats: [], customMethods: [],
     achievements: {}, createdAt: new Date().toISOString()
   };
 }
 
+/* V1.04 迁移：V1.00 / V1.01 / V1.02 / V1.03 → V1.04
+   核心：把旧的 payments[] 升级为 repayments[]，字段补齐，不删任何旧字段。 */
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
@@ -2102,6 +1982,10 @@ function migrate(p){
   if(!Array.isArray(p.customIncomeCats)) p.customIncomeCats = [];
   if(!Array.isArray(p.customExpenseCats)) p.customExpenseCats = [];
   if(!Array.isArray(p.customMethods)) p.customMethods = [];
+  if(!p.settings || typeof p.settings !== 'object') p.settings = {};
+  if(p.settings.debtRepayAffectAccountDefault === undefined){
+    p.settings.debtRepayAffectAccountDefault = true;
+  }
 
   const TZ = APP_TZ;
   const _toISO = (v) => {
@@ -2123,6 +2007,7 @@ function migrate(p){
     }).filter(Boolean);
   };
 
+  // ---- Transactions ----
   p.transactions.forEach(tx => {
     if(tx.method === undefined) tx.method = '';
     if(tx.methodCustom === undefined) tx.methodCustom = '';
@@ -2131,8 +2016,12 @@ function migrate(p){
     if(!tx.eventAt) tx.eventAt = _toISO(tx.date);
     if(!tx.createdAt) tx.createdAt = new Date(tx.eventAt).getTime();
     if(!tx.updatedAt) tx.updatedAt = tx.createdAt;
+    // V1.04: transaction 关联字段（可选，不影响旧数据）
+    if(tx.linkedDebtId === undefined) tx.linkedDebtId = null;
+    if(tx.linkedRepaymentId === undefined) tx.linkedRepaymentId = null;
   });
 
+  // ---- Accounts ----
   p.accounts.forEach(a => {
     if(a.note === undefined) a.note = '';
     if(!a.timezone) a.timezone = TZ;
@@ -2142,6 +2031,7 @@ function migrate(p){
     a.editHistory = _normHistory(a.editHistory);
   });
 
+  // ---- Goals ----
   p.goals.forEach(g => {
     if(g.note === undefined) g.note = '';
     if(!g.timezone) g.timezone = TZ;
@@ -2151,6 +2041,7 @@ function migrate(p){
     g.editHistory = _normHistory(g.editHistory);
   });
 
+  // ---- Assets ----
   p.assets.forEach(a => {
     if(a.note === undefined) a.note = '';
     if(a.manualNote === undefined) a.manualNote = '';
@@ -2161,8 +2052,8 @@ function migrate(p){
     a.editHistory = _normHistory(a.editHistory);
   });
 
+  // ---- Debts（核心 V1.04 升级） ----
   p.debts.forEach(d => {
-    if(!Array.isArray(d.payments)) d.payments = [];
     if(d.purpose === undefined) d.purpose = '';
     if(d.purposeCustom === undefined) d.purposeCustom = '';
     if(d.method === undefined) d.method = '';
@@ -2173,18 +2064,94 @@ function migrate(p){
     if(d.linkMode === undefined) d.linkMode = 'record_only';
     if(d.linkedAccountId === undefined) d.linkedAccountId = null;
     if(!d.timezone) d.timezone = TZ;
-    d.editHistory = _normHistory(d.editHistory);
     if(!d.eventAt) d.eventAt = _toISO(d.date);
+    if(!d.date) d.date = d.eventAt;
     if(!d.createdAt) d.createdAt = new Date(d.eventAt).getTime();
     if(!d.updatedAt) d.updatedAt = d.createdAt;
     if(!d.eventId) d.eventId = d.id;
-    d.payments.forEach(pay => {
-      if(!pay.timezone) pay.timezone = TZ;
-      if(!pay.eventAt) pay.eventAt = _toISO(pay.createdAt);
-      if(!pay.createdAt) pay.createdAt = new Date(pay.eventAt).getTime();
-    });
+    d.editHistory = _normHistory(d.editHistory);
+
+    // V1.04 新字段（保守添加，不清空旧字段）
+    if(d.originalAmount === undefined) d.originalAmount = round2(Number(d.amount) || 0);
+    if(d.note === undefined) d.note = d.reason || '';
+    if(d.originalEventAt === undefined) d.originalEventAt = d.eventAt || _toISO(d.date);
+    if(d.originalTransactionId === undefined) d.originalTransactionId = null;
+
+    // payments[] → repayments[] 全量转换
+    const oldPayments = Array.isArray(d.payments) ? d.payments : [];
+    const existingRepayments = Array.isArray(d.repayments) ? d.repayments : [];
+    // 已存在 repayments 就保留（不去重，允许重复运行迁移时保持幂等）
+    if(existingRepayments.length === 0 && oldPayments.length > 0){
+      d.repayments = oldPayments.map(pay => {
+        const payEventAt = _toISO(pay.eventAt || pay.createdAt || d.eventAt);
+        const payCreatedAt = Number(pay.createdAt) || new Date(payEventAt).getTime();
+        return {
+          id: pay.id || uid(),
+          debtId: d.id,
+          amount: round2(Number(pay.amount) || 0),
+          accountId: pay.accountId || null,
+          method: '',
+          methodCustom: '',
+          eventAt: payEventAt,
+          createdAt: payCreatedAt,
+          updatedAt: payCreatedAt,
+          timezone: pay.timezone || TZ,
+          note: pay.note || '',
+          affectAccount: true,
+          linkMode: 'account',
+          transactionId: null,
+          editHistory: []
+        };
+      });
+    } else if(existingRepayments.length === 0){
+      d.repayments = [];
+    } else {
+      // 已存在 repayments：仅补齐缺字段，保证结构完整
+      d.repayments.forEach(r => {
+        if(r.debtId === undefined) r.debtId = d.id;
+        if(!Array.isArray(r.editHistory)) r.editHistory = _normHistory(r.editHistory);
+        if(r.method === undefined) r.method = '';
+        if(r.methodCustom === undefined) r.methodCustom = '';
+        if(r.affectAccount === undefined) r.affectAccount = true;
+        if(r.linkMode === undefined) r.linkMode = r.affectAccount ? 'account' : 'record_only';
+        if(r.transactionId === undefined) r.transactionId = null;
+        if(!r.timezone) r.timezone = TZ;
+        if(!r.eventAt) r.eventAt = _toISO(r.createdAt || d.eventAt);
+        if(!r.createdAt) r.createdAt = new Date(r.eventAt).getTime();
+        if(!r.updatedAt) r.updatedAt = r.createdAt;
+        if(r.note === undefined) r.note = '';
+        if(r.amount === undefined) r.amount = 0;
+        if(r.accountId === undefined) r.accountId = null;
+      });
+    }
+
+    // 保留旧 payments 字段（兼容读取，不删）
+    if(!Array.isArray(d.payments)) d.payments = [];
+
+    // 交叉验证：以 repayments 求和为准
+    const sumRepay = d.repayments.reduce((s, r) => s + (Number(r.amount) || 0), 0);
+    const oldPaid = Number(d.paid) || 0;
+    if(Math.abs(sumRepay - oldPaid) > 0.01){
+      d.paid = round2(sumRepay);
+    } else {
+      d.paid = round2(oldPaid);
+    }
+
+    // 重新计算 remainingAmount
+    const origAmt = round2(Number(d.originalAmount) || Number(d.amount) || 0);
+    d.originalAmount = origAmt;
+    d.amount = origAmt;   // 兼容旧字段
+    d.remainingAmount = round2(Math.max(origAmt - d.paid, 0));
+
+    // 状态修正
+    if(d.status !== 'cancelled'){
+      if(d.paid >= origAmt - 0.001 && origAmt > 0) d.status = 'paid';
+      else if(d.paid > 0) d.status = 'partial';
+      else d.status = 'unpaid';
+    }
   });
 
+  // ---- Money Given ----
   p.moneyGiven.forEach(m => {
     if(m.purpose === undefined) m.purpose = m.giftType || '';
     if(m.purposeCustom === undefined) m.purposeCustom = '';
@@ -2331,12 +2298,14 @@ let ui = {
   recordFilter: 'all', statsRange: 'month',
   searchQuery: '', recordCat: '', recordAccount: '',
   currentAccountId: null, debtFilter: 'all',
+  currentDebtId: null,
   recordsView: 'home',
   recordsSearch: '',
   recordsType: 'all',
   recordsStatus: 'all',
   recordsDate: 'all',
-  expandedNotes: {}
+  expandedNotes: {},
+  expandedRepayNotes: {}
 };
 
 /* ============================ 工具函数 ============================ */
@@ -2401,7 +2370,6 @@ function inToday(iso){
   const d = dateFromISO(iso); const n = new Date();
   return d.getFullYear()===n.getFullYear() && d.getMonth()===n.getMonth() && d.getDate()===n.getDate();
 }
-
 function normalizeSearchText(s){
   if(s == null) return '';
   let str = String(s);
@@ -2436,6 +2404,28 @@ function allMethodIds(){ const ids = []; MONEY_METHOD_GROUPS.forEach(g => g.item
 function incomeCats(){ return allIncomeIds(); }
 function expenseCats(){ return allExpenseIds(); }
 
+/* ============================ V1.04 Debt helpers ============================ */
+function debtRepayments(d){ return Array.isArray(d && d.repayments) ? d.repayments : []; }
+function debtTotalPaid(d){
+  const list = debtRepayments(d);
+  if(list.length > 0) return round2(list.reduce((s, r) => s + (Number(r.amount) || 0), 0));
+  return round2(Number(d && d.paid) || 0);
+}
+function debtOriginalAmount(d){
+  if(!d) return 0;
+  return round2(Number(d.originalAmount) || Number(d.amount) || 0);
+}
+function debtRemaining(d){
+  const orig = debtOriginalAmount(d);
+  const paid = debtTotalPaid(d);
+  return round2(Math.max(orig - paid, 0));
+}
+function debtTotalRepaymentCount(){
+  let c = 0;
+  state.debts.forEach(d => { c += debtRepayments(d).length; });
+  return c;
+}
+
 /* ============================ 成就 ============================ */
 function currentStreak(){
   const days = new Set(state.transactions.map(tx => localDateStr(tx.eventAt||tx.date)));
@@ -2463,6 +2453,7 @@ function achievementProgress(a){
     case 'account_count':      return Math.min(state.accounts.length, a.target);
     case 'debt_count':         return Math.min(state.debts.length, a.target);
     case 'money_given_count':  return Math.min(state.moneyGiven.length, a.target);
+    case 'repayment_count':    return Math.min(debtTotalRepaymentCount(), a.target);
     case 'goal_done_count':    return Math.min(goalDoneCount(), a.target);
     case 'streak':             return Math.min(currentStreak(), a.target);
     case 'total_saved':        return Math.min(totalSavedEver(), a.target);
@@ -2487,6 +2478,7 @@ function checkAchievements(){
   if(state.transactions.some(tx => tx.type === 'goal_deposit')) unlock('first_save');
   if(state.debts.length > 0) unlock('first_debt');
   if(state.moneyGiven.length > 0) unlock('first_given');
+  if(debtTotalRepaymentCount() > 0) unlock('first_repay');
   if(goalDoneCount() > 0) unlock('goal_done');
   if(currentStreak() >= 7)  unlock('streak_7');
   if(currentStreak() >= 30) unlock('streak_30');
@@ -2730,8 +2722,10 @@ function renderTopbar(){
   if(ui.sub === 'product-guide') return bar(t('productGuideTitle'), true);
   if(ui.sub === 'sys-info')      return bar(t('sysInfoTitle'), true);
   if(ui.sub === 'identity')      return bar(t('setIdentity'), true);
+  if(ui.sub === 'debt-defaults') return bar(t('setDebtDefaults'), true);
   if(ui.sub === 'account-detail')return bar(accountDetailTitle(), true);
   if(ui.sub === 'debts')         return bar(t('debtTitle'), true);
+  if(ui.sub === 'debt-detail')   return bar(t('debtDetailTitle'), true);
   if(ui.sub === 'money-given')   return bar(t('mgTitle'), true);
   if(ui.sub === 'records')       return bar(t('recordsTitle'), true);
   const titles = { home:'', records:t('tabRecords'), goals:t('tabGoals'), assets:t('tabAssets'), stats:t('tabStats'), settings:t('setTitle') };
@@ -2773,8 +2767,10 @@ function renderView(){
   if(ui.sub === 'product-guide') return viewProductGuide();
   if(ui.sub === 'sys-info')      return viewSystemInfo();
   if(ui.sub === 'identity')      return viewIdentity();
+  if(ui.sub === 'debt-defaults') return viewDebtDefaults();
   if(ui.sub === 'account-detail')return viewAccountDetail();
   if(ui.sub === 'debts')         return viewDebtsPage();
+  if(ui.sub === 'debt-detail')   return viewDebtDetail();
   if(ui.sub === 'money-given')   return viewMoneyGivenPage();
   if(ui.sub === 'records')       return viewRecordsHub();
   switch(ui.tab){
@@ -2803,8 +2799,8 @@ function viewHome(){
   const recent = sortedTx().slice(0,5);
   const goalsPreview = state.goals.filter(g => Number(g.saved) > 0 || Number(g.targetAmount) > 0).slice(0,2);
 
-  const totalIOwe  = state.debts.filter(d => d.direction === 'i_owe' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
-  const totalOweMe = state.debts.filter(d => d.direction === 'owe_me' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
+  const totalIOwe  = state.debts.filter(d => d.direction === 'i_owe' && d.status !== 'cancelled').reduce((s,d) => s + debtRemaining(d), 0);
+  const totalOweMe = state.debts.filter(d => d.direction === 'owe_me' && d.status !== 'cancelled').reduce((s,d) => s + debtRemaining(d), 0);
   const totalGiven = state.moneyGiven.reduce((s,m) => s + Number(m.amount||0), 0);
   const hasAny = state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length;
 
@@ -2886,6 +2882,7 @@ function viewHome(){
   </div>` : '' }`;
 }
 function goAccountDetail(id){ ui.currentAccountId = id; ui.sub = 'account-detail'; render({ top:true }); }
+function goDebtDetail(id){ ui.currentDebtId = id; ui.sub = 'debt-detail'; render({ top:true }); }
 function accRow(a){
   const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
   return `<div class="row" onclick="goAccountDetail('${a.id}')">
@@ -3211,7 +3208,7 @@ function viewRecordsHub(){
     <div class="empty-icon">🗂</div>
     <p>${esc(t('recordsNoData'))}</p>
     <span>${esc(t('recordsNoDataSub'))}</span>
-    <div style="display:flex;gap:8px">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn soft" onclick="openDebtForm()">＋ ${esc(t('debtNew'))}</button>
       <button class="btn soft" onclick="openMGForm()">＋ ${esc(t('mgNew'))}</button>
     </div>
@@ -3230,6 +3227,11 @@ function viewDebtsPage(){
   if(qNorm){
     list = list.filter(d => {
       const bag = [d.person, d.reason, d.purpose, d.purposeCustom, d.method, d.methodCustom, d.status, String(d.amount), d.date, d.eventAt];
+      // V1.04: 也搜索还款记录
+      const reps = debtRepayments(d);
+      reps.forEach(r => {
+        bag.push(r.note, r.method, r.methodCustom, String(r.amount), r.eventAt);
+      });
       for(let i = 0; i < bag.length; i++){
         if(bag[i] == null) continue;
         if(normalizeSearchText(bag[i]).indexOf(qNorm) !== -1) return true;
@@ -3237,8 +3239,8 @@ function viewDebtsPage(){
       return false;
     });
   }
-  const totalIOwe = state.debts.filter(d => d.direction === 'i_owe' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
-  const totalOweMe = state.debts.filter(d => d.direction === 'owe_me' && d.status !== 'cancelled').reduce((s,d) => s + Math.max(Number(d.amount||0) - Number(d.paid||0), 0), 0);
+  const totalIOwe = state.debts.filter(d => d.direction === 'i_owe' && d.status !== 'cancelled').reduce((s,d) => s + debtRemaining(d), 0);
+  const totalOweMe = state.debts.filter(d => d.direction === 'owe_me' && d.status !== 'cancelled').reduce((s,d) => s + debtRemaining(d), 0);
   return `
   <div class="summary-strip">
     <div><span>${esc(t('debtTotalIOwe'))}</span><b class="c-red">${money(totalIOwe)}</b></div>
@@ -3261,6 +3263,106 @@ function viewDebtsPage(){
         <p>${esc(qNorm ? t('noFilterResult') : t('debtNoRecords'))}</p>
         <span>${esc(qNorm ? t('tryOtherKeyword') : t('debtNoRecordsSub'))}</span>
       </div>` }`;
+}
+
+/* =========================================================================
+   Debt Detail 页（V1.04 新增）
+   ========================================================================= */
+function viewDebtDetail(){
+  const d = getDebt(ui.currentDebtId);
+  if(!d){
+    // 找不到时返回列表
+    ui.sub = 'debts';
+    return viewDebtsPage();
+  }
+  const amount = debtOriginalAmount(d);
+  const paid = debtTotalPaid(d);
+  const remain = debtRemaining(d);
+  const pct = amount > 0 ? Math.min(paid / amount * 100, 100) : 0;
+  const dirCls = d.direction === 'i_owe' ? 'st-debt-iowe' : 'st-debt-oweme';
+  const dirLabel = d.direction === 'i_owe' ? t('debtIOwe') : t('debtOweMe');
+  const statusLabel = d.status === 'paid' ? t('debtStatusPaid') : d.status === 'partial' ? t('debtStatusPartial') : d.status === 'cancelled' ? t('debtStatusCancelled') : t('debtStatusUnpaid');
+  const statusCls = d.status === 'paid' ? 'st-done' : d.status === 'partial' ? 'st-partial' : d.status === 'cancelled' ? 'st-end' : 'st-active';
+  const linkedAcc = d.linkedAccountId ? getAccount(d.linkedAccountId) : null;
+  const purposeText = d.purposeCustom ? d.purposeCustom : debtPurposeDisplay(d.purpose);
+  const methodText = d.methodCustom ? d.methodCustom : methodDisplay(d.method);
+  const reps = debtRepayments(d);
+  // 按 eventAt 排序（旧→新）
+  const sortedReps = reps.slice().sort((a,b) => String(a.eventAt||'').localeCompare(String(b.eventAt||'')));
+
+  return `
+  <div class="card">
+    <div class="debt-top">
+      <div style="min-width:0;flex:1">
+        <div class="debt-name" style="font-size:18px">${esc(d.person)}
+          <span class="badge ${dirCls}">${esc(dirLabel)}</span>
+          <span class="badge ${statusCls}">${esc(statusLabel)}</span>
+        </div>
+      </div>
+      <button class="icon-btn sm" onclick="debtMenu('${d.id}')">⋯</button>
+    </div>
+    <div class="goal-amt" style="margin-top:6px"><b>${money(remain)}</b><span> / ${money(amount)}</span></div>
+    <div class="bar-track"><div class="bar-fill ${d.status==='paid'?'alt':'debt'}" style="width:${pct.toFixed(1)}%"></div></div>
+    <div class="asset-grid" style="margin-top:8px">
+      <div><span>${esc(t('debtOriginalAmount'))}</span><b>${money(amount)}</b></div>
+      <div><span>${esc(t('debtTotalPaid'))}</span><b class="c-green">${money(paid)}</b></div>
+      <div><span>${esc(t('debtRemaining'))}</span><b class="c-red">${money(remain)}</b></div>
+      <div><span>${esc(t('debtRepayCount'))}</span><b>${reps.length}</b></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-head" style="margin-bottom:8px"><h3>${esc(t('debtOriginal'))}</h3></div>
+    <div class="asset-rows">
+      <div class="ar"><span>${esc(t('debtOriginalTime'))}</span><b>${esc(localDateTimeStr(d.originalEventAt || d.eventAt || d.date))}</b></div>
+      ${purposeText ? `<div class="ar"><span>${esc(t('debtPurpose'))}</span><b>${esc(purposeText)}</b></div>` : ''}
+      ${methodText ? `<div class="ar"><span>${esc(t('debtMethod'))}</span><b>${esc(methodText)}</b></div>` : ''}
+      ${linkedAcc ? `<div class="ar"><span>${esc(t('debtLinkedAccount'))}</span><b>${esc(linkedAcc.name)}</b></div>` : ''}
+      ${d.dueDate ? `<div class="ar"><span>${esc(t('debtDueDate'))}</span><b>${esc(d.dueDate)}</b></div>` : ''}
+    </div>
+    ${d.reason ? `<div class="goal-sub" style="margin-top:8px">${esc(d.reason)}</div>` : ''}
+  </div>
+
+  <section>
+    <div class="repay-history-head" style="margin-bottom:8px">
+      <h3>${esc(t('debtRepayHistory'))} · ${reps.length}</h3>
+      ${ d.status !== 'cancelled' && d.status !== 'paid' ? `<button class="btn primary sm" onclick="openRepayForm('${d.id}')">＋ ${esc(t('debtAddRepay'))}</button>` : '' }
+    </div>
+    ${ sortedReps.length
+      ? sortedReps.map((r, i) => repayCard(d, r, i)).join('')
+      : `<div class="empty big">
+          <div class="empty-icon">💰</div>
+          <p>${esc(t('debtRecordNoRepay'))}</p>
+          <span>${esc(t('debtRecordNoRepaySub'))}</span>
+          ${ d.status !== 'cancelled' && d.status !== 'paid' ? `<button class="btn primary sm" onclick="openRepayForm('${d.id}')">＋ ${esc(t('debtAddRepay'))}</button>` : '' }
+        </div>` }
+  </section>
+
+  <p class="about">${esc(t('debtImportantNote'))}</p>`;
+}
+
+function repayCard(debt, r, idx){
+  const acc = r.accountId ? getAccount(r.accountId) : null;
+  const methodTxt = r.methodCustom ? r.methodCustom : methodDisplay(r.method);
+  const affectTag = r.affectAccount
+    ? `<span class="rp-tag affect">${esc(t('debtRepayAffectLabel'))}</span>`
+    : `<span class="rp-tag record">${esc(t('debtRepayRecordLabel'))}</span>`;
+  const dirSign = debt.direction === 'owe_me' ? '+' : '-';
+  return `<div class="repay-card" style="margin-bottom:8px">
+    <div class="rp-top">
+      <div style="min-width:0;flex:1">
+        <div class="rp-amt ${debt.direction === 'owe_me' ? 'c-green' : 'c-red'}">${dirSign}${money(r.amount)}</div>
+        <div class="rp-meta" style="margin-top:4px">
+          ${acc ? '📁 ' + esc(acc.name) : (r.affectAccount ? '' : '📝 ' + esc(t('debtRepayRecordLabel')))}
+          ${methodTxt ? ' · 💳 ' + esc(methodTxt) : ''}
+          ${affectTag}
+        </div>
+        <div class="rp-meta">🕒 ${esc(localDateTimeStr(r.eventAt))}</div>
+        ${ r.note ? `<div class="rp-note" style="margin-top:4px">${esc(r.note)}</div>` : '' }
+      </div>
+      <button class="rp-menu" onclick="openRepayMenu('${debt.id}','${r.id}')" title="⋯">⋯</button>
+    </div>
+  </div>`;
 }
 
 /* =========================================================================
@@ -3579,6 +3681,7 @@ function viewSettings(){
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
   const autoLockLabel = autoLock <= 0 ? t('lockNever') : autoLock + ' ' + t('lockMin');
   const transferCount = state.transactions.filter(tx => tx.type === 'transfer').length;
+  const repayCount = debtTotalRepaymentCount();
   return `
   <div class="card">
     <div class="set-row">
@@ -3593,6 +3696,10 @@ function viewSettings(){
   <div class="card">
     <div class="set-row tap" onclick="openSub('lock-settings')">
       <div><div class="set-title">🔒 ${esc(t('setLock'))}</div><div class="set-sub">${state.settings.appLockEnabled ? esc(t('setLockSubOn')) + ' · ' + autoLockLabel : esc(t('setLockSubOff'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="openSub('debt-defaults')">
+      <div><div class="set-title">💰 ${esc(t('setDebtDefaults'))}</div><div class="set-sub">${state.settings.debtRepayAffectAccountDefault ? esc(t('debtRepayAffectAccountOn')) : esc(t('debtRepayAffectAccountOff'))}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="openSub('categories')">
@@ -3629,7 +3736,7 @@ function viewSettings(){
   <div class="card">
     <div class="set-row">
       <div><div class="set-title">🌐 ${esc(t('setLanguage'))}</div><div class="set-sub">${esc(t('setLanguageSub'))}</div></div>
-      <div style="display:flex;gap:6px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
         <button class="chip ${LANG==='zh'?'on':''}" onclick="setLang('zh')">中文</button>
         <button class="chip ${LANG==='en'?'on':''}" onclick="setLang('en')">EN</button>
         <button class="chip ${LANG==='ms'?'on':''}" onclick="setLang('ms')">BM</button>
@@ -3664,6 +3771,7 @@ function viewSettings(){
       <div><span>${esc(t('setStatAsset'))}</span><b>${state.assets.length}</b></div>
       <div><span>${esc(t('setStatDebt'))}</span><b>${state.debts.length}</b></div>
       <div><span>${esc(t('setStatGiven'))}</span><b>${state.moneyGiven.length}</b></div>
+      <div><span>${esc(t('setStatRepay'))}</span><b>${repayCount}</b></div>
     </div>
   </div>
   <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION_LABEL })).replace(/\n/g,'<br>')}</p>`;
@@ -3717,9 +3825,38 @@ function viewLockSettings(){
   </div>
   <p class="about">${esc(t('lockHashNote'))}</p>`;
 }
+
+/* V1.04 新增：Debt 默认设置 */
+function viewDebtDefaults(){
+  const on = !!state.settings.debtRepayAffectAccountDefault;
+  return `
+  <div class="card">
+    <div class="set-row">
+      <div style="min-width:0;flex:1">
+        <div class="set-title">${esc(t('debtRepayAffectDefaultOn'))}</div>
+        <div class="set-sub">${esc(t('debtRepayAffectDefaultSub'))}</div>
+      </div>
+      <button class="switch ${on?'on':''}" onclick="toggleDebtDefault()"><i></i></button>
+    </div>
+  </div>
+  <div class="card">
+    <div class="asset-grid">
+      <div><span>${esc(t('setStatDebt'))}</span><b>${state.debts.length}</b></div>
+      <div><span>${esc(t('debtRepayCount'))}</span><b>${debtTotalRepaymentCount()}</b></div>
+    </div>
+  </div>
+  <p class="about">${esc(t('debtRepayRestore'))}</p>`;
+}
+function toggleDebtDefault(){
+  state.settings.debtRepayAffectAccountDefault = !state.settings.debtRepayAffectAccountDefault;
+  saveState(); render();
+  toast(state.settings.debtRepayAffectAccountDefault ? t('debtRepayAffectAccountOn') : t('debtRepayAffectAccountOff'));
+}
+
 function viewSystemInfo(){
   const transferCount = state.transactions.filter(tx => tx.type === 'transfer').length;
   const lockKind = currentLockKind();
+  const repayCount = debtTotalRepaymentCount();
   return `
   <div class="card">
     <div class="asset-grid">
@@ -3741,6 +3878,7 @@ function viewSystemInfo(){
       <div><span>${esc(t('setStatAsset'))}</span><b>${state.assets.length}</b></div>
       <div><span>${esc(t('setStatDebt'))}</span><b>${state.debts.length}</b></div>
       <div><span>${esc(t('setStatGiven'))}</span><b>${state.moneyGiven.length}</b></div>
+      <div><span>${esc(t('setStatRepay'))}</span><b>${repayCount}</b></div>
       <div><span>${esc(t('setAchievements'))}</span><b>${Object.keys(state.achievements).length}</b></div>
     </div>
   </div>
@@ -3761,6 +3899,7 @@ function viewProductGuide(){
     { icon:'⇄',  title:t('guideTransferTitle'), desc:t('guideTransferDesc') },
     { icon:'🗂', title:t('guideRecordsTitle'), desc:t('guideRecordsDesc') },
     { icon:'🤝', title:t('guideDebtsTitle'),   desc:t('guideDebtsDesc') },
+    { icon:'💰', title:t('guideRepayTitle'),   desc:t('guideRepayDesc') },
     { icon:'🎁', title:t('guideMoneyGivenTitle'), desc:t('guideMoneyGivenDesc') },
     { icon:'🎯', title:t('guideGoalTitle'),     desc:t('guideGoalDesc') },
     { icon:'📦', title:t('guideAssetTitle'),    desc:t('guideAssetDesc') },
@@ -3884,7 +4023,7 @@ function triggerImport(){
             };
             LANG = state.settings.lang || LANG;
             saveState();
-            ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all', recordsView:'home', recordsSearch:'', recordsType:'all', recordsStatus:'all', recordsDate:'all', expandedNotes:{} };
+            ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all', currentDebtId:null, recordsView:'home', recordsSearch:'', recordsType:'all', recordsStatus:'all', recordsDate:'all', expandedNotes:{}, expandedRepayNotes:{} };
             render({ top:true }); toast(t('importDone'));
           }catch(err){ toast(t('importFail')); }
         });
@@ -3901,7 +4040,7 @@ function clearData(){
       try{ localStorage.removeItem(STORAGE_KEY); }catch(e){}
       state = defaultState();
       saveState();
-      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all', recordsView:'home', recordsSearch:'', recordsType:'all', recordsStatus:'all', recordsDate:'all', expandedNotes:{} };
+      ui = { tab:'home', sub:null, recordFilter:'all', statsRange:'month', searchQuery:'', recordCat:'', recordAccount:'', currentAccountId:null, debtFilter:'all', currentDebtId:null, recordsView:'home', recordsSearch:'', recordsType:'all', recordsStatus:'all', recordsDate:'all', expandedNotes:{}, expandedRepayNotes:{} };
       render({ top:true }); toast(t('clearDone'));
     });
   });
@@ -4126,6 +4265,7 @@ function openAccountForm(){
           timezone: APP_TZ,
           category:'other_income', method:'cash', methodCustom:'',
           accountId: acc.id, note: t('initialBalanceNote'),
+          linkedDebtId: null, linkedRepaymentId: null,
           editHistory: [],
           createdAt: Date.now(), updatedAt: Date.now()
         });
@@ -4328,6 +4468,7 @@ function openIncomeForm(presetAccountId){
         method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || ''),
         recurring: !!d.recurring,
+        linkedDebtId: null, linkedRepaymentId: null,
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
@@ -4374,6 +4515,7 @@ function openExpenseForm(presetAccountId){
         method: d.method || '', methodCustom: d.methodCustom || '',
         accountId: acc.id, note: (d.note || ''),
         recurring: !!d.recurring,
+        linkedDebtId: null, linkedRepaymentId: null,
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
@@ -4414,6 +4556,7 @@ function openTransferForm(presetFrom){
         eventAt, date: eventAt,
         timezone: APP_TZ,
         accountId: from.id, toAccountId: to.id, note: (d.note || ''),
+        linkedDebtId: null, linkedRepaymentId: null,
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
@@ -4423,7 +4566,7 @@ function openTransferForm(presetFrom){
 }
 
 /* =========================================================================
-   Debt Form
+   Debt Form（V1.04：含原 amount / 创建时联动）
    ========================================================================= */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
@@ -4443,7 +4586,7 @@ function openDebtForm(presetId){
       </label>
       <label class="field"><span class="field-label">${esc(t('debtPerson'))}</span><input name="person" type="text" required maxlength="80" placeholder="${esc(t('debtPersonPlaceholder'))}" value="${editing?esc(editing.person):''}"></label>
       <label class="field"><span class="field-label">${esc(t('debtAmount'))}</span>
-        <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?editing.amount:''}"></div>
+        <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${editing?debtOriginalAmount(editing):''}"></div>
       </label>
       <div class="field"><span class="field-label">${esc(t('debtPurpose'))}</span>${renderPurposePickerButton('debt', editing?editing.purpose:initialPurpose, editing?editing.purposeCustom:'')}</div>
       <div class="field"><span class="field-label">${esc(t('debtMethod'))}</span>${renderMethodPickerButton(editing?editing.method:initialMethod, methodLabel(editing?editing.method:initialMethod), editing?editing.methodCustom:'')}</div>
@@ -4475,13 +4618,15 @@ function openDebtForm(presetId){
       const linkedAccountId = linkMode === 'account' ? d.linkedAccountId : null;
 
       if(editing){
+        // 回滚旧联动
         if(editing.linkMode === 'account' && editing.linkedAccountId){
           const oldAcc = getAccount(editing.linkedAccountId);
           if(oldAcc){
-            if(editing.direction === 'owe_me') oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(editing.amount||0));
-            else oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(editing.amount||0));
+            if(editing.direction === 'owe_me') oldAcc.balance = round2((Number(oldAcc.balance)||0) + debtOriginalAmount(editing));
+            else oldAcc.balance = round2((Number(oldAcc.balance)||0) - debtOriginalAmount(editing));
           }
         }
+        // 应用新联动
         if(linkMode === 'account'){
           const acc = getAccount(linkedAccountId);
           if(!acc){ toast(t('accountNotExist')); return false; }
@@ -4493,28 +4638,37 @@ function openDebtForm(presetId){
           }
         }
         editing.direction = d.direction;
-        editing.person = person; editing.amount = amount;
+        editing.person = person;
+        editing.amount = amount;
+        editing.originalAmount = amount;
         editing.purpose = (d.purpose || '').trim();
         editing.purposeCustom = (d.purposeCustom || '').trim();
         editing.method = (d.method || '').trim();
         editing.methodCustom = (d.methodCustom || '').trim();
         editing.eventAt = eventAt;
         editing.date = eventAt;
+        editing.originalEventAt = eventAt;
         editing.dueDate = d.dueDate || '';
         editing.reason = (d.reason || '');
+        editing.note = d.reason || '';
         editing.linkMode = linkMode;
         editing.linkedAccountId = linkedAccountId;
         editing.updatedAt = Date.now();
         if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
         editing.editHistory.push({ at: nowISO(), action: 'edit' });
-        const paid = Number(editing.paid) || 0;
-        if(paid >= amount && amount > 0) editing.status = 'paid';
-        else if(paid > 0) editing.status = 'partial';
-        else editing.status = 'unpaid';
+        // 重新计算 status / remaining
+        const paid = debtTotalPaid(editing);
+        editing.paid = paid;
+        editing.remainingAmount = round2(Math.max(amount - paid, 0));
+        if(editing.status !== 'cancelled'){
+          if(paid >= amount - 0.001 && amount > 0) editing.status = 'paid';
+          else if(paid > 0) editing.status = 'partial';
+          else editing.status = 'unpaid';
+        }
         afterChange(); toast(t('debtUpdated'));
       }else{
+        const acc = linkMode === 'account' ? getAccount(linkedAccountId) : null;
         if(linkMode === 'account'){
-          const acc = getAccount(linkedAccountId);
           if(!acc){ toast(t('accountNotExist')); return false; }
           if(d.direction === 'owe_me'){
             if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
@@ -4526,14 +4680,22 @@ function openDebtForm(presetId){
         const eventId = 'EVT-' + Date.now().toString(36).toUpperCase();
         state.debts.push({
           id: uid(), eventId,
-          direction: d.direction || 'i_owe', person, amount,
+          direction: d.direction || 'i_owe', person,
+          amount, originalAmount: amount,
+          paid: 0,
+          remainingAmount: amount,
           purpose: (d.purpose || '').trim(), purposeCustom: (d.purposeCustom || '').trim(),
           method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
           eventAt, date: eventAt,
+          originalEventAt: eventAt,
           timezone: APP_TZ,
           dueDate: d.dueDate || '', reason: (d.reason || ''),
-          paid: 0, payments: [], status: 'unpaid',
+          note: d.reason || '',
+          repayments: [],
+          payments: [],
+          status: 'unpaid',
           linkMode, linkedAccountId,
+          originalTransactionId: null,
           editHistory: [],
           createdAt: Date.now(), updatedAt: Date.now()
         });
@@ -4563,11 +4725,249 @@ function openDebtForm(presetId){
     }
   });
 }
+
+/* =========================================================================
+   Repayment Form（V1.04 新增）
+   ========================================================================= */
+function openRepayForm(debtId, presetRepayId){
+  const d = getDebt(debtId);
+  if(!d){ toast(t('debtNotExist')); return; }
+  if(d.status === 'cancelled'){ toast(t('debtStatusCancelled')); return; }
+
+  const editing = presetRepayId ? debtRepayments(d).find(r => r.id === presetRepayId) : null;
+  const remainNow = debtRemaining(d);
+  // 编辑时：可还上限 = 剩余 + 该笔原金额（因为它可以被替换掉）
+  const maxAllow = editing ? round2(remainNow + Number(editing.amount || 0)) : remainNow;
+
+  const defaultAffect = editing
+    ? !!editing.affectAccount
+    : !!state.settings.debtRepayAffectAccountDefault;
+
+  const initialMethod = editing ? (editing.method || 'cash') : 'cash';
+  const initialMethodCustom = editing ? (editing.methodCustom || '') : '';
+  const initialMethodLabel = initialMethodCustom || methodLabel(initialMethod);
+  const initialAccountId = editing ? (editing.accountId || '') : (state.accounts[0] ? state.accounts[0].id : '');
+  const initialDate = editing ? localDateStr(editing.eventAt) : nowLocalDate();
+  const initialTime = editing ? localTimeSecStr(editing.eventAt) : nowLocalTime();
+  const initialNote = editing ? (editing.note || '') : '';
+  const initialAmount = editing ? Number(editing.amount || 0) : '';
+
+  openSheet({
+    title: editing ? t('debtEditRepay') : t('debtAddRepay'),
+    submitText: editing ? t('save') : t('debtRepayBtn'),
+    body: `
+      <div class="asset-rows" style="margin-bottom:14px">
+        <div class="ar"><span>${esc(t('debtPerson'))}</span><b>${esc(d.person)}</b></div>
+        <div class="ar"><span>${esc(t('debtOriginalAmount'))}</span><b>${money(debtOriginalAmount(d))}</b></div>
+        <div class="ar"><span>${esc(t('debtTotalPaid'))}</span><b>${money(debtTotalPaid(d))}</b></div>
+        <div class="ar"><span>${esc(t('debtRemaining'))}</span><b>${money(remainNow)}</b></div>
+      </div>
+      <label class="field"><span class="field-label">${esc(t('debtRepayAmount'))}</span>
+        <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal" value="${initialAmount}"></div>
+        <p class="hint" style="margin-top:6px">${esc(t('debtRepayExceed'))}: ${money(maxAllow)}</p>
+      </label>
+      <label class="field"><span class="field-label">${esc(t('debtRepayAccount'))}</span>
+        <select name="accountId">${accountOptions(initialAccountId)}</select>
+        <p class="hint" style="margin-top:6px">${esc(t('debtRepayAccountHint'))}</p>
+      </label>
+      <div class="field"><span class="field-label">${esc(t('debtRepayMethod'))}</span>${renderMethodPickerButton(initialMethod, initialMethodLabel, initialMethodCustom)}
+        <p class="hint" style="margin-top:6px">${esc(t('debtRepayMethodHint'))}</p>
+      </div>
+      <div class="toggle-line">
+        <div class="tl-label">
+          <div><b>${esc(t('debtRepayAffectAccount'))}</b></div>
+          <div class="tl-sub" id="repay-affect-sub">${esc(defaultAffect ? t('debtRepayWillAffectAccount') : t('debtRepayWillRecordOnly'))}</div>
+        </div>
+        <button type="button" class="switch ${defaultAffect?'on':''}" id="repay-affect-switch"><i></i></button>
+        <input type="hidden" name="affectAccount" value="${defaultAffect ? '1' : '0'}">
+      </div>
+      <div class="two-col">
+        <label class="field"><span class="field-label">${esc(t('debtRepayTime'))}</span><input name="date" type="date" required value="${initialDate}"></label>
+        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" required value="${initialTime}"></label>
+      </div>
+      <label class="field"><span class="field-label">${esc(t('note'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('debtRepayNotePlaceholder'))}">${esc(initialNote)}</textarea></label>`,
+    onSubmit(form){
+      const amount = round2(parseFloat(form.amount));
+      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
+      const affect = form.affectAccount === '1';
+      const acc = affect ? getAccount(form.accountId) : null;
+      if(affect && !acc){ toast(t('accountNotExist')); return false; }
+      const eventAt = combineDateTime(form.date || nowLocalDate(), form.time || nowLocalTime());
+
+      if(editing){
+        // 编辑：先回滚旧影响
+        rollbackRepaymentEffect(d, editing);
+        // 再次检查剩余（回滚后 remain 恢复）
+        const remainAfterRollback = debtRemaining(d);
+        if(amount > remainAfterRollback + 0.001){
+          // 回滚失败时也把新的加回去？—— 此处回滚仅动余额/删tx，不重算 remaining，稍后统一重算
+          // 为安全：先把旧 repayment 恢复回去
+          // 简化：直接给出提示，并 return false（让用户改小金额）
+          toast(t('debtRepayExceed'));
+          return false;
+        }
+        // 更新 repayment 字段
+        editing.amount = amount;
+        editing.accountId = affect ? (form.accountId || null) : null;
+        editing.method = (form.method || '').trim();
+        editing.methodCustom = (form.methodCustom || '').trim();
+        editing.eventAt = eventAt;
+        editing.note = (form.note || '');
+        editing.affectAccount = affect;
+        editing.linkMode = affect ? 'account' : 'record_only';
+        editing.transactionId = null;
+        editing.updatedAt = Date.now();
+        if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
+        editing.editHistory.push({ at: nowISO(), action: 'edit' });
+        // 应用新影响
+        applyRepaymentEffect(d, editing);
+        // 重算
+        recalcDebt(d);
+        afterChange(); toast(t('debtRepayUpdated'));
+      }else{
+        if(amount > remainNow + 0.001){ toast(t('debtRepayExceed')); return false; }
+        const r = {
+          id: uid(),
+          debtId: d.id,
+          amount,
+          accountId: affect ? (form.accountId || null) : null,
+          method: (form.method || '').trim(),
+          methodCustom: (form.methodCustom || '').trim(),
+          eventAt,
+          createdAt: Date.now(),
+          updatedAt: Date.now(),
+          timezone: APP_TZ,
+          note: (form.note || ''),
+          affectAccount: affect,
+          linkMode: affect ? 'account' : 'record_only',
+          transactionId: null,
+          editHistory: []
+        };
+        applyRepaymentEffect(d, r);
+        if(!Array.isArray(d.repayments)) d.repayments = [];
+        d.repayments.push(r);
+        recalcDebt(d);
+        afterChange(); toast(t('debtRepayCreated'));
+      }
+      return true;
+    },
+    afterRender(root){
+      bindMethodPicker(root);
+      const sw = root.querySelector('#repay-affect-switch');
+      const sub = root.querySelector('#repay-affect-sub');
+      const hidden = root.querySelector('input[name="affectAccount"]');
+      if(sw && hidden){
+        sw.addEventListener('click', e => {
+          e.preventDefault();
+          const now = hidden.value === '1' ? '0' : '1';
+          hidden.value = now;
+          sw.classList.toggle('on', now === '1');
+          if(sub) sub.textContent = now === '1' ? t('debtRepayWillAffectAccount') : t('debtRepayWillRecordOnly');
+        });
+      }
+    }
+  });
+}
+
+/* 应用还款对账户 + transaction 的影响 */
+function applyRepaymentEffect(debt, r){
+  if(!r.affectAccount) { r.transactionId = null; return; }
+  const acc = getAccount(r.accountId);
+  if(!acc){ r.transactionId = null; return; }
+  // owe_me: 别人还我钱 → 账户 +  /  i_owe: 我还别人钱 → 账户 -
+  if(debt.direction === 'owe_me'){
+    acc.balance = round2((Number(acc.balance) || 0) + Number(r.amount || 0));
+  }else{
+    acc.balance = round2((Number(acc.balance) || 0) - Number(r.amount || 0));
+  }
+  // 关联 transaction（用于统计/审计，不影响收入支出）
+  const txId = uid();
+  r.transactionId = txId;
+  state.transactions.push({
+    id: txId,
+    type: debt.direction === 'owe_me' ? 'income' : 'expense',
+    amount: Number(r.amount || 0),
+    eventAt: r.eventAt,
+    date: r.eventAt,
+    timezone: r.timezone || APP_TZ,
+    category: debt.direction === 'owe_me' ? 'other_income' : 'other_exp',
+    subCategory: '',
+    method: r.method || '',
+    methodCustom: r.methodCustom || '',
+    accountId: r.accountId,
+    note: r.note || '',
+    linkedDebtId: debt.id,
+    linkedRepaymentId: r.id,
+    editHistory: [],
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  });
+}
+
+/* 回滚还款对账户 + transaction 的影响 */
+function rollbackRepaymentEffect(debt, r){
+  // 撤销账户影响
+  if(r.affectAccount && r.accountId){
+    const acc = getAccount(r.accountId);
+    if(acc){
+      if(debt.direction === 'owe_me'){
+        acc.balance = round2((Number(acc.balance) || 0) - Number(r.amount || 0));
+      }else{
+        acc.balance = round2((Number(acc.balance) || 0) + Number(r.amount || 0));
+      }
+    }
+  }
+  // 删除关联 transaction
+  if(r.transactionId){
+    state.transactions = state.transactions.filter(tx => tx.id !== r.transactionId);
+    r.transactionId = null;
+  }
+}
+
+/* 重新计算 debt 的 paid / remaining / status */
+function recalcDebt(d){
+  const reps = debtRepayments(d);
+  const sum = round2(reps.reduce((s, r) => s + (Number(r.amount) || 0), 0));
+  d.paid = sum;
+  const orig = debtOriginalAmount(d);
+  d.remainingAmount = round2(Math.max(orig - sum, 0));
+  if(d.status !== 'cancelled'){
+    if(sum >= orig - 0.001 && orig > 0) d.status = 'paid';
+    else if(sum > 0) d.status = 'partial';
+    else d.status = 'unpaid';
+  }
+  d.updatedAt = Date.now();
+}
+
+/* Repayment 菜单 / 删除 */
+function openRepayMenu(debtId, repayId){
+  const d = getDebt(debtId);
+  if(!d) return;
+  const r = debtRepayments(d).find(x => x.id === repayId);
+  if(!r) return;
+  openActionSheet(t('debtRepayHistory') + ' · ' + money(r.amount), [
+    { label: t('edit'), icon:'✏️', onClick: () => openRepayForm(debtId, repayId) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('repay', repayId, debtId) },
+    { label: t('delete'), icon:'🗑', danger:true, onClick: () => {
+      confirmDialog(t('debtRepayDeleteConfirm'), () => {
+        // 回滚影响
+        rollbackRepaymentEffect(d, r);
+        // 从列表移除
+        d.repayments = debtRepayments(d).filter(x => x.id !== repayId);
+        // 重算
+        recalcDebt(d);
+        afterChange(); toast(t('debtRepayDeleted'));
+      });
+    } }
+  ]);
+}
+
+/* Debt 菜单 */
 function debtMenu(id){
   const d = getDebt(id);
   if(!d) return;
   const acts = [
-    { label: t('debtRepay'), icon:'💵', onClick: () => openDebtRepay(id) },
+    { label: t('debtAddRepay'), icon:'💰', onClick: () => openRepayForm(id) },
     { label: t('edit'), icon:'✏️', onClick: () => openDebtForm(id) },
     { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('debt', id) }
   ];
@@ -4584,90 +4984,31 @@ function debtMenu(id){
   }
   acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => {
     confirmDialog(t('debtDeleteConfirm'), () => {
+      // 回滚所有 repayment 影响
+      const reps = debtRepayments(d);
+      reps.forEach(r => rollbackRepaymentEffect(d, r));
+      // 回滚原始欠款联动
       if(d.linkMode === 'account' && d.linkedAccountId){
         const acc = getAccount(d.linkedAccountId);
         if(acc){
-          if(d.direction === 'owe_me') acc.balance = round2((Number(acc.balance)||0) + Number(d.amount||0));
-          else acc.balance = round2((Number(acc.balance)||0) - Number(d.amount||0));
+          if(d.direction === 'owe_me') acc.balance = round2((Number(acc.balance)||0) + debtOriginalAmount(d));
+          else acc.balance = round2((Number(acc.balance)||0) - debtOriginalAmount(d));
         }
       }
       state.debts = state.debts.filter(x => x.id !== id);
+      // 如果在 debt detail 页，返回列表
+      if(ui.sub === 'debt-detail'){ ui.sub = 'debts'; ui.currentDebtId = null; }
       afterChange(); toast(t('debtDeleted'));
     });
   }});
   openActionSheet(d.person, acts);
 }
-function openDebtRepay(id){
-  const d = getDebt(id);
-  if(!d) return;
-  const remain = round2(Math.max(Number(d.amount) - Number(d.paid||0), 0));
-  if(remain <= 0){ toast(t('debtStatusPaid')); return; }
-  const useAccount = d.linkMode === 'account' && d.linkedAccountId;
-  openSheet({
-    title: t('debtRepayTitle'), submitText: t('debtRepayBtn'),
-    body: `
-      <div class="asset-rows" style="margin-bottom:14px">
-        <div class="ar"><span>${esc(t('debtAmount'))}</span><b>${money(d.amount)}</b></div>
-        <div class="ar"><span>${esc(t('debtPaid'))}</span><b>${money(d.paid||0)}</b></div>
-        <div class="ar"><span>${esc(t('debtRemain'))}</span><b>${money(remain)}</b></div>
-      </div>
-      <label class="field"><span class="field-label">${esc(t('debtRepayAmount'))}</span>
-        <div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div>
-      </label>
-      ${ useAccount ? `
-      <p class="hint">${esc(t('debtLinkedAccount'))}: ${esc((getAccount(d.linkedAccountId)||{}).name||'—')}</p>
-      ` : `
-      <label class="field"><span class="field-label">${esc(t('account'))}（可选，用于记录实际资金流）</span>
-        <select name="accountId"><option value="">${esc(t('none'))}</option>${accountOptions()}</select>
-      </label>` }
-      <div class="two-col">
-        <label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label>
-        <label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label>
-      </div>
-      <label class="field"><span class="field-label">${esc(t('debtRepayNote'))}</span><textarea name="note" maxlength="4000"></textarea></label>
-      <p class="hint">${esc(t('debtRepayHint'))}</p>`,
-    onSubmit(dd){
-      const amount = round2(parseFloat(dd.amount));
-      if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
-      if(amount > remain + 0.001){ toast(t('debtExceed')); return false; }
-      let targetAcc = null;
-      if(d.linkMode === 'account' && d.linkedAccountId){
-        targetAcc = getAccount(d.linkedAccountId);
-      }else if(dd.accountId){
-        targetAcc = getAccount(dd.accountId);
-      }
-      if(targetAcc){
-        if(d.direction === 'owe_me'){
-          targetAcc.balance = round2((Number(targetAcc.balance)||0) + amount);
-        }else{
-          if(round2(Number(targetAcc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
-          targetAcc.balance = round2((Number(targetAcc.balance)||0) - amount);
-        }
-      }
-      const repayAt = combineDateTime(dd.date || nowLocalDate(), dd.time || nowLocalTime());
-      d.payments = Array.isArray(d.payments) ? d.payments : [];
-      d.payments.push({
-        id: uid(), amount,
-        eventAt: repayAt,
-        timezone: APP_TZ,
-        note: (dd.note || ''),
-        accountId: targetAcc ? targetAcc.id : null,
-        createdAt: Date.now()
-      });
-      d.paid = round2(Number(d.paid||0) + amount);
-      if(d.paid >= Number(d.amount) - 0.001){ d.status = 'paid'; d.paid = Number(d.amount); }
-      else { d.status = 'partial'; }
-      d.updatedAt = Date.now();
-      if(!Array.isArray(d.editHistory)) d.editHistory = [];
-      d.editHistory.push({ at: nowISO(), action: 'repay' });
-      afterChange(); toast(t('debtRepayRecorded')); return true;
-    }
-  });
-}
+
+/* debtCard（用于 Debts 列表 / 首页预览） */
 function debtCard(d){
-  const amount = Number(d.amount)||0;
-  const paid = Number(d.paid)||0;
-  const remain = Math.max(amount - paid, 0);
+  const amount = debtOriginalAmount(d);
+  const paid = debtTotalPaid(d);
+  const remain = debtRemaining(d);
   const pct = amount > 0 ? Math.min(paid / amount * 100, 100) : 0;
   const dirCls = d.direction === 'i_owe' ? 'st-debt-iowe' : 'st-debt-oweme';
   const dirLabel = d.direction === 'i_owe' ? t('debtIOwe') : t('debtOweMe');
@@ -4686,30 +5027,31 @@ function debtCard(d){
   }
   const purposeText = d.purposeCustom ? d.purposeCustom : debtPurposeDisplay(d.purpose);
   const methodText = d.methodCustom ? d.methodCustom : methodDisplay(d.method);
-  const linkTag = d.linkMode === 'account' ? ' · 🔗' : '';
   const linkedAcc = d.linkedAccountId ? getAccount(d.linkedAccountId) : null;
   const noteFull = d.reason || '';
-  return `<div class="debt-card">
+  const reps = debtRepayments(d);
+  return `<div class="debt-card" onclick="goDebtDetail('${d.id}')" style="cursor:pointer">
     <div class="debt-top">
       <div style="min-width:0;flex:1">
         <div class="debt-name">${esc(d.person)}
           <span class="badge ${dirCls}">${esc(dirLabel)}</span>
           <span class="badge ${statusCls}">${esc(statusLabel)}</span>
         </div>
-        <div class="goal-sub">${esc(localDateTimeStr(d.eventAt||d.date))}${dueText} · ${esc(durText)}${linkTag}</div>
+        <div class="goal-sub">${esc(localDateTimeStr(d.eventAt||d.date))}${dueText} · ${esc(durText)}</div>
         ${purposeText ? `<div class="goal-sub">${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">${esc(methodText)}</div>` : '')}
         ${linkedAcc ? `<div class="goal-sub">🔗 ${esc(linkedAcc.name)}</div>` : ''}
         ${noteFull ? `<div class="goal-sub note-full">${esc(noteFull)}</div>` : ''}
+        ${reps.length ? `<div class="goal-sub">💰 ${esc(t('debtRepayCount'))}: ${reps.length}</div>` : ''}
       </div>
-      <button class="icon-btn sm" onclick="debtMenu('${d.id}')">⋯</button>
+      <button class="icon-btn sm" onclick="event.stopPropagation();debtMenu('${d.id}')">⋯</button>
     </div>
     <div class="goal-amt"><b>${money(remain)}</b><span> / ${money(amount)}</span></div>
     <div class="bar-track"><div class="bar-fill ${d.status==='paid'?'alt':'debt'}" style="width:${pct.toFixed(1)}%"></div></div>
-    <div class="goal-foot"><span>${esc(t('debtPaid'))}: ${money(paid)}</span><span>${esc(t('debtRemain'))}: ${money(remain)}</span></div>
+    <div class="goal-foot"><span>${esc(t('debtTotalPaid'))}: ${money(paid)}</span><span>${esc(t('debtRemaining'))}: ${money(remain)}</span></div>
     <div class="debt-acts">
-      ${d.status !== 'paid' && d.status !== 'cancelled' ? `<button class="btn soft" onclick="openDebtRepay('${d.id}')">${esc(t('debtRepay'))}</button>` : ''}
-      <button class="btn soft" onclick="openDebtForm('${d.id}')">${esc(t('edit'))}</button>
-      <button class="btn soft" onclick="debtMenu('${d.id}')">${esc(t('assetMore'))}</button>
+      ${d.status !== 'paid' && d.status !== 'cancelled' ? `<button class="btn soft" onclick="event.stopPropagation();openRepayForm('${d.id}')">＋ ${esc(t('debtAddRepay'))}</button>` : ''}
+      <button class="btn soft" onclick="event.stopPropagation();goDebtDetail('${d.id}')">${esc(t('debtDetailTitle'))}</button>
+      <button class="btn soft" onclick="event.stopPropagation();debtMenu('${d.id}')">${esc(t('assetMore'))}</button>
     </div>
   </div>`;
 }
@@ -4798,14 +5140,19 @@ function openMGForm(presetId){
           const eventId = editing.eventId || ('EVT-' + Date.now().toString(36).toUpperCase());
           const debt = {
             id: uid(), eventId,
-            direction: 'owe_me', person, amount: amount,
+            direction: 'owe_me', person,
+            amount: amount, originalAmount: amount,
+            paid: 0, remainingAmount: amount,
             purpose: 'friend_borrow', purposeCustom: '',
             method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
-            eventAt, date: eventAt,
+            eventAt, date: eventAt, originalEventAt: eventAt,
             timezone: APP_TZ,
             dueDate: '', reason: t('debtCreatedFromMoneyGiven'),
-            paid: 0, payments: [], status: 'unpaid',
+            note: t('debtCreatedFromMoneyGiven'),
+            repayments: [], payments: [],
+            status: 'unpaid',
             linkMode: 'record_only', linkedAccountId: null,
+            originalTransactionId: null,
             linkedMoneyGivenId: editing.id,
             editHistory: [],
             createdAt: Date.now(), updatedAt: Date.now()
@@ -4817,6 +5164,7 @@ function openMGForm(presetId){
           if(debt){
             debt.person = person;
             debt.amount = amount;
+            debt.originalAmount = amount;
             debt.eventAt = eventAt; debt.date = eventAt;
             debt.updatedAt = Date.now();
           }
@@ -4846,14 +5194,19 @@ function openMGForm(presetId){
         if(nature === 'loan'){
           const debt = {
             id: uid(), eventId,
-            direction: 'owe_me', person, amount: amount,
+            direction: 'owe_me', person,
+            amount: amount, originalAmount: amount,
+            paid: 0, remainingAmount: amount,
             purpose: 'friend_borrow', purposeCustom: '',
             method: (d.method || '').trim(), methodCustom: (d.methodCustom || '').trim(),
-            eventAt, date: eventAt,
+            eventAt, date: eventAt, originalEventAt: eventAt,
             timezone: APP_TZ,
             dueDate: '', reason: t('debtCreatedFromMoneyGiven'),
-            paid: 0, payments: [], status: 'unpaid',
+            note: t('debtCreatedFromMoneyGiven'),
+            repayments: [], payments: [],
+            status: 'unpaid',
             linkMode: 'record_only', linkedAccountId: null,
+            originalTransactionId: null,
             linkedMoneyGivenId: mg.id,
             editHistory: [],
             createdAt: Date.now(), updatedAt: Date.now()
@@ -4929,10 +5282,21 @@ function openTxMenu(id){
   const labelMap = { income:t('income'), expense:t('expense'), transfer:t('transfer'), goal_deposit:t('goalDeposit'), goal_withdraw:t('goalWithdraw') };
   const acts = [];
   if(tx.type === 'income' || tx.type === 'expense'){
-    acts.push({ label: t('edit'), icon:'✏️', onClick: () => editTransaction(id) });
+    // 若关联到还款，禁止直接编辑/删除（避免破坏关系）
+    if(tx.linkedRepaymentId){
+      acts.push({ label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('tx', id) });
+      acts.push({ label: t('debtRepay'), icon:'💰', onClick: () => {
+        if(tx.linkedDebtId) goDebtDetail(tx.linkedDebtId);
+      }});
+    }else{
+      acts.push({ label: t('edit'), icon:'✏️', onClick: () => editTransaction(id) });
+      acts.push({ label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('tx', id) });
+      acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
+    }
+  }else{
+    acts.push({ label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('tx', id) });
+    acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
   }
-  acts.push({ label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('tx', id) });
-  acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => deleteTransaction(id) });
   openActionSheet(labelMap[tx.type] || 'Record', acts);
 }
 function deleteConfirmTitleFor(type){
@@ -4947,6 +5311,10 @@ function deleteConfirmTitleFor(type){
 function editTransaction(id){
   const tx = state.transactions.find(x => x.id === id);
   if(!tx) return;
+  if(tx.linkedRepaymentId){
+    toast(t('debtRepayHint'));
+    return;
+  }
   const isIncome = tx.type === 'income';
   const initialCat = tx.category;
   const initialLabel = isIncome ? incomeDisplayLabel(initialCat) : expenseDisplayLabel(initialCat);
@@ -4985,7 +5353,8 @@ function editTransaction(id){
         toast(t('accountNotExist')); return false;
       }
       if(tx.type === 'expense' && round2(Number(newAcc.balance)||0) < newAmount){
-        if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount));
+        if(tx.type === 'income'){ if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) + Number(tx.amount)); }
+        else { if(oldAcc) oldAcc.balance = round2((Number(oldAcc.balance)||0) - Number(tx.amount)); }
         toast(t('insufficientBalance')); return false;
       }
       if(tx.type === 'income'){ newAcc.balance = round2((Number(newAcc.balance)||0) + newAmount); }
@@ -5009,6 +5378,10 @@ function editTransaction(id){
 function deleteTransaction(id){
   const tx = state.transactions.find(x => x.id === id);
   if(!tx) return;
+  if(tx.linkedRepaymentId){
+    toast(t('debtRepayHint'));
+    return;
+  }
   confirmDialog(deleteConfirmTitleFor(tx.type), () => {
     try{
       switch(tx.type){
@@ -5043,13 +5416,17 @@ function deleteTransaction(id){
 /* =========================================================================
    编辑历史查看
    ========================================================================= */
-function viewEditHistory(kind, id){
+function viewEditHistory(kind, id, parentId){
   let obj = null;
   if(kind === 'tx') obj = state.transactions.find(x => x.id === id);
   else if(kind === 'debt') obj = getDebt(id);
   else if(kind === 'mg') obj = getMG(id);
   else if(kind === 'goal') obj = getGoal(id);
   else if(kind === 'asset') obj = getAsset(id);
+  else if(kind === 'repay'){
+    const d = getDebt(parentId);
+    if(d) obj = debtRepayments(d).find(r => r.id === id);
+  }
   if(!obj) return;
   const fmtSafe = (v) => v ? localDateTimeStr(v) : '—';
   const hist = Array.isArray(obj.editHistory) ? obj.editHistory : [];
@@ -5178,6 +5555,7 @@ function openGoalDeposit(goalId){
         eventAt, date: eventAt,
         timezone: APP_TZ,
         accountId: acc.id, goalId: g.id, category: 'Savings', note: '',
+        linkedDebtId: null, linkedRepaymentId: null,
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
@@ -5218,6 +5596,7 @@ function openGoalWithdraw(goalId){
         eventAt, date: eventAt,
         timezone: APP_TZ,
         accountId: acc.id, goalId: g.id, category: 'Savings', note: '',
+        linkedDebtId: null, linkedRepaymentId: null,
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
@@ -5252,6 +5631,7 @@ function cancelGoal(id){
         eventAt, date: eventAt,
         timezone: APP_TZ,
         accountId: acc.id, goalId: g.id, category: 'Savings', note: 'Goal cancelled',
+        linkedDebtId: null, linkedRepaymentId: null,
         editHistory: [],
         createdAt: Date.now(), updatedAt: Date.now()
       });
@@ -5427,8 +5807,11 @@ function openAssetEnd(id){
   state.goals.forEach(g => { g.saved = round2(Number(g.saved) || 0); g.targetAmount = round2(Number(g.targetAmount) || 0); });
   state.debts.forEach(d => {
     d.amount = round2(Number(d.amount)||0);
+    d.originalAmount = round2(Number(d.originalAmount) || d.amount);
     d.paid = round2(Number(d.paid)||0);
     if(!Array.isArray(d.payments)) d.payments = [];
+    if(!Array.isArray(d.repayments)) d.repayments = [];
+    d.remainingAmount = round2(Math.max(d.originalAmount - d.paid, 0));
   });
   state.moneyGiven.forEach(m => { m.amount = round2(Number(m.amount)||0); });
   if(lockRecord && lockRecord.hash && !lockRecord.type){ lockRecord.type = 'pin'; saveLock(lockRecord); }
