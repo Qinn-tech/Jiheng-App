@@ -9,7 +9,20 @@
 <meta name="apple-mobile-web-app-title" content="积衡 Jiheng">
 <meta name="format-detection" content="telephone=no">
 <title>积衡 Jiheng · 个人财务记录</title>
-<style>
+<!-- PWA Manifest -->
+<link rel="manifest" href="./manifest.json">
+
+<!-- 图标 -->
+<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
+
+<!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="积衡">
+  <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;min-width:0;}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 html,body{margin:0;padding:0;height:100%;}
@@ -460,9 +473,9 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
    - 保留 V1.00 / V1.01 / V1.02 / V1.03 全部用户数据
    ========================================================================= */
 
-const APP_VERSION  = '1.04';
-const DATA_VERSION = 4;
-const DATA_VERSION_LABEL = 'V1.04';
+const APP_VERSION  = '1.05';
+const DATA_VERSION = 5;
+const DATA_VERSION_LABEL = 'V1.05';
 const SCHEMA_SERIES = 'V1';
 
 const STORAGE_KEY       = 'jiheng_state_v1';
