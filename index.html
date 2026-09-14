@@ -9,20 +9,12 @@
 <meta name="apple-mobile-web-app-title" content="积衡 Jiheng">
 <meta name="format-detection" content="telephone=no">
 <title>积衡 Jiheng · 个人财务记录</title>
-<!-- PWA Manifest -->
 <link rel="manifest" href="./manifest.json">
-
-<!-- 图标 -->
 <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
 <link rel="apple-touch-icon" sizes="180x180" href="./icon-192.png">
 <link rel="apple-touch-icon" sizes="192x192" href="./icon-192.png">
-
-<!-- iOS PWA -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="积衡">
-  <style>
+<style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;min-width:0;}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;}
 html,body{margin:0;padding:0;height:100%;}
@@ -393,7 +385,6 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .records-row .rr-amt{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;flex:0 0 auto;line-height:1.3;}
 .note-full{font-size:13px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;}
 .meta-line{font-size:11px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere;line-height:1.4;}
-/* V1.04 Repayment */
 .repay-card{background:#fafbfd;border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);position:relative;}
 .repay-card .rp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;flex-wrap:wrap;}
 .repay-card .rp-amt{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1.3;}
@@ -450,27 +441,49 @@ section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 @supports (padding: max(0px)){
   .lock-screen{padding-bottom:calc(8px + max(var(--safe-b), 0px));}
 }
+#pwa-install-root{position:fixed;left:0;right:0;bottom:0;z-index:90;pointer-events:none;padding:0 16px calc(96px + var(--safe-b));max-width:560px;margin:0 auto;}
+#pwa-install-root.show{pointer-events:auto;}
+.pwa-install-card{background:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 8px 32px rgba(91,75,138,.18);display:flex;gap:12px;align-items:flex-start;border:1.5px solid var(--brand-3);animation:pwaSlideUp .32s cubic-bezier(.32,.72,0,1);}
+@keyframes pwaSlideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.pwa-install-card .pi-icon{width:42px;height:42px;min-width:42px;border-radius:12px;background:linear-gradient(135deg,#3d3158,#8a7bb8);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:20px;line-height:1;flex:0 0 auto;}
+.pwa-install-card .pi-body{flex:1;min-width:0;}
+.pwa-install-card .pi-title{font-size:14px;font-weight:700;color:var(--brand);line-height:1.4;overflow-wrap:anywhere;}
+.pwa-install-card .pi-desc{font-size:12px;color:var(--text);line-height:1.55;margin-top:4px;overflow-wrap:anywhere;word-break:break-word;}
+.pwa-install-card .pi-acts{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.pwa-install-card .pi-btn{border:none;border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:700;cursor:pointer;line-height:1.3;}
+.pwa-install-card .pi-btn.primary{background:var(--brand);color:#fff;}
+.pwa-install-card .pi-btn.ghost{background:#f2f1f7;color:var(--text);}
+.pwa-install-card .pi-close{background:transparent;border:none;color:var(--muted);font-size:16px;cursor:pointer;padding:4px;line-height:1;flex:0 0 auto;}
+.pwa-install-steps{background:#fafbfd;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:12px;line-height:1.65;color:var(--text);}
+.pwa-install-steps b{color:var(--brand);}
+.pwa-install-steps ol{margin:6px 0 0;padding-left:18px;}
+.pwa-install-steps li{margin:3px 0;}
+#pwa-offline-root{position:fixed;left:0;right:0;top:calc(8px + var(--safe-t));z-index:190;display:flex;justify-content:center;padding:0 16px;pointer-events:none;opacity:0;transition:opacity .3s;}
+#pwa-offline-root.show{opacity:1;}
+.pwa-offline-pill{background:rgba(28,24,48,.9);color:#fff;font-size:12px;font-weight:600;padding:8px 14px;border-radius:99px;box-shadow:0 6px 20px rgba(0,0,0,.22);line-height:1.3;overflow-wrap:anywhere;word-break:break-word;text-align:center;}
+.pwa-offline-pill .pwa-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#ff8a8a;margin-right:6px;vertical-align:middle;}
 </style>
 </head>
-<body>
+  <body>
 <div id="app"></div>
 <div id="sheet-root"></div>
 <div id="toast-root"></div>
 <div id="lock-root"></div>
 <div id="splash-root"></div>
+<div id="pwa-install-root"></div>
+<div id="pwa-offline-root"></div>
 <script>
 /* =========================================================================
-   积衡 Jiheng v1.04
+   积衡 Jiheng v1.05
    -----------------------------------------------------------------------
-   V1.04 核心更新：
-   - 欠款支持多次还款，每次还款独立记录
-   - 每次还款可使用不同账户 / 方式 / 时间 / 备注 / 是否影响账户
-   - 支持「别人欠我」与「我欠别人」双向逻辑
-   - 还款与实际资金流关联，防止重复记账
-   - Repayment 完整编辑历史
-   - Debt Detail 页显示完整还款历史
-   - 新增设置：还款默认是否影响账户
-   - 保留 V1.00 / V1.01 / V1.02 / V1.03 全部用户数据
+   V1.05 核心更新：
+   - 跨平台 PWA 支持（Android / iPhone / Desktop）
+   - Android Chrome 一键安装到主屏幕
+   - iPhone Safari 添加到主屏幕（手动引导）
+   - 安装后 standalone 独立窗口
+   - Service Worker 离线支持 + 版本更新检测
+   - 在线 / 离线状态提示
+   - 保留 V1.00 / V1.01 / V1.02 / V1.03 / V1.04 全部用户数据
    ========================================================================= */
 
 const APP_VERSION  = '1.05';
@@ -810,6 +823,7 @@ const I18N = {
     setSystemInfo:'系统信息', setSystemInfoSub:'App、数据版本与存储状态',
     setIdentity:'产品身份说明', setIdentitySub:'三语完整版本',
     setDebtDefaults:'欠款设置', setDebtDefaultsSub:'还款默认行为',
+    setPwa:'应用安装', setPwaSub:'安装到主屏幕',
 
     catIncome:'收入分类', catExpense:'支出分类', catAdd:'＋ 新增',
     catCustomIncome:'自定义收入分类', catCustomExpense:'自定义支出分类',
@@ -818,7 +832,8 @@ const I18N = {
     catAdded:'分类已添加', catDeleted:'分类已删除', catExists:'该分类已存在',
     catHint:'自定义分类会出现在记录收入 / 支出时的分类选择中。', catEnterName:'请输入分类名称',
     catPickPreset:'选择预设分类', catCustomPlaceholder:'输入自定义分类名称',
-    catDebtCustomIncome:'自定义收入分类（会被保存）', catDebtCustomExpense:'自定义支出分类（会被保存）',
+    catDebtCustomIncome:'自定义收入分类（会被保存）', catCustomExpense:'自定义支出分类（会被保存）',
+    catDebtCustomExpense:'自定义支出分类（会被保存）',
 
     pickTitle:'选择', pickCustom:'自定义', pickPurpose:'选择用途', pickMethod:'选择方式', pickOther:'其他…',
 
@@ -857,6 +872,8 @@ const I18N = {
     guideSplashDesc:'冷启动时播放 Jiheng 品牌开屏动画，随后进入 App Lock 或主页。动画不阻塞数据加载，不绕过 App Lock。',
     guideRepayTitle:'多次还款',
     guideRepayDesc:'一笔欠款支持无限次还款，每次还款可选择不同账户、方式、时间与备注，并可选择是否影响账户余额。还款历史完整保存。',
+    guidePwaTitle:'应用安装 PWA',
+    guidePwaDesc:'Jiheng 支持安装到手机主屏幕，安装后以独立 App 窗口运行，支持基础离线功能。Android 可一键安装，iPhone Safari 可通过分享菜单添加到主屏幕。',
 
     incomeCatNames:{
       salary:'工资 / 薪金', part_time:'兼职收入', freelance:'自由职业 / 接案', temp_work:'临时工作', bonus:'奖金', allowance:'津贴',
@@ -948,9 +965,27 @@ const I18N = {
     guidePrivacyTitle:'隐藏金额',
     guidePrivacyDesc:'开启隐藏金额后，首页、账户、交易、储蓄、资产与统计中的金额会显示为 ••••••。',
     guideLocalTitle:'本地优先',
-    guideLocalDesc:'当前版本为 Local-first。数据保存在本机浏览器，不需要网络。未来将预留云端同步的扩展空间。'
+    guideLocalDesc:'当前版本为 Local-first。数据保存在本机浏览器，不需要网络。未来将预留云端同步的扩展空间。',
+    pwa: {
+      androidTitle: '安装积衡到主屏幕',
+      androidDesc: '将 Jiheng 安装为 App，全屏运行，离线可用，启动更快。',
+      iosTitle: '将积衡添加到主屏幕',
+      iosDesc: '在 iPhone 上，将 Jiheng 添加到主屏幕后可以全屏使用。',
+      iosStepsTitle: '操作方法：',
+      iosStep1: '点击底部中央的「分享」按钮 ⬆️',
+      iosStep2: '向下滑动，选择「添加到主屏幕」',
+      iosStep3: '点击右上角「添加」',
+      iosDataNote: '提示：在 iPhone 上，主屏幕版本与 Safari 浏览器版本使用独立的数据空间。建议在主屏幕 App 里长期使用，或使用导出 / 导入迁移数据。',
+      installBtn: '安装',
+      later: '稍后',
+      gotIt: '知道了',
+      installedToast: '积衡已安装',
+      updateAvailable: '积衡有新版本可用',
+      reload: '刷新',
+      offline: '当前处于离线状态'
+    }
   },
-  en: {
+    en: {
     brand:'Jiheng', brandEn:'Jiheng', slogan:'Accumulate, and keep the balance.',
     brandTagline:'Records your real-world money. Does not hold or handle it.',
     lockCreatePin:'Create 6-digit PIN', lockConfirmPin:'Enter again to confirm',
@@ -1213,6 +1248,7 @@ const I18N = {
     setSystemInfo:'System Information', setSystemInfoSub:'App, data version and storage status',
     setIdentity:'Product Identity Notice', setIdentitySub:'Full 3-language version',
     setDebtDefaults:'Debt Settings', setDebtDefaultsSub:'Repayment default behavior',
+    setPwa:'App Install', setPwaSub:'Install to Home Screen',
 
     catIncome:'Income Categories', catExpense:'Expense Categories', catAdd:'＋ Add',
     catCustomIncome:'Custom Income Categories', catCustomExpense:'Custom Expense Categories',
@@ -1260,6 +1296,8 @@ const I18N = {
     guideSplashDesc:'Plays Jiheng brand splash on cold start, then enters App Lock or Home. Non-blocking and does not bypass App Lock.',
     guideRepayTitle:'Multiple Repayments',
     guideRepayDesc:'One debt supports unlimited repayments. Each repayment can use different account, method, time and note, and can individually choose whether to affect the account balance. Full repayment history is preserved.',
+    guidePwaTitle:'Install as App (PWA)',
+    guidePwaDesc:'Jiheng supports installation to the Home Screen. After installation, it runs as a standalone app window with basic offline support. Android supports one-tap install; iPhone Safari can add it via the Share menu.',
 
     incomeCatNames:{
       salary:'Salary / Wages', part_time:'Part-time Income', freelance:'Freelance / Gig', temp_work:'Temp Work', bonus:'Bonus', allowance:'Allowance',
@@ -1351,7 +1389,25 @@ const I18N = {
     guidePrivacyTitle:'Hide Amounts',
     guidePrivacyDesc:'When enabled, amounts in Home, Accounts, Records, Goals, Assets and Stats show as ••••••.',
     guideLocalTitle:'Local-first',
-    guideLocalDesc:'Current version is Local-first. Data is stored in this browser without needing network. Future cloud sync is reserved as an extension.'
+    guideLocalDesc:'Current version is Local-first. Data is stored in this browser without needing network. Future cloud sync is reserved as an extension.',
+    pwa: {
+      androidTitle: 'Install Jiheng to Home Screen',
+      androidDesc: 'Install Jiheng as an app — full screen, offline support, faster launch.',
+      iosTitle: 'Add Jiheng to Home Screen',
+      iosDesc: 'On iPhone, add Jiheng to your Home Screen for a full-screen experience.',
+      iosStepsTitle: 'How to:',
+      iosStep1: 'Tap the "Share" button at the bottom center ⬆️',
+      iosStep2: 'Scroll down and choose "Add to Home Screen"',
+      iosStep3: 'Tap "Add" in the top right',
+      iosDataNote: 'Note: On iPhone, the Home Screen app and Safari use separate data spaces. Use Jiheng from the Home Screen app, or use Export / Import to migrate your data.',
+      installBtn: 'Install',
+      later: 'Later',
+      gotIt: 'Got it',
+      installedToast: 'Jiheng installed',
+      updateAvailable: 'A new version of Jiheng is available',
+      reload: 'Reload',
+      offline: 'You are offline'
+    }
   },
   ms: {
     brand:'Jiheng', brandEn:'Jiheng', slogan:'Kumpul, dan kekalkan keseimbangan.',
@@ -1616,6 +1672,7 @@ const I18N = {
     setSystemInfo:'Maklumat Sistem', setSystemInfoSub:'App, versi data dan status storan',
     setIdentity:'Notis Identiti Produk', setIdentitySub:'Versi penuh 3 bahasa',
     setDebtDefaults:'Tetapan Hutang', setDebtDefaultsSub:'Tingkah laku lalai bayaran',
+    setPwa:'Pasang Aplikasi', setPwaSub:'Pasang ke Skrin Utama',
 
     catIncome:'Kategori Pendapatan', catExpense:'Kategori Perbelanjaan', catAdd:'＋ Tambah',
     catCustomIncome:'Kategori Pendapatan Tersuai', catCustomExpense:'Kategori Perbelanjaan Tersuai',
@@ -1663,6 +1720,8 @@ const I18N = {
     guideSplashDesc:'Memainkan splash jenama Jiheng semasa mula sejuk, kemudian masuk App Lock atau Utama. Tidak menyekat dan tidak memintas App Lock.',
     guideRepayTitle:'Bayaran Berbilang',
     guideRepayDesc:'Satu hutang menyokong bilangan bayaran tanpa had. Setiap bayaran boleh guna akaun, cara, masa dan nota berbeza, dan boleh pilih secara individu sama ada mempengaruhi baki akaun. Sejarah bayaran penuh dikekalkan.',
+    guidePwaTitle:'Pasang sebagai Aplikasi (PWA)',
+    guidePwaDesc:'Jiheng menyokong pemasangan ke Skrin Utama. Selepas pemasangan, ia berjalan sebagai tetingkap aplikasi berasingan dengan sokongan luar talian asas. Android menyokong pemasangan satu ketikan; iPhone Safari boleh menambah melalui menu Kongsi.',
 
     incomeCatNames:{
       salary:'Gaji / Upah', part_time:'Pendapatan Sambilan', freelance:'Bebas / Gig', temp_work:'Kerja Sementara', bonus:'Bonus', allowance:'Elaun',
@@ -1754,11 +1813,28 @@ const I18N = {
     guidePrivacyTitle:'Sembunyi Jumlah',
     guidePrivacyDesc:'Apabila dihidupkan, jumlah di Utama, Akaun, Rekod, Sasaran, Aset dan Statistik dipaparkan sebagai ••••••.',
     guideLocalTitle:'Local-first',
-    guideLocalDesc:'Versi semasa ialah Local-first. Data disimpan dalam pelayar ini tanpa perlu rangkaian. Sync awan masa depan disediakan sebagai sambungan.'
+    guideLocalDesc:'Versi semasa ialah Local-first. Data disimpan dalam pelayar ini tanpa perlu rangkaian. Sync awan masa depan disediakan sebagai sambungan.',
+    pwa: {
+      androidTitle: 'Pasang Jiheng ke Skrin Utama',
+      androidDesc: 'Pasang Jiheng sebagai aplikasi — skrin penuh, sokongan luar talian, lancar dibuka.',
+      iosTitle: 'Tambah Jiheng ke Skrin Utama',
+      iosDesc: 'Di iPhone, tambah Jiheng ke Skrin Utama untuk pengalaman skrin penuh.',
+      iosStepsTitle: 'Cara:',
+      iosStep1: 'Ketik butang "Kongsi" di bahagian bawah tengah ⬆️',
+      iosStep2: 'Skrol ke bawah dan pilih "Tambah ke Skrin Utama"',
+      iosStep3: 'Ketik "Tambah" di penjuru kanan atas',
+      iosDataNote: 'Nota: Di iPhone, aplikasi Skrin Utama dan Safari menggunakan ruang data berasingan. Gunakan Jiheng dari aplikasi Skrin Utama, atau gunakan Eksport / Import untuk memindahkan data.',
+      installBtn: 'Pasang',
+      later: 'Kemudian',
+      gotIt: 'Faham',
+      installedToast: 'Jiheng dipasang',
+      updateAvailable: 'Versi baharu Jiheng tersedia',
+      reload: 'Muat semula',
+      offline: 'Anda sedang di luar talian'
+    }
   }
 };
-
-function detectLang(){
+  function detectLang(){
   try{
     const saved = localStorage.getItem(LANG_KEY);
     if(saved && I18N[saved]) return saved;
@@ -1823,7 +1899,8 @@ function setLang(l){
   render();
   toast(l === 'zh' ? '语言已切换为简体中文' : l === 'en' ? 'Language switched to English' : 'Bahasa ditukar ke Bahasa Melayu');
 }
-  /* ============================ Metadata ============================ */
+
+/* ============================ Metadata ============================ */
 function loadMeta(){
   try{
     const raw = localStorage.getItem(META_KEY) || (LEGACY_META_KEYS.map(k=>localStorage.getItem(k)).find(Boolean));
@@ -1940,6 +2017,49 @@ const CHANGELOG_SEED = [
         'Semua data V1.00 / V1.01 / V1.02 / V1.03 dikekalkan'
       ]
     }
+  },
+  {
+    version:'1.05',
+    date:'2026-09-14',
+    title:{ zh:'积衡 Jiheng — 跨平台 PWA 体验', en:'Jiheng — Cross-Platform PWA Experience', ms:'Jiheng — Pengalaman PWA Merentas Platform' },
+    items:{
+      zh:[
+        '支持跨平台 PWA 安装（Android / iPhone / Desktop）',
+        'Android Chrome 一键安装 Jiheng 到主屏幕',
+        'iPhone Safari 添加到主屏幕（手动引导）',
+        '安装后以独立 App 窗口运行（standalone）',
+        '新增 Web App Manifest',
+        '新增 Service Worker，支持基础离线与缓存',
+        '自动版本更新检测与旧缓存清理',
+        '在线 / 离线状态提示',
+        'iPhone 数据空间提示（主屏幕 App 与 Safari 相互独立）',
+        '保留 V1.00 / V1.01 / V1.02 / V1.03 / V1.04 全部用户数据'
+      ],
+      en:[
+        'Cross-platform PWA support (Android / iPhone / Desktop)',
+        'One-tap install to Home Screen on Android Chrome',
+        'Add to Home Screen on iPhone Safari (guided)',
+        'Standalone app-like window after install',
+        'Added Web App Manifest',
+        'Added Service Worker with offline cache support',
+        'Automatic update detection and stale cache cleanup',
+        'Online / offline status indicator',
+        'iPhone data-space note (Home Screen app and Safari are separate)',
+        'All V1.00 / V1.01 / V1.02 / V1.03 / V1.04 user data preserved'
+      ],
+      ms:[
+        'Sokongan PWA merentas platform (Android / iPhone / Desktop)',
+        'Pasang satu ketikan ke Skrin Utama pada Android Chrome',
+        'Tambah ke Skrin Utama pada iPhone Safari (berpandu)',
+        'Tetingkap seperti aplikasi selepas dipasang',
+        'Tambah Web App Manifest',
+        'Tambah Service Worker dengan sokongan cache luar talian',
+        'Pengesanan kemas kini automatik dan pembersihan cache lama',
+        'Penunjuk status dalam talian / luar talian',
+        'Nota ruang data iPhone (aplikasi Skrin Utama dan Safari berasingan)',
+        'Semua data V1.00 / V1.01 / V1.02 / V1.03 / V1.04 dikekalkan'
+      ]
+    }
   }
 ];
 function loadChangelog(){
@@ -1981,8 +2101,6 @@ function defaultState(){
   };
 }
 
-/* V1.04 迁移：V1.00 / V1.01 / V1.02 / V1.03 → V1.04
-   核心：把旧的 payments[] 升级为 repayments[]，字段补齐，不删任何旧字段。 */
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
@@ -2020,7 +2138,6 @@ function migrate(p){
     }).filter(Boolean);
   };
 
-  // ---- Transactions ----
   p.transactions.forEach(tx => {
     if(tx.method === undefined) tx.method = '';
     if(tx.methodCustom === undefined) tx.methodCustom = '';
@@ -2029,12 +2146,10 @@ function migrate(p){
     if(!tx.eventAt) tx.eventAt = _toISO(tx.date);
     if(!tx.createdAt) tx.createdAt = new Date(tx.eventAt).getTime();
     if(!tx.updatedAt) tx.updatedAt = tx.createdAt;
-    // V1.04: transaction 关联字段（可选，不影响旧数据）
     if(tx.linkedDebtId === undefined) tx.linkedDebtId = null;
     if(tx.linkedRepaymentId === undefined) tx.linkedRepaymentId = null;
   });
 
-  // ---- Accounts ----
   p.accounts.forEach(a => {
     if(a.note === undefined) a.note = '';
     if(!a.timezone) a.timezone = TZ;
@@ -2044,7 +2159,6 @@ function migrate(p){
     a.editHistory = _normHistory(a.editHistory);
   });
 
-  // ---- Goals ----
   p.goals.forEach(g => {
     if(g.note === undefined) g.note = '';
     if(!g.timezone) g.timezone = TZ;
@@ -2054,7 +2168,6 @@ function migrate(p){
     g.editHistory = _normHistory(g.editHistory);
   });
 
-  // ---- Assets ----
   p.assets.forEach(a => {
     if(a.note === undefined) a.note = '';
     if(a.manualNote === undefined) a.manualNote = '';
@@ -2065,7 +2178,6 @@ function migrate(p){
     a.editHistory = _normHistory(a.editHistory);
   });
 
-  // ---- Debts（核心 V1.04 升级） ----
   p.debts.forEach(d => {
     if(d.purpose === undefined) d.purpose = '';
     if(d.purposeCustom === undefined) d.purposeCustom = '';
@@ -2084,16 +2196,13 @@ function migrate(p){
     if(!d.eventId) d.eventId = d.id;
     d.editHistory = _normHistory(d.editHistory);
 
-    // V1.04 新字段（保守添加，不清空旧字段）
     if(d.originalAmount === undefined) d.originalAmount = round2(Number(d.amount) || 0);
     if(d.note === undefined) d.note = d.reason || '';
     if(d.originalEventAt === undefined) d.originalEventAt = d.eventAt || _toISO(d.date);
     if(d.originalTransactionId === undefined) d.originalTransactionId = null;
 
-    // payments[] → repayments[] 全量转换
     const oldPayments = Array.isArray(d.payments) ? d.payments : [];
     const existingRepayments = Array.isArray(d.repayments) ? d.repayments : [];
-    // 已存在 repayments 就保留（不去重，允许重复运行迁移时保持幂等）
     if(existingRepayments.length === 0 && oldPayments.length > 0){
       d.repayments = oldPayments.map(pay => {
         const payEventAt = _toISO(pay.eventAt || pay.createdAt || d.eventAt);
@@ -2119,7 +2228,6 @@ function migrate(p){
     } else if(existingRepayments.length === 0){
       d.repayments = [];
     } else {
-      // 已存在 repayments：仅补齐缺字段，保证结构完整
       d.repayments.forEach(r => {
         if(r.debtId === undefined) r.debtId = d.id;
         if(!Array.isArray(r.editHistory)) r.editHistory = _normHistory(r.editHistory);
@@ -2138,10 +2246,8 @@ function migrate(p){
       });
     }
 
-    // 保留旧 payments 字段（兼容读取，不删）
     if(!Array.isArray(d.payments)) d.payments = [];
 
-    // 交叉验证：以 repayments 求和为准
     const sumRepay = d.repayments.reduce((s, r) => s + (Number(r.amount) || 0), 0);
     const oldPaid = Number(d.paid) || 0;
     if(Math.abs(sumRepay - oldPaid) > 0.01){
@@ -2150,13 +2256,11 @@ function migrate(p){
       d.paid = round2(oldPaid);
     }
 
-    // 重新计算 remainingAmount
     const origAmt = round2(Number(d.originalAmount) || Number(d.amount) || 0);
     d.originalAmount = origAmt;
-    d.amount = origAmt;   // 兼容旧字段
+    d.amount = origAmt;
     d.remainingAmount = round2(Math.max(origAmt - d.paid, 0));
 
-    // 状态修正
     if(d.status !== 'cancelled'){
       if(d.paid >= origAmt - 0.001 && origAmt > 0) d.status = 'paid';
       else if(d.paid > 0) d.status = 'partial';
@@ -2164,7 +2268,6 @@ function migrate(p){
     }
   });
 
-  // ---- Money Given ----
   p.moneyGiven.forEach(m => {
     if(m.purpose === undefined) m.purpose = m.giftType || '';
     if(m.purposeCustom === undefined) m.purposeCustom = '';
@@ -3240,7 +3343,6 @@ function viewDebtsPage(){
   if(qNorm){
     list = list.filter(d => {
       const bag = [d.person, d.reason, d.purpose, d.purposeCustom, d.method, d.methodCustom, d.status, String(d.amount), d.date, d.eventAt];
-      // V1.04: 也搜索还款记录
       const reps = debtRepayments(d);
       reps.forEach(r => {
         bag.push(r.note, r.method, r.methodCustom, String(r.amount), r.eventAt);
@@ -3279,12 +3381,11 @@ function viewDebtsPage(){
 }
 
 /* =========================================================================
-   Debt Detail 页（V1.04 新增）
+   Debt Detail 页
    ========================================================================= */
 function viewDebtDetail(){
   const d = getDebt(ui.currentDebtId);
   if(!d){
-    // 找不到时返回列表
     ui.sub = 'debts';
     return viewDebtsPage();
   }
@@ -3300,7 +3401,6 @@ function viewDebtDetail(){
   const purposeText = d.purposeCustom ? d.purposeCustom : debtPurposeDisplay(d.purpose);
   const methodText = d.methodCustom ? d.methodCustom : methodDisplay(d.method);
   const reps = debtRepayments(d);
-  // 按 eventAt 排序（旧→新）
   const sortedReps = reps.slice().sort((a,b) => String(a.eventAt||'').localeCompare(String(b.eventAt||'')));
 
   return `
@@ -3839,7 +3939,6 @@ function viewLockSettings(){
   <p class="about">${esc(t('lockHashNote'))}</p>`;
 }
 
-/* V1.04 新增：Debt 默认设置 */
 function viewDebtDefaults(){
   const on = !!state.settings.debtRepayAffectAccountDefault;
   return `
@@ -3925,7 +4024,8 @@ function viewProductGuide(){
     { icon:'🌐', title:t('guideLangTitle'),     desc:t('guideLangDesc') },
     { icon:'👁', title:t('guidePrivacyTitle'),  desc:t('guidePrivacyDesc') },
     { icon:'📶', title:t('guideLocalTitle'),    desc:t('guideLocalDesc') },
-    { icon:'🚀', title:t('guideSplashTitle'),   desc:t('guideSplashDesc') }
+    { icon:'🚀', title:t('guideSplashTitle'),   desc:t('guideSplashDesc') },
+    { icon:'📲', title:t('guidePwaTitle'),      desc:t('guidePwaDesc') }
   ];
   return `
   <p class="about" style="margin:0 0 10px">${esc(t('guideIntro'))}</p>
@@ -4579,7 +4679,7 @@ function openTransferForm(presetFrom){
 }
 
 /* =========================================================================
-   Debt Form（V1.04：含原 amount / 创建时联动）
+   Debt Form
    ========================================================================= */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
@@ -4631,7 +4731,6 @@ function openDebtForm(presetId){
       const linkedAccountId = linkMode === 'account' ? d.linkedAccountId : null;
 
       if(editing){
-        // 回滚旧联动
         if(editing.linkMode === 'account' && editing.linkedAccountId){
           const oldAcc = getAccount(editing.linkedAccountId);
           if(oldAcc){
@@ -4639,7 +4738,6 @@ function openDebtForm(presetId){
             else oldAcc.balance = round2((Number(oldAcc.balance)||0) - debtOriginalAmount(editing));
           }
         }
-        // 应用新联动
         if(linkMode === 'account'){
           const acc = getAccount(linkedAccountId);
           if(!acc){ toast(t('accountNotExist')); return false; }
@@ -4669,7 +4767,6 @@ function openDebtForm(presetId){
         editing.updatedAt = Date.now();
         if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
         editing.editHistory.push({ at: nowISO(), action: 'edit' });
-        // 重新计算 status / remaining
         const paid = debtTotalPaid(editing);
         editing.paid = paid;
         editing.remainingAmount = round2(Math.max(amount - paid, 0));
@@ -4740,7 +4837,7 @@ function openDebtForm(presetId){
 }
 
 /* =========================================================================
-   Repayment Form（V1.04 新增）
+   Repayment Form
    ========================================================================= */
 function openRepayForm(debtId, presetRepayId){
   const d = getDebt(debtId);
@@ -4749,7 +4846,6 @@ function openRepayForm(debtId, presetRepayId){
 
   const editing = presetRepayId ? debtRepayments(d).find(r => r.id === presetRepayId) : null;
   const remainNow = debtRemaining(d);
-  // 编辑时：可还上限 = 剩余 + 该笔原金额（因为它可以被替换掉）
   const maxAllow = editing ? round2(remainNow + Number(editing.amount || 0)) : remainNow;
 
   const defaultAffect = editing
@@ -4808,18 +4904,12 @@ function openRepayForm(debtId, presetRepayId){
       const eventAt = combineDateTime(form.date || nowLocalDate(), form.time || nowLocalTime());
 
       if(editing){
-        // 编辑：先回滚旧影响
         rollbackRepaymentEffect(d, editing);
-        // 再次检查剩余（回滚后 remain 恢复）
         const remainAfterRollback = debtRemaining(d);
         if(amount > remainAfterRollback + 0.001){
-          // 回滚失败时也把新的加回去？—— 此处回滚仅动余额/删tx，不重算 remaining，稍后统一重算
-          // 为安全：先把旧 repayment 恢复回去
-          // 简化：直接给出提示，并 return false（让用户改小金额）
           toast(t('debtRepayExceed'));
           return false;
         }
-        // 更新 repayment 字段
         editing.amount = amount;
         editing.accountId = affect ? (form.accountId || null) : null;
         editing.method = (form.method || '').trim();
@@ -4832,9 +4922,7 @@ function openRepayForm(debtId, presetRepayId){
         editing.updatedAt = Date.now();
         if(!Array.isArray(editing.editHistory)) editing.editHistory = [];
         editing.editHistory.push({ at: nowISO(), action: 'edit' });
-        // 应用新影响
         applyRepaymentEffect(d, editing);
-        // 重算
         recalcDebt(d);
         afterChange(); toast(t('debtRepayUpdated'));
       }else{
@@ -4882,18 +4970,15 @@ function openRepayForm(debtId, presetRepayId){
   });
 }
 
-/* 应用还款对账户 + transaction 的影响 */
 function applyRepaymentEffect(debt, r){
   if(!r.affectAccount) { r.transactionId = null; return; }
   const acc = getAccount(r.accountId);
   if(!acc){ r.transactionId = null; return; }
-  // owe_me: 别人还我钱 → 账户 +  /  i_owe: 我还别人钱 → 账户 -
   if(debt.direction === 'owe_me'){
     acc.balance = round2((Number(acc.balance) || 0) + Number(r.amount || 0));
   }else{
     acc.balance = round2((Number(acc.balance) || 0) - Number(r.amount || 0));
   }
-  // 关联 transaction（用于统计/审计，不影响收入支出）
   const txId = uid();
   r.transactionId = txId;
   state.transactions.push({
@@ -4917,9 +5002,7 @@ function applyRepaymentEffect(debt, r){
   });
 }
 
-/* 回滚还款对账户 + transaction 的影响 */
 function rollbackRepaymentEffect(debt, r){
-  // 撤销账户影响
   if(r.affectAccount && r.accountId){
     const acc = getAccount(r.accountId);
     if(acc){
@@ -4930,14 +5013,12 @@ function rollbackRepaymentEffect(debt, r){
       }
     }
   }
-  // 删除关联 transaction
   if(r.transactionId){
     state.transactions = state.transactions.filter(tx => tx.id !== r.transactionId);
     r.transactionId = null;
   }
 }
 
-/* 重新计算 debt 的 paid / remaining / status */
 function recalcDebt(d){
   const reps = debtRepayments(d);
   const sum = round2(reps.reduce((s, r) => s + (Number(r.amount) || 0), 0));
@@ -4952,7 +5033,6 @@ function recalcDebt(d){
   d.updatedAt = Date.now();
 }
 
-/* Repayment 菜单 / 删除 */
 function openRepayMenu(debtId, repayId){
   const d = getDebt(debtId);
   if(!d) return;
@@ -4963,11 +5043,8 @@ function openRepayMenu(debtId, repayId){
     { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('repay', repayId, debtId) },
     { label: t('delete'), icon:'🗑', danger:true, onClick: () => {
       confirmDialog(t('debtRepayDeleteConfirm'), () => {
-        // 回滚影响
         rollbackRepaymentEffect(d, r);
-        // 从列表移除
         d.repayments = debtRepayments(d).filter(x => x.id !== repayId);
-        // 重算
         recalcDebt(d);
         afterChange(); toast(t('debtRepayDeleted'));
       });
@@ -4975,7 +5052,6 @@ function openRepayMenu(debtId, repayId){
   ]);
 }
 
-/* Debt 菜单 */
 function debtMenu(id){
   const d = getDebt(id);
   if(!d) return;
@@ -4997,10 +5073,8 @@ function debtMenu(id){
   }
   acts.push({ label: t('delete'), icon:'🗑', danger:true, onClick: () => {
     confirmDialog(t('debtDeleteConfirm'), () => {
-      // 回滚所有 repayment 影响
       const reps = debtRepayments(d);
       reps.forEach(r => rollbackRepaymentEffect(d, r));
-      // 回滚原始欠款联动
       if(d.linkMode === 'account' && d.linkedAccountId){
         const acc = getAccount(d.linkedAccountId);
         if(acc){
@@ -5009,7 +5083,6 @@ function debtMenu(id){
         }
       }
       state.debts = state.debts.filter(x => x.id !== id);
-      // 如果在 debt detail 页，返回列表
       if(ui.sub === 'debt-detail'){ ui.sub = 'debts'; ui.currentDebtId = null; }
       afterChange(); toast(t('debtDeleted'));
     });
@@ -5017,7 +5090,6 @@ function debtMenu(id){
   openActionSheet(d.person, acts);
 }
 
-/* debtCard（用于 Debts 列表 / 首页预览） */
 function debtCard(d){
   const amount = debtOriginalAmount(d);
   const paid = debtTotalPaid(d);
@@ -5295,7 +5367,6 @@ function openTxMenu(id){
   const labelMap = { income:t('income'), expense:t('expense'), transfer:t('transfer'), goal_deposit:t('goalDeposit'), goal_withdraw:t('goalWithdraw') };
   const acts = [];
   if(tx.type === 'income' || tx.type === 'expense'){
-    // 若关联到还款，禁止直接编辑/删除（避免破坏关系）
     if(tx.linkedRepaymentId){
       acts.push({ label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('tx', id) });
       acts.push({ label: t('debtRepay'), icon:'💰', onClick: () => {
@@ -5426,9 +5497,6 @@ function deleteTransaction(id){
   });
 }
 
-/* =========================================================================
-   编辑历史查看
-   ========================================================================= */
 function viewEditHistory(kind, id, parentId){
   let obj = null;
   if(kind === 'tx') obj = state.transactions.find(x => x.id === id);
@@ -5464,7 +5532,7 @@ function viewEditHistory(kind, id, parentId){
 }
 
 /* =========================================================================
-   储蓄目标
+   储蓄目标 / 资产（表单部分）
    ========================================================================= */
 function openGoalForm(){
   openSheet({
@@ -5654,9 +5722,6 @@ function cancelGoal(id){
   });
 }
 
-/* =========================================================================
-   资产
-   ========================================================================= */
 function openAssetForm(){
   openSheet({
     title: t('assetNew'), submitText: t('assetAdd'),
@@ -5866,6 +5931,208 @@ window.addEventListener('storage', e => {
   if(e.key === LOCK_KEY){ lockRecord = loadLock(); if(!lockRecord){ isUnlocked = true; renderLock(); render({ top:true }); } }
   if(e.key === META_KEY){ META = loadMeta(); if(isUnlocked) render(); }
 });
+
+/* =========================================================================
+   PWA 支持（V1.05）
+   ========================================================================= */
+(function(){
+  try {
+    if(!('serviceWorker' in navigator)) return;
+    if(location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') return;
+
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js', { scope: './' })
+        .then(reg => {
+          console.log('[Jiheng PWA] SW registered. Scope:', reg.scope);
+          reg.addEventListener('updatefound', () => {
+            const nw = reg.installing;
+            if(!nw) return;
+            nw.addEventListener('statechange', () => {
+              if(nw.state === 'installed' && navigator.serviceWorker.controller){
+                showPwaUpdateAvailable();
+              }
+            });
+          });
+          setInterval(() => { reg.update().catch(() => {}); }, 60 * 60 * 1000);
+        })
+        .catch(err => {
+          console.warn('[Jiheng PWA] SW registration failed:', err && err.message);
+        });
+    });
+  } catch(e){
+    console.warn('[Jiheng PWA] init error:', e);
+  }
+})();
+
+function pwaT(key){
+  const pack = I18N[LANG] || I18N.zh;
+  return (pack.pwa && pack.pwa[key]) || (I18N.zh.pwa && I18N.zh.pwa[key]) || key;
+}
+
+function isStandalone(){
+  try {
+    if(window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true;
+    if(window.navigator && window.navigator.standalone === true) return true;
+    if(window.matchMedia && window.matchMedia('(display-mode: minimal-ui)').matches) return true;
+  } catch(e){}
+  return false;
+}
+
+function isIOSDevice(){
+  const ua = navigator.userAgent || '';
+  const iOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+  const iPadOS = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+  return iOS || iPadOS;
+}
+function isAndroidDevice(){
+  return /Android/i.test(navigator.userAgent || '');
+}
+
+let _deferredInstallPrompt = null;
+const PWA_DISMISS_KEY = 'jiheng_pwa_dismissed_at_v1';
+const PWA_DISMISS_DAYS = 14;
+
+function wasPwaDismissedRecently(){
+  try {
+    const t = Number(localStorage.getItem(PWA_DISMISS_KEY) || 0);
+    if(!t) return false;
+    return (Date.now() - t) < PWA_DISMISS_DAYS * 86400000;
+  } catch(e){ return false; }
+}
+function markPwaDismissed(){
+  try { localStorage.setItem(PWA_DISMISS_KEY, String(Date.now())); } catch(e){}
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _deferredInstallPrompt = e;
+  setTimeout(() => {
+    if(!isStandalone() && !wasPwaDismissedRecently()) showPwaInstallCard();
+  }, 3000);
+});
+
+window.addEventListener('appinstalled', () => {
+  _deferredInstallPrompt = null;
+  hidePwaInstallCard();
+  try{ toast(pwaT('installedToast')); }catch(e){}
+});
+
+function showPwaInstallCard(){
+  const root = document.getElementById('pwa-install-root');
+  if(!root) return;
+  if(root.classList.contains('show')) return;
+
+  const isIOS = isIOSDevice();
+  const isAndroid = isAndroidDevice();
+  let body = '';
+
+  if(isIOS){
+    body = `
+      <div class="pi-title">${esc(pwaT('iosTitle'))}</div>
+      <div class="pi-desc">${esc(pwaT('iosDesc'))}</div>
+      <div class="pwa-install-steps">
+        <b>${esc(pwaT('iosStepsTitle'))}</b>
+        <ol>
+          <li>${esc(pwaT('iosStep1'))}</li>
+          <li>${esc(pwaT('iosStep2'))}</li>
+          <li>${esc(pwaT('iosStep3'))}</li>
+        </ol>
+        <div style="margin-top:6px;color:var(--muted);font-size:11.5px;line-height:1.55">${esc(pwaT('iosDataNote'))}</div>
+      </div>
+      <div class="pi-acts">
+        <button class="pi-btn ghost" data-pwa-dismiss>${esc(pwaT('gotIt'))}</button>
+      </div>`;
+  } else if(_deferredInstallPrompt){
+    body = `
+      <div class="pi-title">${esc(pwaT('androidTitle'))}</div>
+      <div class="pi-desc">${esc(pwaT('androidDesc'))}</div>
+      <div class="pi-acts">
+        <button class="pi-btn primary" data-pwa-install>${esc(pwaT('installBtn'))}</button>
+        <button class="pi-btn ghost" data-pwa-dismiss>${esc(pwaT('later'))}</button>
+      </div>`;
+  } else {
+    return;
+  }
+
+  root.innerHTML = `
+    <div class="pwa-install-card">
+      <div class="pi-icon">📲</div>
+      <div class="pi-body">${body}</div>
+      <button class="pi-close" data-pwa-dismiss aria-label="Close">✕</button>
+    </div>`;
+  root.classList.add('show');
+
+  root.querySelectorAll('[data-pwa-dismiss]').forEach(el => {
+    el.addEventListener('click', () => { markPwaDismissed(); hidePwaInstallCard(); });
+  });
+  const installBtn = root.querySelector('[data-pwa-install]');
+  if(installBtn){
+    installBtn.addEventListener('click', async () => {
+      if(!_deferredInstallPrompt) return;
+      try {
+        _deferredInstallPrompt.prompt();
+        const choice = await _deferredInstallPrompt.userChoice;
+        if(choice && choice.outcome === 'accepted'){
+          hidePwaInstallCard();
+        } else {
+          markPwaDismissed();
+          hidePwaInstallCard();
+        }
+      } catch(e){}
+      _deferredInstallPrompt = null;
+    });
+  }
+}
+function hidePwaInstallCard(){
+  const root = document.getElementById('pwa-install-root');
+  if(root){ root.classList.remove('show'); root.innerHTML = ''; }
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if(isStandalone()) return;
+    if(wasPwaDismissedRecently()) return;
+    if(isIOSDevice()){
+      const isSafari = /^((?!chrome|android|crios|fxios|edgios).)*safari/i.test(navigator.userAgent);
+      if(isSafari) showPwaInstallCard();
+    }
+  }, 3500);
+});
+
+function showPwaUpdateAvailable(){
+  if(document.getElementById('pwa-update-banner')) return;
+  const el = document.createElement('div');
+  el.id = 'pwa-update-banner';
+  el.style.cssText = 'position:fixed;left:0;right:0;top:calc(8px + var(--safe-t));z-index:195;display:flex;justify-content:center;padding:0 16px;pointer-events:none;';
+  el.innerHTML = `
+    <div style="background:rgba(28,24,48,.94);color:#fff;font-size:12.5px;font-weight:600;padding:10px 14px;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.28);display:flex;align-items:center;gap:10px;pointer-events:auto;max-width:100%;">
+      <span style="overflow-wrap:anywhere;">${esc(pwaT('updateAvailable'))}</span>
+      <button id="pwa-update-reload" style="border:none;background:var(--accent);color:#3d3158;font-size:12px;font-weight:800;padding:6px 12px;border-radius:9px;cursor:pointer;flex:0 0 auto;">${esc(pwaT('reload'))}</button>
+    </div>`;
+  document.body.appendChild(el);
+  const btn = el.querySelector('#pwa-update-reload');
+  if(btn) btn.addEventListener('click', () => {
+    if(navigator.serviceWorker && navigator.serviceWorker.controller){
+      navigator.serviceWorker.controller.postMessage({ type: 'SKIP_WAITING' });
+    }
+    setTimeout(() => { window.location.reload(); }, 200);
+  });
+}
+
+function updateOnlineStatus(){
+  const root = document.getElementById('pwa-offline-root');
+  if(!root) return;
+  if(navigator.onLine){
+    root.classList.remove('show');
+    root.innerHTML = '';
+  } else {
+    root.innerHTML = `<div class="pwa-offline-pill"><span class="pwa-dot"></span>${esc(pwaT('offline'))}</div>`;
+    root.classList.add('show');
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+window.addEventListener('load', () => { setTimeout(updateOnlineStatus, 500); });
 </script>
 </body>
 </html>
