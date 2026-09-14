@@ -1,0 +1,47 @@
+{
+  "name": "积衡 Jiheng — 个人财务记录",
+  "short_name": "积衡",
+  "description": "记录现实中的钱，但不持有或处理你的钱。A personal real-world money recording application.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait-primary",
+  "background_color": "#5b4b8a",
+  "theme_color": "#5b4b8a",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "categories": ["finance", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "记录收入",
+      "short_name": "收入",
+      "url": "./index.html?action=income"
+    },
+    {
+      "name": "记录支出",
+      "short_name": "支出",
+      "url": "./index.html?action=expense"
+    }
+  ]
+}
