@@ -983,6 +983,105 @@ const I18N = {
       updateAvailable: '积衡有新版本可用',
       reload: '刷新',
       offline: '当前处于离线状态'
+    },
+        secure: {
+      secureTransferTitle: '数据转移',
+      secureTransferSub: '加密导出 / 加密导入',
+      secureTransferPageTitle: '安全数据转移',
+      secureTransferIntro: '此功能使用加密方式转移 Jiheng 数据。转移文件只有输入正确的转移密码才能读取。',
+      secureExportTab: '导出加密数据',
+      secureImportTab: '导入加密数据',
+      secureExportBtn: '导出加密数据',
+      secureImportBtn: '选择 .jhtransfer 文件',
+      secureExportTitle: '导出加密数据',
+      secureImportTitle: '导入加密数据',
+      securePasswordLabel: '设置数据转移密码',
+      securePasswordConfirmLabel: '再次输入数据转移密码',
+      securePasswordPlaceholder: '至少 10 个字符',
+      securePasswordHint: '此密码独立于 App Lock。请务必记住，忘记后无法恢复。',
+      securePasswordConfirmHint: '请再次输入以确认。',
+      securePasswordMismatch: '两次输入的密码不一致。',
+      securePasswordTooShort: '密码至少需要 {n} 个字符。',
+      securePasswordTooWeak: '此密码太弱，请使用更强的密码。',
+      securePasswordSameAsAppLock: '数据转移密码不能与 App Lock 密码相同或过于相似。请使用一个独立的密码。',
+      securePasswordSimilarToAppLock: '此密码与 App Lock 密码过于相似。请使用一个独立的密码。',
+      securePasswordRequirement: '密码要求：',
+      secureReqLength: '✓ 至少 10 个字符',
+      secureReqNotAppLock: '✓ 与 App Lock 不同',
+      secureReqNotSimilar: '✓ 与 App Lock 不过度相似',
+      secureReqNotWeak: '✓ 未检测到明显弱密码规律',
+      secureStrengthLabel: '强度',
+      secureStrengthWeak: '弱',
+      secureStrengthFair: '一般',
+      secureStrengthStrong: '强',
+      secureStrengthVeryStrong: '很强',
+      secureStrengthNote: '此密码符合 Jiheng 的最低安全要求。',
+      secureWeakReasonTooShort: '密码长度不足',
+      secureWeakReasonCommon: '这是常见密码',
+      secureWeakReasonRepeatedDigit: '包含重复数字',
+      secureWeakReasonRepeatedChar: '包含重复字符',
+      secureWeakReasonKeyboard: '包含键盘规律',
+      secureWeakReasonSequential: '包含连续序列',
+      secureWeakReasonDigitsOnly: '只包含数字',
+      secureWeakReasonLettersOnly: '只包含字母',
+      secureWeakReasonAppName: '包含 Jiheng 品牌名称',
+      secureWeakReasonPhoneLike: '看起来像手机号',
+      secureWeakReasonEmpty: '密码不能为空',
+      secureExportWarningTitle: '重要提醒',
+      secureExportWarning: '请勿将转移密码与转移文件通过同一渠道发送。在确认新设备成功导入之前，请勿删除本机 Jiheng 数据或唯一的转移文件。',
+      secureExportSuccessTitle: '数据转移文件已创建',
+      secureExportSuccess: '此文件包含你的 Jiheng 数据，并已受到密码保护。请妥善保管此文件和转移密码。',
+      secureExportFilePrefix: 'Jiheng_Transfer',
+      secureImportPickFile: '请选择 .jhtransfer 文件',
+      secureImportFileInvalid: '此文件不是有效的 Jiheng 转移文件。',
+      secureImportFileVersionUnsupported: '此转移文件的版本不受支持。',
+      secureImportFileCorrupted: '此转移文件已损坏或被修改，无法导入。',
+      secureImportPasswordWrong: '密码不正确，无法解锁此转移文件。',
+      secureImportPasswordLabel: '输入数据转移密码',
+      secureImportPasswordHint: '请输入导出时设置的转移密码。',
+      secureImportPreviewTitle: '导入预览',
+      secureImportPreviewDesc: '即将导入以下数据。请确认无误后再继续。',
+      secureImportPreviewAccounts: '资金账户',
+      secureImportPreviewTransactions: '交易记录',
+      secureImportPreviewTransfers: '账户转移',
+      secureImportPreviewGoals: '储蓄目标',
+      secureImportPreviewAssets: '资产',
+      secureImportPreviewDebts: '欠款记录',
+      secureImportPreviewRepayments: '还款记录',
+      secureImportPreviewMoneyGiven: '转给他人',
+      secureImportPreviewConfirmBtn: '确认导入',
+      secureImportDuplicateTitle: '此转移文件可能已经导入',
+      secureImportDuplicateDesc: '检测到当前设备可能已经导入过此转移文件。继续导入可能产生重复数据。',
+      secureImportDuplicateContinue: '仍然继续导入',
+      secureImportExistingDataTitle: '当前设备已有 Jiheng 数据',
+      secureImportExistingDataDesc: '导入可能会与现有数据产生合并或重复。请谨慎操作。',
+      secureImportExistingDataContinue: '我了解，继续导入',
+      secureImportSuccessTitle: '数据转移完成',
+      secureImportSuccessDesc: '你的 Jiheng 数据已成功导入，并通过完整性检查。',
+      secureImportSuccessReminder: '旧设备上的原始数据仍然保留。请先检查新设备上的数据是否完整、正确。在确认无误之前，请不要删除旧设备上的 Jiheng 数据。',
+      secureTransferInProgressTitle: '数据转移尚未完成',
+      secureTransferInProgressDesc: '请不要删除旧设备上的 Jiheng 数据、旧手机数据或唯一的转移文件。请等待数据导入和完整性检查全部完成后，再进行任何删除操作。',
+      secureTransferCompleteTitle: '数据转移完成',
+      secureTransferCompleteDesc: '你的 Jiheng 数据已成功导入，并通过完整性检查。旧设备上的原始数据仍然保留。',
+      secureTransferCompleteCheck: '请先检查新设备上的数据是否完整、正确。在确认无误之前，请不要删除旧设备上的 Jiheng 数据。',
+      secureStepReading: '正在读取文件…',
+      secureStepVerifying: '正在验证文件…',
+      secureStepDecrypting: '正在解密…',
+      secureStepValidating: '正在检查数据结构…',
+      secureStepImporting: '正在导入数据…',
+      secureStepVerifyingResult: '正在验证导入结果…',
+      secureStepDone: '完成',
+      secureStepFailed: '失败',
+      secureCurrentStatus: '当前状态',
+      secureNotStarted: '尚未开始',
+      secureExportStartBtn: '开始导出',
+      secureExportCancelBtn: '取消',
+      secureImportStartBtn: '继续导入',
+      secureImportCancelBtn: '取消',
+      secureShowPassword: '显示密码',
+      secureHidePassword: '隐藏密码',
+      secureBackupReminderTitle: '安全提醒',
+      secureBackupReminderDesc: 'Jiheng 无法检测转移文件离开应用后是否被复制或转发。请保护你的转移密码。'
     }
   },
     en: {
@@ -1407,6 +1506,105 @@ const I18N = {
       updateAvailable: 'A new version of Jiheng is available',
       reload: 'Reload',
       offline: 'You are offline'
+    },
+          secure: {
+      secureTransferTitle: 'Data Transfer',
+      secureTransferSub: 'Encrypted export / Encrypted import',
+      secureTransferPageTitle: 'Secure Data Transfer',
+      secureTransferIntro: 'This feature transfers Jiheng data using encryption. The transfer file can only be read with the correct Data Transfer Password.',
+      secureExportTab: 'Export Encrypted Data',
+      secureImportTab: 'Import Encrypted Data',
+      secureExportBtn: 'Export Encrypted Data',
+      secureImportBtn: 'Select .jhtransfer File',
+      secureExportTitle: 'Export Encrypted Data',
+      secureImportTitle: 'Import Encrypted Data',
+      securePasswordLabel: 'Set Data Transfer Password',
+      securePasswordConfirmLabel: 'Re-enter Data Transfer Password',
+      securePasswordPlaceholder: 'At least 10 characters',
+      securePasswordHint: 'This password is separate from App Lock. Please remember it carefully — it cannot be recovered if forgotten.',
+      securePasswordConfirmHint: 'Please re-enter to confirm.',
+      securePasswordMismatch: 'The two passwords do not match.',
+      securePasswordTooShort: 'The password must be at least {n} characters.',
+      securePasswordTooWeak: 'This password is too weak. Please use a stronger password.',
+      securePasswordSameAsAppLock: 'Your Data Transfer Password cannot be the same as or too similar to your App Lock password. Please use a separate password.',
+      securePasswordSimilarToAppLock: 'This password is too similar to your App Lock password. Please use a separate password.',
+      securePasswordRequirement: 'Password requirements:',
+      secureReqLength: '✓ At least 10 characters',
+      secureReqNotAppLock: '✓ Different from App Lock',
+      secureReqNotSimilar: '✓ Not too similar to App Lock',
+      secureReqNotWeak: '✓ No obvious weak pattern detected',
+      secureStrengthLabel: 'Strength',
+      secureStrengthWeak: 'Weak',
+      secureStrengthFair: 'Fair',
+      secureStrengthStrong: 'Strong',
+      secureStrengthVeryStrong: 'Very Strong',
+      secureStrengthNote: 'This password meets Jiheng minimum security requirements.',
+      secureWeakReasonTooShort: 'Password is too short',
+      secureWeakReasonCommon: 'This is a common password',
+      secureWeakReasonRepeatedDigit: 'Contains repeated digits',
+      secureWeakReasonRepeatedChar: 'Contains repeated characters',
+      secureWeakReasonKeyboard: 'Contains keyboard pattern',
+      secureWeakReasonSequential: 'Contains sequential pattern',
+      secureWeakReasonDigitsOnly: 'Digits only',
+      secureWeakReasonLettersOnly: 'Letters only',
+      secureWeakReasonAppName: 'Contains Jiheng brand name',
+      secureWeakReasonPhoneLike: 'Looks like a phone number',
+      secureWeakReasonEmpty: 'Password cannot be empty',
+      secureExportWarningTitle: 'Important Reminder',
+      secureExportWarning: 'Do not send the transfer password together with the transfer file. Do not delete the Jiheng data on your old device or your only transfer file until you have confirmed that the new device has successfully imported your data.',
+      secureExportSuccessTitle: 'Your encrypted transfer file has been created',
+      secureExportSuccess: 'It contains your Jiheng data and is protected by your Data Transfer Password. Please keep both the file and the password safe.',
+      secureExportFilePrefix: 'Jiheng_Transfer',
+      secureImportPickFile: 'Please select a .jhtransfer file',
+      secureImportFileInvalid: 'This file is not a valid Jiheng transfer file.',
+      secureImportFileVersionUnsupported: 'This transfer file version is not supported.',
+      secureImportFileCorrupted: 'This transfer file is corrupted or has been modified and cannot be imported.',
+      secureImportPasswordWrong: 'Incorrect password. Unable to unlock this transfer file.',
+      secureImportPasswordLabel: 'Enter Data Transfer Password',
+      secureImportPasswordHint: 'Please enter the transfer password you set when exporting.',
+      secureImportPreviewTitle: 'Import Preview',
+      secureImportPreviewDesc: 'The following data is about to be imported. Please review before continuing.',
+      secureImportPreviewAccounts: 'Money Accounts',
+      secureImportPreviewTransactions: 'Transactions',
+      secureImportPreviewTransfers: 'Transfers',
+      secureImportPreviewGoals: 'Savings Goals',
+      secureImportPreviewAssets: 'Assets',
+      secureImportPreviewDebts: 'Debt Records',
+      secureImportPreviewRepayments: 'Repayments',
+      secureImportPreviewMoneyGiven: 'Money Given',
+      secureImportPreviewConfirmBtn: 'Confirm Import',
+      secureImportDuplicateTitle: 'This transfer file may have already been imported',
+      secureImportDuplicateDesc: 'It appears this transfer file may have already been imported on this device. Continuing may create duplicate data.',
+      secureImportDuplicateContinue: 'Continue Anyway',
+      secureImportExistingDataTitle: 'This device already has Jiheng data',
+      secureImportExistingDataDesc: 'Importing may merge with or duplicate existing data. Please proceed with caution.',
+      secureImportExistingDataContinue: 'I understand, continue',
+      secureImportSuccessTitle: 'Data Transfer Complete',
+      secureImportSuccessDesc: 'Your Jiheng data has been successfully imported and passed integrity checks.',
+      secureImportSuccessReminder: 'The original data on your old device has not been deleted. Please check that your data is complete and correct on the new device. Do not delete the Jiheng data on your old device until you have confirmed everything is correct.',
+      secureTransferInProgressTitle: 'Data transfer is not complete yet',
+      secureTransferInProgressDesc: 'Do not delete Jiheng data, data on your old device, or your only transfer file. Wait until data import and integrity checks are fully completed before deleting anything.',
+      secureTransferCompleteTitle: 'Data Transfer Complete',
+      secureTransferCompleteDesc: 'Your Jiheng data has been successfully imported and passed integrity checks. The original data on your old device has not been deleted.',
+      secureTransferCompleteCheck: 'Please check that your data is complete and correct on the new device. Do not delete the Jiheng data on your old device until you have confirmed everything is correct.',
+      secureStepReading: 'Reading file…',
+      secureStepVerifying: 'Verifying file…',
+      secureStepDecrypting: 'Decrypting…',
+      secureStepValidating: 'Checking data structure…',
+      secureStepImporting: 'Importing data…',
+      secureStepVerifyingResult: 'Verifying import result…',
+      secureStepDone: 'Done',
+      secureStepFailed: 'Failed',
+      secureCurrentStatus: 'Current status',
+      secureNotStarted: 'Not started',
+      secureExportStartBtn: 'Start Export',
+      secureExportCancelBtn: 'Cancel',
+      secureImportStartBtn: 'Continue Import',
+      secureImportCancelBtn: 'Cancel',
+      secureShowPassword: 'Show password',
+      secureHidePassword: 'Hide password',
+      secureBackupReminderTitle: 'Security Reminder',
+      secureBackupReminderDesc: 'Jiheng cannot detect whether the transfer file has been copied or forwarded after leaving the app. Please protect your transfer password.'
     }
   },
   ms: {
@@ -1831,6 +2029,105 @@ const I18N = {
       updateAvailable: 'Versi baharu Jiheng tersedia',
       reload: 'Muat semula',
       offline: 'Anda sedang di luar talian'
+    },
+        secure: {
+      secureTransferTitle: 'Pemindahan Data',
+      secureTransferSub: 'Eksport disulitkan / Import disulitkan',
+      secureTransferPageTitle: 'Pemindahan Data Selamat',
+      secureTransferIntro: 'Ciri ini memindahkan data Jiheng menggunakan penyulitan. Fail pemindahan hanya boleh dibaca dengan Kata Laluan Pemindahan Data yang betul.',
+      secureExportTab: 'Eksport Data Disulitkan',
+      secureImportTab: 'Import Data Disulitkan',
+      secureExportBtn: 'Eksport Data Disulitkan',
+      secureImportBtn: 'Pilih Fail .jhtransfer',
+      secureExportTitle: 'Eksport Data Disulitkan',
+      secureImportTitle: 'Import Data Disulitkan',
+      securePasswordLabel: 'Tetapkan Kata Laluan Pemindahan Data',
+      securePasswordConfirmLabel: 'Masukkan semula Kata Laluan Pemindahan Data',
+      securePasswordPlaceholder: 'Sekurang-kurangnya 10 aksara',
+      securePasswordHint: 'Kata laluan ini berasingan daripada App Lock. Sila ingat dengan teliti — ia tidak boleh dipulihkan jika terlupa.',
+      securePasswordConfirmHint: 'Sila masukkan semula untuk sahkan.',
+      securePasswordMismatch: 'Kedua-dua kata laluan tidak sepadan.',
+      securePasswordTooShort: 'Kata laluan mesti sekurang-kurangnya {n} aksara.',
+      securePasswordTooWeak: 'Kata laluan ini terlalu lemah. Sila gunakan kata laluan yang lebih kuat.',
+      securePasswordSameAsAppLock: 'Kata Laluan Pemindahan Data tidak boleh sama atau terlalu serupa dengan kata laluan App Lock. Sila gunakan kata laluan yang berbeza.',
+      securePasswordSimilarToAppLock: 'Kata laluan ini terlalu serupa dengan kata laluan App Lock. Sila gunakan kata laluan yang berbeza.',
+      securePasswordRequirement: 'Keperluan kata laluan:',
+      secureReqLength: '✓ Sekurang-kurangnya 10 aksara',
+      secureReqNotAppLock: '✓ Berbeza daripada App Lock',
+      secureReqNotSimilar: '✓ Tidak terlalu serupa dengan App Lock',
+      secureReqNotWeak: '✓ Tiada corak lemah yang dikesan',
+      secureStrengthLabel: 'Kekuatan',
+      secureStrengthWeak: 'Lemah',
+      secureStrengthFair: 'Sederhana',
+      secureStrengthStrong: 'Kuat',
+      secureStrengthVeryStrong: 'Sangat Kuat',
+      secureStrengthNote: 'Kata laluan ini memenuhi keperluan keselamatan minimum Jiheng.',
+      secureWeakReasonTooShort: 'Kata laluan terlalu pendek',
+      secureWeakReasonCommon: 'Ini adalah kata laluan biasa',
+      secureWeakReasonRepeatedDigit: 'Mengandungi digit berulang',
+      secureWeakReasonRepeatedChar: 'Mengandungi aksara berulang',
+      secureWeakReasonKeyboard: 'Mengandungi corak papan kekunci',
+      secureWeakReasonSequential: 'Mengandungi corak berurutan',
+      secureWeakReasonDigitsOnly: 'Digit sahaja',
+      secureWeakReasonLettersOnly: 'Huruf sahaja',
+      secureWeakReasonAppName: 'Mengandungi nama jenama Jiheng',
+      secureWeakReasonPhoneLike: 'Kelihatan seperti nombor telefon',
+      secureWeakReasonEmpty: 'Kata laluan tidak boleh kosong',
+      secureExportWarningTitle: 'Peringatan Penting',
+      secureExportWarning: 'Jangan hantar kata laluan pemindahan bersama fail pemindahan. Jangan padam data Jiheng pada peranti lama atau satu-satunya fail pemindahan anda sehingga anda mengesahkan bahawa data telah berjaya diimport ke peranti baharu.',
+      secureExportSuccessTitle: 'Fail pemindahan yang disulitkan telah dicipta',
+      secureExportSuccess: 'Fail ini mengandungi data Jiheng anda dan dilindungi oleh Kata Laluan Pemindahan Data. Sila simpan fail dan kata laluan dengan selamat.',
+      secureExportFilePrefix: 'Jiheng_Transfer',
+      secureImportPickFile: 'Sila pilih fail .jhtransfer',
+      secureImportFileInvalid: 'Fail ini bukan fail pemindahan Jiheng yang sah.',
+      secureImportFileVersionUnsupported: 'Versi fail pemindahan ini tidak disokong.',
+      secureImportFileCorrupted: 'Fail pemindahan ini rosak atau telah diubah suai dan tidak boleh diimport.',
+      secureImportPasswordWrong: 'Kata laluan salah. Tidak dapat membuka fail pemindahan ini.',
+      secureImportPasswordLabel: 'Masukkan Kata Laluan Pemindahan Data',
+      secureImportPasswordHint: 'Sila masukkan kata laluan pemindahan yang anda tetapkan semasa eksport.',
+      secureImportPreviewTitle: 'Pratonton Import',
+      secureImportPreviewDesc: 'Data berikut akan diimport. Sila semak sebelum meneruskan.',
+      secureImportPreviewAccounts: 'Akaun Wang',
+      secureImportPreviewTransactions: 'Transaksi',
+      secureImportPreviewTransfers: 'Pindahan',
+      secureImportPreviewGoals: 'Sasaran Simpanan',
+      secureImportPreviewAssets: 'Aset',
+      secureImportPreviewDebts: 'Rekod Hutang',
+      secureImportPreviewRepayments: 'Bayaran',
+      secureImportPreviewMoneyGiven: 'Wang Diberi',
+      secureImportPreviewConfirmBtn: 'Sahkan Import',
+      secureImportDuplicateTitle: 'Fail pemindahan ini mungkin telah diimport',
+      secureImportDuplicateDesc: 'Nampaknya fail pemindahan ini mungkin telah diimport pada peranti ini. Meneruskan mungkin menghasilkan data pendua.',
+      secureImportDuplicateContinue: 'Teruskan Juga',
+      secureImportExistingDataTitle: 'Peranti ini sudah mempunyai data Jiheng',
+      secureImportExistingDataDesc: 'Import mungkin bergabung dengan atau menduplikasi data sedia ada. Sila teruskan dengan berhati-hati.',
+      secureImportExistingDataContinue: 'Saya faham, teruskan',
+      secureImportSuccessTitle: 'Pemindahan Data Selesai',
+      secureImportSuccessDesc: 'Data Jiheng anda telah berjaya diimport dan lulus pemeriksaan integriti.',
+      secureImportSuccessReminder: 'Data asal pada peranti lama tidak dipadamkan. Sila semak bahawa semua data anda lengkap dan betul pada peranti baharu. Jangan padam data Jiheng pada peranti lama sehingga anda mengesahkan semuanya betul.',
+      secureTransferInProgressTitle: 'Pemindahan data masih belum selesai',
+      secureTransferInProgressDesc: 'Jangan padam data Jiheng, data pada peranti lama atau satu-satunya fail pemindahan anda. Tunggu sehingga proses import dan pemeriksaan integriti selesai sepenuhnya sebelum memadam apa-apa data.',
+      secureTransferCompleteTitle: 'Pemindahan Data Selesai',
+      secureTransferCompleteDesc: 'Data Jiheng anda telah berjaya diimport dan lulus pemeriksaan integriti. Data asal pada peranti lama tidak dipadamkan.',
+      secureTransferCompleteCheck: 'Sila semak bahawa semua data anda lengkap dan betul pada peranti baharu. Jangan padam data Jiheng pada peranti lama sehingga anda mengesahkan semuanya betul.',
+      secureStepReading: 'Membaca fail…',
+      secureStepVerifying: 'Mengesahkan fail…',
+      secureStepDecrypting: 'Menyahsulit…',
+      secureStepValidating: 'Menyemak struktur data…',
+      secureStepImporting: 'Mengimport data…',
+      secureStepVerifyingResult: 'Mengesahkan hasil import…',
+      secureStepDone: 'Selesai',
+      secureStepFailed: 'Gagal',
+      secureCurrentStatus: 'Status semasa',
+      secureNotStarted: 'Belum bermula',
+      secureExportStartBtn: 'Mula Eksport',
+      secureExportCancelBtn: 'Batal',
+      secureImportStartBtn: 'Teruskan Import',
+      secureImportCancelBtn: 'Batal',
+      secureShowPassword: 'Tunjuk kata laluan',
+      secureHidePassword: 'Sembunyi kata laluan',
+      secureBackupReminderTitle: 'Peringatan Keselamatan',
+      secureBackupReminderDesc: 'Jiheng tidak dapat mengesan sama ada fail pemindahan telah disalin atau dihantar selepas meninggalkan aplikasi. Sila lindungi kata laluan pemindahan anda.'
     }
   }
 };
@@ -3829,6 +4126,12 @@ function viewSettings(){
     </div>
   </div>
   <div class="card">
+    <div class="set-row tap" onclick="openSub('secure-transfer')">
+      <div><div class="set-title">🔐 ${esc(t('secureTransferTitle'))}</div><div class="set-sub">${esc(t('secureTransferSub'))}</div></div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+  <div class="card">
     <div class="set-row tap" onclick="openSub('product-guide')">
       <div><div class="set-title">📖 ${esc(t('setProductGuide'))}</div><div class="set-sub">${esc(t('setProductGuideSub'))}</div></div>
       <span class="chev">›</span>
@@ -3854,24 +4157,6 @@ function viewSettings(){
         <button class="chip ${LANG==='en'?'on':''}" onclick="setLang('en')">EN</button>
         <button class="chip ${LANG==='ms'?'on':''}" onclick="setLang('ms')">BM</button>
       </div>
-    </div>
-  </div>
-  <div class="card">
-    <div class="set-row tap" onclick="exportData()">
-      <div><div class="set-title">📤 ${esc(t('setExportJson'))}</div><div class="set-sub">${esc(t('setExportJsonSub'))}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="exportCSV()">
-      <div><div class="set-title">📊 ${esc(t('setExportCsv'))}</div><div class="set-sub">${esc(t('setExportCsvSub'))}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="triggerImport()">
-      <div><div class="set-title">📥 ${esc(t('setImport'))}</div><div class="set-sub">${esc(t('setImportSub'))}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="clearData()">
-      <div><div class="set-title danger">🗑 ${esc(t('setClearData'))}</div><div class="set-sub">${esc(t('setClearDataSub'))}</div></div>
-      <span class="chev">›</span>
     </div>
   </div>
   <div class="card">
@@ -5919,7 +6204,1047 @@ function openAssetEnd(id){
   console.log('[Jiheng] v' + APP_VERSION + ' ready. Data ' + DATA_VERSION_LABEL);
 })();
 
-window.addEventListener('storage', e => {
+/* =========================================================================
+   JIHENG SECURE DATA TRANSFER SYSTEM
+   -----------------------------------------------------------------------
+   核心安全架构 — 不写入 Update History，不修改 App Version。
+   核心原则：
+   - 加密后才是可复制文件
+   - 密码独立于 App Lock
+   - 密码绝不写入文件
+   - 转移未完成 = 不视为成功
+   - 绝不自动删除源数据
+   - 绝不部分写入
+   - 绝不硬编码秘密
+   ========================================================================= */
+
+const JT_TRANSFER_FORMAT = 'jiheng-transfer-package';
+const JT_TRANSFER_FORMAT_VERSION = 1;
+const JT_PBKDF2_ITERATIONS = 600000;
+const JT_PBKDF2_HASH = 'SHA-256';
+const JT_AES_ALGO = 'AES-GCM';
+const JT_AES_KEY_LENGTH = 256;
+const JT_SALT_LENGTH = 16;
+const JT_IV_LENGTH = 12;
+const JT_TRANSFER_PW_MIN_LENGTH = 10;
+const JT_TRANSFER_STATE_KEY = 'jiheng_transfer_state_v1';
+const JT_IMPORTED_PACKAGES_KEY = 'jiheng_imported_packages_v1';
+
+/* ---------- 字节 / 字符串 转换 ---------- */
+function jtBufToBase64(buf){
+  const bytes = new Uint8Array(buf);
+  let bin = '';
+  for(let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin);
+}
+function jtBase64ToBuf(b64){
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for(let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return bytes.buffer;
+}
+function jtBufToHex(buf){
+  const bytes = new Uint8Array(buf);
+  let out = '';
+  for(let i = 0; i < bytes.length; i++) out += bytes[i].toString(16).padStart(2,'0');
+  return out;
+}
+function jtRandomBytes(len){
+  const bytes = new Uint8Array(len);
+  crypto.getRandomValues(bytes);
+  return bytes;
+}
+function jtGeneratePackageId(){
+  return 'jhp-' + jtBufToHex(jtRandomBytes(16));
+}
+
+/* ---------- 密码强度 / 弱密码检测 ---------- */
+const JT_COMMON_PASSWORDS = [
+  'password','password1','password123','passw0rd','p@ssw0rd',
+  '12345678','123456789','1234567890','0123456789','9876543210',
+  'qwerty','qwertyuiop','qwerty123','qwerty1234','asdfghjkl',
+  'abcdefgh','abcdefghij','aaaaaaaa','aaaaaaaaaa','1111111111',
+  '0000000000','2222222222','iloveyou','admin','admin123','root',
+  'letmein','welcome','monkey','dragon','jiheng','jiheng123',
+  'jiheng2024','jiheng2025','jiheng2026','jih3ng'
+];
+function jtDetectWeakPassword(pw){
+  const reasons = [];
+  const p = String(pw || '');
+  if(!p){ reasons.push('empty'); return reasons; }
+  if(p.length < JT_TRANSFER_PW_MIN_LENGTH) reasons.push('too_short');
+  const lower = p.toLowerCase();
+  if(JT_COMMON_PASSWORDS.indexOf(lower) !== -1) reasons.push('common_password');
+  if(/0{4,}|1{4,}|2{4,}|3{4,}|4{4,}|5{4,}|6{4,}|7{4,}|8{4,}|9{4,}/.test(p)) reasons.push('repeated_digit');
+  if(/([a-zA-Z])\1{3,}/.test(p)) reasons.push('repeated_char');
+  if(/qwerty|asdf|zxcv|1234|abcd|4321|dcba/i.test(p)) reasons.push('keyboard_pattern');
+  for(let i = 0; i + 4 <= p.length; i++){
+    const a = p.charCodeAt(i), b = p.charCodeAt(i+1), c = p.charCodeAt(i+2), d = p.charCodeAt(i+3);
+    if(b - a === 1 && c - b === 1 && d - c === 1){ reasons.push('sequential_pattern'); break; }
+    if(a - b === 1 && b - c === 1 && c - d === 1){ reasons.push('sequential_pattern'); break; }
+  }
+  if(/^\d+$/.test(p)) reasons.push('digits_only');
+  if(/^[a-zA-Z]+$/.test(p)) reasons.push('letters_only');
+  if(/jiheng|积衡/i.test(p)) reasons.push('contains_app_name');
+  if(/^01\d{8,9}$/.test(p.replace(/[-\s]/g,''))) reasons.push('phone_like');
+  return reasons;
+}
+function jtScorePassword(pw){
+  const p = String(pw || '');
+  if(!p) return { score: 0, label: 'weak', reasons: ['empty'] };
+  const weak = jtDetectWeakPassword(p);
+  const hardReject = weak.some(r =>
+    r === 'too_short' || r === 'common_password' || r === 'repeated_digit' ||
+    r === 'repeated_char' || r === 'keyboard_pattern' || r === 'sequential_pattern' ||
+    r === 'digits_only' || r === 'letters_only' || r === 'contains_app_name' ||
+    r === 'phone_like' || r === 'empty'
+  );
+  if(hardReject) return { score: 0, label: 'weak', reasons: weak };
+  let score = 1;
+  const hasUpper = /[A-Z]/.test(p);
+  const hasLower = /[a-z]/.test(p);
+  const hasDigit = /\d/.test(p);
+  const hasSymbol = /[^A-Za-z0-9]/.test(p);
+  if(p.length >= 10) score++;
+  if(p.length >= 14) score++;
+  if(hasUpper && hasLower) score++;
+  if(hasDigit) score++;
+  if(hasSymbol) score++;
+  if(score > 4) score = 4;
+  const label = score <= 1 ? 'weak' : score === 2 ? 'fair' : score === 3 ? 'strong' : 'very_strong';
+  return { score, label, reasons: [] };
+}
+
+/* ---------- 与 App Lock 相似度检测 ---------- */
+async function jtCheckAppLockSimilarity(pw){
+  try {
+    const p = String(pw || '');
+    if(!p || !lockRecord || !lockRecord.hash) return { similar: false };
+    const h = await sha256(p);
+    if(h === lockRecord.hash) return { similar: true, reason: 'identical' };
+    const v1 = await sha256(p.toLowerCase());
+    if(v1 === lockRecord.hash) return { similar: true, reason: 'case_variant' };
+    const v2 = await sha256(p.trim());
+    if(v2 === lockRecord.hash) return { similar: true, reason: 'trim_variant' };
+    if(lockRecord.type === 'pin'){
+      if(/^\d+$/.test(p) && p.length >= 4 && p.length <= 8){
+        return { similar: true, reason: 'pin_like' };
+      }
+      const pinVar = [p + '0', p + '00', p + '1', '0' + p, '1' + p];
+      for(const v of pinVar){
+        const hh = await sha256(v);
+        if(hh === lockRecord.hash) return { similar: true, reason: 'pin_variant' };
+      }
+    }
+    return { similar: false };
+  } catch(e){
+    return { similar: false };
+  }
+}
+
+/* ---------- 转移状态追踪 ---------- */
+function jtLoadTransferState(){
+  try { const raw = localStorage.getItem(JT_TRANSFER_STATE_KEY); return raw ? JSON.parse(raw) : null; } catch(e){ return null; }
+}
+function jtSaveTransferState(s){ try { localStorage.setItem(JT_TRANSFER_STATE_KEY, JSON.stringify(s)); } catch(e){} }
+function jtClearTransferState(){ try { localStorage.removeItem(JT_TRANSFER_STATE_KEY); } catch(e){} }
+function jtStartTransferState(kind, meta){
+  const s = { kind, startedAt: Date.now(), status: 'in_progress', meta: meta || {} };
+  jtSaveTransferState(s);
+  return s;
+}
+function jtMarkTransferComplete(kind, meta){
+  const prev = jtLoadTransferState() || {};
+  const s = { kind, startedAt: prev.startedAt || Date.now(), completedAt: Date.now(), status: 'complete', meta: meta || {} };
+  jtSaveTransferState(s);
+  return s;
+}
+
+/* ---------- 已导入包追踪 ---------- */
+function jtLoadImportedPackages(){
+  try { const raw = localStorage.getItem(JT_IMPORTED_PACKAGES_KEY); return raw ? JSON.parse(raw) : {}; } catch(e){ return {}; }
+}
+function jtSaveImportedPackages(obj){ try { localStorage.setItem(JT_IMPORTED_PACKAGES_KEY, JSON.stringify(obj)); } catch(e){} }
+function jtMarkPackageImported(packageId, meta){
+  if(!packageId) return;
+  const obj = jtLoadImportedPackages();
+  obj[packageId] = Object.assign({ importedAt: Date.now() }, meta || {});
+  jtSaveImportedPackages(obj);
+}
+function jtHasPackageBeenImported(packageId){
+  if(!packageId) return false;
+  const obj = jtLoadImportedPackages();
+  return !!obj[packageId];
+}
+
+/* ---------- 密码派生 ---------- */
+async function jtDeriveKey(password, salt, usage){
+  // usage: 'encrypt' | 'decrypt'
+  const enc = new TextEncoder();
+  const keyMaterial = await crypto.subtle.importKey(
+    'raw', enc.encode(password), { name: 'PBKDF2' }, false, ['deriveKey']
+  );
+  return await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: salt, iterations: JT_PBKDF2_ITERATIONS, hash: JT_PBKDF2_HASH },
+    keyMaterial,
+    { name: JT_AES_ALGO, length: JT_AES_KEY_LENGTH },
+    false,
+    [usage]
+  );
+}
+
+/* ---------- 打包 / 加密 ---------- */
+async function jtBuildAndEncryptPackage(password, snapshot){
+  const payload = {
+    dataVersion: DATA_VERSION,
+    appVersion: APP_VERSION,
+    exportedAt: new Date().toISOString(),
+    timezone: APP_TZ,
+    state: snapshot
+  };
+  const payloadBytes = new TextEncoder().encode(JSON.stringify(payload));
+
+  const salt = jtRandomBytes(JT_SALT_LENGTH);
+  const iv = jtRandomBytes(JT_IV_LENGTH);
+  const key = await jtDeriveKey(password, salt, 'encrypt');
+
+  const cipherBuf = await crypto.subtle.encrypt(
+    { name: JT_AES_ALGO, iv: iv, tagLength: 128 },
+    key,
+    payloadBytes
+  );
+
+  const packageId = jtGeneratePackageId();
+  const container = {
+    format: JT_TRANSFER_FORMAT,
+    formatVersion: JT_TRANSFER_FORMAT_VERSION,
+    packageId: packageId,
+    kdf: {
+      name: 'PBKDF2',
+      hash: JT_PBKDF2_HASH,
+      iterations: JT_PBKDF2_ITERATIONS,
+      salt: jtBufToBase64(salt)
+    },
+    cipher: {
+      name: JT_AES_ALGO,
+      keyLength: JT_AES_KEY_LENGTH,
+      iv: jtBufToBase64(iv),
+      tagLength: 128
+    },
+    createdAt: new Date().toISOString(),
+    payload: jtBufToBase64(cipherBuf)
+  };
+  return { container, packageId };
+}
+
+/* ---------- 解包 / 解密 ---------- */
+async function jtDecryptPackage(password, container){
+  if(!container || container.format !== JT_TRANSFER_FORMAT){
+    throw new Error('JT_ERR_INVALID_FORMAT');
+  }
+  if(container.formatVersion !== JT_TRANSFER_FORMAT_VERSION){
+    throw new Error('JT_ERR_VERSION_UNSUPPORTED');
+  }
+  if(!container.kdf || !container.cipher || !container.payload){
+    throw new Error('JT_ERR_INVALID_FORMAT');
+  }
+  const salt = jtBase64ToBuf(container.kdf.salt);
+  const iv = jtBase64ToBuf(container.cipher.iv);
+  const cipherBuf = jtBase64ToBuf(container.payload);
+  const key = await jtDeriveKey(password, salt, 'decrypt');
+
+  let plainBuf;
+  try {
+    plainBuf = await crypto.subtle.decrypt(
+      { name: JT_AES_ALGO, iv: iv, tagLength: 128 },
+      key,
+      cipherBuf
+    );
+  } catch(e){
+    throw new Error('JT_ERR_DECRYPT_FAILED');
+  }
+  let parsed;
+  try {
+    parsed = JSON.parse(new TextDecoder().decode(plainBuf));
+  } catch(e){
+    throw new Error('JT_ERR_CORRUPTED');
+  }
+  return parsed;
+}
+
+/* ---------- 数据快照 ---------- */
+function jtBuildSnapshot(){
+  return JSON.parse(JSON.stringify({
+    dataVersion: state.dataVersion,
+    settings: state.settings,
+    accounts: state.accounts,
+    transactions: state.transactions,
+    goals: state.goals,
+    assets: state.assets,
+    debts: state.debts,
+    moneyGiven: state.moneyGiven,
+    customIncomeCats: state.customIncomeCats,
+    customExpenseCats: state.customExpenseCats,
+    customMethods: state.customMethods,
+    achievements: state.achievements,
+    createdAt: state.createdAt
+  }));
+}
+
+/* ---------- 校验导入快照 ---------- */
+function jtValidateSnapshot(snap){
+  if(!snap || typeof snap !== 'object') return false;
+  if(!Array.isArray(snap.accounts)) return false;
+  if(!Array.isArray(snap.transactions)) return false;
+  if(!Array.isArray(snap.goals)) return false;
+  if(!Array.isArray(snap.assets)) return false;
+  if(!Array.isArray(snap.debts)) return false;
+  if(!Array.isArray(snap.moneyGiven)) return false;
+  return true;
+}
+/* ---------- 导入数据到当前 state ---------- */
+function jtApplySnapshotToState(snap){
+  // 只替换数据字段，不动 settings.lang（保持当前语言）
+  const currentLang = state.settings.lang;
+  state.accounts = Array.isArray(snap.accounts) ? snap.accounts : [];
+  state.transactions = Array.isArray(snap.transactions) ? snap.transactions : [];
+  state.goals = Array.isArray(snap.goals) ? snap.goals : [];
+  state.assets = Array.isArray(snap.assets) ? snap.assets : [];
+  state.debts = Array.isArray(snap.debts) ? snap.debts : [];
+  state.moneyGiven = Array.isArray(snap.moneyGiven) ? snap.moneyGiven : [];
+  state.customIncomeCats = Array.isArray(snap.customIncomeCats) ? snap.customIncomeCats : [];
+  state.customExpenseCats = Array.isArray(snap.customExpenseCats) ? snap.customExpenseCats : [];
+  state.customMethods = Array.isArray(snap.customMethods) ? snap.customMethods : [];
+  state.achievements = (snap.achievements && typeof snap.achievements === 'object') ? snap.achievements : {};
+  if(snap.settings && typeof snap.settings === 'object'){
+    state.settings = Object.assign({}, state.settings, snap.settings);
+    state.settings.lang = currentLang;
+  }
+  // 重新走 migrate 保证结构完整
+  const r = migrate(state);
+  if(r.ok) state = r.data;
+  saveState();
+}
+
+/* ---------- 计算预览数字 ---------- */
+function jtCountSnapshot(snap){
+  if(!snap || typeof snap !== 'object') return {};
+  const transferCount = Array.isArray(snap.transactions) ? snap.transactions.filter(tx => tx.type === 'transfer').length : 0;
+  let repaymentCount = 0;
+  if(Array.isArray(snap.debts)){
+    snap.debts.forEach(d => {
+      if(Array.isArray(d.repayments)) repaymentCount += d.repayments.length;
+    });
+  }
+  return {
+    accounts: Array.isArray(snap.accounts) ? snap.accounts.length : 0,
+    transactions: Array.isArray(snap.transactions) ? snap.transactions.length : 0,
+    transfers: transferCount,
+    goals: Array.isArray(snap.goals) ? snap.goals.length : 0,
+    assets: Array.isArray(snap.assets) ? snap.assets.length : 0,
+    debts: Array.isArray(snap.debts) ? snap.debts.length : 0,
+    repayments: repaymentCount,
+    moneyGiven: Array.isArray(snap.moneyGiven) ? snap.moneyGiven.length : 0
+  };
+}
+
+/* =========================================================================
+   安全转移页面 — 渲染
+   ========================================================================= */
+let jtUI = {
+  mode: 'menu',           // menu | export | import
+  exportPassword: '',
+  exportPasswordConfirm: '',
+  exportBusy: false,
+  exportDone: false,
+  exportFileName: '',
+  importFile: null,
+  importContainer: null,
+  importPassword: '',
+  importBusy: false,
+  importStep: '',
+  importPreview: null,
+  importPackageId: '',
+  importError: '',
+  importDone: false,
+  importDoneSnapshot: null,
+  duplicateWarning: false,
+  existingDataWarning: false,
+  showPassword: false
+};
+
+function jtResetUI(){
+  jtUI = {
+    mode: 'menu',
+    exportPassword: '',
+    exportPasswordConfirm: '',
+    exportBusy: false,
+    exportDone: false,
+    exportFileName: '',
+    importFile: null,
+    importContainer: null,
+    importPassword: '',
+    importBusy: false,
+    importStep: '',
+    importPreview: null,
+    importPackageId: '',
+    importError: '',
+    importDone: false,
+    importDoneSnapshot: null,
+    duplicateWarning: false,
+    existingDataWarning: false,
+    showPassword: false
+  };
+}
+
+function viewSecureTransfer(){
+  // 检测是否有未完成的转移状态
+  const pendingState = jtLoadTransferState();
+  const hasPending = pendingState && pendingState.status === 'in_progress';
+
+  if(hasPending && jtUI.mode === 'menu' && !jtUI.importDone && !jtUI.exportDone){
+    // 强制显示"未完成"提醒
+    return `
+    <div class="card" style="border:2px solid var(--amber);background:#fff8ec">
+      <div class="section-head" style="margin-bottom:8px">
+        <h3 style="color:var(--amber)">⚠️ ${esc(t('secureTransferInProgressTitle'))}</h3>
+      </div>
+      <p style="font-size:13px;line-height:1.7;color:var(--text);margin:0 0 12px">${esc(t('secureTransferInProgressDesc'))}</p>
+      <button class="btn ghost block" onclick="jtAcknowledgePending()">${esc(t('ok'))}</button>
+    </div>
+    ${jtUI.mode === 'menu' ? jtRenderMenu() : ''}
+    `;
+  }
+
+  if(jtUI.mode === 'export') return jtRenderExport();
+  if(jtUI.mode === 'import') return jtRenderImport();
+  return jtRenderMenu();
+}
+
+function jtAcknowledgePending(){
+  // 用户确认知道未完成状态，但不清除状态（状态要保留，直到真正完成为止）
+  jtUI.mode = 'menu';
+  render();
+}
+
+function jtRenderMenu(){
+  return `
+  <p class="about" style="margin:0 0 10px;text-align:left">${esc(t('secureTransferIntro'))}</p>
+  <div class="card" style="border-left:4px solid var(--brand)">
+    <div class="set-row tap" onclick="jtGoExport()" style="cursor:pointer">
+      <div>
+        <div class="set-title">📤 ${esc(t('secureExportTab'))}</div>
+        <div class="set-sub">${esc(t('secureExportBtn'))}</div>
+      </div>
+      <span class="chev">›</span>
+    </div>
+    <div class="set-row tap" onclick="jtGoImport()" style="cursor:pointer">
+      <div>
+        <div class="set-title">📥 ${esc(t('secureImportTab'))}</div>
+        <div class="set-sub">${esc(t('secureImportBtn'))}</div>
+      </div>
+      <span class="chev">›</span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="section-head" style="margin-bottom:8px"><h3>🔒 ${esc(t('secureBackupReminderTitle'))}</h3></div>
+    <p style="font-size:12px;line-height:1.7;color:var(--muted);margin:0">${esc(t('secureBackupReminderDesc'))}</p>
+  </div>`;
+}
+
+function jtGoExport(){
+  jtResetUI();
+  jtUI.mode = 'export';
+  render({ top:true });
+}
+function jtGoImport(){
+  jtResetUI();
+  jtUI.mode = 'import';
+  render({ top:true });
+}
+function jtBackToMenu(){
+  jtResetUI();
+  render({ top:true });
+}
+
+/* ---------- 导出页面 ---------- */
+function jtRenderExport(){
+  if(jtUI.exportDone){
+    return `
+    <div class="card" style="border-left:4px solid var(--green)">
+      <div class="section-head" style="margin-bottom:10px">
+        <h3 style="color:var(--green)">✅ ${esc(t('secureExportSuccessTitle'))}</h3>
+      </div>
+      <p style="font-size:13px;line-height:1.7;margin:0 0 12px">${esc(t('secureExportSuccess'))}</p>
+      <div class="asset-rows" style="margin-bottom:12px">
+        <div class="ar"><span>${esc(t('secureExportFilePrefix'))}</span><b style="font-size:11px">${esc(jtUI.exportFileName)}</b></div>
+      </div>
+      <div class="card" style="background:#fff8ec;border:1.5px solid var(--amber);margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px">⚠️ ${esc(t('secureExportWarningTitle'))}</div>
+        <div style="font-size:12px;line-height:1.7;color:var(--text)">${esc(t('secureExportWarning'))}</div>
+      </div>
+      <button class="btn primary block" onclick="jtBackToMenu()">${esc(t('ok'))}</button>
+    </div>`;
+  }
+
+  const pw = jtUI.exportPassword;
+  const pw2 = jtUI.exportPasswordConfirm;
+  const strength = jtScorePassword(pw);
+  const weakReasons = strength.reasons || [];
+
+  const strengthLabel = strength.label === 'weak' ? t('secureStrengthWeak')
+    : strength.label === 'fair' ? t('secureStrengthFair')
+    : strength.label === 'strong' ? t('secureStrengthStrong')
+    : t('secureStrengthVeryStrong');
+
+  const strengthColor = strength.label === 'weak' ? 'var(--red)'
+    : strength.label === 'fair' ? 'var(--amber)'
+    : strength.label === 'strong' ? 'var(--green)'
+    : '#0e9b6b';
+
+  const match = pw && pw2 && pw === pw2;
+
+  return `
+  <div class="card">
+    <div class="section-head" style="margin-bottom:8px">
+      <h3>📤 ${esc(t('secureExportTitle'))}</h3>
+      <button class="link" onclick="jtBackToMenu()">${esc(t('back'))}</button>
+    </div>
+    <p style="font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 14px">${esc(t('securePasswordHint'))}</p>
+
+    <label class="field">
+      <span class="field-label">${esc(t('securePasswordLabel'))}</span>
+      <input type="password" id="jt-exp-pw" value="${esc(pw)}" maxlength="128"
+        placeholder="${esc(t('securePasswordPlaceholder'))}"
+        oninput="jtOnExportPwInput(this.value)"
+        autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </label>
+
+    ${pw ? `
+    <div style="display:flex;gap:8px;align-items:center;margin-top:-8px;margin-bottom:12px;flex-wrap:wrap">
+      <span style="font-size:12px;color:var(--muted);font-weight:600">${esc(t('secureStrengthLabel'))}</span>
+      <span style="font-size:12px;font-weight:800;color:${strengthColor}">${esc(strengthLabel)}</span>
+    </div>
+    ${weakReasons.length ? `
+      <div style="background:#fdecec;border-radius:10px;padding:10px 12px;margin-bottom:14px">
+        ${weakReasons.map(r => `<div style="font-size:12px;color:var(--red);line-height:1.6">• ${esc(jtWeakReasonLabel(r))}</div>`).join('')}
+      </div>` : `
+      <div style="background:#e7f8f1;border-radius:10px;padding:10px 12px;margin-bottom:14px">
+        <div style="font-size:12px;color:var(--green);line-height:1.6;font-weight:600">${esc(t('secureStrengthNote'))}</div>
+      </div>` }
+    ` : ''}
+
+    <label class="field">
+      <span class="field-label">${esc(t('securePasswordConfirmLabel'))}</span>
+      <input type="password" id="jt-exp-pw2" value="${esc(pw2)}" maxlength="128"
+        placeholder="${esc(t('securePasswordPlaceholder'))}"
+        oninput="jtOnExportPw2Input(this.value)"
+        autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false">
+    </label>
+    ${pw2 && pw && pw !== pw2 ? `<div style="font-size:12px;color:var(--red);margin-top:-8px;margin-bottom:10px">${esc(t('securePasswordMismatch'))}</div>` : ''}
+
+    <div class="card" style="background:#fafbfd;margin-top:6px">
+      <div style="font-size:12px;font-weight:700;color:var(--brand);margin-bottom:6px">${esc(t('securePasswordRequirement'))}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.8">${esc(t('secureReqLength'))}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.8">${esc(t('secureReqNotAppLock'))}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.8">${esc(t('secureReqNotSimilar'))}</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.8">${esc(t('secureReqNotWeak'))}</div>
+    </div>
+  </div>
+
+  <div class="card" style="background:#fff8ec;border:1.5px solid var(--amber)">
+    <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px">⚠️ ${esc(t('secureExportWarningTitle'))}</div>
+    <div style="font-size:12px;line-height:1.7;color:var(--text)">${esc(t('secureExportWarning'))}</div>
+  </div>
+
+  ${jtUI.exportBusy ? `
+    <button class="btn primary block" disabled style="opacity:.6">${esc(t('secureStepDecrypting'))}</button>
+  ` : `
+    <button class="btn primary block" onclick="jtDoExport()" ${(!pw || !pw2 || !match) ? 'disabled style="opacity:.5"' : ''}>
+      ${esc(t('secureExportStartBtn'))}
+    </button>
+  `}
+  <button class="btn ghost block" onclick="jtBackToMenu()">${esc(t('secureExportCancelBtn'))}</button>`;
+}
+
+function jtOnExportPwInput(v){ jtUI.exportPassword = v; jtRerenderSecure(); }
+function jtOnExportPw2Input(v){ jtUI.exportPasswordConfirm = v; jtRerenderSecure(); }
+function jtRerenderSecure(){
+  // 只重绘 secure 页面内层，保留 input focus
+  const root = document.getElementById('app');
+  if(!root) return;
+  const view = root.querySelector('.view');
+  if(!view) { render(); return; }
+  // 记录当前 focus
+  const active = document.activeElement;
+  const activeId = active ? active.id : null;
+  const selStart = active && active.selectionStart != null ? active.selectionStart : null;
+  const selEnd = active && active.selectionEnd != null ? active.selectionEnd : null;
+  view.innerHTML = viewSecureTransfer();
+  if(activeId){
+    const el = document.getElementById(activeId);
+    if(el){
+      try { el.focus(); } catch(e){}
+      if(selStart != null && selEnd != null && el.setSelectionRange){
+        try { el.setSelectionRange(selStart, selEnd); } catch(e){}
+      }
+    }
+  }
+}
+
+function jtWeakReasonLabel(key){
+  const map = {
+    empty: 'secureWeakReasonEmpty',
+    too_short: 'secureWeakReasonTooShort',
+    common_password: 'secureWeakReasonCommon',
+    repeated_digit: 'secureWeakReasonRepeatedDigit',
+    repeated_char: 'secureWeakReasonRepeatedChar',
+    keyboard_pattern: 'secureWeakReasonKeyboard',
+    sequential_pattern: 'secureWeakReasonSequential',
+    digits_only: 'secureWeakReasonDigitsOnly',
+    letters_only: 'secureWeakReasonLettersOnly',
+    contains_app_name: 'secureWeakReasonAppName',
+    phone_like: 'secureWeakReasonPhoneLike'
+  };
+  return t(map[key] || key);
+}
+
+async function jtDoExport(){
+  if(jtUI.exportBusy) return;
+  const pw = jtUI.exportPassword;
+  const pw2 = jtUI.exportPasswordConfirm;
+
+  // 1) 长度
+  if(!pw || pw.length < JT_TRANSFER_PW_MIN_LENGTH){
+    toast(t('securePasswordTooShort', { n: JT_TRANSFER_PW_MIN_LENGTH }));
+    return;
+  }
+  // 2) 强度
+  const sc = jtScorePassword(pw);
+  if(sc.score === 0){
+    toast(t('securePasswordTooWeak'));
+    return;
+  }
+  // 3) 匹配
+  if(pw !== pw2){
+    toast(t('securePasswordMismatch'));
+    return;
+  }
+  // 4) 与 App Lock 相似度
+  const similar = await jtCheckAppLockSimilarity(pw);
+  if(similar.similar){
+    if(similar.reason === 'identical') toast(t('securePasswordSameAsAppLock'));
+    else toast(t('securePasswordSimilarToAppLock'));
+    return;
+  }
+
+  jtUI.exportBusy = true;
+  jtRerenderSecure();
+
+  try {
+    // 标记转移开始（在 localStorage 里保持"未完成"）
+    jtStartTransferState('export', { startedAt: Date.now() });
+
+    const snap = jtBuildSnapshot();
+    const result = await jtBuildAndEncryptPackage(pw, snap);
+
+    const filename = (t('secureExportFilePrefix') || 'Jiheng_Transfer') + '_' +
+      nowLocalDate() + '_' + nowLocalTime().replace(/:/g,'') + '.jhtransfer';
+
+    const blob = new Blob([JSON.stringify(result.container)], { type: 'application/octet-stream' });
+    downloadBlob(blob, filename);
+
+    jtUI.exportFileName = filename;
+    jtUI.exportDone = true;
+    jtUI.exportBusy = false;
+
+    // 标记导出完成
+    jtMarkTransferComplete('export', { packageId: result.packageId, filename: filename });
+
+    // 清空密码内存
+    jtUI.exportPassword = '';
+    jtUI.exportPasswordConfirm = '';
+
+    jtRerenderSecure();
+    toast(t('secureExportSuccessTitle'));
+  } catch(e){
+    jtUI.exportBusy = false;
+    jtRerenderSecure();
+    toast(t('secureStepFailed'));
+    console.error('[JT export]', e);
+  }
+}
+  /* =========================================================================
+   导入页面
+   ========================================================================= */
+function jtRenderImport(){
+  // 完成态
+  if(jtUI.importDone){
+    return `
+    <div class="card" style="border-left:4px solid var(--green)">
+      <div class="section-head" style="margin-bottom:10px">
+        <h3 style="color:var(--green)">✅ ${esc(t('secureImportSuccessTitle'))}</h3>
+      </div>
+      <p style="font-size:13px;line-height:1.7;margin:0 0 10px">${esc(t('secureImportSuccessDesc'))}</p>
+      <div class="card" style="background:#fff8ec;border:1.5px solid var(--amber);margin-bottom:12px">
+        <div style="font-size:12px;line-height:1.7;color:var(--text)">${esc(t('secureImportSuccessReminder'))}</div>
+      </div>
+      <button class="btn primary block" onclick="jtBackToMenu()">${esc(t('ok'))}</button>
+    </div>`;
+  }
+
+  // 步骤 1：还没选文件
+  if(!jtUI.importContainer){
+    return `
+    <div class="card">
+      <div class="section-head" style="margin-bottom:8px">
+        <h3>📥 ${esc(t('secureImportTitle'))}</h3>
+        <button class="link" onclick="jtBackToMenu()">${esc(t('back'))}</button>
+      </div>
+      <p style="font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 14px">${esc(t('secureImportPickFile'))}</p>
+      <label class="field">
+        <input type="file" id="jt-import-file" accept=".jhtransfer,application/json,application/octet-stream"
+          onchange="jtOnImportFileChosen(this)" style="display:none">
+        <button type="button" class="btn primary block" onclick="document.getElementById('jt-import-file').click()">
+          ${esc(t('secureImportBtn'))}
+        </button>
+      </label>
+      ${jtUI.importError ? `
+      <div style="background:#fdecec;border-radius:10px;padding:10px 12px;margin-top:12px">
+        <div style="font-size:12px;color:var(--red);line-height:1.6">${esc(jtUI.importError)}</div>
+      </div>` : ''}
+    </div>`;
+  }
+
+  // 步骤 2：已选文件，需要输入密码
+  if(jtUI.importContainer && !jtUI.importPreview){
+    const dupWarn = jtUI.duplicateWarning ? `
+      <div class="card" style="background:#fff8ec;border:1.5px solid var(--amber);margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px">⚠️ ${esc(t('secureImportDuplicateTitle'))}</div>
+        <div style="font-size:12px;line-height:1.7;color:var(--text)">${esc(t('secureImportDuplicateDesc'))}</div>
+      </div>` : '';
+
+    return `
+    <div class="card">
+      <div class="section-head" style="margin-bottom:8px">
+        <h3>🔓 ${esc(t('secureImportPasswordLabel'))}</h3>
+        <button class="link" onclick="jtBackToMenu()">${esc(t('back'))}</button>
+      </div>
+      <p style="font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 14px">${esc(t('secureImportPasswordHint'))}</p>
+      ${dupWarn}
+      <label class="field">
+        <span class="field-label">${esc(t('secureImportPasswordLabel'))}</span>
+        <input type="password" id="jt-import-pw" value="${esc(jtUI.importPassword)}" maxlength="128"
+          placeholder="${esc(t('securePasswordPlaceholder'))}"
+          oninput="jtOnImportPwInput(this.value)"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+      </label>
+      ${jtUI.importError ? `
+      <div style="background:#fdecec;border-radius:10px;padding:10px 12px;margin-bottom:12px">
+        <div style="font-size:12px;color:var(--red);line-height:1.6">${esc(jtUI.importError)}</div>
+      </div>` : ''}
+      ${jtUI.importBusy ? `
+      <div style="background:#f1eef9;border-radius:10px;padding:12px;margin-bottom:12px;text-align:center">
+        <div style="font-size:12px;color:var(--brand);font-weight:600">${esc(jtUI.importStep || t('secureStepDecrypting'))}</div>
+      </div>
+      <button class="btn primary block" disabled style="opacity:.6">${esc(jtUI.importStep || t('secureStepDecrypting'))}</button>
+      ` : `
+      <button class="btn primary block" onclick="jtDoDecryptAndPreview()">${esc(t('secureImportStartBtn'))}</button>
+      `}
+      <button class="btn ghost block" onclick="jtBackToMenu()">${esc(t('secureImportCancelBtn'))}</button>
+    </div>`;
+  }
+
+  // 步骤 3：已解密，显示预览
+  if(jtUI.importPreview){
+    const c = jtCountSnapshot(jtUI.importPreview);
+    const existingWarn = jtUI.existingDataWarning ? `
+      <div class="card" style="background:#fff8ec;border:1.5px solid var(--amber);margin-bottom:12px">
+        <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px">⚠️ ${esc(t('secureImportExistingDataTitle'))}</div>
+        <div style="font-size:12px;line-height:1.7;color:var(--text)">${esc(t('secureImportExistingDataDesc'))}</div>
+      </div>` : '';
+
+    return `
+    <div class="card">
+      <div class="section-head" style="margin-bottom:8px">
+        <h3>📋 ${esc(t('secureImportPreviewTitle'))}</h3>
+        <button class="link" onclick="jtBackToMenu()">${esc(t('back'))}</button>
+      </div>
+      <p style="font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 14px">${esc(t('secureImportPreviewDesc'))}</p>
+      ${existingWarn}
+      <div class="asset-rows">
+        <div class="ar"><span>${esc(t('secureImportPreviewAccounts'))}</span><b>${c.accounts}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewTransactions'))}</span><b>${c.transactions}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewTransfers'))}</span><b>${c.transfers}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewGoals'))}</span><b>${c.goals}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewAssets'))}</span><b>${c.assets}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewDebts'))}</span><b>${c.debts}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewRepayments'))}</span><b>${c.repayments}</b></div>
+        <div class="ar"><span>${esc(t('secureImportPreviewMoneyGiven'))}</span><b>${c.moneyGiven}</b></div>
+      </div>
+    </div>
+    ${jtUI.importError ? `
+    <div style="background:#fdecec;border-radius:10px;padding:10px 12px;margin-bottom:12px">
+      <div style="font-size:12px;color:var(--red);line-height:1.6">${esc(jtUI.importError)}</div>
+    </div>` : ''}
+    ${jtUI.importBusy ? `
+    <button class="btn primary block" disabled style="opacity:.6">${esc(jtUI.importStep || t('secureStepImporting'))}</button>
+    ` : `
+    <button class="btn primary block" onclick="jtDoFinalImport()">${esc(t('secureImportPreviewConfirmBtn'))}</button>
+    `}
+    <button class="btn ghost block" onclick="jtBackToMenu()">${esc(t('secureImportCancelBtn'))}</button>`;
+  }
+
+  return '';
+}
+
+function jtOnImportPwInput(v){ jtUI.importPassword = v; jtRerenderSecure(); }
+
+function jtOnImportFileChosen(input){
+  jtUI.importError = '';
+  jtUI.importPreview = null;
+  jtUI.importContainer = null;
+  jtUI.importPassword = '';
+  jtUI.duplicateWarning = false;
+  jtUI.existingDataWarning = false;
+
+  const file = input.files && input.files[0];
+  if(!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const text = String(e.target.result || '');
+      const parsed = JSON.parse(text);
+      if(!parsed || parsed.format !== JT_TRANSFER_FORMAT){
+        jtUI.importError = t('secureImportFileInvalid');
+        jtRerenderSecure();
+        return;
+      }
+      if(parsed.formatVersion !== JT_TRANSFER_FORMAT_VERSION){
+        jtUI.importError = t('secureImportFileVersionUnsupported');
+        jtRerenderSecure();
+        return;
+      }
+      jtUI.importContainer = parsed;
+      jtUI.importPackageId = parsed.packageId || '';
+      // 检测是否已经导入过
+      if(jtUI.importPackageId && jtHasPackageBeenImported(jtUI.importPackageId)){
+        jtUI.duplicateWarning = true;
+      }
+      // 检测当前设备是否已有数据
+      const hasExisting = (state.accounts.length || state.transactions.length || state.goals.length || state.assets.length || state.debts.length || state.moneyGiven.length);
+      if(hasExisting) jtUI.existingDataWarning = true;
+      jtRerenderSecure();
+    } catch(err){
+      jtUI.importError = t('secureImportFileInvalid');
+      jtRerenderSecure();
+    }
+  };
+  reader.onerror = () => {
+    jtUI.importError = t('secureImportFileInvalid');
+    jtRerenderSecure();
+  };
+  reader.readAsText(file);
+}
+
+async function jtDoDecryptAndPreview(){
+  if(jtUI.importBusy) return;
+  const pw = jtUI.importPassword;
+  if(!pw){ return; }
+
+  jtUI.importBusy = true;
+  jtUI.importError = '';
+  jtUI.importStep = t('secureStepReading');
+  jtRerenderSecure();
+
+  // 标记转移开始
+  jtStartTransferState('import', { packageId: jtUI.importPackageId || '' });
+
+  try {
+    jtUI.importStep = t('secureStepVerifying');
+    jtRerenderSecure();
+
+    if(!jtUI.importContainer || jtUI.importContainer.format !== JT_TRANSFER_FORMAT){
+      throw new Error('JT_ERR_INVALID_FORMAT');
+    }
+
+    jtUI.importStep = t('secureStepDecrypting');
+    jtRerenderSecure();
+
+    let decrypted;
+    try {
+      decrypted = await jtDecryptPackage(pw, jtUI.importContainer);
+    } catch(e){
+      if(e && e.message === 'JT_ERR_DECRYPT_FAILED'){
+        jtUI.importBusy = false;
+        jtUI.importError = t('secureImportPasswordWrong');
+        jtRerenderSecure();
+        return;
+      }
+      if(e && e.message === 'JT_ERR_CORRUPTED'){
+        jtUI.importBusy = false;
+        jtUI.importError = t('secureImportFileCorrupted');
+        jtRerenderSecure();
+        return;
+      }
+      throw e;
+    }
+
+    jtUI.importStep = t('secureStepValidating');
+    jtRerenderSecure();
+
+    const snap = decrypted && decrypted.state ? decrypted.state : decrypted;
+    if(!jtValidateSnapshot(snap)){
+      jtUI.importBusy = false;
+      jtUI.importError = t('secureImportFileInvalid');
+      jtRerenderSecure();
+      return;
+    }
+
+    jtUI.importPreview = snap;
+    jtUI.importBusy = false;
+    jtUI.importStep = '';
+    // 清空密码内存
+    jtUI.importPassword = '';
+    jtRerenderSecure();
+  } catch(e){
+    jtUI.importBusy = false;
+    jtUI.importError = t('secureImportFileCorrupted');
+    jtRerenderSecure();
+    console.error('[JT import]', e);
+  }
+}
+
+async function jtDoFinalImport(){
+  if(jtUI.importBusy) return;
+  if(!jtUI.importPreview) return;
+
+  jtUI.importBusy = true;
+  jtUI.importError = '';
+  jtUI.importStep = t('secureStepImporting');
+  jtRerenderSecure();
+
+  try {
+    // 用 setTimeout 让 UI 有机会刷新
+    await new Promise(r => setTimeout(r, 50));
+
+    const snap = jtUI.importPreview;
+
+    // 1) 备份当前 state（在内存里）
+    const prevState = JSON.parse(JSON.stringify(state));
+
+    // 2) 应用导入
+    try {
+      jtApplySnapshotToState(snap);
+    } catch(e){
+      // 回滚
+      state = prevState;
+      saveState();
+      throw e;
+    }
+
+    // 3) 验证导入结果
+    jtUI.importStep = t('secureStepVerifyingResult');
+    jtRerenderSecure();
+    await new Promise(r => setTimeout(r, 50));
+
+    const ok = (
+      state.accounts.length === (snap.accounts ? snap.accounts.length : 0) &&
+      state.transactions.length === (snap.transactions ? snap.transactions.length : 0) &&
+      state.goals.length === (snap.goals ? snap.goals.length : 0) &&
+      state.assets.length === (snap.assets ? snap.assets.length : 0) &&
+      state.debts.length === (snap.debts ? snap.debts.length : 0) &&
+      state.moneyGiven.length === (snap.moneyGiven ? snap.moneyGiven.length : 0)
+    );
+
+    if(!ok){
+      // 回滚
+      state = prevState;
+      saveState();
+      throw new Error('JT_VERIFY_MISMATCH');
+    }
+
+    // 4) 记录已导入
+    if(jtUI.importPackageId){
+      jtMarkPackageImported(jtUI.importPackageId, {});
+    }
+
+    // 5) 标记转移完成
+    jtMarkTransferComplete('import', { packageId: jtUI.importPackageId || '' });
+
+    jtUI.importDoneSnapshot = snap;
+    jtUI.importPreview = null;
+    jtUI.importContainer = null;
+    jtUI.importDone = true;
+    jtUI.importBusy = false;
+    jtUI.importStep = '';
+
+    // 重绘整个 UI（因为 state 变了）
+    render({ top:true });
+    toast(t('secureImportSuccessTitle'));
+  } catch(e){
+    jtUI.importBusy = false;
+    jtUI.importError = t('secureImportFileCorrupted');
+    jtRerenderSecure();
+    console.error('[JT final import]', e);
+  }
+}
+
+/* =========================================================================
+   路由接入：ui.sub === 'secure-transfer'
+   ========================================================================= */
+/* 保存原 renderView 引用，包装一层 */
+(function(){
+  const _origRenderView = renderView;
+  window.renderView = function(){
+    if(ui.sub === 'secure-transfer') return viewSecureTransfer();
+    return _origRenderView();
+  };
+  // 由于原代码用的是函数声明，需要重新赋值全局符号
+  // 在非严格模式下 window.renderView 会被内部直接调用，OK
+  try { renderView = window.renderView; } catch(e){}
+})();
+
+/* 保存原 renderTopbar 引用，包装一层 */
+(function(){
+  const _origRenderTopbar = renderTopbar;
+  window.renderTopbar = function(){
+    if(ui.sub === 'secure-transfer') return bar(t('secureTransferPageTitle'), true);
+    return _origRenderTopbar();
+  };
+  try { renderTopbar = window.renderTopbar; } catch(e){}
+})();
+
+/* 移除明文 JSON 导出/导入入口 */
+function exportData(){
+  // 保留函数名（防止旧引用报错），但改为跳转到安全转移
+  jtGoExport();
+}
+function exportCSV(){
+  // 保留函数名，但改为跳转到安全转移
+  jtGoExport();
+}
+function triggerImport(){
+  // 保留函数名，但改为跳转到安全转移
+  jtGoImport();
+}
+function clearData(){
+  // 保留函数名，但改为跳转到安全转移
+  jtGoImport();
+}
+
+/* 检查未完成的转移状态（启动时） */
+(function(){
+  try {
+    const s = jtLoadTransferState();
+    if(s && s.status === 'in_progress'){
+      // 不主动弹窗，只在用户进入 secure-transfer 页面时显示
+      console.log('[Jiheng] Pending transfer state detected:', s.kind);
+    }
+  } catch(e){}
+})();
+  window.addEventListener('storage', e => {
   if(e.key === STORAGE_KEY){
     const r = loadState();
     if(!r.migrationFailed && !r.parseError){
