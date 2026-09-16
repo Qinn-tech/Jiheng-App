@@ -2915,7 +2915,7 @@ function afterChange(){
 }
 
 /* ============================ Lock Screen ============================ */
-let lockUI = { mode:'unlock', pin:'', firstPin:'', useTextMode:false, msg:'', error:false };
+let lockUI = { mode:'unlock', pin:'', firstPin:'', useTextMode:false, msg:'', error:false, _targetKind:null };
 function currentLockKind(){ return (lockRecord && lockRecord.type === 'text') ? 'text' : 'pin'; }
 function shouldUseTextMode(){
   if(lockUI.mode === 'unlock') return currentLockKind() === 'text';
@@ -3043,13 +3043,13 @@ async function submitPin(){
       isUnlocked = true; markActivity(); renderLock(); render({ top:true });
       toast(t('lockWelcome')); return;
     }
-    if(lockUI.mode === 'changeOld'){
-      const hash = await sha256(pin);
-      if(!lockRecord || hash !== lockRecord.hash){ lockUI.msg = t('lockVerifyFailed'); lockUI.error = true; lockUI.pin = ''; updateLockDynamic(); return; }
-      lockUI.mode = 'changeNew'; lockUI.pin = ''; lockUI.msg = '';
-      lockUI.useTextMode = (lockRecord && lockRecord.type === 'text') ? true : false;
-      renderLock(); return;
-    }
+  if(lockUI.mode === 'changeOld'){
+  const hash = await sha256(pin);
+  if(!lockRecord || hash !== lockRecord.hash){ lockUI.msg = t('lockVerifyFailed'); lockUI.error = true; lockUI.pin = ''; updateLockDynamic(); return; }
+  lockUI.mode = 'changeNew'; lockUI.pin = ''; lockUI.msg = '';
+  lockUI.useTextMode = (lockUI._targetKind === 'text');
+  renderLock(); return;
+}
     if(lockUI.mode === 'changeNew'){
       if(!usingText && !/^\d{6}$/.test(pin)){ lockUI.msg = t('lockErrPin6'); lockUI.error = true; updateLockDynamic(); return; }
       if(usingText && pin.length < 4){ lockUI.msg = t('lockErrText4'); lockUI.error = true; updateLockDynamic(); return; }
@@ -4231,6 +4231,28 @@ function viewLockSettings(){
     </div>
   </div>
   <p class="about">${esc(t('lockHashNote'))}</p>`;
+}
+  function openSetPIN(){
+  lockUI.mode = 'changeOld';
+  lockUI.pin = '';
+  lockUI.firstPin = '';
+  lockUI.msg = '';
+  lockUI.error = false;
+  lockUI.useTextMode = false;
+  lockUI._targetKind = 'pin';
+  closeSheet();
+  renderLock();
+}
+function openSetPassword(){
+  lockUI.mode = 'changeOld';
+  lockUI.pin = '';
+  lockUI.firstPin = '';
+  lockUI.msg = '';
+  lockUI.error = false;
+  lockUI.useTextMode = true;
+  lockUI._targetKind = 'text';
+  closeSheet();
+  renderLock();
 }
 
 function viewDebtDefaults(){
