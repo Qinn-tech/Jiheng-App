@@ -3120,9 +3120,29 @@ function showSplash(cb){
     setTimeout(() => { if(cb) cb(); }, 550);
   }, 1500);
 }
+window.openSetPIN = function(){
+  lockUI.mode = 'changeOld';
+  lockUI.pin = '';
+  lockUI.firstPin = '';
+  lockUI.msg = '';
+  lockUI.error = false;
+  lockUI.useTextMode = false;
+  closeSheet();
+  renderLock();
+};
+window.openSetPassword = function(){
+  lockUI.mode = 'changeOld';
+  lockUI.pin = '';
+  lockUI.firstPin = '';
+  lockUI.msg = '';
+  lockUI.error = false;
+  lockUI.useTextMode = true;
+  closeSheet();
+  renderLock();
+};
 
 /* ============================ 渲染 ============================ */
-function render(opts){
+  function render(opts){
   opts = opts || {};
   if(!isUnlocked){ renderLock(); document.getElementById('app').innerHTML = ''; return; }
   const root = document.getElementById('app');
