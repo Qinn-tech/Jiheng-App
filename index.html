@@ -6716,12 +6716,19 @@ function jtRenderExport(){
     </div>
     <p style="font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 14px">${esc(t('securePasswordHint'))}</p>
 
-    <label class="field">
+        <label class="field">
       <span class="field-label">${esc(t('securePasswordLabel'))}</span>
-      <input type="password" id="jt-exp-pw" value="${esc(pw)}" maxlength="128"
-        placeholder="${esc(t('securePasswordPlaceholder'))}"
-        oninput="jtOnExportPwInput(this.value)"
-        autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <div style="position:relative">
+        <input type="password" id="jt-exp-pw" value="${esc(pw)}" maxlength="128"
+          placeholder="${esc(t('securePasswordPlaceholder'))}"
+          oninput="jtOnExportPwInput(this.value)"
+          autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false"
+          style="padding-right:52px">
+        <button type="button" class="icon-btn sm" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;font-size:16px"
+          onclick="jtTogglePasswordVisibility('jt-exp-pw', this)">
+          ${jtUI.showPassword ? '🙈' : '👁'}
+        </button>
+      </div>
     </label>
 
     ${pw ? `
@@ -6738,12 +6745,19 @@ function jtRenderExport(){
       </div>` }
     ` : ''}
 
-    <label class="field">
+       <label class="field">
       <span class="field-label">${esc(t('securePasswordConfirmLabel'))}</span>
-      <input type="password" id="jt-exp-pw2" value="${esc(pw2)}" maxlength="128"
-        placeholder="${esc(t('securePasswordPlaceholder'))}"
-        oninput="jtOnExportPw2Input(this.value)"
-        autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false">
+      <div style="position:relative">
+        <input type="password" id="jt-exp-pw2" value="${esc(pw2)}" maxlength="128"
+          placeholder="${esc(t('securePasswordPlaceholder'))}"
+          oninput="jtOnExportPw2Input(this.value)"
+          autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false"
+          style="padding-right:52px">
+        <button type="button" class="icon-btn sm" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;font-size:16px"
+          onclick="jtTogglePasswordVisibility('jt-exp-pw2', this)">
+          ${jtUI.showPassword ? '🙈' : '👁'}
+        </button>
+      </div>
     </label>
     ${pw2 && pw && pw !== pw2 ? `<div style="font-size:12px;color:var(--red);margin-top:-8px;margin-bottom:10px">${esc(t('securePasswordMismatch'))}</div>` : ''}
 
@@ -6936,12 +6950,19 @@ function jtRenderImport(){
       </div>
       <p style="font-size:12px;line-height:1.65;color:var(--muted);margin:0 0 14px">${esc(t('secureImportPasswordHint'))}</p>
       ${dupWarn}
-      <label class="field">
+         <label class="field">
         <span class="field-label">${esc(t('secureImportPasswordLabel'))}</span>
-        <input type="password" id="jt-import-pw" value="${esc(jtUI.importPassword)}" maxlength="128"
-          placeholder="${esc(t('securePasswordPlaceholder'))}"
-          oninput="jtOnImportPwInput(this.value)"
-          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        <div style="position:relative">
+          <input type="password" id="jt-import-pw" value="${esc(jtUI.importPassword)}" maxlength="128"
+            placeholder="${esc(t('securePasswordPlaceholder'))}"
+            oninput="jtOnImportPwInput(this.value)"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+            style="padding-right:52px">
+          <button type="button" class="icon-btn sm" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;font-size:16px"
+            onclick="jtTogglePasswordVisibility('jt-import-pw', this)">
+            ${jtUI.showPassword ? '🙈' : '👁'}
+          </button>
+        </div>
       </label>
       ${jtUI.importError ? `
       <div style="background:#fdecec;border-radius:10px;padding:10px 12px;margin-bottom:12px">
@@ -7003,6 +7024,13 @@ function jtRenderImport(){
 }
 
 function jtOnImportPwInput(v){ jtUI.importPassword = v; jtRerenderSecure(); }
+  function jtTogglePasswordVisibility(inputId, btn){
+  const el = document.getElementById(inputId);
+  if(!el) return;
+  const isPw = el.type === 'password';
+  el.type = isPw ? 'text' : 'password';
+  if(btn) btn.textContent = isPw ? '🙈' : '👁';
+}
 
 function jtOnImportFileChosen(input){
   jtUI.importError = '';
