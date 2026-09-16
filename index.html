@@ -4252,28 +4252,6 @@ function viewLockSettings(){
   </div>
   <p class="about">${esc(t('lockHashNote'))}</p>`;
 }
-  function openSetPIN(){
-  lockUI.mode = 'changeOld';
-  lockUI.pin = '';
-  lockUI.firstPin = '';
-  lockUI.msg = '';
-  lockUI.error = false;
-  lockUI.useTextMode = false;
-  lockUI._targetKind = 'pin';
-  closeSheet();
-  renderLock();
-}
-function openSetPassword(){
-  lockUI.mode = 'changeOld';
-  lockUI.pin = '';
-  lockUI.firstPin = '';
-  lockUI.msg = '';
-  lockUI.error = false;
-  lockUI.useTextMode = true;
-  lockUI._targetKind = 'text';
-  closeSheet();
-  renderLock();
-}
 
 function viewDebtDefaults(){
   const on = !!state.settings.debtRepayAffectAccountDefault;
