@@ -44,10 +44,11 @@ input,select,textarea{font-family:inherit;font-size:inherit;line-height:inherit;
 img,svg,video{max-width:100%;height:auto;display:block;}
 #app{
   max-width:560px;margin:0 auto;
-  min-height:100vh;min-height:100dvh;
-  padding-bottom:calc(92px + var(--safe-b));
+  height:100vh;height:100dvh;
+  display:flex;flex-direction:column;
   padding-left:var(--safe-l);padding-right:var(--safe-r);
-  overflow-x:hidden;
+  padding-bottom:0;
+  overflow:hidden;
 }
 @media (min-width:561px){ #app{max-width:600px;box-shadow:0 0 60px rgba(91,75,138,.08);background:var(--bg);} }
 @media (min-width:900px){ #app{max-width:720px;} }
@@ -65,7 +66,7 @@ img,svg,video{max-width:100%;height:auto;display:block;}
 .icon-btn{width:38px;height:38px;min-width:38px;border-radius:12px;border:none;background:#fff;flex:0 0 auto;display:inline-flex;align-items:center;justify-content:center;font-size:16px;color:var(--brand);box-shadow:var(--shadow);cursor:pointer;transition:transform .12s;line-height:1;}
 .icon-btn:active{transform:scale(.92);}
 .icon-btn.sm{width:30px;height:30px;min-width:30px;font-size:14px;border-radius:10px;box-shadow:none;background:var(--brand-soft);}
-.view{padding:4px 16px 24px;display:flex;flex-direction:column;gap:14px;}
+.view{flex:1 1 auto;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:4px 16px calc(24px + 92px + var(--safe-b));display:flex;flex-direction:column;gap:14px;}
 section{display:flex;flex-direction:column;gap:10px;min-width:0;}
 .section-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
 .section-head h3{font-size:15px;font-weight:700;margin:0;color:var(--brand);overflow-wrap:anywhere;word-break:break-word;line-height:1.4;min-width:0;}
@@ -3125,9 +3126,13 @@ function render(opts){
   opts = opts || {};
   if(!isUnlocked){ renderLock(); document.getElementById('app').innerHTML = ''; return; }
   const root = document.getElementById('app');
-  const sy = opts.top ? 0 : window.scrollY;
+  const oldView = root.querySelector('.view');
+  const sy = oldView ? oldView.scrollTop : 0;
   root.innerHTML = renderTopbar() + '<main class="view">' + renderView() + '</main>' + renderTabbar();
-  if(opts.top) window.scrollTo(0,0); else window.scrollTo(0, sy);
+  const newView = root.querySelector('.view');
+  if(newView){
+    newView.scrollTop = opts.top ? 0 : sy;
+  }
 }
 function renderTopbar(){
   if(ui.sub === 'accounts')      return bar(t('setAccounts'), true);
