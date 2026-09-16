@@ -6726,7 +6726,7 @@ function jtRenderExport(){
           style="padding-right:52px">
         <button type="button" class="icon-btn sm" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;font-size:16px"
           onclick="jtTogglePasswordVisibility('jt-exp-pw', this)">
-          ${jtUI.showPassword ? '🙈' : '👁'}
+🙈
         </button>
       </div>
     </label>
@@ -6755,7 +6755,7 @@ function jtRenderExport(){
           style="padding-right:52px">
         <button type="button" class="icon-btn sm" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;font-size:16px"
           onclick="jtTogglePasswordVisibility('jt-exp-pw2', this)">
-          ${jtUI.showPassword ? '🙈' : '👁'}
+       🙈
         </button>
       </div>
     </label>
@@ -6960,7 +6960,7 @@ function jtRenderImport(){
             style="padding-right:52px">
           <button type="button" class="icon-btn sm" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:36px;height:36px;font-size:16px"
             onclick="jtTogglePasswordVisibility('jt-import-pw', this)">
-            ${jtUI.showPassword ? '🙈' : '👁'}
+  🙈
           </button>
         </div>
       </label>
@@ -7023,13 +7023,14 @@ function jtRenderImport(){
   return '';
 }
 
-function jtOnImportPwInput(v){ jtUI.importPassword = v; jtRerenderSecure(); }
-  function jtTogglePasswordVisibility(inputId, btn){
+function jtTogglePasswordVisibility(inputId, btn){
   const el = document.getElementById(inputId);
   if(!el) return;
   const isPw = el.type === 'password';
+  // 现在隐藏 → 改成明文，按钮显示 👁（睁眼，表示可看）
+  // 现在明文 → 改回隐藏，按钮显示 🙈（闭眼，表示遮住）
   el.type = isPw ? 'text' : 'password';
-  if(btn) btn.textContent = isPw ? '🙈' : '👁';
+  if(btn) btn.textContent = isPw ? '👁' : '🙈';
 }
 
 function jtOnImportFileChosen(input){
