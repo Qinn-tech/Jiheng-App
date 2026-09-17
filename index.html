@@ -3126,10 +3126,11 @@ function sentinelRunChecks(){
 function sentinelExecuteCheck(){
   sentinelLogEvent('check_start', t('sentinelEventCheckStart'));
   const r = sentinelRunChecks();
-  sentinelState.lastCheckAt = new Date().toISOString();
-  sentinelState.lastStatus = r.overall;
+  const st = sentinelLoad();
+  st.lastCheckAt = new Date().toISOString();
+  st.lastStatus = r.overall;
+  sentinelSave(st);
   sentinelLogEvent('check_done', r.overall === 'ok' ? t('sentinelEventCheckDone') : t('sentinelEventCheckIssue'));
-  sentinelSave(sentinelState);
   sentinelState = sentinelLoad();
   return r;
 }
@@ -4548,9 +4549,11 @@ function sentinelDoCheck(){
   const r = sentinelExecuteCheck();
   render({ top:false });
   setTimeout(() => {
-    if(r.overall === 'ok') toast('🛡️ ' + t('sentinelCheckDone'));
-    else if(r.overall === 'warn') toast('🟡 ' + t('sentinelStatusWarn'));
-    else toast('🔴 ' + t('sentinelStatusBad'));
+    let msg = '';
+    if(r.overall === 'ok')        msg = '🛡️ ' + t('sentinelStatusOk');
+    else if(r.overall === 'warn') msg = '🟡 ' + t('sentinelStatusWarn');
+    else                          msg = '🔴 ' + t('sentinelStatusBad');
+    toast(msg);
   }, 120);
 }
 function sentinelClearLog(){
@@ -7038,11 +7041,13 @@ function jtRenderMenu(){
 function jtGoExport(){
   jtResetUI();
   jtUI.mode = 'export';
+  ui.sub = 'secure-transfer';
   render({ top:true });
 }
 function jtGoImport(){
   jtResetUI();
   jtUI.mode = 'import';
+  ui.sub = 'secure-transfer';
   render({ top:true });
 }
 function jtBackToMenu(){
