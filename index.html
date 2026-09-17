@@ -503,7 +503,9 @@ const LEGACY_META_KEYS  = ['jiheng_meta_v1','savewise_meta_v1'];
 const BACKUP_KEY        = 'jiheng_backup_v1';
 const CHANGELOG_KEY     = 'jiheng_changelog_v1';
 const APP_TZ            = 'Asia/Kuala_Lumpur';
-
+const SENTINEL_KEY = 'jiheng_sentinel_v1';
+const SENTINEL_MAX_EVENTS = 200;
+  
 /* ============================ 产品身份说明 ============================ */
 const PRODUCT_NOTICE_LANGS = [
   { code:'ZH', text:'积衡 Jiheng 记录现实中的钱，但不持有或处理你的钱。它是个人财务记录、整理、计算与分析软件，不是银行、电子钱包、支付工具、汇款服务或金融机构，不接收、不保管、不托管，也不实际转移用户的现实资金。积衡中显示的金额只是用户输入或系统根据记录计算出的财务记录。' },
@@ -575,8 +577,6 @@ const I18N = {
     lockWelcome:'欢迎使用积衡', lockUpdated:'密码已更新', lockAutoLocked:'已自动锁定',
     lockLockNow:'立即锁定', lockChangePin:'修改 PIN / 密码', lockDisable:'关闭应用锁',
     lockDisableConfirm:'关闭应用锁后，任何人打开应用都无需密码。确定继续？',
-    lockDisabled:'应用锁已关闭', lockEnabled:'应用锁已开启',
-    lockEnable:'启用应用锁', lockEnableSub:'打开应用时需要输入密码',
     lockAutoLockLabel:'自动锁定', lockAutoLockSub:'离开应用一段时间后自动锁定',
     lockNever:'不自动锁定', lockMin:'分钟',
     lockBioTitle:'生物识别（Face ID / 指纹）', lockBioSub:'V2.0 将支持，当前设备暂不可用',
@@ -590,6 +590,51 @@ const I18N = {
     lockCurrentPIN:'当前 PIN', lockNewPIN:'新 6 位 PIN', lockConfirmPIN:'确认新 PIN',
     lockCurrentPassword:'当前密码', lockNewPassword:'新密码', lockConfirmPassword:'确认新密码',
     lockSetPasswordTitle:'设置自定义密码', lockChangePasswordTitle:'更改自定义密码',
+    sentinelTitle:'安全哨兵',
+sentinelSub:'检查 Jiheng 的核心安全机制是否正常',
+sentinelStatus:'当前状态',
+sentinelStatusOk:'安全配置正常',
+sentinelStatusWarn:'需要注意',
+sentinelStatusBad:'异常',
+sentinelStatusUnknown:'未检查',
+sentinelStatusOkDesc:'Jiheng 的核心安全机制目前运行正常。',
+sentinelStatusWarnDesc:'检测到一个或多个安全组件需要您注意。',
+sentinelStatusBadDesc:'检测到核心安全组件存在异常，请先备份数据。',
+sentinelStatusUnknownDesc:'尚未执行安全检查，或上次检查结果不可用。',
+sentinelCheckNow:'立即执行安全检查',
+sentinelLastCheck:'最后检查',
+sentinelNeverChecked:'从未检查',
+sentinelItemAppLock:'App Lock',
+sentinelItemPin:'PIN 安全状态',
+sentinelItemCustomPassword:'自定义密码',
+sentinelItemLocalData:'本地数据完整性',
+sentinelItemTransfer:'数据转移保护',
+sentinelItemSecuritySettings:'安全设置',
+sentinelItemSchema:'数据结构',
+sentinelPinSet:'已设置',
+sentinelPinNotSet:'尚未设置',
+sentinelPasswordSet:'已设置',
+sentinelPasswordNotSet:'尚未设置',
+sentinelLog:'安全哨兵记录',
+sentinelLogSub:'记录重要的安全相关事件',
+sentinelNoLog:'暂无安全事件记录',
+sentinelLogClear:'清除安全记录',
+sentinelLogClearConfirm:'确定要清除所有安全事件记录吗？这不会删除您的财务数据。',
+sentinelLogCleared:'安全事件记录已清除',
+sentinelEventCheckStart:'安全检查开始',
+sentinelEventCheckDone:'安全检查完成',
+sentinelEventCheckDoneDesc:'所有核心安全项目正常',
+sentinelEventCheckIssue:'安全检查发现异常',
+sentinelEventCredentialUpdated:'App Lock 凭证已更新',
+sentinelEventPinUpdated:'PIN 已更新',
+sentinelEventPasswordUpdated:'自定义密码已更新',
+sentinelEventLockNow:'立即锁定',
+sentinelEventExportStart:'数据导出开始',
+sentinelEventTransferGenerated:'数据转移包已生成',
+sentinelEventTransferVerified:'数据转移验证完成',
+sentinelEventTransferFailed:'数据转移验证失败',
+sentinelBackupReminder:'建议定期导出加密备份。',
+sentinelBackupBtn:'导出加密备份',
     lockSetPINTitle:'设置 6 位 PIN', lockChangePINTitle:'更改 6 位 PIN',
     lockPasswordSet:'自定义密码已设置', lockPINSet:'PIN 已更新',
     lockVerifyFailed:'当前密码不正确', lockPasswordLength:'密码至少 4 个字符',
@@ -1099,8 +1144,6 @@ const I18N = {
     lockWelcome:'Welcome to Jiheng', lockUpdated:'Password updated', lockAutoLocked:'Auto-locked',
     lockLockNow:'Lock now', lockChangePin:'Change PIN / Password', lockDisable:'Disable App Lock',
     lockDisableConfirm:'Disabling App Lock means anyone can open the app without a password. Continue?',
-    lockDisabled:'App Lock disabled', lockEnabled:'App Lock enabled',
-    lockEnable:'Enable App Lock', lockEnableSub:'Require password to open the app',
     lockAutoLockLabel:'Auto-lock', lockAutoLockSub:'Lock after leaving the app',
     lockNever:'Never', lockMin:'min',
     lockBioTitle:'Biometrics (Face ID / Fingerprint)', lockBioSub:'Coming in V2.0, not available yet',
@@ -1114,6 +1157,51 @@ const I18N = {
     lockCurrentPIN:'Current PIN', lockNewPIN:'New 6-digit PIN', lockConfirmPIN:'Confirm New PIN',
     lockCurrentPassword:'Current Password', lockNewPassword:'New Password', lockConfirmPassword:'Confirm New Password',
     lockSetPasswordTitle:'Set Custom Password', lockChangePasswordTitle:'Change Custom Password',
+      sentinelTitle:'Security Sentinel',
+sentinelSub:'Checks whether Jiheng\'s core security mechanisms are working',
+sentinelStatus:'Current Status',
+sentinelStatusOk:'Security configuration is normal',
+sentinelStatusWarn:'Attention needed',
+sentinelStatusBad:'Abnormal',
+sentinelStatusUnknown:'Not checked',
+sentinelStatusOkDesc:'Jiheng\'s core security mechanisms are currently working normally.',
+sentinelStatusWarnDesc:'One or more security components need your attention.',
+sentinelStatusBadDesc:'A core security component is abnormal. Please back up your data first.',
+sentinelStatusUnknownDesc:'No security check has been performed yet, or the last result is unavailable.',
+sentinelCheckNow:'Run Security Check Now',
+sentinelLastCheck:'Last check',
+sentinelNeverChecked:'Never checked',
+sentinelItemAppLock:'App Lock',
+sentinelItemPin:'PIN security',
+sentinelItemCustomPassword:'Custom password',
+sentinelItemLocalData:'Local data integrity',
+sentinelItemTransfer:'Data transfer protection',
+sentinelItemSecuritySettings:'Security settings',
+sentinelItemSchema:'Data structure',
+sentinelPinSet:'Set',
+sentinelPinNotSet:'Not set',
+sentinelPasswordSet:'Set',
+sentinelPasswordNotSet:'Not set',
+sentinelLog:'Security Sentinel Log',
+sentinelLogSub:'Records important security events',
+sentinelNoLog:'No security events yet',
+sentinelLogClear:'Clear security log',
+sentinelLogClearConfirm:'Clear all security event records? This will NOT delete your financial data.',
+sentinelLogCleared:'Security log cleared',
+sentinelEventCheckStart:'Security check started',
+sentinelEventCheckDone:'Security check completed',
+sentinelEventCheckDoneDesc:'All core security items are normal',
+sentinelEventCheckIssue:'Security check found issues',
+sentinelEventCredentialUpdated:'App Lock credential updated',
+sentinelEventPinUpdated:'PIN updated',
+sentinelEventPasswordUpdated:'Custom password updated',
+sentinelEventLockNow:'Locked now',
+sentinelEventExportStart:'Data export started',
+sentinelEventTransferGenerated:'Transfer package generated',
+sentinelEventTransferVerified:'Transfer verified',
+sentinelEventTransferFailed:'Transfer verification failed',
+sentinelBackupReminder:'It is recommended to export an encrypted backup regularly.',
+sentinelBackupBtn:'Export encrypted backup',
     lockSetPINTitle:'Set 6-digit PIN', lockChangePINTitle:'Change 6-digit PIN',
     lockPasswordSet:'Custom password set', lockPINSet:'PIN updated',
     lockVerifyFailed:'Current password is incorrect', lockPasswordLength:'Password must be at least 4 characters',
@@ -1622,8 +1710,6 @@ const I18N = {
     lockWelcome:'Selamat datang ke Jiheng', lockUpdated:'Kata laluan dikemas kini', lockAutoLocked:'Dikunci automatik',
     lockLockNow:'Kunci sekarang', lockChangePin:'Tukar PIN / Kata Laluan', lockDisable:'Matikan App Lock',
     lockDisableConfirm:'Selepas dimatikan, sesiapa boleh buka tanpa kata laluan. Teruskan?',
-    lockDisabled:'App Lock dimatikan', lockEnabled:'App Lock dihidupkan',
-    lockEnable:'Hidupkan App Lock', lockEnableSub:'Perlu kata laluan untuk buka aplikasi',
     lockAutoLockLabel:'Kunci automatik', lockAutoLockSub:'Kunci selepas meninggalkan aplikasi',
     lockNever:'Tidak pernah', lockMin:'min',
     lockBioTitle:'Biometrik (Face ID / Cap jari)', lockBioSub:'Akan datang dalam V2.0',
@@ -1637,6 +1723,51 @@ const I18N = {
     lockCurrentPIN:'PIN Semasa', lockNewPIN:'PIN 6 digit Baharu', lockConfirmPIN:'Sahkan PIN Baharu',
     lockCurrentPassword:'Kata Laluan Semasa', lockNewPassword:'Kata Laluan Baharu', lockConfirmPassword:'Sahkan Kata Laluan Baharu',
     lockSetPasswordTitle:'Tetapkan Kata Laluan Tersuai', lockChangePasswordTitle:'Tukar Kata Laluan Tersuai',
+    sentinelTitle:'Sentinel Keselamatan',
+sentinelSub:'Menyemak sama ada mekanisme keselamatan teras Jiheng berfungsi',
+sentinelStatus:'Status Semasa',
+sentinelStatusOk:'Konfigurasi keselamatan normal',
+sentinelStatusWarn:'Perlu perhatian',
+sentinelStatusBad:'Tidak normal',
+sentinelStatusUnknown:'Belum disemak',
+sentinelStatusOkDesc:'Mekanisme keselamatan teras Jiheng kini berfungsi dengan normal.',
+sentinelStatusWarnDesc:'Satu atau lebih komponen keselamatan memerlukan perhatian anda.',
+sentinelStatusBadDesc:'Komponen keselamatan teras tidak normal. Sila sandarkan data anda dahulu.',
+sentinelStatusUnknownDesc:'Belum menjalankan pemeriksaan keselamatan, atau keputusan lepas tidak tersedia.',
+sentinelCheckNow:'Jalankan Pemeriksaan Keselamatan',
+sentinelLastCheck:'Pemeriksaan terakhir',
+sentinelNeverChecked:'Belum pernah disemak',
+sentinelItemAppLock:'App Lock',
+sentinelItemPin:'Keselamatan PIN',
+sentinelItemCustomPassword:'Kata laluan tersuai',
+sentinelItemLocalData:'Integriti data tempatan',
+sentinelItemTransfer:'Perlindungan pemindahan data',
+sentinelItemSecuritySettings:'Tetapan keselamatan',
+sentinelItemSchema:'Struktur data',
+sentinelPinSet:'Telah ditetapkan',
+sentinelPinNotSet:'Belum ditetapkan',
+sentinelPasswordSet:'Telah ditetapkan',
+sentinelPasswordNotSet:'Belum ditetapkan',
+sentinelLog:'Rekod Sentinel Keselamatan',
+sentinelLogSub:'Merekod peristiwa keselamatan penting',
+sentinelNoLog:'Belum ada peristiwa keselamatan',
+sentinelLogClear:'Kosongkan rekod keselamatan',
+sentinelLogClearConfirm:'Kosongkan semua rekod peristiwa keselamatan? Ini TIDAK akan memadam data kewangan anda.',
+sentinelLogCleared:'Rekod keselamatan dikosongkan',
+sentinelEventCheckStart:'Pemeriksaan keselamatan bermula',
+sentinelEventCheckDone:'Pemeriksaan keselamatan selesai',
+sentinelEventCheckDoneDesc:'Semua item keselamatan teras normal',
+sentinelEventCheckIssue:'Pemeriksaan menemui isu',
+sentinelEventCredentialUpdated:'Kelayakan App Lock dikemas kini',
+sentinelEventPinUpdated:'PIN dikemas kini',
+sentinelEventPasswordUpdated:'Kata laluan tersuai dikemas kini',
+sentinelEventLockNow:'Dikunci sekarang',
+sentinelEventExportStart:'Eksport data bermula',
+sentinelEventTransferGenerated:'Pakej pemindahan dijana',
+sentinelEventTransferVerified:'Pemindahan disahkan',
+sentinelEventTransferFailed:'Pengesahan pemindahan gagal',
+sentinelBackupReminder:'Adalah disyorkan untuk mengeksport sandaran yang disulitkan secara berkala.',
+sentinelBackupBtn:'Eksport sandaran disulitkan',
     lockSetPINTitle:'Tetapkan PIN 6 digit', lockChangePINTitle:'Tukar PIN 6 digit',
     lockPasswordSet:'Kata laluan tersuai ditetapkan', lockPINSet:'PIN dikemas kini',
     lockVerifyFailed:'Kata laluan semasa tidak betul', lockPasswordLength:'Kata laluan sekurang-kurangnya 4 aksara',
@@ -2392,8 +2523,7 @@ function changelogItems(entry){
 function defaultState(){
   return {
     dataVersion: DATA_VERSION,
-    settings: {
-      currency:'RM', hideBalance:false, autoLockMinutes:5, appLockEnabled:true,
+  
       lang:LANG, lastUpdated:new Date().toISOString(),
       debtRepayAffectAccountDefault: true
     },
@@ -2648,7 +2778,50 @@ function saveState(){
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }catch(e){ toast(t('saveFail')); }
 }
-function createBackup(reason){
+function sentinelLoad(){
+  try{
+    const raw = localStorage.getItem(SENTINEL_KEY);
+    if(!raw) return { lastCheckAt:null, lastStatus:'unknown', events:[] };
+    const obj = JSON.parse(raw);
+    return {
+      lastCheckAt: obj.lastCheckAt || null,
+      lastStatus: obj.lastStatus || 'unknown',
+      events: Array.isArray(obj.events) ? obj.events : []
+    };
+  }catch(e){
+    return { lastCheckAt:null, lastStatus:'unknown', events:[] };
+  }
+}
+function sentinelSave(obj){
+  try{
+    const trimmed = {
+      lastCheckAt: obj.lastCheckAt || null,
+      lastStatus: obj.lastStatus || 'unknown',
+      events: (obj.events || []).slice(-SENTINEL_MAX_EVENTS)
+    };
+    localStorage.setItem(SENTINEL_KEY, JSON.stringify(trimmed));
+  }catch(e){}
+}
+function sentinelLogEvent(type, label){
+  if(!label) return;
+  try{
+    const s = sentinelLoad();
+    const now = new Date().toISOString();
+    s.events.push({
+      id: 'evt-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,6),
+      type: type || 'info',
+      label: label,
+      eventAt: now,
+      createdAt: Date.now(),
+      timezone: APP_TZ,
+      status: 'ok'
+    });
+    if(s.events.length > SENTINEL_MAX_EVENTS) s.events = s.events.slice(-SENTINEL_MAX_EVENTS);
+    sentinelSave(s);
+  }catch(e){}
+}
+let sentinelState = sentinelLoad();
+  function createBackup(reason){
   try{
     localStorage.setItem(BACKUP_KEY, JSON.stringify({
       app:'Jiheng', appVersion:APP_VERSION, dataVersion:DATA_VERSION,
@@ -2878,7 +3051,89 @@ function achievementProgress(a){
   }
   return 0;
 }
-function checkAchievements(){
+function sentinelRunChecks(){
+  const result = {
+    appLock:{ status:'ok', label:t('sentinelItemAppLock') },
+    pin:{ status:'ok', label:t('sentinelItemPin'), detail:'' },
+    password:{ status:'ok', label:t('sentinelItemCustomPassword'), detail:'' },
+    localData:{ status:'ok', label:t('sentinelItemLocalData') },
+    transfer:{ status:'ok', label:t('sentinelItemTransfer') },
+    settings:{ status:'ok', label:t('sentinelItemSecuritySettings') },
+    schema:{ status:'ok', label:t('sentinelItemSchema') }
+  };
+  try{
+    if(typeof sha256 !== 'function' || typeof renderLock !== 'function' || typeof lockApp !== 'function'){
+      result.appLock.status = 'bad';
+    }
+  }catch(e){ result.appLock.status = 'bad'; }
+  if(lockRecord && lockRecord.hash){
+    result.pin.detail = t('sentinelPinSet');
+    if(!lockRecord.type || (lockRecord.type !== 'pin' && lockRecord.type !== 'text')){
+      result.pin.status = 'warn';
+    }
+  }else{
+    result.pin.detail = t('sentinelPinNotSet');
+    result.pin.status = 'warn';
+  }
+  if(lockRecord && lockRecord.type === 'text'){
+    result.password.detail = t('sentinelPasswordSet');
+  }else{
+    result.password.detail = t('sentinelPasswordNotSet');
+  }
+  try{
+    const checks = [
+      Array.isArray(state.accounts),
+      Array.isArray(state.transactions),
+      Array.isArray(state.goals),
+      Array.isArray(state.assets),
+      Array.isArray(state.debts),
+      Array.isArray(state.moneyGiven),
+      (state.settings && typeof state.settings === 'object')
+    ];
+    if(checks.some(x => !x)) result.localData.status = 'bad';
+    const probeKey = '__jiheng_probe__';
+    localStorage.setItem(probeKey, '1');
+    localStorage.removeItem(probeKey);
+  }catch(e){ result.localData.status = 'bad'; }
+  try{
+    if(typeof jtBuildAndEncryptPackage !== 'function' ||
+       typeof jtDecryptPackage !== 'function' ||
+       typeof crypto === 'undefined' ||
+       !crypto.subtle){
+      result.transfer.status = 'warn';
+    }
+  }catch(e){ result.transfer.status = 'warn'; }
+  try{
+    if(!state.settings || typeof state.settings !== 'object'){
+      result.settings.status = 'bad';
+    }else{
+      if(Number(state.settings.autoLockMinutes) < 0) result.settings.status = 'warn';
+    }
+  }catch(e){ result.settings.status = 'bad'; }
+  try{
+    if(typeof migrate !== 'function'){ result.schema.status = 'bad'; }
+    else{
+      const probe = migrate(JSON.parse(JSON.stringify(state)));
+      if(!probe.ok) result.schema.status = 'bad';
+    }
+  }catch(e){ result.schema.status = 'warn'; }
+  const statuses = Object.values(result).map(x => x.status);
+  let overall = 'ok';
+  if(statuses.indexOf('bad') !== -1) overall = 'bad';
+  else if(statuses.indexOf('warn') !== -1) overall = 'warn';
+  return { items: result, overall };
+}
+function sentinelExecuteCheck(){
+  sentinelLogEvent('check_start', t('sentinelEventCheckStart'));
+  const r = sentinelRunChecks();
+  sentinelState.lastCheckAt = new Date().toISOString();
+  sentinelState.lastStatus = r.overall;
+  sentinelLogEvent('check_done', r.overall === 'ok' ? t('sentinelEventCheckDone') : t('sentinelEventCheckIssue'));
+  sentinelSave(sentinelState);
+  sentinelState = sentinelLoad();
+  return r;
+}
+  function checkAchievements(){
   const list = I18N[LANG].achList || I18N.zh.achList;
   const newly = [];
   const unlock = (id) => {
@@ -3100,7 +3355,6 @@ function lockApp(msg){
 }
 setInterval(() => {
   if(!isUnlocked) return;
-  if(!state.settings.appLockEnabled) return;
   const mins = Number(state.settings.autoLockMinutes) || 0;
   if(mins <= 0) return;
   if(Date.now() - lastActivity > mins * 60000) lockApp(t('lockAutoLocked'));
@@ -3174,6 +3428,7 @@ function renderTopbar(){
   if(ui.sub === 'achievements')  return bar(t('achTitle'), true);
   if(ui.sub === 'categories')    return bar(t('setCategories'), true);
   if(ui.sub === 'lock-settings') return bar(t('lockSettingsTitle'), true);
+  if(ui.sub === 'sentinel')      return bar(t('sentinelTitle'), true);
   if(ui.sub === 'whats-new')     return bar(t('whatsNewTitle'), true);
   if(ui.sub === 'product-guide') return bar(t('productGuideTitle'), true);
   if(ui.sub === 'sys-info')      return bar(t('sysInfoTitle'), true);
@@ -3219,6 +3474,7 @@ function renderView(){
   if(ui.sub === 'achievements')  return viewAchievements();
   if(ui.sub === 'categories')    return viewCategories();
   if(ui.sub === 'lock-settings') return viewLockSettings();
+  if(ui.sub === 'sentinel')      return viewSentinel();
   if(ui.sub === 'whats-new')     return viewWhatsNew();
   if(ui.sub === 'product-guide') return viewProductGuide();
   if(ui.sub === 'sys-info')      return viewSystemInfo();
@@ -4148,7 +4404,11 @@ function viewSettings(){
   </div>
   <div class="card">
     <div class="set-row tap" onclick="openSub('lock-settings')">
-      <div><div class="set-title">🔒 ${esc(t('setLock'))}</div><div class="set-sub">${state.settings.appLockEnabled ? esc(t('setLockSubOn')) + ' · ' + autoLockLabel : esc(t('setLockSubOff'))}</div></div>
+    <div class="set-row tap" onclick="openSub('sentinel')">
+  <div><div class="set-title">🛡️ ${esc(t('sentinelTitle'))}</div><div class="set-sub">${esc(t('sentinelSub'))}</div></div>
+  <span class="chev">›</span>
+</div>
+      <div><div class="set-title">🔒 ${esc(t('setLock'))}</div><div class="set-sub">${autoLockLabel}</div></div>
       <span class="chev">›</span>
     </div>
     <div class="set-row tap" onclick="openSub('debt-defaults')">
@@ -4217,7 +4477,92 @@ function viewSettings(){
   </div>
   <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION_LABEL })).replace(/\n/g,'<br>')}</p>`;
 }
-function viewLockSettings(){
+function viewSentinel(){
+  sentinelState = sentinelLoad();
+  const r = sentinelRunChecks();
+  const overall = r.overall;
+  const statusEmoji = overall === 'ok' ? '🟢' : overall === 'warn' ? '🟡' : overall === 'bad' ? '🔴' : '⚪';
+  const statusLabel = overall === 'ok' ? t('sentinelStatusOk') : overall === 'warn' ? t('sentinelStatusWarn') : overall === 'bad' ? t('sentinelStatusBad') : t('sentinelStatusUnknown');
+  const statusDesc = overall === 'ok' ? t('sentinelStatusOkDesc') : overall === 'warn' ? t('sentinelStatusWarnDesc') : overall === 'bad' ? t('sentinelStatusBadDesc') : t('sentinelStatusUnknownDesc');
+  const itemRow = (key) => {
+    const item = r.items[key];
+    const icon = item.status === 'ok' ? '✓' : item.status === 'warn' ? '⚠' : item.status === 'bad' ? '✕' : '○';
+    const color = item.status === 'ok' ? 'c-green' : item.status === 'warn' ? 'c-amber' : item.status === 'bad' ? 'c-red' : 'c-muted';
+    const detail = item.detail ? ' · ' + item.detail : '';
+    return '<div class="set-row" style="padding:11px 0"><div><div class="set-title">' + icon + ' ' + esc(item.label) + esc(detail) + '</div></div><span class="set-val ' + color + '">' + esc(item.status === 'ok' ? t('sentinelStatusOk') : item.status === 'warn' ? t('sentinelStatusWarn') : item.status === 'bad' ? t('sentinelStatusBad') : t('sentinelStatusUnknown')) + '</span></div>';
+  };
+  const lastCheckLine = sentinelState.lastCheckAt ? localDateTimeStr(sentinelState.lastCheckAt) : t('sentinelNeverChecked');
+  let logHtml = '';
+  if(sentinelState.events.length){
+    const sorted = sentinelState.events.slice().sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+    const groups = new Map();
+    sorted.forEach(ev => {
+      const d = localDateStr(ev.eventAt);
+      if(!groups.has(d)) groups.set(d, []);
+      groups.get(d).push(ev);
+    });
+    logHtml = Array.from(groups.keys()).map(d => {
+      const rows = groups.get(d).map(ev =>
+        '<div style="display:flex;gap:8px;padding:8px 0;border-top:1px dashed var(--line);align-items:flex-start">' +
+        '<span style="font-size:11px;color:var(--muted);flex:0 0 auto;min-width:56px">' + esc(localTimeSecStr(ev.eventAt)) + '</span>' +
+        '<span style="font-size:12.5px;line-height:1.55;color:var(--text);flex:1">' + esc(ev.label) + '</span>' +
+        '</div>'
+      ).join('');
+      return '<div style="margin-top:8px"><div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px">' + esc(fmtDateLabel(d)) + '</div>' + rows + '</div>';
+    }).join('');
+  }else{
+    logHtml = '<div class="empty" style="padding:16px 8px"><p style="font-size:12.5px">' + esc(t('sentinelNoLog')) + '</p></div>';
+  }
+  return '' +
+  '<div class="card" style="text-align:center;padding:22px 18px">' +
+    '<div style="font-size:44px;line-height:1;margin-bottom:8px">🛡️</div>' +
+    '<div style="font-size:19px;font-weight:800;color:var(--brand)">' + esc(t('sentinelTitle')) + '</div>' +
+    '<div style="font-size:12px;color:var(--muted);margin-top:4px">' + esc(t('sentinelSub')) + '</div>' +
+  '</div>' +
+  '<div class="card">' +
+    '<div class="section-head" style="margin-bottom:8px"><h3>' + esc(t('sentinelStatus')) + '</h3></div>' +
+    '<div style="font-size:15px;font-weight:800;color:var(--brand);margin-bottom:6px">' + statusEmoji + ' ' + esc(statusLabel) + '</div>' +
+    '<div style="font-size:13px;line-height:1.65;color:var(--text)">' + esc(statusDesc) + '</div>' +
+  '</div>' +
+  '<div class="card">' +
+    itemRow('appLock') + itemRow('pin') + itemRow('password') + itemRow('localData') +
+    itemRow('transfer') + itemRow('settings') + itemRow('schema') +
+  '</div>' +
+  '<div class="card" style="text-align:center">' +
+    '<div style="font-size:11.5px;color:var(--muted);margin-bottom:10px">' + esc(t('sentinelLastCheck')) + ': ' + esc(lastCheckLine) + '</div>' +
+    '<button class="btn primary block" onclick="sentinelDoCheck()">🛡️ ' + esc(t('sentinelCheckNow')) + '</button>' +
+  '</div>' +
+  '<div class="card" style="background:#fff8ec;border:1.5px solid var(--amber)">' +
+    '<div style="font-size:12px;line-height:1.7;color:var(--text)">' + esc(t('sentinelBackupReminder')) + '</div>' +
+    '<button class="btn ghost block" style="margin-top:10px" onclick="jtGoExport()">' + esc(t('sentinelBackupBtn')) + '</button>' +
+  '</div>' +
+  '<div class="card">' +
+    '<div class="section-head" style="margin-bottom:10px"><h3>' + esc(t('sentinelLog')) + '</h3>' +
+      (sentinelState.events.length ? '<button class="link" onclick="sentinelClearLog()">' + esc(t('sentinelLogClear')) + '</button>' : '') +
+    '</div>' +
+    '<p style="font-size:11.5px;color:var(--muted);margin:0 0 10px">' + esc(t('sentinelLogSub')) + '</p>' +
+    logHtml +
+  '</div>';
+}
+function sentinelDoCheck(){
+  const r = sentinelExecuteCheck();
+  render({ top:false });
+  setTimeout(() => {
+    if(r.overall === 'ok') toast('🛡️ ' + t('sentinelCheckDone'));
+    else if(r.overall === 'warn') toast('🟡 ' + t('sentinelStatusWarn'));
+    else toast('🔴 ' + t('sentinelStatusBad'));
+  }, 120);
+}
+function sentinelClearLog(){
+  confirmDialog(t('sentinelLogClearConfirm'), () => {
+    sentinelState.events = [];
+    sentinelSave(sentinelState);
+    sentinelState = sentinelLoad();
+    render();
+    toast(t('sentinelLogCleared'));
+  });
+}
+  function viewLockSettings(){
   const autoLock = Number(state.settings.autoLockMinutes) || 0;
   const kind = currentLockKind();
   const opts = [
@@ -4226,10 +4571,6 @@ function viewLockSettings(){
   ];
   return `
   <div class="card">
-    <div class="set-row">
-      <div><div class="set-title">${esc(t('lockEnable'))}</div><div class="set-sub">${esc(t('lockEnableSub'))}</div></div>
-      <button class="switch ${state.settings.appLockEnabled?'on':''}" onclick="toggleAppLock()"><i></i></button>
-    </div>
     <div class="set-row">
       <div><div class="set-title">${esc(t('lockModeLabel'))}</div><div class="set-sub">${kind === 'text' ? esc(t('lockModePasswordSub')) : esc(t('lockModePINSub'))}</div></div>
       <span class="set-val">${kind === 'text' ? esc(t('lockModePassword')) : esc(t('lockModePIN'))}</span>
@@ -4384,7 +4725,6 @@ function viewWhatsNew(){
   `).join('') }
   <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION_LABEL }))}</p>`;
 }
-function toggleAppLock(){ state.settings.appLockEnabled = !state.settings.appLockEnabled; saveState(); render(); toast(state.settings.appLockEnabled ? t('lockEnabled') : t('lockDisabled')); }
 function setAutoLock(v){ state.settings.autoLockMinutes = v; saveState(); render(); }
 
 /* =========================================================================
