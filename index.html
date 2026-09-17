@@ -3680,6 +3680,7 @@ window.openSetPassword = function(){
 }
 function renderTopbar(){
   if(ui.sub === 'accounts')      return bar(t('setAccounts'), true);
+    if(ui.sub === 'reset-jiheng')  return bar(t('resetTitle'), true);
   if(ui.sub === 'settings')      return bar(t('setTitle'), true);
   if(ui.sub === 'achievements')  return bar(t('achTitle'), true);
   if(ui.sub === 'categories')    return bar(t('setCategories'), true);
@@ -3726,6 +3727,7 @@ function renderTabbar(){
 }
 function renderView(){
   if(ui.sub === 'accounts')      return viewAccounts();
+    if(ui.sub === 'reset-jiheng')  return viewResetJiheng();
   if(ui.sub === 'settings')      return viewSettings();
   if(ui.sub === 'achievements')  return viewAchievements();
   if(ui.sub === 'categories')    return viewCategories();
@@ -3753,6 +3755,7 @@ function renderView(){
 }
 function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
 function openSub(name){ ui.sub = name; render({ top:true }); }
+  function openResetPage(){ resetUI = { step:'warn', typed:'', verifyPw:'', busy:false, error:'', holding:false, holdProgress:0, done:false }; ui.sub = 'reset-jiheng'; render({ top:true }); }
 function back(){ ui.sub = null; render({ top:true }); }
 function toggleHide(){ state.settings.hideBalance = !state.settings.hideBalance; saveState(); render(); }
   /* =========================================================================
@@ -4770,6 +4773,20 @@ function viewSettings(){
       <div><span>${esc(t('setStatRepay'))}</span><b>${repayCount}</b></div>
     </div>
   </div>
+   <div class="card" style="border:2px solid var(--red);background:#fff5f5">
+    <div class="section-head" style="margin-bottom:8px">
+      <h3 style="color:var(--red)">${esc(t('dangerZone'))}</h3>
+    </div>
+    <p style="font-size:12px;line-height:1.6;color:var(--muted);margin:0 0 12px">${esc(t('dangerZoneSub'))}</p>
+    <div class="set-row tap" onclick="openResetPage()" style="border-top:none;padding-top:0">
+      <div style="min-width:0;flex:1">
+        <div class="set-title" style="color:var(--red);font-weight:800">🔴 ${esc(t('resetTitle'))}</div>
+        <div class="set-sub">${esc(t('resetDesc'))}</div>
+        <div class="set-sub" style="color:var(--red);font-weight:700;margin-top:6px">${esc(t('resetCannotUndo'))}</div>
+      </div>
+      <span class="chev" style="color:var(--red)">›</span>
+    </div>
+  </div>
   <p class="about">${esc(t('setAbout', { av:APP_VERSION, dv:DATA_VERSION_LABEL })).replace(/\n/g,'<br>')}</p>`;
 }
 function viewSentinel(){
@@ -4961,6 +4978,42 @@ function viewSystemInfo(){
     </div>
   </div>
   <p class="about">${esc(t('dataVersionNote', { av:APP_VERSION, dv:DATA_VERSION_LABEL }))}</p>`;
+}
+  /* =========================================================================
+   彻底重置 积衡 Jiheng — 占位页面（第 2 步）
+   ========================================================================= */
+let resetUI = { step:'warn', typed:'', verifyPw:'', busy:false, error:'', holding:false, holdProgress:0, done:false };
+
+function viewResetJiheng(){
+  return `
+  <div class="card" style="border:2px solid var(--red);background:#fff5f5">
+    <div class="section-head" style="margin-bottom:10px">
+      <h3 style="color:var(--red)">${esc(t('warnTitle'))}</h3>
+    </div>
+    <p style="font-size:13.5px;line-height:1.7;font-weight:700;margin:0 0 8px">${esc(t('warnIntro'))}</p>
+    <p style="font-size:13px;line-height:1.7;margin:0 0 12px">${esc(t('warnBody'))}</p>
+    <p style="font-size:12.5px;font-weight:700;margin:0 0 6px">${esc(t('warnIncludes'))}</p>
+    <ul style="margin:0 0 12px;padding-left:18px;font-size:12.5px;line-height:1.8;color:var(--text)">
+      <li>${esc(t('warnItemAccounts'))}</li>
+      <li>${esc(t('warnItemIncome'))}</li>
+      <li>${esc(t('warnItemExpense'))}</li>
+      <li>${esc(t('warnItemTransfer'))}</li>
+      <li>${esc(t('warnItemDebt'))}</li>
+      <li>${esc(t('warnItemRepay'))}</li>
+      <li>${esc(t('warnItemMG'))}</li>
+      <li>${esc(t('warnItemGoal'))}</li>
+      <li>${esc(t('warnItemAsset'))}</li>
+      <li>${esc(t('warnItemAch'))}</li>
+      <li>${esc(t('warnItemCat'))}</li>
+      <li>${esc(t('warnItemLock'))}</li>
+      <li>${esc(t('warnItemSettings'))}</li>
+      <li>${esc(t('warnItemOther'))}</li>
+    </ul>
+    <p style="font-size:13px;line-height:1.7;font-weight:700;margin:0 0 8px">${esc(t('warnFinal'))}</p>
+    <p style="font-size:13px;line-height:1.7;font-weight:700;color:var(--red);margin:0 0 8px">${esc(t('warnCantUndo'))}</p>
+    <p style="font-size:12.5px;line-height:1.7;color:var(--muted);margin:0">${esc(t('resetNotTransfer'))}</p>
+  </div>
+  <p class="about" style="color:var(--red);font-weight:700">（第 2 步占位页面 · 后续步骤会加入完整验证流程）</p>`;
 }
 function viewIdentity(){
   return `${renderProductNotice()}
