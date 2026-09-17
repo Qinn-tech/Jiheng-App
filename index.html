@@ -4985,9 +4985,60 @@ function viewSystemInfo(){
   /* =========================================================================
    彻底重置 积衡 Jiheng — 占位页面（第 2 步）
    ========================================================================= */
-let resetUI = { step:'warn', typed:'', verifyPw:'', busy:false, error:'', holding:false, holdProgress:0, done:false };
+/* =========================================================================
+   彻底重置 积衡 Jiheng — 完整流程
+   ========================================================================= */
+let resetUI = {
+  step:'warn',           // warn | type | verify | backup | hold | processing | done | error
+  typed:'',
+  verifyPw:'',
+  verifyError:'',
+  busy:false,
+  error:'',
+  holding:false,
+  holdProgress:0,
+  holdStartAt:0,
+  holdTimer:null,
+  holdRaf:null,
+  done:false,
+  exportedInSession:false
+};
+
+function resetResetUI(){
+  if(resetUI.holdTimer) clearTimeout(resetUI.holdTimer);
+  if(resetUI.holdRaf) cancelAnimationFrame(resetUI.holdRaf);
+  resetUI = {
+    step:'warn', typed:'', verifyPw:'', verifyError:'',
+    busy:false, error:'', holding:false, holdProgress:0, holdStartAt:0,
+    holdTimer:null, holdRaf:null, done:false, exportedInSession:false
+  };
+}
 
 function viewResetJiheng(){
+  const s = resetUI.step;
+  if(s === 'done')   return viewResetDone();
+  if(s === 'error')  return viewResetError();
+  if(s === 'processing') return viewResetProcessing();
+
+  // 步骤条
+  const steps = ['warn','type','verify','backup','hold'];
+  const curIdx = steps.indexOf(s);
+  const stepBar = `<div style="display:flex;gap:6px;margin-bottom:14px">
+    ${steps.map((_, i) => `<div style="flex:1;height:4px;border-radius:99px;background:${i <= curIdx ? 'var(--red)' : '#eee'}"></div>`).join('')}
+  </div>`;
+
+  let body = '';
+  if(s === 'warn')        body = viewResetWarn();
+  else if(s === 'type')   body = viewResetType();
+  else if(s === 'verify') body = viewResetVerify();
+  else if(s === 'backup') body = viewResetBackup();
+  else if(s === 'hold')   body = viewResetHold();
+
+  return stepBar + body;
+}
+
+/* -------- Step 1: 警告 -------- */
+function viewResetWarn(){
   return `
   <div class="card" style="border:2px solid var(--red);background:#fff5f5">
     <div class="section-head" style="margin-bottom:10px">
@@ -5016,7 +5067,336 @@ function viewResetJiheng(){
     <p style="font-size:13px;line-height:1.7;font-weight:700;color:var(--red);margin:0 0 8px">${esc(t('warnCantUndo'))}</p>
     <p style="font-size:12.5px;line-height:1.7;color:var(--muted);margin:0">${esc(t('resetNotTransfer'))}</p>
   </div>
-  <p class="about" style="color:var(--red);font-weight:700">（第 2 步占位页面 · 后续步骤会加入完整验证流程）</p>`;
+  <div style="display:flex;gap:10px">
+    <button class="btn ghost" style="flex:1" onclick="resetCancel()">${esc(t('cancel'))}</button>
+    <button class="btn danger" style="flex:1" onclick="resetGoStep('type')">${esc(t('continueBtn'))}</button>
+  </div>`;
+}
+
+/* -------- Step 2: 输入 RESET JIHENG -------- */
+function viewResetType(){
+  const target = 'RESET JIHENG';
+  const ok = resetUI.typed.trim() === target;
+  return `
+  <div class="card">
+    <div class="section-head" style="margin-bottom:8px"><h3>${esc(t('typeTitle'))}</h3></div>
+    <p style="font-size:13px;line-height:1.7;margin:0 0 8px">${esc(t('typePrompt'))}</p>
+    <p style="font-size:16px;font-weight:800;color:var(--red);letter-spacing:1px;margin:0 0 12px">${esc(target)}</p>
+    <label class="field">
+      <span class="field-label">${esc(t('typePlaceholder'))}</span>
+      <input id="reset-type-input" type="text" value="${esc(resetUI.typed)}"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        oninput="resetOnType(this.value)">
+    </label>
+    ${resetUI.typed && !ok ? `<p style="font-size:12px;color:var(--red);margin-top:-8px">${esc(t('typeMismatch'))}</p>` : ''}
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn ghost" style="flex:1" onclick="resetGoStep('warn')">${esc(t('back'))}</button>
+    <button class="btn danger" style="flex:1" ${ok ? '' : 'disabled style="opacity:.5;flex:1"'} onclick="resetGoStep('verify')">${esc(t('continueBtn'))}</button>
+  </div>`;
+}
+
+function resetOnType(v){
+  resetUI.typed = v;
+  // 只重绘输入区域，保留 focus
+  const input = document.getElementById('reset-type-input');
+  const pos = input ? input.selectionStart : null;
+  const root = document.querySelector('.view');
+  if(root) root.innerHTML = viewResetJiheng();
+  const el = document.getElementById('reset-type-input');
+  if(el){ el.focus(); if(pos != null) try{ el.setSelectionRange(pos, pos); }catch(e){} }
+}
+
+/* -------- Step 3: 验证 App Lock -------- */
+function viewResetVerify(){
+  const kind = currentLockKind();
+  const isText = kind === 'text';
+  return `
+  <div class="card">
+    <div class="section-head" style="margin-bottom:8px"><h3>${esc(t('verifyTitle'))}</h3></div>
+    <p style="font-size:13px;line-height:1.7;margin:0 0 12px">${esc(isText ? t('verifyPw') : t('verifyPin'))}</p>
+    <label class="field">
+      <span class="field-label">${esc(isText ? t('verifyPw') : t('verifyPin'))}</span>
+      <input id="reset-verify-input" type="${isText ? 'password' : 'password'}"
+        inputmode="${isText ? 'text' : 'numeric'}" maxlength="128"
+        value="${esc(resetUI.verifyPw)}"
+        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
+        oninput="resetOnVerify(this.value)">
+    </label>
+    ${resetUI.verifyError ? `<p style="font-size:12px;color:var(--red);margin-top:-8px">${esc(resetUI.verifyError)}</p>` : ''}
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn ghost" style="flex:1" onclick="resetGoStep('type')">${esc(t('back'))}</button>
+    <button class="btn danger" style="flex:1" onclick="resetDoVerify()">${esc(t('verifyBtn'))}</button>
+  </div>`;
+}
+
+function resetOnVerify(v){ resetUI.verifyPw = v; resetUI.verifyError = ''; }
+
+/* -------- Step 4: 备份提醒 -------- */
+function viewResetBackup(){
+  const detected = resetUI.exportedInSession
+    ? t('backupDetected')
+    : t('backupNotDetected');
+  return `
+  <div class="card" style="border:2px solid var(--amber);background:#fff8ec">
+    <div class="section-head" style="margin-bottom:8px"><h3 style="color:var(--amber)">${esc(t('backupTitle'))}</h3></div>
+    <p style="font-size:13px;line-height:1.7;margin:0 0 12px">${esc(t('backupBody'))}</p>
+    <p style="font-size:12px;font-weight:700;color:${resetUI.exportedInSession ? 'var(--green)' : 'var(--muted)'};margin:0">${esc(detected)}</p>
+  </div>
+  <button class="btn ghost block" onclick="resetExportBackup()">${esc(t('backupExport'))}</button>
+  <div style="display:flex;gap:10px;margin-top:10px">
+    <button class="btn ghost" style="flex:1" onclick="resetGoStep('verify')">${esc(t('back'))}</button>
+    <button class="btn danger" style="flex:1" onclick="resetGoStep('hold')">${esc(t('backupContinue'))}</button>
+  </div>`;
+}
+
+function resetExportBackup(){
+  // 使用现有 secure transfer 导出机制
+  jtUI.mode = 'export';
+  ui.sub = 'secure-transfer';
+  resetUI.exportedInSession = true;
+  render({ top:true });
+}
+
+/* -------- Step 5: 长按 3 秒 -------- */
+function viewResetHold(){
+  const p = resetUI.holdProgress;
+  return `
+  <div class="card" style="border:2px solid var(--red);background:#fff5f5;text-align:center;padding:24px 16px">
+    <div style="font-size:13px;line-height:1.7;font-weight:700;margin-bottom:8px">${esc(t('finalTitle'))}</div>
+    <div style="font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:16px">${esc(t('finalHoldHint'))}</div>
+    <button id="reset-hold-btn" class="btn danger" style="width:100%;padding:22px 16px;font-size:15px;font-weight:800;user-select:none;-webkit-user-select:none;touch-action:none"
+      onmousedown="resetHoldStart(event)" ontouchstart="resetHoldStart(event)"
+      onmouseup="resetHoldEnd()"   ontouchend="resetHoldEnd()" onmouseleave="resetHoldEnd()"
+      ontouchcancel="resetHoldEnd()" onblur="resetHoldEnd()"
+      ${resetUI.holding ? 'style="width:100%;padding:22px 16px;font-size:15px;font-weight:800;background:#a33"' : ''}>
+      🔴 ${esc(t('finalHold'))}
+    </button>
+    <div style="margin-top:14px;font-size:12px;color:var(--red);font-weight:700" id="reset-hold-progress">${resetUI.holding ? esc(t('finalHoldProgress', { n: p })) : ''}</div>
+  </div>
+  <div style="display:flex;gap:10px">
+    <button class="btn ghost" style="flex:1" onclick="resetGoStep('backup')">${esc(t('back'))}</button>
+  </div>`;
+}
+
+function resetHoldStart(e){
+  if(e) e.preventDefault();
+  if(resetUI.holding || resetUI.busy) return;
+  resetUI.holding = true;
+  resetUI.holdStartAt = Date.now();
+  resetUI.holdProgress = 0;
+
+  // 中断检测
+  window.addEventListener('blur', resetHoldAbort, { once:true });
+  document.addEventListener('visibilitychange', resetHoldVisibility, { once:false });
+
+  const tick = () => {
+    if(!resetUI.holding) return;
+    const el = Date.now() - resetUI.holdStartAt;
+    const p = Math.min(el / 1000, 3);
+    resetUI.holdProgress = p;
+    const progEl = document.getElementById('reset-hold-progress');
+    if(progEl) progEl.textContent = t('finalHoldProgress', { n: p.toFixed(1) });
+    if(p >= 3){
+      resetUI.holding = false;
+      document.removeEventListener('visibilitychange', resetHoldVisibility);
+      resetHoldSuccess();
+      return;
+    }
+    resetUI.holdRaf = requestAnimationFrame(tick);
+  };
+  resetUI.holdRaf = requestAnimationFrame(tick);
+}
+
+function resetHoldEnd(){
+  if(!resetUI.holding) return;
+  resetUI.holding = false;
+  if(resetUI.holdRaf) cancelAnimationFrame(resetUI.holdRaf);
+  document.removeEventListener('visibilitychange', resetHoldVisibility);
+  // 立即取消，且不执行删除
+  toast(t('finalReleased'));
+  const progEl = document.getElementById('reset-hold-progress');
+  if(progEl) progEl.textContent = '';
+  resetUI.holdProgress = 0;
+}
+
+function resetHoldAbort(){
+  if(!resetUI.holding) return;
+  resetUI.holding = false;
+  if(resetUI.holdRaf) cancelAnimationFrame(resetUI.holdRaf);
+  document.removeEventListener('visibilitychange', resetHoldVisibility);
+  toast(t('finalInterrupted'));
+  const progEl = document.getElementById('reset-hold-progress');
+  if(progEl) progEl.textContent = '';
+  resetUI.holdProgress = 0;
+}
+function resetHoldVisibility(){
+  if(document.visibilityState !== 'visible') resetHoldAbort();
+}
+
+/* -------- 验证 App Lock -------- */
+async function resetDoVerify(){
+  const pw = String(resetUI.verifyPw || '');
+  if(!pw) return;
+  if(!lockRecord || !lockRecord.hash){
+    // 没有 App Lock
+    resetUI.verifyError = t('verifyNoLock');
+    resetUI.step = 'verify';
+    render();
+    return;
+  }
+  const hash = await sha256(pw);
+  if(hash === lockRecord.hash){
+    resetUI.verifyPw = '';
+    resetUI.verifyError = '';
+    resetUI.step = 'backup';
+    render();
+    toast(t('verifyOk'));
+  }else{
+    resetUI.verifyError = t('verifyFail');
+    resetUI.verifyPw = '';
+    render();
+  }
+}
+
+/* -------- 导航 -------- */
+function resetGoStep(step){
+  resetUI.step = step;
+  render({ top:true });
+}
+function resetCancel(){
+  resetResetUI();
+  ui.sub = 'settings';
+  render({ top:true });
+}
+
+/* -------- 长按成功 → 执行删除 -------- */
+async function resetHoldSuccess(){
+  resetUI.step = 'processing';
+  render({ top:true });
+  await new Promise(r => setTimeout(r, 80));
+
+  try{
+    const ok = await executeJihengUserDataReset();
+    if(ok){
+      resetUI.done = true;
+      resetUI.step = 'done';
+      // 关键：清掉 isUnlocked，强制回到锁屏 / 首次使用
+      isUnlocked = false;
+      lockRecord = null; // 密码已清除
+      lockUI.mode = 'create';
+      lockUI.pin = '';
+      lockUI.firstPin = '';
+      lockUI.msg = '';
+      lockUI.error = false;
+      lockUI.useTextMode = false;
+      render({ top:true });
+      renderLock();
+    }else{
+      resetUI.step = 'error';
+      resetUI.error = t('errorBody');
+      render({ top:true });
+    }
+  }catch(e){
+    console.error('[Reset] failed:', e);
+    resetUI.step = 'error';
+    resetUI.error = t('errorBody');
+    render({ top:true });
+  }
+}
+
+/* -------- 执行删除 -------- */
+async function executeJihengUserDataReset(){
+  try{
+    // 1. 记录删除前哨兵事件
+    try { sentinelLogEvent('reset_start', 'Jiheng user data reset started'); } catch(e){}
+
+    // 2. 建立删除计划：所有 Jiheng 用户资料相关 key
+    const USER_DATA_KEYS = [
+      STORAGE_KEY,          // jiheng_state_v1
+      BACKUP_KEY,           // jiheng_backup_v1
+      LOCK_KEY,             // jiheng_lock_v1
+      LANG_KEY,             // jiheng_lang_v1
+      META_KEY,             // jiheng_meta_v1
+      SENTINEL_KEY,         // jiheng_sentinel_v1
+      CHANGELOG_KEY,        // jiheng_changelog_v1
+      JT_TRANSFER_STATE_KEY,       // 转移状态
+      JT_IMPORTED_PACKAGES_KEY     // 已导入包
+    ];
+
+    // 3. 兼容清理：LEGACY_KEYS 里的旧 key
+    const ALL_KEYS = USER_DATA_KEYS
+      .concat(LEGACY_KEYS || [])
+      .concat(LEGACY_LOCK_KEYS || [])
+      .concat(LEGACY_LANG_KEYS || [])
+      .concat(LEGACY_META_KEYS || []);
+    for(const k of ALL_KEYS){
+      try { localStorage.removeItem(k); } catch(e){}
+    }
+
+    // 4. 重置内存里的 state 为默认
+    state = defaultState();
+    LANG = state.settings.lang || 'zh';
+
+    // 5. 重新初始化 META
+    META = {
+      appVersion: APP_VERSION,
+      dataVersion: DATA_VERSION,
+      lastUpdated: new Date().toISOString()
+    };
+    saveMeta(META);
+
+    // 6. 重新初始化 CHANGELOG
+    CHANGELOG = CHANGELOG_SEED.slice();
+    saveChangelog();
+
+    // 7. 重新初始化 sentinel
+    sentinelState = { lastCheckAt:null, lastStatus:'unknown', events:[] };
+    sentinelSave(sentinelState);
+
+    // 8. 重新写入 state
+    saveState();
+
+    // 9. 清掉 transfer 相关缓存
+    jtResetUI();
+
+    // 10. 确认
+    return true;
+  }catch(e){
+    console.error('[executeJihengUserDataReset] error:', e);
+    return false;
+  }
+}
+
+/* -------- Done / Error / Processing 页 -------- */
+function viewResetDone(){
+  return `
+  <div class="card" style="border:2px solid var(--green);background:#e7f8f1;text-align:center;padding:24px 16px">
+    <div style="font-size:40px;line-height:1;margin-bottom:10px">✓</div>
+    <div style="font-size:16px;font-weight:800;color:var(--green);margin-bottom:8px">${esc(t('successTitle'))}</div>
+    <p style="font-size:13px;line-height:1.7;margin:0">${esc(t('successBody'))}</p>
+  </div>
+  <button class="btn primary block" onclick="resetCancel()">${esc(t('ok'))}</button>`;
+}
+
+function viewResetError(){
+  return `
+  <div class="card" style="border:2px solid var(--red);background:#fff5f5;text-align:center;padding:24px 16px">
+    <div style="font-size:40px;line-height:1;margin-bottom:10px">⚠️</div>
+    <div style="font-size:16px;font-weight:800;color:var(--red);margin-bottom:8px">${esc(t('errorTitle'))}</div>
+    <p style="font-size:13px;line-height:1.7;margin:0">${esc(t('errorBody'))}</p>
+  </div>
+  <button class="btn ghost block" onclick="resetCancel()">${esc(t('back'))}</button>`;
+}
+
+function viewResetProcessing(){
+  return `
+  <div class="card" style="text-align:center;padding:32px 16px">
+    <div style="font-size:36px;line-height:1;margin-bottom:12px">⏳</div>
+    <div style="font-size:15px;font-weight:800;color:var(--brand);margin-bottom:8px">${esc(t('processing'))}</div>
+    <p style="font-size:12.5px;line-height:1.7;color:var(--muted);margin:0">${esc(t('processingDoNotClose'))}</p>
+  </div>`;
 }
 function viewIdentity(){
   return `${renderProductNotice()}
