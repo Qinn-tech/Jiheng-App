@@ -2538,8 +2538,10 @@ function t(k, vars){
   const zhPack = I18N.zh;
   let s = pack[k];
   if(s === undefined && pack.secure && pack.secure[k] !== undefined) s = pack.secure[k];
+  if(s === undefined && pack.reset  && pack.reset[k]  !== undefined) s = pack.reset[k];
   if(s === undefined && zhPack[k] !== undefined) s = zhPack[k];
   if(s === undefined && zhPack.secure && zhPack.secure[k] !== undefined) s = zhPack.secure[k];
+  if(s === undefined && zhPack.reset  && zhPack.reset[k]  !== undefined) s = zhPack.reset[k];
   if(s === undefined) s = k;
   if(typeof s !== 'string') return s;
   if(vars){ Object.keys(vars).forEach(v => { s = s.replace(new RegExp('\\{'+v+'\\}','g'), vars[v]); }); }
