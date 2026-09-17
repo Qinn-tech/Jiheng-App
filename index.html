@@ -3758,6 +3758,7 @@ function renderView(){
 }
 function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
 function openSub(name){ ui.sub = name; render({ top:true }); }
+  function openResetPage(){ resetResetUI(); ui.sub = 'reset-jiheng'; render({ top:true }); }
   function openResetPage(){ resetUI = { step:'warn', typed:'', verifyPw:'', busy:false, error:'', holding:false, holdProgress:0, done:false }; ui.sub = 'reset-jiheng'; render({ top:true }); }
 function back(){ ui.sub = null; render({ top:true }); }
 function toggleHide(){ state.settings.hideBalance = !state.settings.hideBalance; saveState(); render(); }
