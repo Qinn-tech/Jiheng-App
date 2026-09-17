@@ -3063,7 +3063,17 @@ async function submitPin(){
       lockRecord = { hash, type: usingText ? 'text' : 'pin', createdAt: Date.now() };
       saveLock(lockRecord);
       lockUI.pin = ''; lockUI.firstPin = ''; lockUI.mode = 'unlock'; lockUI.msg = ''; lockUI.error = false;
-      renderLock(); toast(t('lockUpdated')); return;
+     isUnlocked = true;              // ★ 改完密码后直接解锁
+markActivity();
+lockUI.pin = '';
+lockUI.firstPin = '';
+lockUI.mode = 'unlock';
+lockUI.msg = '';
+lockUI.error = false;
+renderLock();
+render({ top:true });
+toast(t('lockUpdated'));
+return;
     }
     if(!hasLock){ lockUI.mode = 'create'; renderLock(); return; }
     const hash = await sha256(pin);
@@ -3121,22 +3131,26 @@ function showSplash(cb){
   }, 1500);
 }
 window.openSetPIN = function(){
+  isUnlocked = false;           // ★ 关键：强制锁屏显示
   lockUI.mode = 'changeOld';
   lockUI.pin = '';
   lockUI.firstPin = '';
   lockUI.msg = '';
   lockUI.error = false;
   lockUI.useTextMode = false;
+  lockUI._targetKind = 'pin';   // ★ 记录目标类型
   closeSheet();
   renderLock();
 };
 window.openSetPassword = function(){
+  isUnlocked = false;           // ★ 关键
   lockUI.mode = 'changeOld';
   lockUI.pin = '';
   lockUI.firstPin = '';
   lockUI.msg = '';
   lockUI.error = false;
   lockUI.useTextMode = true;
+  lockUI._targetKind = 'text';  // ★ 记录目标类型
   closeSheet();
   renderLock();
 };
