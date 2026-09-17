@@ -4402,36 +4402,32 @@ function viewSettings(){
       <span class="set-val">RM / MYR</span>
     </div>
   </div>
-  <div class="card">
-    <div class="set-row tap" onclick="openSub('lock-settings')">
-    <div class="set-row tap" onclick="openSub('sentinel')">
-  <div><div class="set-title">🛡️ ${esc(t('sentinelTitle'))}</div><div class="set-sub">${esc(t('sentinelSub'))}</div></div>
-  <span class="chev">›</span>
-</div>
-<div class="set-row tap" onclick="openSub('sentinel')">
-  <div><div class="set-title">🛡️ ${esc(t('sentinelTitle'))}</div><div class="set-sub">${esc(t('sentinelSub'))}</div></div>
-  <span class="chev">›</span>
-</div>
-      <div><div class="set-title">🔒 ${esc(t('setLock'))}</div><div class="set-sub">${autoLockLabel}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="openSub('debt-defaults')">
-      <div><div class="set-title">💰 ${esc(t('setDebtDefaults'))}</div><div class="set-sub">${state.settings.debtRepayAffectAccountDefault ? esc(t('debtRepayAffectAccountOn')) : esc(t('debtRepayAffectAccountOff'))}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="openSub('categories')">
-      <div><div class="set-title">🏷️ ${esc(t('setCategories'))}</div><div class="set-sub">${esc(t('setCategoriesSub'))}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="openSub('accounts')">
-      <div><div class="set-title">🏛️ ${esc(t('setAccounts'))}</div><div class="set-sub">${t('setAccountsSub', { n: state.accounts.length })}</div></div>
-      <span class="chev">›</span>
-    </div>
-    <div class="set-row tap" onclick="openSub('achievements')">
-      <div><div class="set-title">🏆 ${esc(t('setAchievements'))}</div><div class="set-sub">${t('setAchievementsSub', { a:unlockedCount, b:(I18N[LANG].achList||I18N.zh.achList).length })}</div></div>
-      <span class="chev">›</span>
-    </div>
+ <div class="card">
+  <div class="set-row tap" onclick="openSub('lock-settings')">
+    <div><div class="set-title">🔒 ${esc(t('setLock'))}</div><div class="set-sub">${autoLockLabel}</div></div>
+    <span class="chev">›</span>
   </div>
+  <div class="set-row tap" onclick="openSub('sentinel')">
+    <div><div class="set-title">🛡️ ${esc(t('sentinelTitle'))}</div><div class="set-sub">${esc(t('sentinelSub'))}</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="set-row tap" onclick="openSub('debt-defaults')">
+    <div><div class="set-title">💰 ${esc(t('setDebtDefaults'))}</div><div class="set-sub">${state.settings.debtRepayAffectAccountDefault ? esc(t('debtRepayAffectAccountOn')) : esc(t('debtRepayAffectAccountOff'))}</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="set-row tap" onclick="openSub('categories')">
+    <div><div class="set-title">🏷️ ${esc(t('setCategories'))}</div><div class="set-sub">${esc(t('setCategoriesSub'))}</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="set-row tap" onclick="openSub('accounts')">
+    <div><div class="set-title">🏛️ ${esc(t('setAccounts'))}</div><div class="set-sub">${t('setAccountsSub', { n: state.accounts.length })}</div></div>
+    <span class="chev">›</span>
+  </div>
+  <div class="set-row tap" onclick="openSub('achievements')">
+    <div><div class="set-title">🏆 ${esc(t('setAchievements'))}</div><div class="set-sub">${t('setAchievementsSub', { a:unlockedCount, b:(I18N[LANG].achList||I18N.zh.achList).length })}</div></div>
+    <span class="chev">›</span>
+  </div>
+</div>
   <div class="card">
     <div class="set-row tap" onclick="openSub('secure-transfer')">
       <div><div class="set-title">🔐 ${esc(t('secureTransferTitle'))}</div><div class="set-sub">${esc(t('secureTransferSub'))}</div></div>
