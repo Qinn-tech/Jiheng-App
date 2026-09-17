@@ -4358,6 +4358,45 @@ function viewCategories(){
   </div>
   <p class="about">${esc(t('catHint'))}</p>`;
 }
+
+function addCustomCat(kind){
+  openSheet({
+    title: kind === 'income' ? t('catAddIncome') : t('catAddExpense'),
+    submitText: t('add'),
+    body: `
+      <label class="field">
+        <span class="field-label">${esc(t('catName'))}</span>
+        <input name="name" type="text" required maxlength="40" placeholder="${esc(t('catNamePlaceholder'))}">
+      </label>
+      <p class="hint">${esc(t('catHint'))}</p>`,
+    onSubmit(d){
+      const name = (d.name || '').trim();
+      if(!name){ toast(t('catEnterName')); return false; }
+      if(!Array.isArray(state.customIncomeCats)) state.customIncomeCats = [];
+      if(!Array.isArray(state.customExpenseCats)) state.customExpenseCats = [];
+      const target = kind === 'income' ? state.customIncomeCats : state.customExpenseCats;
+      if(target.indexOf(name) !== -1){ toast(t('catExists')); return false; }
+      target.push(name);
+      saveState();
+      render();
+      toast(t('catAdded'));
+      return true;
+    }
+  });
+}
+
+function removeCustomCat(kind, name){
+  confirmDialog(t('goalDeleteCustomHint', { name: name }), () => {
+    if(kind === 'income'){
+      state.customIncomeCats = state.customIncomeCats.filter(c => c !== name);
+    } else {
+      state.customExpenseCats = state.customExpenseCats.filter(c => c !== name);
+    }
+    saveState();
+    render();
+    toast(t('catDeleted'));
+  });
+}
 function viewAchievements(){
   const list = I18N[LANG].achList || I18N.zh.achList;
   return `<div class="ach-grid">
