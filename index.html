@@ -2523,7 +2523,8 @@ function changelogItems(entry){
 function defaultState(){
   return {
     dataVersion: DATA_VERSION,
-  
+    settings: {
+      currency:'RM', hideBalance:false, autoLockMinutes:5,
       lang:LANG, lastUpdated:new Date().toISOString(),
       debtRepayAffectAccountDefault: true
     },
@@ -2532,7 +2533,6 @@ function defaultState(){
     achievements: {}, createdAt: new Date().toISOString()
   };
 }
-
 function migrate(p){
   if(!p || typeof p !== 'object') return { ok:false, reason:'invalid', data:null };
   const original = JSON.parse(JSON.stringify(p));
