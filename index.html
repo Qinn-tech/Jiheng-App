@@ -5077,7 +5077,7 @@ function viewResetWarn(){
 /* -------- Step 2: 输入 RESET JIHENG -------- */
 function viewResetType(){
   const target = 'RESET JIHENG';
-  const ok = resetUI.typed.trim() === target;
+  const ok = String(resetUI.typed || '').trim() === target;
   return `
   <div class="card">
     <div class="section-head" style="margin-bottom:8px"><h3>${esc(t('typeTitle'))}</h3></div>
@@ -5089,23 +5089,38 @@ function viewResetType(){
         autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
         oninput="resetOnType(this.value)">
     </label>
-    ${resetUI.typed && !ok ? `<p style="font-size:12px;color:var(--red);margin-top:-8px">${esc(t('typeMismatch'))}</p>` : ''}
+    <p id="reset-type-err" style="font-size:12px;color:var(--red);margin-top:-8px;min-height:0">${resetUI.typed && !ok ? esc(t('typeMismatch')) : ''}</p>
   </div>
   <div style="display:flex;gap:10px">
     <button class="btn ghost" style="flex:1" onclick="resetGoStep('warn')">${esc(t('back'))}</button>
-    <button class="btn danger" style="flex:1" ${ok ? '' : 'disabled style="opacity:.5;flex:1"'} onclick="resetGoStep('verify')">${esc(t('continueBtn'))}</button>
+    <button id="reset-type-continue" class="btn danger" style="flex:1" ${ok ? '' : 'disabled'} onclick="resetGoStep('verify')">${esc(t('continueBtn'))}</button>
   </div>`;
 }
 
 function resetOnType(v){
   resetUI.typed = v;
-  // 只重绘输入区域，保留 focus
-  const input = document.getElementById('reset-type-input');
-  const pos = input ? input.selectionStart : null;
-  const root = document.querySelector('.view');
-  if(root) root.innerHTML = viewResetJiheng();
-  const el = document.getElementById('reset-type-input');
-  if(el){ el.focus(); if(pos != null) try{ el.setSelectionRange(pos, pos); }catch(e){} }
+
+  // 只更新“继续”按钮的状态和错误提示，不重建整个 view
+  const target = 'RESET JIHENG';
+  const ok = String(v || '').trim() === target;
+
+  // 更新继续按钮
+  const btn = document.getElementById('reset-type-continue');
+  if(btn){
+    if(ok){
+      btn.disabled = false;
+      btn.style.opacity = '1';
+    }else{
+      btn.disabled = true;
+      btn.style.opacity = '0.5';
+    }
+  }
+
+  // 更新错误提示
+  const err = document.getElementById('reset-type-err');
+  if(err){
+    err.textContent = (v && !ok) ? t('typeMismatch') : '';
+  }
 }
 
 /* -------- Step 3: 验证 App Lock -------- */
