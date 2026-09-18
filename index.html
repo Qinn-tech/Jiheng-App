@@ -7784,6 +7784,14 @@ function jtGoImport(){
 }
 function jtBackToMenu(){
   jtResetUI();
+  // 如果是从彻底重置流程跳过来的，返回时回到 reset 页
+  if(resetUI && resetUI.exportedInSession){
+    ui.sub = 'reset-jiheng';
+    resetUI.step = 'backup';
+    render({ top:true });
+    return;
+  }
+  ui.sub = 'settings';
   render({ top:true });
 }
 
