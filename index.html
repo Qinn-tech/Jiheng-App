@@ -5153,7 +5153,6 @@ function viewResetBackup(){
 }
 
 function resetExportBackup(){
-  // 使用现有 secure transfer 导出机制
   jtUI.mode = 'export';
   ui.sub = 'secure-transfer';
   resetUI.exportedInSession = true;
@@ -5263,6 +5262,8 @@ async function resetDoVerify(){
 
 /* -------- 导航 -------- */
 function resetGoStep(step){
+  // 确保从 secure-transfer 返回时，ui.sub 强制回到 reset-jiheng
+  ui.sub = 'reset-jiheng';
   resetUI.step = step;
   render({ top:true });
 }
