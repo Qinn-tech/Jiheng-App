@@ -3143,7 +3143,7 @@ function markActivity(){ lastActivity = Date.now(); }
 
 /* ============================ UI 状态 ============================ */
 let ui = {
-  tab: 'home', sub: null,
+  tab: 'home', sub: null, subStack: [],
   recordFilter: 'all', statsRange: 'month',
   searchQuery: '', recordCat: '', recordAccount: '',
   currentAccountId: null, debtFilter: 'all',
@@ -3156,6 +3156,15 @@ let ui = {
   expandedNotes: {},
   expandedRepayNotes: {}
 };
+
+/* 滚动位置记忆：key = "页面标识"，value = scrollTop */
+let scrollMemory = {};
+
+/* 当前页面标识（用于记忆滚动） */
+function currentPageKey(){
+  if(ui.sub) return 'sub:' + ui.sub + ':' + (ui.currentAccountId || '') + ':' + (ui.currentDebtId || '');
+  return 'tab:' + ui.tab;
+}
 
 /* ============================ 工具函数 ============================ */
 function uid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,8); }
@@ -3669,16 +3678,39 @@ window.openSetPassword = function(){
 };
 
 /* ============================ 渲染 ============================ */
-  function render(opts){
+function render(opts){
   opts = opts || {};
   if(!isUnlocked){ renderLock(); document.getElementById('app').innerHTML = ''; return; }
+
   const root = document.getElementById('app');
   const oldView = root.querySelector('.view');
+  const oldKey = root.dataset.pageKey || '';
   const sy = oldView ? oldView.scrollTop : 0;
+
+  // 如果渲染前页面还停留在某个 key，先记住它的滚动位置
+  if(oldKey){
+    scrollMemory[oldKey] = sy;
+  }
+
+  const newKey = currentPageKey();
+
   root.innerHTML = renderTopbar() + '<main class="view">' + renderView() + '</main>' + renderTabbar();
+  root.dataset.pageKey = newKey;
+
   const newView = root.querySelector('.view');
   if(newView){
-    newView.scrollTop = opts.top ? 0 : sy;
+    if(opts.top === true){
+      // 明确要求回到顶部
+      newView.scrollTop = 0;
+      scrollMemory[newKey] = 0;
+    } else if(opts.top === false){
+      // 明确要求保持当前（少见）
+      newView.scrollTop = sy;
+    } else {
+      // 默认：恢复该页面记忆的滚动位置
+      const saved = scrollMemory[newKey];
+      newView.scrollTop = (saved != null) ? saved : 0;
+    }
   }
 }
 function renderTopbar(){
@@ -3756,11 +3788,36 @@ function renderView(){
   }
   return '';
 }
-function go(tab){ ui.tab = tab; ui.sub = null; render({ top:true }); }
-function openSub(name){ ui.sub = name; render({ top:true }); }
-  function openResetPage(){ resetResetUI(); ui.sub = 'reset-jiheng'; render({ top:true }); }
-  function openResetPage(){ resetUI = { step:'warn', typed:'', verifyPw:'', busy:false, error:'', holding:false, holdProgress:0, done:false }; ui.sub = 'reset-jiheng'; render({ top:true }); }
-function back(){ ui.sub = null; render({ top:true }); }
+function go(tab){
+  ui.tab = tab;
+  ui.sub = null;
+  ui.subStack = [];
+  render({ top:true });
+}
+
+function openSub(name){
+  if(!Array.isArray(ui.subStack)) ui.subStack = [];
+  ui.subStack.push(ui.sub || null);
+  ui.sub = name;
+  render();
+}
+
+function openResetPage(){
+  if(!Array.isArray(ui.subStack)) ui.subStack = [];
+  ui.subStack.push(ui.sub || null);
+  resetResetUI();
+  ui.sub = 'reset-jiheng';
+  render({ top:true });
+}
+
+function back(){
+  if(Array.isArray(ui.subStack) && ui.subStack.length > 0){
+    ui.sub = ui.subStack.pop();
+  } else {
+    ui.sub = null;
+  }
+  render();
+}
 function toggleHide(){ state.settings.hideBalance = !state.settings.hideBalance; saveState(); render(); }
   /* =========================================================================
    首页
@@ -3856,8 +3913,20 @@ function viewHome(){
     <button class="btn primary sm" onclick="openAccountForm()">${esc(t('createAccount'))}</button>
   </div>` : '' }`;
 }
-function goAccountDetail(id){ ui.currentAccountId = id; ui.sub = 'account-detail'; render({ top:true }); }
-function goDebtDetail(id){ ui.currentDebtId = id; ui.sub = 'debt-detail'; render({ top:true }); }
+function goAccountDetail(id){
+  if(!Array.isArray(ui.subStack)) ui.subStack = [];
+  ui.subStack.push(ui.sub || null);
+  ui.currentAccountId = id;
+  ui.sub = 'account-detail';
+  render();
+}
+function goDebtDetail(id){
+  if(!Array.isArray(ui.subStack)) ui.subStack = [];
+  ui.subStack.push(ui.sub || null);
+  ui.currentDebtId = id;
+  ui.sub = 'debt-detail';
+  render();
+}
 function accRow(a){
   const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
   return `<div class="row" onclick="goAccountDetail('${a.id}')">
@@ -3986,7 +4055,13 @@ function viewAllAccountsDetail(){
   <div class="list">${ list.length ? list.map(accRow).join('') : `<div class="empty"><p>${esc(t('noAccount'))}</p></div>` }</div>
   <button class="btn primary block" onclick="openAccountForm()">＋ ${esc(t('createAccount'))}</button>`;
 }
-function filterByAccount(id){ ui.recordAccount = id; ui.tab = 'records'; ui.sub = null; render({ top:true }); }
+function filterByAccount(id){
+  ui.recordAccount = id;
+  ui.tab = 'records';
+  ui.sub = null;
+  ui.subStack = [];
+  render({ top:true });
+}
 
 /* =========================================================================
    交易页面
@@ -5277,14 +5352,14 @@ async function resetDoVerify(){
 
 /* -------- 导航 -------- */
 function resetGoStep(step){
-  // 确保从 secure-transfer 返回时，ui.sub 强制回到 reset-jiheng
   ui.sub = 'reset-jiheng';
   resetUI.step = step;
-  render({ top:true });
+  render();
 }
 function resetCancel(){
   resetResetUI();
   ui.sub = 'settings';
+  ui.subStack = [];
   render({ top:true });
 }
 
