@@ -699,6 +699,12 @@ sentinelBackupBtn:'导出加密备份',
     goalCancelled:'目标已取消，资金已退回',
     goalDeadlineNone:'未设置期限', goalDaysLeft:'还剩 {n} 天',
     goalDueToday:'今天到期', goalOverdue:'已逾期 {n} 天', goalDone:'已达成',
+    timeSourceEdited:'已编辑',
+    timeSourceCreated:'创建',
+    timeSourceEvent:'事件',
+    timeSourceUpdated:'更新',
+    timeSourceDue:'到期',
+    timeSourceTapHint:'点击切换时间显示',    
     lockedSavingAmount:'储蓄目标分配金额', goalTotal:'目标总额',
     goalNoGoals:'还没有储蓄目标', goalNoGoalsSub:'设定目标，把可用余额分配起来专门储蓄', goalNewBtn:'新建目标',
     goalReturnAccount:'退回账户', goalDeleteCustomHint:'确定删除自定义分类「{name}」？已存在的交易记录不受影响。',
@@ -1351,7 +1357,13 @@ sentinelBackupBtn:'Export encrypted backup',
     goalCancelled:'Goal cancelled, funds returned',
     goalDeadlineNone:'No deadline', goalDaysLeft:'{n} days left',
     goalDueToday:'Due today', goalOverdue:'Overdue {n} days', goalDone:'Achieved',
-    lockedSavingAmount:'Goal Allocations', goalTotal:'Total Target',
+     timeSourceEdited:'Edited',
+    timeSourceCreated:'Created',
+    timeSourceEvent:'Event',
+    timeSourceUpdated:'Updated',
+    timeSourceDue:'Due',
+    timeSourceTapHint:'Tap to switch time display',
+      lockedSavingAmount:'Goal Allocations', goalTotal:'Total Target',
     goalNoGoals:'No savings goals yet', goalNoGoalsSub:'Set a goal and allocate part of your balance', goalNewBtn:'New Goal',
     goalReturnAccount:'Return to Account', goalDeleteCustomHint:'Delete custom category "{name}"? Existing records are not affected.',
     goalIconNone:'None', goalDeleteConfirm:'Are you sure you want to delete this savings goal?', goalDeleted:'Savings goal deleted',
@@ -2002,6 +2014,12 @@ sentinelBackupBtn:'Eksport sandaran disulitkan',
     goalCancelled:'Sasaran dibatalkan, dana dipulangkan',
     goalDeadlineNone:'Tiada tarikh akhir', goalDaysLeft:'{n} hari lagi',
     goalDueToday:'Tamat hari ini', goalOverdue:'Lewat {n} hari', goalDone:'Dicapai',
+    timeSourceEdited:'Diedit',
+    timeSourceCreated:'Dicipta',
+    timeSourceEvent:'Peristiwa',
+    timeSourceUpdated:'Dikemas kini',
+    timeSourceDue:'Tamat',
+    timeSourceTapHint:'Ketik untuk tukar paparan masa',
     lockedSavingAmount:'Peruntukan Sasaran', goalTotal:'Jumlah Sasaran',
     goalNoGoals:'Belum ada sasaran simpanan', goalNoGoalsSub:'Tetapkan sasaran dan peruntukkan sebahagian baki', goalNewBtn:'Sasaran Baharu',
     goalReturnAccount:'Pulangkan ke Akaun', goalDeleteCustomHint:'Padam kategori tersuai "{name}"? Rekod sedia ada tidak terjejas.',
@@ -3238,6 +3256,102 @@ function normalizeSearchText(s){
   return str;
 }
 
+  
+/* ============================================================
+   时间来源系统
+   - 每张卡片显示一行时间
+   - 用户点击可全局切换
+   - 未来加新来源：在 TIME_SOURCES 加一行即可
+   ============================================================ */
+
+const TIME_SOURCE_ORDER = ['edited','created','event','updated','due'];
+
+const TIME_SOURCES = {
+  edited: {
+    labelKey: 'timeSourceEdited',
+    get: o => {
+      const hist = Array.isArray(o && o.editHistory) ? o.editHistory : [];
+      if(hist.length === 0) return null;
+      const last = hist[hist.length - 1];
+      return (last && last.at) ? last.at : null;
+    }
+  },
+  created: {
+    labelKey: 'timeSourceCreated',
+    get: o => (o && (o.createdAt || o.eventAt)) || null
+  },
+  event: {
+    labelKey: 'timeSourceEvent',
+    get: o => (o && (o.eventAt || o.date)) || null
+  },
+  updated: {
+    labelKey: 'timeSourceUpdated',
+    get: o => (o && (o.updatedAt || o.createdAt)) || null
+  },
+  due: {
+    labelKey: 'timeSourceDue',
+    get: o => (o && o.dueDate) ? (o.dueDate + 'T23:59:59') : null
+  }
+};
+
+const TIME_SOURCE_KEY = 'jiheng_time_source_v1';
+
+/* 当前时间来源（全局） */
+let currentTimeSource = (function(){
+  try{
+    const v = localStorage.getItem(TIME_SOURCE_KEY);
+    if(v && TIME_SOURCES[v]) return v;
+  }catch(e){}
+  return 'edited';
+})();
+
+/* 切换时间来源（循环） */
+function cycleTimeSource(){
+  const i = TIME_SOURCE_ORDER.indexOf(currentTimeSource);
+  const next = TIME_SOURCE_ORDER[(i + 1) % TIME_SOURCE_ORDER.length];
+  currentTimeSource = next;
+  try{ localStorage.setItem(TIME_SOURCE_KEY, next); }catch(e){}
+  render();
+  toast('🕒 ' + t(TIME_SOURCES[next].labelKey));
+}
+
+/* 给一张卡片计算"应该显示哪一行"
+   - 优先当前来源
+   - 如果没有，回退到 created
+   - 如果 created 也没有，回退到 event
+   - 如果都没有 → 返回 null
+*/
+function timeLineFor(obj){
+  if(!obj) return null;
+  const src = TIME_SOURCES[currentTimeSource];
+  let at = src ? src.get(obj) : null;
+  let key = currentTimeSource;
+  if(!at){
+    at = TIME_SOURCES.created.get(obj);
+    key = 'created';
+  }
+  if(!at){
+    at = TIME_SOURCES.event.get(obj);
+    key = 'event';
+  }
+  if(!at) return null;
+  return {
+    text: '🕒 ' + t(TIME_SOURCES[key].labelKey) + ' · ' + localDateTimeStr(at),
+    key: key
+  };
+}
+
+/* 返回一个可点击的 HTML 时间行
+   - 点击触发全局切换
+   - 样式保持一致
+*/
+function renderTimeLine(obj, extraStyle){
+  const line = timeLineFor(obj);
+  if(!line) return '';
+  const style = extraStyle || 'color:var(--brand);font-weight:600;cursor:pointer;user-select:none;';
+  return '<div class="meta-line" style="' + style + '" onclick="event.stopPropagation();cycleTimeSource()" title="' + esc(t('timeSourceTapHint')) + '">' + esc(line.text) + '</div>';
+}
+  
 /* ============================ 核心计算 ============================ */
 function availableBalance(){ return round2(state.accounts.reduce((s,a) => s + (Number(a.balance)||0), 0)); }
 function lockedBalance(){ return round2(state.goals.reduce((s,g) => s + (Number(g.saved)||0), 0)); }
@@ -3931,7 +4045,11 @@ function accRow(a){
   const meta = ACC_TYPES[a.type] || ACC_TYPES.other;
   return `<div class="row" onclick="goAccountDetail('${a.id}')">
     <div class="row-icon" style="background:${meta.bg};color:${meta.color}">${a.icon || meta.icon}</div>
-    <div class="row-main"><div class="row-title">${esc(a.name)}</div><div class="row-sub">${esc(meta.label)}</div></div>
+       <div class="row-main">
+      <div class="row-title">${esc(a.name)}</div>
+      <div class="row-sub">${esc(meta.label)}</div>
+      ${renderTimeLine(a)}
+    </div>
     <div class="row-amount">${money(a.balance || 0)}</div>
   </div>`;
 }
@@ -3989,6 +4107,7 @@ function txRow(tx){
     <div class="row-main">
       <div class="row-title">${esc(title)}</div>
       <div class="row-sub">${esc(sub)}${esc(methodTag)}${recurring}</div>
+         ${renderTimeLine(tx)}
     </div>
     <div class="tx-amt ${cls}">${amountText}</div>
   </div>`;
@@ -4406,6 +4525,7 @@ function repayCard(debt, r, idx){
         </div>
         <div class="rp-meta">🕒 ${esc(localDateTimeStr(r.eventAt))}</div>
         ${ r.note ? `<div class="rp-note" style="margin-top:4px">${esc(r.note)}</div>` : '' }
+                ${renderTimeLine(r, 'color:var(--brand);font-weight:600;cursor:pointer;user-select:none;margin-top:4px;')}
       </div>
       <button class="rp-menu" onclick="openRepayMenu('${debt.id}','${r.id}')" title="⋯">⋯</button>
     </div>
@@ -4488,6 +4608,7 @@ function goalCard(g){
     <div class="goal-amt"><b>${money(saved)}</b><span> / ${money(target)}</span></div>
     <div class="bar-track"><div class="bar-fill ${done?'alt':''}" style="width:${pct.toFixed(1)}%"></div></div>
     <div class="goal-foot"><span>${pct.toFixed(1)}%</span><span>${esc(t('goalRemain'))} ${money(remain)}</span></div>
+    ${renderTimeLine(g)}  
     <div class="goal-acts">
       <button class="btn soft" onclick="openGoalDeposit('${g.id}')">${esc(t('goalDeposit'))}</button>
       <button class="btn soft" onclick="openGoalWithdraw('${g.id}')">${esc(t('goalWithdraw'))}</button>
@@ -4577,6 +4698,7 @@ function assetCard(a){
       <div class="ar"><span>${esc(t('assetUnreturned'))}</span><b class="c-red">${money(c.unreturned)}</b></div>
       <div class="ar"><span>${esc(t('assetRate'))}</span><b>${(c.rate * 100).toFixed(1)}%</b></div>
     </div>
+      ${renderTimeLine(a)}
     <div class="asset-acts">
       ${isActive ? `<button class="btn soft" onclick="openAssetEnd('${a.id}')">${esc(t('assetEnd'))}</button>` : ''}
       <button class="btn soft" onclick="openAssetAdjust('${a.id}')">${esc(t('assetAdjust'))}</button>
@@ -6620,6 +6742,7 @@ function debtCard(d){
         ${linkedAcc ? `<div class="goal-sub">🔗 ${esc(linkedAcc.name)}</div>` : ''}
         ${noteFull ? `<div class="goal-sub note-full">${esc(noteFull)}</div>` : ''}
         ${reps.length ? `<div class="goal-sub">💰 ${esc(t('debtRepayCount'))}: ${reps.length}</div>` : ''}
+                ${renderTimeLine(d)}
       </div>
       <button class="icon-btn sm" onclick="event.stopPropagation();debtMenu('${d.id}')">⋯</button>
     </div>
@@ -6844,6 +6967,7 @@ function mgCard(m){
         <div class="goal-sub">${esc(localDateTimeStr(m.eventAt||m.date))} · ${esc(acc ? acc.name : '—')}</div>
         ${purposeText ? `<div class="goal-sub">📋 ${esc(purposeText)}${methodText ? ' · ' + esc(methodText) : ''}</div>` : (methodText ? `<div class="goal-sub">💳 ${esc(methodText)}</div>` : '')}
         ${m.note ? `<div class="goal-sub note-full">${esc(m.note)}</div>` : ''}
+                ${renderTimeLine(m)}
       </div>
       <button class="icon-btn sm" onclick="mgMenu('${m.id}')">⋯</button>
     </div>
