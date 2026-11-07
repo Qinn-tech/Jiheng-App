@@ -8128,7 +8128,8 @@ function jtRenderExport(){
 
 function jtOnExportPwInput(v){ jtUI.exportPassword = v; jtRerenderSecure(); }
 function jtOnExportPw2Input(v){ jtUI.exportPasswordConfirm = v; jtRerenderSecure(); }
-function jtRerenderSecure(){
+function jtOnImportPwInput(v){ jtUI.importPassword = v; }
+  function jtRerenderSecure(){
   // 只重绘 secure 页面内层，保留 input focus
   const root = document.getElementById('app');
   if(!root) return;
@@ -8424,8 +8425,13 @@ function jtOnImportFileChosen(input){
 
 async function jtDoDecryptAndPreview(){
   if(jtUI.importBusy) return;
-  const pw = jtUI.importPassword;
-  if(!pw){ return; }
+  const pwEl = document.getElementById('jt-import-pw');
+const pw = pwEl ? pwEl.value : jtUI.importPassword;
+  if(!pw){ alert("请先输入导入密码！"); return; }
+if (!window.crypto || !window.crypto.subtle) {
+  alert("解密失败：当前网页环境不支持解密。请确保您是在 HTTPS 网站下，或者把网页安装到手机主屏幕后再试。");
+  return;
+}
 
   jtUI.importBusy = true;
   jtUI.importError = '';
