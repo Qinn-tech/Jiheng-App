@@ -1,6 +1,47 @@
 /* =========================================================================
-   积衡 Jiheng - 表单操作、弹窗、记账逻辑
+   积衡 Jiheng - 表单操作、弹窗、记账逻辑、组件、错账修复
    ========================================================================= */
+
+/* 🔥 自动修复历史错账：如果账户实际余额与流水不符，自动补齐流水 */
+function repairHistoryGap() {
+  let gap = 0;
+  state.accounts.forEach(acc => {
+    let theoretical = 0;
+    state.transactions.forEach(tx => {
+      if (tx.accountId === acc.id) {
+        if (tx.type === 'income' || tx.type === 'goal_withdraw') theoretical += Number(tx.amount || 0);
+        if (tx.type === 'expense' || tx.type === 'goal_deposit') theoretical -= Number(tx.amount || 0);
+        if (tx.type === 'transfer') theoretical -= Number(tx.amount || 0);
+      }
+      if (tx.toAccountId === acc.id && tx.type === 'transfer') {
+        theoretical += Number(tx.amount || 0);
+      }
+    });
+    // 如果账户实际余额 > 流水理论余额，说明有欠款联动未补流水
+    const diff = round2(Number(acc.balance || 0) - theoretical);
+    if (diff !== 0) {
+      gap += diff;
+      state.transactions.push({
+        id: uid(),
+        type: diff > 0 ? 'income' : 'expense',
+        amount: Math.abs(diff),
+        eventAt: nowISO(),
+        date: nowISO(),
+        timezone: APP_TZ,
+        category: diff > 0 ? 'other_income' : 'other_exp',
+        subCategory: '', method: 'cash', methodCustom: '',
+        accountId: acc.id, note: '历史错账自动修复',
+        linkedDebtId: null, linkedRepaymentId: null, editHistory: [],
+        createdAt: Date.now(), updatedAt: Date.now()
+      });
+    }
+  });
+  if (gap !== 0) {
+    saveState();
+    setTimeout(() => toast('✅ 历史错账已自动修复，总额已对齐'), 1000);
+  }
+}
+repairHistoryGap();
 
 function openSheet(opts){
   const root = document.getElementById('sheet-root');
@@ -132,6 +173,94 @@ function openGroupedPicker(opts){
   pickerRoot.querySelectorAll('.opt-item').forEach(btn => { btn.addEventListener('click', () => { const id = btn.dataset.id; if(opts.onPick) opts.onPick(id); closePicker(); }); });
   const cs = pickerRoot.querySelector('#picker-custom-save');
   if(cs){ cs.addEventListener('click', () => { const val = (pickerRoot.querySelector('#picker-custom-input').value || '').trim(); if(!val) return; if(opts.onCustom) opts.onCustom(val); closePicker(); }); }
+}
+
+/* ============================ 关键组件 (修复按钮没反应) ============================ */
+function renderCategoryPickerButton(kind, currentId, currentLabel){
+  return `
+    <button type="button" class="btn ghost block cat-picker-btn" style="text-align:left;font-weight:600">
+      ${catIcon(currentId) || '📌'} ${esc(currentLabel || t('catPickPreset'))}
+    </button>
+    <input type="hidden" name="category" value="${esc(currentId||'')}">`;
+}
+function bindCategoryPicker(root, kind){
+  const btn = root.querySelector('.cat-picker-btn');
+  if(!btn) return;
+  const hidden = root.querySelector('input[name="category"]');
+  const customList = kind === 'income' ? state.customIncomeCats : state.customExpenseCats;
+  btn.addEventListener('click', () => {
+    const groups = kind === 'income' ? INCOME_GROUPS : EXPENSE_GROUPS;
+    const labelFor = kind === 'income' ? incomeCatLabel : expenseCatLabel;
+    const groupLabelFor = kind === 'income' ? incomeGroupLabel : expenseGroupLabel;
+    openGroupedPicker({
+      title: kind === 'income' ? t('catIncome') : t('catExpense'),
+      groups: groups.concat(customList.length ? [{ group:'custom', items: customList.slice() }] : []),
+      value: hidden ? hidden.value : '', allowCustom: true, customPlaceholder: t('catCustomPlaceholder'),
+      labelFor: (id) => customList.includes(id) ? id : labelFor(id),
+      groupLabelFor: (g) => g === 'custom' ? t('catCustomIncome') : groupLabelFor(g),
+      iconFor: (id) => catIcon(id),
+      onPick: (id) => { if(hidden) hidden.value = id; btn.innerHTML = `${catIcon(id)||'📌'} ${esc(customList.includes(id) ? id : labelFor(id))}`; },
+      onCustom: (text) => {
+        if(kind === 'income' && !state.customIncomeCats.includes(text)) state.customIncomeCats.push(text);
+        if(kind === 'expense' && !state.customExpenseCats.includes(text)) state.customExpenseCats.push(text);
+        saveState(); if(hidden) hidden.value = text; btn.innerHTML = `${catIcon(text)||'📌'} ${esc(text)}`;
+      }
+    });
+  });
+}
+function renderMethodPickerButton(currentId, currentLabel, currentCustom){
+  const showCustom = currentCustom || '';
+  const label = showCustom || currentLabel || t('pickMethod');
+  return `
+    <button type="button" class="btn ghost block method-picker-btn" style="text-align:left;font-weight:600">${esc(label)}</button>
+    <input type="hidden" name="method" value="${esc(currentId||'')}">
+    <input type="hidden" name="methodCustom" value="${esc(showCustom||'')}">`;
+}
+function bindMethodPicker(root){
+  const btn = root.querySelector('.method-picker-btn');
+  if(!btn) return;
+  const hiddenId = root.querySelector('input[name="method"]');
+  const hiddenCustom = root.querySelector('input[name="methodCustom"]');
+  btn.addEventListener('click', () => {
+    const customM = state.customMethods || [];
+    openGroupedPicker({
+      title: t('pickMethod'),
+      groups: MONEY_METHOD_GROUPS.concat(customM.length ? [{ group:'custom_method', items: customM.slice() }] : []),
+      value: hiddenId ? hiddenId.value : '', allowCustom: true, customValue: hiddenCustom ? hiddenCustom.value : '', customPlaceholder: t('methodCustom'),
+      labelFor: (id) => customM.includes(id) ? id : methodLabel(id),
+      groupLabelFor: (g) => g === 'custom_method' ? t('pickCustom') : methodGroupLabel(g),
+      onPick: (id) => { if(hiddenId) hiddenId.value = id; if(hiddenCustom) hiddenCustom.value = ''; btn.innerHTML = esc(customM.includes(id) ? id : methodLabel(id)); },
+      onCustom: (text) => {
+        if(!Array.isArray(state.customMethods)) state.customMethods = [];
+        if(!state.customMethods.includes(text)) state.customMethods.push(text);
+        saveState(); if(hiddenId) hiddenId.value = ''; if(hiddenCustom) hiddenCustom.value = text; btn.innerHTML = esc(text);
+      }
+    });
+  });
+}
+function renderPurposePickerButton(kind, currentId, currentCustom){
+  const label = currentCustom || (kind === 'debt' ? debtPurposeLabel(currentId) : mgPurposeLabel(currentId));
+  return `
+    <button type="button" class="btn ghost block purpose-picker-btn" style="text-align:left;font-weight:600">${esc(label || t('pickPurpose'))}</button>
+    <input type="hidden" name="purpose" value="${esc(currentId||'')}">
+    <input type="hidden" name="purposeCustom" value="${esc(currentCustom||'')}">`;
+}
+function bindPurposePicker(root, kind){
+  const btn = root.querySelector('.purpose-picker-btn');
+  if(!btn) return;
+  const hiddenId = root.querySelector('input[name="purpose"]');
+  const hiddenCustom = root.querySelector('input[name="purposeCustom"]');
+  const groups = kind === 'debt' ? DEBT_PURPOSE_GROUPS : MG_PURPOSE_GROUPS;
+  const labelFor = kind === 'debt' ? debtPurposeLabel : mgPurposeLabel;
+  const groupLabelFor = kind === 'debt' ? debtPurposeGroupLabel : mgPurposeGroupLabel;
+  btn.addEventListener('click', () => {
+    openGroupedPicker({
+      title: t('pickPurpose'), groups, value: hiddenId ? hiddenId.value : '', allowCustom: true, customValue: hiddenCustom ? hiddenCustom.value : '', customPlaceholder: t('debtPurposeCustom'),
+      labelFor, groupLabelFor,
+      onPick: (id) => { if(hiddenId) hiddenId.value = id; if(hiddenCustom) hiddenCustom.value = ''; btn.innerHTML = esc(labelFor(id)); },
+      onCustom: (text) => { if(hiddenId) hiddenId.value = ''; if(hiddenCustom) hiddenCustom.value = text; btn.innerHTML = esc(text); }
+    });
+  });
 }
 
 /* ============================ 账户表单 ============================ */
@@ -267,7 +396,218 @@ function openTransferForm(presetFrom){
   });
 }
 
-/* ============================ Debt Form (修复算错账 Bug 的地方) ============================ */
+/* ============================ 储蓄 & 资产 ============================ */
+function openGoalForm(){
+  openSheet({
+    title: t('goalNew'), submitText: t('goalCreate'),
+    body: `
+      <label class="field"><span class="field-label">${esc(t('goalName'))}</span><input name="name" type="text" required maxlength="80" placeholder="${esc(t('goalNamePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('goalTarget'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="target" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div></label>
+      <label class="field"><span class="field-label">${esc(t('goalDeadline'))}</span><input name="deadline" type="date"></label>
+      <label class="field"><span class="field-label">${esc(t('goalIcon'))}</span><select name="icon"><option value="">${esc(t('goalIconNone'))}</option>${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i => `<option value="${i}">${i}</option>`).join('')}</select></label>
+      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('goalNotePlaceholder'))}"></textarea></label>
+      <p class="hint">${esc(t('goalDepositHint', { amt: money(availableBalance()) }))}</p>`,
+    onSubmit(d){
+      const name = (d.name || '').trim(); const target = round2(parseFloat(d.target));
+      if(!name){ toast(t('catEnterName')); return false; }
+      if(!(target > 0)){ toast(t('invalidAmount')); return false; }
+      const nowIso = nowISO();
+      state.goals.push({ id: uid(), name, targetAmount: target, deadline: d.deadline || '', saved: 0, icon: d.icon || '', note: (d.note || ''), status: 'active', timezone: APP_TZ, eventAt: nowIso, createdAt: Date.now(), updatedAt: Date.now(), editHistory: [] });
+      afterChange(); toast(t('goalCreated')); return true;
+    }
+  });
+}
+function goalMenu(id){
+  const g = getGoal(id); if(!g) return;
+  openActionSheet(g.name, [
+    { label: t('goalEdit'), icon:'✏️', onClick: () => editGoal(id) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('goal', id) },
+    { label: t('goalCancel'), icon:'↩️', danger:true, onClick: () => cancelGoal(id) }
+  ]);
+}
+function editGoal(id){
+  const g = getGoal(id); if(!g) return;
+  openSheet({
+    title: t('goalEdit'),
+    body: `
+      <label class="field"><span class="field-label">${esc(t('goalName'))}</span><input name="name" type="text" required maxlength="80" value="${esc(g.name)}"></label>
+      <label class="field"><span class="field-label">${esc(t('goalTarget'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="target" type="number" step="0.01" min="0.01" required value="${g.targetAmount}"></div></label>
+      <label class="field"><span class="field-label">${esc(t('goalDeadline'))}</span><input name="deadline" type="date" value="${g.deadline || ''}"></label>
+      <label class="field"><span class="field-label">${esc(t('goalIcon'))}</span><select name="icon"><option value="">${esc(t('goalIconNone'))}</option>${['🎯','📱','✈️','🏠','🎓','🚗','💻','🎁','🏥','🪙'].map(i => `<option value="${i}" ${g.icon===i?'selected':''}>${i}</option>`).join('')}</select></label>
+      <label class="field"><span class="field-label">${esc(t('goalNote'))}</span><textarea name="note" maxlength="4000">${esc(g.note||'')}</textarea></label>`,
+    onSubmit(d){
+      const name = (d.name || '').trim(); const target = round2(parseFloat(d.target));
+      if(!name || !(target > 0)){ toast(t('invalidAmount')); return false; }
+      g.name = name; g.targetAmount = target; g.deadline = d.deadline || ''; g.icon = d.icon || ''; g.note = (d.note || ''); g.updatedAt = Date.now();
+      if(!Array.isArray(g.editHistory)) g.editHistory = [];
+      g.editHistory.push({ at: nowISO(), action: 'edit' });
+      afterChange(); toast(t('accountUpdated')); return true;
+    }
+  });
+}
+function openGoalDeposit(goalId){
+  const g = getGoal(goalId); if(!g) return;
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
+  openSheet({
+    title: t('goalDepositTitle'), submitText: t('goalDepositBtn'),
+    body: `
+      <label class="field"><span class="field-label">${esc(t('amount'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div></label>
+      <label class="field"><span class="field-label">${esc(t('fromAccount'))}</span><select name="accountId">${accountOptions()}</select></label>
+      <div class="two-col"><label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label><label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label></div>
+      <p class="hint">${esc(t('goalDepositHint', { amt: money(availableBalance()) }))}</p>`,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount)); if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
+      const acc = getAccount(d.accountId); if(!acc){ toast(t('accountNotExist')); return false; }
+      if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; }
+      acc.balance = round2((Number(acc.balance)||0) - amount);
+      g.saved = round2((Number(g.saved)||0) + amount); g.updatedAt = Date.now();
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
+      state.transactions.push({ id: uid(), type: 'goal_deposit', amount, eventAt, date: eventAt, timezone: APP_TZ, accountId: acc.id, goalId: g.id, category: 'Savings', note: '', linkedDebtId: null, linkedRepaymentId: null, editHistory: [], createdAt: Date.now(), updatedAt: Date.now() });
+      afterChange(); toast(t('goalDeposited')); return true;
+    }
+  });
+}
+function openGoalWithdraw(goalId){
+  const g = getGoal(goalId); if(!g) return;
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
+  const saved = round2(Number(g.saved)||0); if(saved <= 0){ toast(t('goalNoMoney')); return; }
+  openSheet({
+    title: t('goalWithdrawTitle'), submitText: t('goalWithdrawBtn'),
+    body: `
+      <label class="field"><span class="field-label">${esc(t('amount'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="amount" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div></label>
+      <label class="field"><span class="field-label">${esc(t('toAccount'))}</span><select name="accountId">${accountOptions()}</select></label>
+      <div class="two-col"><label class="field"><span class="field-label">${esc(t('date'))}</span><input name="date" type="date" value="${nowLocalDate()}" required></label><label class="field"><span class="field-label">${esc(t('time'))}</span><input name="time" type="time" step="1" value="${nowLocalTime()}" required></label></div>
+      <p class="hint">${esc(t('goalWithdrawHint', { amt: money(saved) }))}</p>`,
+    onSubmit(d){
+      const amount = round2(parseFloat(d.amount)); if(!(amount > 0)){ toast(t('invalidAmount')); return false; }
+      const acc = getAccount(d.accountId); if(!acc){ toast(t('accountNotExist')); return false; }
+      if(amount > round2(Number(g.saved)||0) + 0.001){ toast(t('goalExceed')); return false; }
+      g.saved = round2((Number(g.saved)||0) - amount);
+      acc.balance = round2((Number(acc.balance)||0) + amount); g.updatedAt = Date.now();
+      const eventAt = combineDateTime(d.date || nowLocalDate(), d.time || nowLocalTime());
+      state.transactions.push({ id: uid(), type: 'goal_withdraw', amount, eventAt, date: eventAt, timezone: APP_TZ, accountId: acc.id, goalId: g.id, category: 'Savings', note: '', linkedDebtId: null, linkedRepaymentId: null, editHistory: [], createdAt: Date.now(), updatedAt: Date.now() });
+      afterChange(); toast(t('goalWithdrew')); return true;
+    }
+  });
+}
+function cancelGoal(id){
+  const g = getGoal(id); if(!g) return;
+  const saved = round2(Number(g.saved)||0);
+  if(saved <= 0){
+    confirmDialog(t('goalDeleteConfirm'), () => { state.goals = state.goals.filter(x => x.id !== id); afterChange(); toast(t('goalDeleted')); });
+    return;
+  }
+  if(!state.accounts.length){ toast(t('noAccountWarn')); return; }
+  openSheet({
+    title: t('goalCancelTitle'), submitText: t('goalCancelBtn'),
+    body: `
+      <p class="hint" style="margin-bottom:14px">${esc(t('goalCancelHint', { amt: money(saved) }))}</p>
+      <label class="field"><span class="field-label">${esc(t('goalReturnAccount'))}</span><select name="accountId">${accountOptions()}</select></label>`,
+    onSubmit(d){
+      const acc = getAccount(d.accountId); if(!acc){ toast(t('accountNotExist')); return false; }
+      acc.balance = round2((Number(acc.balance)||0) + saved);
+      const eventAt = nowISO();
+      state.transactions.push({ id: uid(), type: 'goal_withdraw', amount: saved, eventAt, date: eventAt, timezone: APP_TZ, accountId: acc.id, goalId: g.id, category: 'Savings', note: 'Goal cancelled', linkedDebtId: null, linkedRepaymentId: null, editHistory: [], createdAt: Date.now(), updatedAt: Date.now() });
+      state.goals = state.goals.filter(x => x.id !== id);
+      afterChange(); toast(t('goalCancelled')); return true;
+    }
+  });
+}
+function openAssetForm(){
+  openSheet({
+    title: t('assetNew'), submitText: t('assetAdd'),
+    body: `
+      <label class="field"><span class="field-label">${esc(t('assetName'))}</span><input name="name" type="text" required maxlength="80" placeholder="${esc(t('assetNamePlaceholder'))}"></label>
+      <label class="field"><span class="field-label">${esc(t('assetPrice'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="price" type="number" step="0.01" min="0.01" required placeholder="0.00" inputmode="decimal"></div></label>
+      <label class="field"><span class="field-label">${esc(t('assetPurchaseDate'))}</span><input name="purchaseDate" type="date" value="${nowLocalDate()}" required></label>
+      <div class="two-col"><label class="field"><span class="field-label">${esc(t('assetYears'))}</span><input name="years" type="number" min="0" step="1" value="1" inputmode="numeric"></label><label class="field"><span class="field-label">${esc(t('assetMonths'))}</span><input name="months" type="number" min="0" max="11" step="1" value="0" inputmode="numeric"></label></div>
+      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span><textarea name="note" maxlength="4000" placeholder="${esc(t('assetNotePlaceholder'))}"></textarea></label>
+      <p class="hint">${esc(t('assetHint'))}</p>`,
+    onSubmit(d){
+      const name = (d.name || '').trim(); const price = round2(parseFloat(d.price));
+      const years = Math.max(0, parseInt(d.years, 10) || 0); const months = Math.max(0, parseInt(d.months, 10) || 0);
+      if(!name){ toast(t('assetValidName')); return false; }
+      if(!(price > 0)){ toast(t('assetValidPrice')); return false; }
+      if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
+      const nowIso = nowISO();
+      state.assets.push({ id: uid(), name, price, purchaseDate: d.purchaseDate || nowLocalDate(), expectedYears: years, expectedMonths: months, endDate: null, status: 'active', manualValue: null, manualNote: '', note: (d.note || ''), timezone: APP_TZ, eventAt: nowIso, createdAt: Date.now(), updatedAt: Date.now(), editHistory: [] });
+      afterChange(); toast(t('assetAdded')); return true;
+    }
+  });
+}
+function assetMenu(id){
+  const a = getAsset(id); if(!a) return;
+  openActionSheet(a.name, [
+    { label: t('edit'), icon:'✏️', onClick: () => editAsset(id) },
+    { label: t('viewEditHistory'), icon:'🕓', onClick: () => viewEditHistory('asset', id) },
+    { label: t('assetDelete'), danger:true, onClick: () => { confirmDialog(t('assetDeleteConfirm'), () => { state.assets = state.assets.filter(x => x.id !== id); afterChange(); toast(t('assetDeleted')); }); } }
+  ]);
+}
+function editAsset(id){
+  const a = getAsset(id); if(!a) return;
+  openSheet({
+    title: t('assetEdit'),
+    body: `
+      <label class="field"><span class="field-label">${esc(t('assetName'))}</span><input name="name" type="text" required maxlength="80" value="${esc(a.name)}"></label>
+      <label class="field"><span class="field-label">${esc(t('assetPrice'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="price" type="number" step="0.01" min="0.01" required value="${a.price}"></div></label>
+      <label class="field"><span class="field-label">${esc(t('assetPurchaseDate'))}</span><input name="purchaseDate" type="date" value="${a.purchaseDate}" required></label>
+      <div class="two-col"><label class="field"><span class="field-label">${esc(t('assetYears'))}</span><input name="years" type="number" min="0" step="1" value="${a.expectedYears||0}" inputmode="numeric"></label><label class="field"><span class="field-label">${esc(t('assetMonths'))}</span><input name="months" type="number" min="0" max="11" step="1" value="${a.expectedMonths||0}" inputmode="numeric"></label></div>
+      <label class="field"><span class="field-label">${esc(t('assetNote'))}</span><textarea name="note" maxlength="4000">${esc(a.note||'')}</textarea></label>`,
+    onSubmit(d){
+      const name = (d.name || '').trim(); const price = round2(parseFloat(d.price));
+      const years = Math.max(0, parseInt(d.years, 10) || 0); const months = Math.max(0, parseInt(d.months, 10) || 0);
+      if(!name || !(price > 0)){ toast(t('assetValidPrice')); return false; }
+      if(years * 365 + months * 30 <= 0){ toast(t('assetValidPeriod')); return false; }
+      a.name = name; a.price = price; a.purchaseDate = d.purchaseDate || a.purchaseDate; a.expectedYears = years; a.expectedMonths = months; a.note = (d.note || ''); a.updatedAt = Date.now();
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push({ at: nowISO(), action: 'edit' });
+      afterChange(); toast(t('assetUpdated')); return true;
+    }
+  });
+}
+function openAssetAdjust(id){
+  const a = getAsset(id); if(!a) return;
+  const c = assetCalc(a);
+  openSheet({
+    title: t('assetAdjustTitle'), submitText: t('assetAdjustBtn'),
+    body: `
+      <div class="asset-rows" style="margin-bottom:16px"><div class="ar"><span>${esc(t('assetSystemValue'))}</span><b>${money(c.systemValue)}</b></div><div class="ar"><span>${esc(t('assetPrice'))}</span><b>${money(c.price)}</b></div></div>
+      <label class="field"><span class="field-label">${esc(t('assetAdjustValue'))}</span><div class="input-wrap"><span class="prefix">RM</span><input name="manualValue" type="number" step="0.01" min="0" placeholder="${esc(t('assetAdjustPlaceholder'))}" value="${c.hasManual ? a.manualValue : ''}" inputmode="decimal"></div></label>
+      <label class="field"><span class="field-label">${esc(t('assetAdjustReason'))}</span><textarea name="manualNote" maxlength="4000">${esc(a.manualNote||'')}</textarea></label>
+      <p class="hint">${esc(t('assetAdjustHint'))}</p>`,
+    onSubmit(d){
+      const raw = String(d.manualValue || '').trim();
+      if(raw === ''){ a.manualValue = null; }
+      else { const v = round2(parseFloat(raw)); if(!(v >= 0)){ toast(t('invalidAmount')); return false; } if(v > a.price){ toast(t('assetAdjustExceed')); return false; } a.manualValue = v; }
+      a.manualNote = (d.manualNote || ''); a.updatedAt = Date.now();
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push({ at: nowISO(), action: 'adjust' });
+      afterChange(); toast(t('assetAdjusted')); return true;
+    }
+  });
+}
+function openAssetEnd(id){
+  const a = getAsset(id); if(!a) return;
+  const c = assetCalc(a);
+  openSheet({
+    title: t('assetEndTitle'), submitText: t('assetEndBtn'),
+    body: `
+      <div class="asset-rows" style="margin-bottom:16px"><div class="ar"><span>${esc(t('assetSystemValue'))}</span><b>${money(c.systemValue)}</b></div><div class="ar"><span>${esc(t('assetUsedDays'))}</span><b>${c.usedDays.toFixed(1)}</b></div></div>
+      <label class="field"><span class="field-label">${esc(t('assetEndReason'))}</span><select name="status"><option value="completed">✅ ${esc(t('assetStatusCompleted'))}</option><option value="ended">⏹ ${esc(t('assetStatusEnded'))}</option><option value="damaged">💥 ${esc(t('assetStatusDamaged'))}</option><option value="lost">🔍 ${esc(t('assetStatusLost'))}</option><option value="sold">💰 ${esc(t('assetStatusSold'))}</option><option value="stopped">🚫 ${esc(t('assetStatusStopped'))}</option></select></label>
+      <label class="field"><span class="field-label">${esc(t('assetEndDate'))}</span><input name="endDate" type="date" value="${nowLocalDate()}" required></label>
+      <p class="hint">${esc(t('assetEndHint'))}</p>`,
+    onSubmit(d){
+      const endDate = d.endDate || nowLocalDate();
+      if(new Date(endDate) < new Date(a.purchaseDate)){ toast(t('assetEndBeforeBuy')); return false; }
+      a.endDate = endDate; a.status = d.status || 'ended'; a.updatedAt = Date.now();
+      if(!Array.isArray(a.editHistory)) a.editHistory = [];
+      a.editHistory.push({ at: nowISO(), action: 'end' });
+      afterChange(); toast(t('assetEnded')); return true;
+    }
+  });
+}
+
+/* ============================ Debt Form (修复算错账) ============================ */
 function openDebtForm(presetId){
   const editing = presetId ? getDebt(presetId) : null;
   const initialPurpose = 'food_debt'; const initialMethod = 'cash';
@@ -320,7 +660,7 @@ function openDebtForm(presetId){
           if(!acc){ toast(t('accountNotExist')); return false; }
           if(d.direction === 'owe_me'){ if(round2(Number(acc.balance)||0) < amount){ toast(t('insufficientBalance')); return false; } acc.balance = round2((Number(acc.balance)||0) - amount); }else{ acc.balance = round2((Number(acc.balance)||0) + amount); }
           
-          // 🔥 关键修复：联动账户时，自动补一笔流水记录，保证总额对得上
+          // 关键修复：联动账户时，自动补一笔流水记录
           state.transactions.push({
             id: uid(), type: d.direction === 'owe_me' ? 'expense' : 'income', amount: amount,
             eventAt: eventAt, date: eventAt, timezone: APP_TZ,
